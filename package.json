@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "nuxt": "^3.12.4",
-    "vue": "latest"
+    "vue": "latest",
+    "@iconify-json/heroicons": "^1.1.22",
+    "@iconify-json/mdi": "^1.1.67"
   },
   "devDependencies": {
     "@nuxt/ui": "npm:@nuxt/ui-edge@latest",

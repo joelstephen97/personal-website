@@ -5,14 +5,11 @@
         <div class="flex justify-between items-center">
           <p class="text-sm">&copy; {{ currentYear }} Joel Stephen. All rights reserved.</p>
           <div class="flex space-x-4">
-            <a href="#" class="text-white hover:text-red-300">
-              <UIcon name="i-mdi-twitter" />
+            <a href="https://www.linkedin.com/in/joelthomasstephen/" class="text-white hover:text-red-300">
+              <UIcon name="i-mdi-linkedin" class="w-10 h-10" />
             </a>
-            <a href="#" class="text-white hover:text-red-300">
-              <UIcon name="i-mdi-linkedin" />
-            </a>
-            <a href="#" class="text-white hover:text-red-300">
-              <UIcon name="i-mdi-github" />
+            <a href="https://github.com/joelstephen97/" class="text-white hover:text-red-300">
+              <UIcon name="i-mdi-github" class="w-10 h-10"/>
             </a>
           </div>
         </div>
