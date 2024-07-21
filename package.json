@@ -12,6 +12,7 @@
   "dependencies": {
     "@iconify-json/heroicons": "^1.1.22",
     "@iconify-json/mdi": "^1.1.67",
+    "@nuxtjs/google-fonts": "^3.2.0",
     "nuxt": "^3.12.4",
     "typed.js": "^2.1.0",
     "vue": "latest"

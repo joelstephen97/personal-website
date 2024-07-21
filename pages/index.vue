@@ -4,7 +4,7 @@
       <div class="container space-y-10 xl:space-y-16">
         <div class="grid gap-4 md:grid-cols-2 md:gap-16">
           <div>
-            <h1 class="lg:leading-tighter pb-2 text-5xl font-bold tracking-tighter sm:text-5xl md:text-6xl xl:text-7xl 2xl:text-8xl">
+            <h1 class="lg:leading-tighter pb-2 text-4xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl">
               <TypingEffect :strings="['Joel Stephen']" :loop="false" />
             </h1>
             <h2 class="text-5xl font-bold tracking-tighter sm:text-5xl md:text-5xl pb-2">
