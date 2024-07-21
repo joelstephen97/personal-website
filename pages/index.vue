@@ -7,7 +7,7 @@
             <h1 class="lg:leading-tighter pb-2 text-4xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl">
               <TypingEffect :strings="['Joel Stephen']" :loop="false" />
             </h1>
-            <h2 class="text-5xl font-bold tracking-tighter sm:text-5xl md:text-5xl pb-2">
+            <h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-4xl pb-2">
               <TypingEffect :strings="['Full-stack Engineer','Front-end','Back-end','UI-UX','Testing']" />
             </h2>
             <div class="max-w-[700px] mx-auto my-5 bg-gray-800 rounded-lg overflow-hidden shadow-lg">
