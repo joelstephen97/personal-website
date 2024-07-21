@@ -1,75 +1,26 @@
-# Nuxt 3 Minimal Starter
+# Personal Website Project
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+For a while I have been wanting to make a personal website utilizing the cutting edge flexibity of VueJs and Nuxt
+So I decided to embark on this project to apply all my knowledge and build something. 
 
-## Setup
+> It had to be [Vue] and using [Nuxt] as this was the stack I was most familiar with.
 
-Make sure to install the dependencies:
+> Hosted on Vercel through Github seemed like the logical straightforward deployment option.
 
-```bash
-# npm
-npm install
+> And using the magic of tailwind.
 
-# pnpm
-pnpm install
+## Steps 
+> Init Nuxt 
+> Init Git repo
+> Commit 
+> Deploy on Vercel
+> Play around with Vue, Nuxt and Vite
 
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Goals
+> [ ] Create a personal website with all the bells and whistles
+> [ ] Make some fun creative personalized touches
+> [ ] Make it responsive
+> [ ] Contact page
+> [x] Socials
+> [ ] Experiences
+> [ ] Explore UI best practices
