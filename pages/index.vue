@@ -27,28 +27,57 @@
         </div>
       </div>
     </div>
-    <div class="pt-4 flex-col space-x-4 pb-4">
+    <div class="pt-4 pb-4 flex flex-col space-y-4">
+  <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
+    <div class="flex flex-col space-y-4">
       <UButton color="black" class="text-md uppercase hover:italic" variant="solid" size="xl" @click="onClickFrontend()">Front-end Stack</UButton>
+      <div v-if="frontendSelected" class="sm:hidden grid max-w-[700px] grid-cols-1 gap-4">
+        <div v-for="tech in frontendTech" :key="tech.name" class="flex items-center space-x-2">
+          <span class="text-xl font-bold">{{ tech.name }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col space-y-4">
       <UButton color="black" class="text-md uppercase hover:italic" variant="solid" size="xl" @click="onClickBackend()">Back-end Stack</UButton>
-      <UButton color="black" class="text-md uppercase hover:italic" variant="solid" size="xl" @click="onClickTools()">Tools</UButton>
-    </div>
-    <div v-if="frontendSelected" class="grid max-w-[700px] grid-cols-1 md:grid-cols-3 gap-4">
-      <div v-for="tech in frontendTech" :key="tech.name" class="flex items-center space-x-2">
-        <span class="text-xl font-bold">{{ tech.name }}</span>
+        <div v-if="backendSelected" class="sm:hidden grid max-w-[700px] grid-cols-1 gap-4">
+          <div v-for="tech in backendTech" :key="tech.name" class="flex items-center space-x-2">
+            <span class="text-xl font-bold">{{ tech.name }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col space-y-4">
+        <UButton color="black" class="text-md uppercase hover:italic" variant="solid" size="xl" @click="onClickTools()">Tools</UButton>
+        <div v-if="toolsSelected" class="sm:hidden grid max-w-[700px] grid-cols-1 gap-4">
+          <div v-for="tool in tools" :key="tool.name" class="flex items-center space-x-2">
+            <span class="text-xl font-bold">{{ tool.name }}</span>
+          </div>
+        </div>
+      </div>
+      </div>
+
+    <!-- Content for larger screens -->
+    <div class="hidden sm:block">
+      <div v-if="frontendSelected" class="grid max-w-[700px] grid-cols-1 md:grid-cols-3 gap-4">
+        <div v-for="tech in frontendTech" :key="tech.name" class="flex items-center space-x-2">
+          <span class="text-xl font-bold">{{ tech.name }}</span>
+        </div>
+      </div>
+
+      <div v-if="backendSelected" class="grid max-w-[700px] grid-cols-1 md:grid-cols-3 gap-4">
+        <div v-for="tech in backendTech" :key="tech.name" class="flex items-center space-x-2">
+          <span class="text-xl font-bold">{{ tech.name }}</span>
+        </div>
+      </div>
+
+      <div v-if="toolsSelected" class="grid max-w-[700px] grid-cols-1 md:grid-cols-3 gap-4">
+        <div v-for="tool in tools" :key="tool.name" class="flex items-center space-x-2">
+          <span class="text-xl font-bold">{{ tool.name }}</span>
+        </div>
       </div>
     </div>
-  
-    <div v-if="backendSelected" class="grid max-w-[700px] grid-cols-1 md:grid-cols-3 gap-4">
-      <div v-for="tech in backendTech" :key="tech.name" class="flex items-center space-x-2">
-        <span class="text-xl font-bold">{{ tech.name }}</span>
-      </div>
-    </div>
-    
-    <div v-if="toolsSelected" class="grid max-w-[700px] grid-cols-1 md:grid-cols-3 gap-4">
-      <div v-for="tool in tools" :key="tool.name" class="flex items-center space-x-2">
-        <span class="text-xl font-bold">{{ tool.name }}</span>
-      </div>
-    </div>
+  </div>
   </UContainer>
 </template>
 
