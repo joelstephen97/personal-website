@@ -10,16 +10,78 @@
             <h2 class="text-5xl font-bold tracking-tighter sm:text-5xl md:text-5xl pb-2">Full-Stack Engineer</h2>
             <p class="max-w-[700px] text-muted-foreground md:text-xl lg:text-2xl">
               Experienced in building scalable and performant web applications using modern technologies. Passionate
-              about creating intuitive user experiences and solving complex problems.
+              about creating intuitive UI and solving complex problems both in backend and frontend.
             </p>
           </div>
         </div>
       </div>
     </div>
-    <div class="pt-4 flex-col space-x-4">
-      <UButton color="black" class="text-xl uppercase italic" variant="solid" size="lg">Front-end Stack</UButton>
-      <UButton color="black" class="text-xl uppercase italic" variant="solid" size="lg">Back-end Stack</UButton>
-      <UButton color="black" class="text-xl uppercase italic" variant="solid" size="lg">Tools</UButton>
+    <div class="pt-4 flex-col space-x-4 pb-4">
+      <UButton color="black" class="text-md uppercase hover:italic" variant="solid" size="xl" @click="onClickFrontend()">Front-end Stack</UButton>
+      <UButton color="black" class="text-md uppercase hover:italic" variant="solid" size="xl" @click="onClickBackend()">Back-end Stack</UButton>
+      <UButton color="black" class="text-md uppercase hover:italic" variant="solid" size="xl" @click="onClickTools()">Tools</UButton>
+    </div>
+    <div v-if="frontendSelected" class="grid max-w-[700px] grid-cols-1 md:grid-cols-3 gap-4">
+      <div v-for="tech in frontendTech" :key="tech.name" class="flex items-center space-x-2">
+        <span class="text-xl font-bold">{{ tech.name }}</span>
+      </div>
+    </div>
+  
+    <div v-if="backendSelected" class="grid max-w-[700px] grid-cols-1 md:grid-cols-3 gap-4">
+      <div v-for="tech in backendTech" :key="tech.name" class="flex items-center space-x-2">
+        <span class="text-xl font-bold">{{ tech.name }}</span>
+      </div>
+    </div>
+    
+    <div v-if="toolsSelected" class="grid max-w-[700px] grid-cols-1 md:grid-cols-3 gap-4">
+      <div v-for="tool in tools" :key="tool.name" class="flex items-center space-x-2">
+        <span class="text-xl font-bold">{{ tool.name }}</span>
+      </div>
     </div>
   </UContainer>
 </template>
+
+<script setup lang="ts">
+import { ref } from "vue"
+
+const backendSelected = ref(false);
+const frontendSelected = ref(false);
+const toolsSelected = ref(false);
+
+const onClickBackend = () => {
+  backendSelected.value = !backendSelected.value;
+  frontendSelected.value = false;
+  toolsSelected.value = false;
+}
+const onClickFrontend = () => {
+  frontendSelected.value = !frontendSelected.value;
+  backendSelected.value = false;
+  toolsSelected.value = false;
+}
+const onClickTools = () => {
+  toolsSelected.value = !toolsSelected.value;
+  backendSelected.value = false;
+  frontendSelected.value = false;
+}
+
+const frontendTech = [
+  { name: 'Vue.js'},
+  { name: 'React'},
+  { name: 'Angular'},
+  { name: 'JavaScript'},
+  { name: 'jQuery'},
+]
+
+const backendTech = [
+  { name: 'Python'},
+  { name: 'PHP'},
+  { name: 'Java'},
+]
+
+const tools = [
+  { name: 'Linux'},
+  { name: 'Postman'},
+  { name: 'REST API'},
+  { name: 'GraphQL'},
+]
+</script>

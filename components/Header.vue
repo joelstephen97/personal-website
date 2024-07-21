@@ -4,38 +4,39 @@
     <div class="max-w-7xl mx-auto px-4">
       <nav class="flex justify-between items-center py-4">
         <div class="flex items-center">
-          <NuxtLink to="/" class="flex items-center text-black dark:text-white hover:animate-wiggle no-underline">
-            <span class="font-bold text-xl">Joel Stephen</span>
+          <NuxtLink to="/" class="flex items-center text-black dark:text-white no-underline">
+            <UAvatar src="https://avatars.githubusercontent.com/u/40371897" alt="Avatar"></UAvatar>
+            <span class="pl-4 font-bold text-xl">Joel Stephen</span>
           </NuxtLink>
         </div>
-        <ul class="hidden md:flex items-center space-x-6 list-none m-0 p-0">
+        <ul class="hidden md:flex items-center space-x-8 list-none m-0 p-0">
           <li>
-            <NuxtLink to="/" class="text-black dark:text-white font-bold no-underline hover:animate-wiggle flex items-center">
+            <NuxtLink to="/" class="text-black dark:text-white font-bold no-underline hover:font-extrabold flex items-center">
               <UIcon name="i-heroicons-home" class="w-5 h-5 mr-1" />
               Home
             </NuxtLink>
           </li>
           <li>
-            <NuxtLink to="/about" class="text-black dark:text-white font-bold no-underline hover:animate-wiggle flex items-center">
+            <NuxtLink to="/about" class="text-black dark:text-white font-bold no-underline hover:font-extrabold flex items-center">
               <UIcon name="i-heroicons-user" class="w-5 h-5 mr-1" />
               About
             </NuxtLink>
           </li>
           <li>
-            <NuxtLink to="/project" class="text-black dark:text-white font-bold no-underline hover:animate-wiggle flex items-center">
+            <NuxtLink to="/project" class="text-black dark:text-white font-bold no-underline hover:font-extrabold flex items-center">
               <UIcon name="i-heroicons-briefcase" class="w-5 h-5 mr-1" />
               Projects
             </NuxtLink>
           </li>
           <li>
-            <NuxtLink to="/contact" class="text-black dark:text-white font-bold no-underline hover:animate-wiggle flex items-center">
+            <NuxtLink to="/contact" class="text-black dark:text-white font-bold no-underline hover:font-extrabold flex items-center">
               <UIcon name="i-heroicons-envelope" class="w-5 h-5 mr-1" />
               Contact
             </NuxtLink>
           </li>
           <li>
-            <UButton @click="toggleColorMode" variant="outline" class="p-2 rounded-full bg-gray-100 dark:bg-black focus:outline-none hover:bg-white">
-              <div v-if="colorMode.value === 'dark'" class="flex justify-center items-center font-bold text-black dark:text-white">
+            <UButton @click="toggleColorMode" variant="outline" class="p-3 rounded-full bg-gray-100 dark:bg-black focus:outline-none hover:bg-white">
+              <div v-if="colorMode.value === 'dark'" class="flex justify-center items-center font-bold text-black dark:text-white hover:font-extrabold">
                 <UIcon name="i-heroicons-sun" class="w-6 h-6 mr-2 text-yellow-300" />
                 Light
               </div>
