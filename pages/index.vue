@@ -4,14 +4,25 @@
       <div class="container space-y-10 xl:space-y-16">
         <div class="grid gap-4 md:grid-cols-2 md:gap-16">
           <div>
-            <h1 className="lg:leading-tighter pb-2 text-5xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl xl:text-7xl 2xl:text-8xl">
-              Joel Stephen
+            <h1 className="lg:leading-tighter pb-2 text-5xl font-bold tracking-tighter sm:text-5xl md:text-6xl xl:text-7xl 2xl:text-8xl">
+              <TypingEffect :strings="['Joel Stephen']" :loop="false" />
             </h1>
-            <h2 class="text-5xl font-bold tracking-tighter sm:text-5xl md:text-5xl pb-2">Full-Stack Engineer</h2>
-            <p class="max-w-[700px] text-muted-foreground md:text-xl lg:text-2xl">
-              Experienced in building scalable and performant web applications using modern technologies. Passionate
-              about creating intuitive UI and solving complex problems both in backend and frontend.
-            </p>
+            <h2 class="text-5xl font-bold tracking-tighter sm:text-5xl md:text-5xl pb-2">
+              <TypingEffect :strings="['Full-stack Engineer','Front-end','Back-end','UI-UX','Testing']" />
+            </h2>
+            <div class="max-w-[700px] mx-auto my-5 bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+              <div class="bg-gray-700 px-4 py-2 flex items-center">
+                <button @click="toggleMinimize" class="w-3 h-3 rounded-full bg-red-500 mr-2 focus:outline-none"></button>
+                <button @click="toggleMinimize" class="w-3 h-3 rounded-full bg-yellow-500 mr-2 focus:outline-none"></button>
+                <button @click="toggleMinimize" class="w-3 h-3 rounded-full bg-green-500 focus:outline-none"></button>
+              </div>
+              <div v-if="!isMinimized" class="p-4 text-gray-300 font-mono">
+                <p class="text-green-400 mb-2">$ cat developer_profile.txt</p>
+                <p class="text-sm md:text-base lg:text-lg leading-relaxed">
+                  Experienced in building scalable and performant web applications using modern technologies. Passionate about creating intuitive UI and solving complex problems both in backend and frontend.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -83,5 +94,13 @@ const tools = [
   { name: 'Postman'},
   { name: 'REST API'},
   { name: 'GraphQL'},
+  { name: 'Docker'},
+  { name: 'Cypress'},
 ]
+
+const isMinimized = ref(false)
+
+const toggleMinimize = () => {
+  isMinimized.value = !isMinimized.value
+}
 </script>

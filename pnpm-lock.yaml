@@ -17,6 +17,9 @@ importers:
       nuxt:
         specifier: ^3.12.4
         version: 3.12.4(@parcel/watcher@2.4.1)(@types/node@20.14.11)(ioredis@5.4.1)(magicast@0.3.4)(rollup@4.19.0)(terser@5.31.3)(vite@5.3.4(@types/node@20.14.11)(terser@5.31.3))
+      typed.js:
+        specifier: ^2.1.0
+        version: 2.1.0
       vue:
         specifier: latest
         version: 3.4.33
@@ -3357,6 +3360,9 @@ packages:
   type-is@1.6.18:
     resolution: {integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==}
     engines: {node: '>= 0.6'}
+
+  typed.js@2.1.0:
+    resolution: {integrity: sha512-bDuXEf7YcaKN4g08NMTUM6G90XU25CK3bh6U0THC/Mod/QPKlEt9g/EjvbYB8x2Qwr2p6J6I3NrsoYaVnY6wsQ==}
 
   ufo@1.5.4:
     resolution: {integrity: sha512-UsUk3byDzKd04EyoZ7U4DOlxQaD14JUKQl6/P7wiX4FNvUfm3XL246n9W5AmqwW5RSFJ27NAuM0iLscAOYUiGQ==}
@@ -7361,6 +7367,8 @@ snapshots:
     dependencies:
       media-typer: 0.3.0
       mime-types: 2.1.35
+
+  typed.js@2.1.0: {}
 
   ufo@1.5.4: {}
 
