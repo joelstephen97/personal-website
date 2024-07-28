@@ -65,7 +65,7 @@
         <div class="md:hidden flex items-center space-x-4">
           <UButton @click="toggleColorMode" color="black" class="p-2 rounded-full">
             <div v-if="colorMode.value === 'dark'" class="flex justify-center items-center font-bold">
-                <UIcon name="i-heroicons-sun" class="w-6 h-6 mr-2 text-yellow-500" />
+                <UIcon name="i-heroicons-sun" class="w-6 h-6 mr-2 text-black" />
                 Light
               </div>
               <div v-else class="flex justify-center items-center font-bold">
