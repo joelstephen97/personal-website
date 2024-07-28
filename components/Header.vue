@@ -12,20 +12,14 @@
         <ul class="hidden md:flex items-center space-x-8 list-none m-0 p-0">
           <li>
             <NuxtLink to="/" class="text-black dark:text-white font-bold no-underline hover:font-extrabold flex items-center">
-              <UIcon name="i-heroicons-home" class="w-5 h-5 mr-1" />
-              Home
-            </NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="/about" class="text-black dark:text-white font-bold no-underline hover:font-extrabold flex items-center">
               <UIcon name="i-heroicons-user" class="w-5 h-5 mr-1" />
-              About
+              About Me
             </NuxtLink>
           </li>
           <li>
-            <NuxtLink to="/project" class="text-black dark:text-white font-bold no-underline hover:font-extrabold flex items-center">
+            <NuxtLink to="/experience" class="text-black dark:text-white font-bold no-underline hover:font-extrabold flex items-center">
               <UIcon name="i-heroicons-briefcase" class="w-5 h-5 mr-1" />
-              Projects
+              Experience
             </NuxtLink>
           </li>
           <li>
