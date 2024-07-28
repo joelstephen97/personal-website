@@ -4,26 +4,47 @@
     <div class="max-w-7xl mx-auto px-4">
       <nav class="flex justify-between items-center py-4">
         <div class="flex items-center">
-          <NuxtLink to="/" class="flex items-center text-black dark:text-white no-underline">
+          <NuxtLink to="/"  class="flex items-center text-black dark:text-white no-underline">
             <UAvatar src="https://avatars.githubusercontent.com/u/40371897" alt="Avatar"></UAvatar>
             <span class="pl-4 font-bold text-xl">Joel Stephen</span>
           </NuxtLink>
         </div>
         <ul class="hidden md:flex items-center space-x-8 list-none m-0 p-0">
           <li>
-            <NuxtLink to="/" class="text-black dark:text-white font-bold no-underline hover:font-extrabold flex items-center">
+            <NuxtLink
+              to="/"
+              :class="{
+                'text-red-600 font-extrabold': route.path === '/',
+                'text-black dark:text-white font-bold': route.path !== '/'
+              }"
+              class="no-underline hover:font-extrabold flex items-center"
+            >
               <UIcon name="i-heroicons-user" class="w-5 h-5 mr-1" />
               About Me
             </NuxtLink>
           </li>
           <li>
-            <NuxtLink to="/experience" class="text-black dark:text-white font-bold no-underline hover:font-extrabold flex items-center">
+            <NuxtLink
+              to="/experience"
+              :class="{
+                'text-red-600 font-extrabold': route.path === '/experience',
+                'text-black dark:text-white font-bold': route.path !== '/experience'
+              }"
+              class="no-underline hover:font-extrabold flex items-center"
+            >
               <UIcon name="i-heroicons-briefcase" class="w-5 h-5 mr-1" />
               Experience
             </NuxtLink>
           </li>
           <li>
-            <NuxtLink to="/contact" class="text-black dark:text-white font-bold no-underline hover:font-extrabold flex items-center">
+            <NuxtLink
+              to="/contact"
+              :class="{
+                'text-red-600 font-extrabold': route.path === '/contact',
+                'text-black dark:text-white font-bold': route.path !== '/contact'
+              }"
+              class="no-underline hover:font-extrabold flex items-center"
+            >
               <UIcon name="i-heroicons-envelope" class="w-5 h-5 mr-1" />
               Contact
             </NuxtLink>
@@ -59,19 +80,36 @@
         </div>
       </nav>
       <div v-if="isMenuOpen" class="md:hidden flex flex-col py-4">
-        <NuxtLink to="/" class="py-2 text-black dark:text-white font-bold no-underline hover:animate-wiggle flex items-center">
-          <UIcon name="i-heroicons-home" class="w-5 h-5 mr-1" />
-          Home
-        </NuxtLink>
-        <NuxtLink to="/about" class="py-2 text-black dark:text-white font-bold no-underline hover:animate-wiggle flex items-center">
+        <NuxtLink
+          to="/"
+          :class="{
+            'text-red-500 font-extrabold': route.path === '/',
+            'text-black dark:text-white font-bold': route.path !== '/'
+          }"
+          class="py-2 no-underline hover:animate-wiggle flex items-center"
+        >
           <UIcon name="i-heroicons-user" class="w-5 h-5 mr-1" />
           About
         </NuxtLink>
-        <NuxtLink to="/project" class="py-2 text-black dark:text-white font-bold no-underline hover:animate-wiggle flex items-center">
+        <NuxtLink
+          to="/project"
+          :class="{
+            'text-red-500 font-extrabold': route.path === '/project',
+            'text-black dark:text-white font-bold': route.path !== '/project'
+          }"
+          class="py-2 no-underline hover:animate-wiggle flex items-center"
+        >
           <UIcon name="i-heroicons-briefcase" class="w-5 h-5 mr-1" />
           Projects
         </NuxtLink>
-        <NuxtLink to="/contact" class="py-2 text-black dark:text-white font-bold no-underline hover:animate-wiggle flex items-center">
+        <NuxtLink
+          to="/contact"
+          :class="{
+            'text-red-500 font-extrabold': route.path === '/contact',
+            'text-black dark:text-white font-bold': route.path !== '/contact'
+          }"
+          class="py-2 no-underline hover:animate-wiggle flex items-center"
+        >
           <UIcon name="i-heroicons-envelope" class="w-5 h-5 mr-1" />
           Contact
         </NuxtLink>
@@ -81,6 +119,9 @@
 </template>
 
 <script setup>
+import { useRoute } from 'vue-router'
+const route = useRoute()
+
 const colorMode = useColorMode()
 const isMenuOpen = ref(false)
 
