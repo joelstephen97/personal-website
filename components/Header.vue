@@ -79,14 +79,14 @@
           </UButton>
         </div>
       </nav>
-      <div v-if="isMenuOpen" class="md:hidden flex flex-col py-4">
+      <div v-if="isMenuOpen" class="md:hidden flex flex-col py-4 space-y-1">
         <NuxtLink
           to="/"
           :class="{
             'text-red-500 font-extrabold': route.path === '/',
             'text-black dark:text-white font-bold': route.path !== '/'
           }"
-          class="py-2 no-underline flex items-center"
+          class="py-2 no-underline flex items-center border-black rounded-xl border-2 p-2 dark:border-white"
         >
           <UIcon name="i-heroicons-user" class="w-5 h-5 mr-1" />
           About
@@ -97,7 +97,7 @@
             'text-red-500 font-extrabold': route.path === '/project',
             'text-black dark:text-white font-bold': route.path !== '/project'
           }"
-          class="py-2 no-underline flex items-center"
+          class="py-2 no-underline flex items-center border-black rounded-xl border-2 p-2 dark:border-white"
         >
           <UIcon name="i-heroicons-briefcase" class="w-5 h-5 mr-1" />
           Projects
@@ -108,7 +108,7 @@
             'text-red-500 font-extrabold': route.path === '/contact',
             'text-black dark:text-white font-bold': route.path !== '/contact'
           }"
-          class="py-2 no-underline flex items-center"
+          class="py-2 no-underline flex items-center border-black rounded-xl border-2 p-2 dark:border-white"
         >
           <UIcon name="i-heroicons-envelope" class="w-5 h-5 mr-1" />
           Contact
