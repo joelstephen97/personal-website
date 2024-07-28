@@ -63,17 +63,17 @@
           </li>
         </ul>
         <div class="md:hidden flex items-center space-x-4">
-          <UButton @click="toggleColorMode" color="black" class="p-2 rounded-full">
+          <UButton @click="toggleColorMode" color="white" class="p-2 rounded-full drop-shadow-sm">
             <div v-if="colorMode.value === 'dark'" class="flex justify-center items-center font-bold">
-                <UIcon name="i-heroicons-sun" class="w-6 h-6 mr-2 text-black" />
+                <UIcon name="i-heroicons-sun" class="w-6 h-6 mr-2 text-white" />
                 Light
               </div>
               <div v-else class="flex justify-center items-center font-bold">
-                <UIcon name="i-heroicons-moon" class="w-6 h-6 mr-2 text-white" />
+                <UIcon name="i-heroicons-moon" class="w-6 h-6 mr-2 text-black" />
                 Dark
               </div>
           </UButton>
-          <UButton @click="toggleMenu" color="black" class="cursor-pointer hover:animate-wiggle">
+          <UButton @click="toggleMenu" color="white" class="drop-shadow-sm">
             <UIcon v-if="!isMenuOpen" name="i-heroicons-bars-3" class="w-8 h-8" />
             <UIcon v-else name="i-heroicons-x-mark" class="w-8 h-8" />
           </UButton>
