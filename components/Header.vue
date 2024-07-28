@@ -50,16 +50,16 @@
             </NuxtLink>
           </li>
           <li>
-            <UButton @click="toggleColorMode" variant="outline" class="p-3 rounded-full bg-gray-100 dark:bg-black focus:outline-none hover:bg-white">
-              <div v-if="colorMode.value === 'dark'" class="flex justify-center items-center font-bold text-black dark:text-white hover:font-extrabold">
-                <UIcon name="i-heroicons-sun" class="w-6 h-6 mr-2 text-yellow-300" />
+            <UButton @click="toggleColorMode" color="white" class="p-2 rounded-full drop-shadow-sm">
+            <div v-if="colorMode.value === 'dark'" class="flex justify-center items-center font-bold">
+                <UIcon name="i-heroicons-sun" class="w-6 h-6 mr-2 text-white" />
                 Light
               </div>
-              <div v-else class="flex justify-center items-center font-bold text-black dark:text-white">
-                <UIcon name="i-heroicons-moon" class="w-6 h-6 mr-2 text-gray-700" />
+              <div v-else class="flex justify-center items-center font-bold">
+                <UIcon name="i-heroicons-moon" class="w-6 h-6 mr-2 text-black" />
                 Dark
               </div>
-            </UButton>
+          </UButton>
           </li>
         </ul>
         <div class="md:hidden flex items-center space-x-4">
