@@ -17,7 +17,7 @@
                     <UInput v-model="state.message" type="text" />
                 </UFormGroup>
 
-                <UButton type="submit">
+                <UButton type="submit" color="black">
                 Submit
                 </UButton>
             </UForm>

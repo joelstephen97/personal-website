@@ -63,17 +63,17 @@
           </li>
         </ul>
         <div class="md:hidden flex items-center space-x-4">
-          <UButton @click="toggleColorMode" variant="solid" class="p-2 rounded-full bg-gray-100 dark:bg-black focus:outline-none">
-            <div v-if="colorMode.value === 'dark'" class="flex justify-center items-center font-bold text-black dark:text-white border-black">
+          <UButton @click="toggleColorMode" color="black" class="p-2 rounded-full">
+            <div v-if="colorMode.value === 'dark'" class="flex justify-center items-center font-bold">
                 <UIcon name="i-heroicons-sun" class="w-6 h-6 mr-2 text-yellow-500" />
                 Light
               </div>
-              <div v-else class="flex justify-center items-center font-bold text-black dark:text-white">
-                <UIcon name="i-heroicons-moon" class="w-6 h-6 mr-2 text-gray-700" />
+              <div v-else class="flex justify-center items-center font-bold">
+                <UIcon name="i-heroicons-moon" class="w-6 h-6 mr-2 text-white" />
                 Dark
               </div>
           </UButton>
-          <UButton @click="toggleMenu" variant="solid" class="cursor-pointer bg-transparent border-none text-black dark:text-white hover:animate-wiggle">
+          <UButton @click="toggleMenu" color="black" class="cursor-pointer hover:animate-wiggle">
             <UIcon v-if="!isMenuOpen" name="i-heroicons-bars-3" class="w-8 h-8" />
             <UIcon v-else name="i-heroicons-x-mark" class="w-8 h-8" />
           </UButton>
@@ -86,7 +86,7 @@
             'text-red-500 font-extrabold': route.path === '/',
             'text-black dark:text-white font-bold': route.path !== '/'
           }"
-          class="py-2 no-underline hover:animate-wiggle flex items-center"
+          class="py-2 no-underline flex items-center"
         >
           <UIcon name="i-heroicons-user" class="w-5 h-5 mr-1" />
           About
@@ -97,7 +97,7 @@
             'text-red-500 font-extrabold': route.path === '/project',
             'text-black dark:text-white font-bold': route.path !== '/project'
           }"
-          class="py-2 no-underline hover:animate-wiggle flex items-center"
+          class="py-2 no-underline flex items-center"
         >
           <UIcon name="i-heroicons-briefcase" class="w-5 h-5 mr-1" />
           Projects
@@ -108,7 +108,7 @@
             'text-red-500 font-extrabold': route.path === '/contact',
             'text-black dark:text-white font-bold': route.path !== '/contact'
           }"
-          class="py-2 no-underline hover:animate-wiggle flex items-center"
+          class="py-2 no-underline flex items-center"
         >
           <UIcon name="i-heroicons-envelope" class="w-5 h-5 mr-1" />
           Contact
