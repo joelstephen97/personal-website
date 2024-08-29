@@ -1,6 +1,6 @@
 <!-- components/Footer.vue -->
 <template>
-    <footer class="relative bottom-0 left-0 right-0 bg-black text-white py-4">
+    <footer class="fixed bottom-0 left-0 right-0 bg-black text-white py-4">
       <div class="max-w-7xl mx-auto px-4">
         <div class="flex justify-between items-center">
           <p class="text-md">&copy; {{ currentYear }} Joel Stephen. All rights reserved.</p>
