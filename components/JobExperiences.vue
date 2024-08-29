@@ -1,6 +1,6 @@
 <template>
-    <div class="p-3 border border-red-100 rounded-2xl drop-shadow-2xl mb-4">
-      <h3 class="text-2xl font-bold mb-1">{{ title }}</h3>
+    <div class="p-5 border border-red-100 rounded-2xl drop-shadow-2xl mb-4 bg-gray-800 text-white dark:text-white">
+      <h3 class="text-2xl font-bold mb-1 uppercase">{{ title }}</h3>
       <p class="font-bold">{{ company }} - {{ location }}</p>
       <p class="">{{ duration }}</p>
       <ul class="mt-3">
