@@ -1,6 +1,5 @@
-<!-- components/Header.vue -->
 <template>
-  <header class="fixed top-0 left-0 right-0 bg-white dark:bg-black shadow-md z-50">
+  <header class="fixed top-0 left-0 right-0 bg-white dark:bg-black shadow-md z-50 w-full">
     <div class="max-w-7xl mx-auto px-4">
       <nav class="flex justify-between items-center py-4">
         <div class="flex items-center">
