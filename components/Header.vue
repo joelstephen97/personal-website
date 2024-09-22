@@ -32,7 +32,20 @@
               class="no-underline hover:font-extrabold flex items-center"
             >
               <UIcon name="i-heroicons-briefcase" class="w-5 h-5 mr-1" />
-              Experience
+              Experiences
+            </NuxtLink>
+          </li>
+          <li>
+            <NuxtLink
+              to="/project"
+              :class="{
+                'text-red-600 font-extrabold': route.path === '/project',
+                'text-black dark:text-white font-bold': route.path !== '/project'
+              }"
+              class="no-underline hover:font-extrabold flex items-center"
+            >
+              <UIcon name="i-heroicons-wrench-screwdriver" class="w-5 h-5 mr-1" />
+              Projects
             </NuxtLink>
           </li>
           <li>
@@ -101,7 +114,19 @@
           @click="toggleMenu"
         >
           <UIcon name="i-heroicons-briefcase" class="w-5 h-5 mr-1" />
-          Experience
+          Experiences
+        </NuxtLink>
+        <NuxtLink
+          to="/project"
+          :class="{
+            'text-red-500 font-extrabold': route.path === '/project',
+            'text-black dark:text-white font-bold': route.path !== '/project'
+          }"
+          class="py-2 no-underline flex items-center border-black rounded-xl border-2 p-2 dark:border-white"
+          @click="toggleMenu"
+        >
+          <UIcon name="i-heroicons-wrench-screwdriver" class="w-5 h-5 mr-1" />
+          Projects
         </NuxtLink>
         <NuxtLink
           to="/contact"
