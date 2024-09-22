@@ -86,20 +86,22 @@
             'text-black dark:text-white font-bold': route.path !== '/'
           }"
           class="py-2 no-underline flex items-center border-black rounded-xl border-2 p-2 dark:border-white"
+          @click="toggleMenu"
         >
           <UIcon name="i-heroicons-user" class="w-5 h-5 mr-1" />
           About
         </NuxtLink>
         <NuxtLink
-          to="/project"
+          to="/experience"
           :class="{
-            'text-red-500 font-extrabold': route.path === '/project',
-            'text-black dark:text-white font-bold': route.path !== '/project'
+            'text-red-500 font-extrabold': route.path === '/experience',
+            'text-black dark:text-white font-bold': route.path !== '/experience'
           }"
           class="py-2 no-underline flex items-center border-black rounded-xl border-2 p-2 dark:border-white"
+          @click="toggleMenu"
         >
           <UIcon name="i-heroicons-briefcase" class="w-5 h-5 mr-1" />
-          Projects
+          Experience
         </NuxtLink>
         <NuxtLink
           to="/contact"
@@ -108,6 +110,7 @@
             'text-black dark:text-white font-bold': route.path !== '/contact'
           }"
           class="py-2 no-underline flex items-center border-black rounded-xl border-2 p-2 dark:border-white"
+          @click="toggleMenu"
         >
           <UIcon name="i-heroicons-envelope" class="w-5 h-5 mr-1" />
           Contact
