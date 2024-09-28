@@ -71,7 +71,7 @@
                 <UIcon name="i-heroicons-moon" class="w-6 h-6 mr-2 text-black" />
                 Dark
               </div>
-          </UButton>
+            </UButton>
           </li>
         </ul>
         <div class="md:hidden flex items-center space-x-4">

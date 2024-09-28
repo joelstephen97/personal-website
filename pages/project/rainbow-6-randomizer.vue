@@ -1,13 +1,29 @@
 <template>
     <div class="flex flex-col items-center p-4 w-full h-full">
-      <h1 class="text-center text-2xl font-bold mb-4">Rainbow 6 Siege Operator Randomizer</h1>
-  
+        <div class="flex flex-row justify-between items-center w-full max-w-4xl mb-8">
+            <div>
+                <h1 class="text-2xl font-bold">Rainbow 6 Siege Operator Randomizer</h1>
+            </div>
+            <div>
+                <UButton @click="toggleColorMode" color="white" class="p-2 rounded-full drop-shadow-sm">
+                <div v-if="colorMode.preference === 'dark'" class="flex justify-center items-center font-bold">
+                    <UIcon name="i-heroicons-sun" class="w-6 h-6 mr-2 text-white" />
+                    Light
+                </div>
+                <div v-else class="flex justify-center items-center font-bold">
+                    <UIcon name="i-heroicons-moon" class="w-6 h-6 mr-2 text-black" />
+                    Dark
+                </div>
+                </UButton>
+            </div>
+        </div>
+    
       <!-- Attackers Section -->
       <div class="w-full max-w-4xl flex flex-col items-center mb-8">
-        <UButton @click="randomizeAttackers" class="mb-4">Randomize 4 Attackers</UButton>
+        <UButton @click="randomizeAttackers" class="mb-4">Randomize 5 Attackers</UButton>
         <div v-if="selectedAttackers.length" class="w-full">
           <p class="text-lg font-semibold mb-2">Selected Attackers:</p>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
             <div
               class="flex flex-col items-center p-2 rounded"
               v-for="(attacker, index) in selectedAttackers"
@@ -28,10 +44,10 @@
   
       <!-- Defenders Section -->
       <div class="w-full max-w-4xl flex flex-col items-center">
-        <UButton @click="randomizeDefenders" class="mb-4">Randomize 4 Defenders</UButton>
+        <UButton @click="randomizeDefenders" class="mb-4">Randomize 5 Defenders</UButton>
         <div v-if="selectedDefenders.length" class="w-full">
           <p class="text-lg font-semibold mb-2">Selected Defenders:</p>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
             <div
               class="flex flex-col items-center p-2 rounded"
               v-for="(defender, index) in selectedDefenders"
@@ -96,8 +112,8 @@
     { name: 'Grim', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/grim.png' },
     { name: 'Brava', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/brava.png' },
     { name: 'Ram', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/ram.png' },
-    { name: 'Deimos', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/deimos.png' },
-    { name: 'Striker', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/striker.png' },
+    { name: 'Deimos', image: 'https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png' },
+    { name: 'Striker', image: 'https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png' },
   ];
   
   const defenders = [
@@ -136,19 +152,19 @@
     { name: 'Solis', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/solis.png' },
     { name: 'Fenrir', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/fenrir.png' },
     { name: 'Tubarão', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/tubarao.png' },
-    { name: 'Sentry', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/sentry.png' },
-    { name: 'Skopós', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/skopos.png' },
+    { name: 'Sentry', image: 'https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png' },
+    { name: 'Skopós', image: 'https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png' },
   ];
   
   const selectedAttackers = ref([]);
   const selectedDefenders = ref([]);
   
   function randomizeAttackers() {
-    selectedAttackers.value = getRandomOperators(attackers, 4);
+    selectedAttackers.value = getRandomOperators(attackers, 5);
   }
   
   function randomizeDefenders() {
-    selectedDefenders.value = getRandomOperators(defenders, 4);
+    selectedDefenders.value = getRandomOperators(defenders, 5);
   }
   
   function getRandomOperators(operatorList, count) {
@@ -170,13 +186,20 @@
     selectedAttackers.value[index] = availableOperators[randomIndex];
   }
   
-  function rerandomizeDefender(index) {
+function rerandomizeDefender(index) {
     const alreadySelectedNames = selectedDefenders.value.map(op => op.name);
     const availableOperators = defenders.filter(op => !alreadySelectedNames.includes(op.name));
     if (availableOperators.length === 0) return;
-    const randomIndex = Math.floor(Math.random() * availableOperators.length);
+        const randomIndex = Math.floor(Math.random() * availableOperators.length);
     selectedDefenders.value[index] = availableOperators[randomIndex];
-  }
-  </script>
+}
+
+const colorMode = useColorMode()
+colorMode.value = "dark"
+const toggleColorMode = () => {
+    colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+}
+
+</script>
   
   
