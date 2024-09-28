@@ -17,6 +17,19 @@
                         </template>
                     </UCard>
                 </div>
+                <div class="w-full sm:w-1/3">
+                    <UCard>
+                        <template #header>
+                            Rainbow 6 Randomizer
+                        </template>
+                           Testing some frontend randomizer code
+                        <template #footer>
+                            <NuxtLink to="/project/rainbow-6-randomizer">
+                                <UButton class="uppercase">Check it out</UButton>            
+                            </NuxtLink>
+                        </template>
+                    </UCard>
+                </div>
             </div>
         </div>
     </UContainer>
