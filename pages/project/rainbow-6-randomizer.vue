@@ -75,7 +75,7 @@
   definePageMeta({
     title: 'Rainbow Six Siege Operator Randomizer',
     description: 'Randomly select operators for Rainbow Six Siege. Choose 5 attackers or 5 defenders with the option to re-randomize individual selections.',
-    layout: 'default',
+    layout: false,
     keywords: [
         'Rainbow Six Siege',
         'R6S',
