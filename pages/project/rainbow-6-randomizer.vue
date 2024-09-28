@@ -195,7 +195,6 @@ function rerandomizeDefender(index) {
 }
 
 const colorMode = useColorMode()
-colorMode.value = "dark"
 const toggleColorMode = () => {
     colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
 }
