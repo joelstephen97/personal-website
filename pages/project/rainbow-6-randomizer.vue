@@ -101,9 +101,9 @@
     { name: 'Fuze', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/fuze.png' },
     { name: 'Blitz', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/blitz.png' },
     { name: 'IQ', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/iq.png' },
-    { name: 'Buck', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/sledge.png' },
-    { name: 'Blackbeard', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/buck.png' },
-    { name: 'Capitao', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/blackbeard.png' },
+    { name: 'Buck', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/buck.png' },
+    { name: 'Blackbeard', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/blackbeard.png' },
+    { name: 'Capitao', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/capitao.png' },
     { name: 'Hibana', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/hibana.png' },
     { name: 'Jackal', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/jackal.png' },
     { name: 'Ying', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/ying.png' },
@@ -170,8 +170,13 @@
     { name: 'Skopós', image: 'https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png' },
   ];
   
-  const selectedAttackers = ref([]);
-  const selectedDefenders = ref([]);
+  const selectedAttackers = ref<OPERATORS[]>([]);
+  const selectedDefenders = ref<OPERATORS[]>([]);
+
+  interface OPERATORS {
+    name: string;
+    image: string;
+  }
   
   function randomizeAttackers() {
     selectedAttackers.value = getRandomOperators(attackers, 5);
@@ -181,7 +186,7 @@
     selectedDefenders.value = getRandomOperators(defenders, 5);
   }
   
-  function getRandomOperators(operatorList, count) {
+  function getRandomOperators(operatorList:OPERATORS[], count:number) {
     const operatorsCopy = [...operatorList];
     const selected = [];
     for (let i = 0; i < count; i++) {
@@ -192,16 +197,16 @@
     return selected;
   }
   
-  function rerandomizeAttacker(index) {
-    const alreadySelectedNames = selectedAttackers.value.map(op => op.name);
+  function rerandomizeAttacker(index:number) {
+    const alreadySelectedNames = selectedAttackers.value.map((op:OPERATORS) => op.name);
     const availableOperators = attackers.filter(op => !alreadySelectedNames.includes(op.name));
     if (availableOperators.length === 0) return;
     const randomIndex = Math.floor(Math.random() * availableOperators.length);
     selectedAttackers.value[index] = availableOperators[randomIndex];
   }
   
-function rerandomizeDefender(index) {
-    const alreadySelectedNames = selectedDefenders.value.map(op => op.name);
+function rerandomizeDefender(index:number) {
+    const alreadySelectedNames = selectedDefenders.value.map((op:OPERATORS) => op.name);
     const availableOperators = defenders.filter(op => !alreadySelectedNames.includes(op.name));
     if (availableOperators.length === 0) return;
         const randomIndex = Math.floor(Math.random() * availableOperators.length);
