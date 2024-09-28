@@ -73,7 +73,21 @@
   import { ref } from 'vue';
   
   definePageMeta({
-    layout: false,
+    title: 'Rainbow Six Siege Operator Randomizer',
+    description: 'Randomly select operators for Rainbow Six Siege. Choose 5 attackers or 5 defenders with the option to re-randomize individual selections.',
+    layout: 'default',
+    keywords: [
+        'Rainbow Six Siege',
+        'R6S',
+        'operator randomizer',
+        'attacker selector',
+        'defender selector',
+        'game tools',
+        'Rainbow Six Siege operators',
+        'R6S team composition',
+        'random team generator',
+        'Siege strategy'
+    ],
   });
   
   const attackers = [
