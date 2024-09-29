@@ -257,7 +257,7 @@ function randomizeDefenders() {
 function getSecureRandomInt(max:number) {
   if (max <= 0) throw new Error('Max must be a positive integer');
 
-  const cryptoObj = window.crypto || window.msCrypto; // For compatibility with IE11
+  const cryptoObj = window.crypto
   const array = new Uint32Array(1);
   const maxUint32 = 0xFFFFFFFF;
   const maxValid = Math.floor(maxUint32 / max) * max;
