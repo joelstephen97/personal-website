@@ -88,10 +88,9 @@
 import { ref, watch } from 'vue';
 import { useLocalStorage } from '@vueuse/core';
 
-definePageMeta({
+useSeoMeta({
   title: 'Rainbow Six Siege Operator Randomizer',
   description: 'Randomly select operators for Rainbow Six Siege. Choose 5 attackers or 5 defenders with the option to re-randomize individual selections.',
-  layout: false,
   keywords: [
     'Rainbow Six Siege',
     'R6S',
@@ -102,8 +101,13 @@ definePageMeta({
     'Rainbow Six Siege operators',
     'R6S team composition',
     'random team generator',
-    'Siege strategy'
+    'Siege strategy',
+    'random rainbow 6 seige'
   ],
+})
+
+definePageMeta({
+  layout: false,
 });
 
 const attackers = [
