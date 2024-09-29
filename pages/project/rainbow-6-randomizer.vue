@@ -1,96 +1,112 @@
 <template>
-    <div class="flex flex-col items-center p-4 w-full h-full">
-        <div class="flex flex-row justify-between items-center w-full max-w-4xl mb-8">
-            <div>
-                <h1 class="text-2xl font-bold">Rainbow 6 Siege Operator Randomizer</h1>
-            </div>
-            <div>
-                <UButton @click="toggleColorMode" color="white" class="p-2 rounded-full drop-shadow-sm">
-                <div v-if="colorMode.preference === 'dark'" class="flex justify-center items-center font-bold">
-                    <UIcon name="i-heroicons-sun" class="w-6 h-6 mr-2 text-white" />
-                    Light
-                </div>
-                <div v-else class="flex justify-center items-center font-bold">
-                    <UIcon name="i-heroicons-moon" class="w-6 h-6 mr-2 text-black" />
-                    Dark
-                </div>
-                </UButton>
-            </div>
-        </div>
-    
-      <!-- Attackers Section -->
-      <div class="w-full max-w-4xl flex flex-col items-center mb-8">
-        <UButton @click="randomizeAttackers" class="mb-4">Randomize 5 Attackers</UButton>
-        <div v-if="selectedAttackers.length" class="w-full">
-          <p class="text-lg font-semibold mb-2">Selected Attackers:</p>
-          <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <div
-              class="flex flex-col items-center p-2 rounded"
-              v-for="(attacker, index) in selectedAttackers"
-              :key="attacker.name"
-            >
-              <img :src="attacker.image" :alt="attacker.name" class="w-20 h-20 object-cover mb-2" />
-              <p class="text-center font-medium mb-1">{{ attacker.name }}</p>
-              <button
-                @click="rerandomizeAttacker(index)"
-                class="text-blue-500 hover:underline"
-              >
-                Re-randomize
-              </button>
-            </div>
-          </div>
-        </div>
+  <div class="flex flex-col items-center p-4 w-full h-full">
+    <div class="flex flex-row justify-between items-center w-full max-w-4xl mb-8">
+      <div>
+        <h1 class="text-2xl font-bold uppercase">Rainbow 6 Siege Operator Randomizer</h1>
       </div>
-  
-      <!-- Defenders Section -->
-      <div class="w-full max-w-4xl flex flex-col items-center">
-        <UButton @click="randomizeDefenders" class="mb-4">Randomize 5 Defenders</UButton>
-        <div v-if="selectedDefenders.length" class="w-full">
-          <p class="text-lg font-semibold mb-2">Selected Defenders:</p>
-          <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <div
-              class="flex flex-col items-center p-2 rounded"
-              v-for="(defender, index) in selectedDefenders"
-              :key="defender.name"
+      <div>
+        <UButton @click="toggleColorMode" color="white" class="p-2 rounded-full drop-shadow-sm">
+          <div v-if="colorMode.preference === 'dark'" class="flex justify-center items-center font-bold">
+            <UIcon name="i-heroicons-sun" class="w-6 h-6 mr-2 text-white" />
+            Light
+          </div>
+          <div v-else class="flex justify-center items-center font-bold">
+            <UIcon name="i-heroicons-moon" class="w-6 h-6 mr-2 text-black" />
+            Dark
+          </div>
+        </UButton>
+      </div>
+    </div>
+
+    <!-- Player Names Input Section -->
+    <div class="w-full max-w-4xl flex flex-col items-center mb-8">
+      <p class="text-lg font-semibold mb-2">Enter Player Names : (up to 5 or leave blank )</p>
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4 w-full">
+        <input
+          v-for="(name, index) in playerNames"
+          :key="index"
+          v-model="playerNames[index]"
+          class="border p-2 rounded w-full"
+          :placeholder="'Player ' + (index + 1)"
+        />
+      </div>
+    </div>
+
+    <!-- Attackers Section -->
+    <div class="w-full max-w-4xl flex flex-col items-center mb-8">
+      <UButton @click="randomizeAttackers" class="mb-4 uppercase">Randomize 5 Attackers</UButton>
+      <div v-if="selectedAttackers.length" class="w-full">
+        <p class="text-lg font-semibold mb-2">Selected Attackers:</p>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div
+            class="flex flex-col items-center p-2 rounded"
+            v-for="(assignment, index) in selectedAttackers"
+            :key="assignment.operator.name"
+          >
+            <img :src="assignment.operator.image" :alt="assignment.operator.name" class="w-20 h-20 object-cover mb-2" />
+            <p class="text-center font-medium mb-1">{{ assignment.operator.name }}</p>
+            <p class="text-center text-sm mb-1">Assigned to: {{ assignment.name }}</p>
+            <button
+              @click="rerandomizeAttacker(index)"
+              class="text-blue-500 hover:underline"
             >
-              <img :src="defender.image" :alt="defender.name" class="w-20 h-20 object-cover mb-2" />
-              <p class="text-center font-medium mb-1">{{ defender.name }}</p>
-              <button
-                @click="rerandomizeDefender(index)"
-                class="text-blue-500 hover:underline"
-              >
-                Re-randomize
-              </button>
-            </div>
+              Re-randomize
+            </button>
           </div>
         </div>
       </div>
     </div>
-  </template>
-  
-  
-  <script setup lang="ts">
-  import { ref } from 'vue';
-  
-  definePageMeta({
-    title: 'Rainbow Six Siege Operator Randomizer',
-    description: 'Randomly select operators for Rainbow Six Siege. Choose 5 attackers or 5 defenders with the option to re-randomize individual selections.',
-    layout: false,
-    keywords: [
-        'Rainbow Six Siege',
-        'R6S',
-        'operator randomizer',
-        'attacker selector',
-        'defender selector',
-        'game tools',
-        'Rainbow Six Siege operators',
-        'R6S team composition',
-        'random team generator',
-        'Siege strategy'
-    ],
-  });
-  
-  const attackers = [
+
+    <!-- Defenders Section -->
+    <div class="w-full max-w-4xl flex flex-col items-center">
+      <UButton @click="randomizeDefenders" class="mb-4 uppercase">Randomize 5 Defenders</UButton>
+      <div v-if="selectedDefenders.length" class="w-full">
+        <p class="text-lg font-semibold mb-2">Selected Defenders:</p>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div
+            class="flex flex-col items-center p-2 rounded"
+            v-for="(assignment, index) in selectedDefenders"
+            :key="assignment.operator.name"
+          >
+            <img :src="assignment.operator.image" :alt="assignment.operator.name" class="w-20 h-20 object-cover mb-2" />
+            <p class="text-center font-medium mb-1">{{ assignment.operator.name }}</p>
+            <p class="text-center text-sm mb-1">Assigned to: {{ assignment.name }}</p>
+            <button
+              @click="rerandomizeDefender(index)"
+              class="text-blue-500 hover:underline"
+            >
+              Re-randomize
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useLocalStorage } from '@vueuse/core';
+
+definePageMeta({
+  title: 'Rainbow Six Siege Operator Randomizer',
+  description: 'Randomly select operators for Rainbow Six Siege. Choose 5 attackers or 5 defenders with the option to re-randomize individual selections.',
+  layout: false,
+  keywords: [
+    'Rainbow Six Siege',
+    'R6S',
+    'operator randomizer',
+    'attacker selector',
+    'defender selector',
+    'game tools',
+    'Rainbow Six Siege operators',
+    'R6S team composition',
+    'random team generator',
+    'Siege strategy'
+  ],
+});
+
+const attackers = [
     { name: 'Sledge', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/sledge.png' },
     { name: 'Thatcher', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/thatcher.png' },
     { name: 'Ash', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/ash.png' },
@@ -129,8 +145,8 @@
     { name: 'Deimos', image: 'https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png' },
     { name: 'Striker', image: 'https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png' },
   ];
-  
-  const defenders = [
+
+const defenders = [
     { name: 'Smoke', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/smoke.png' },
     { name: 'Mute', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/mute.png' },
     { name: 'Castle', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/castle.png' },
@@ -169,55 +185,81 @@
     { name: 'Sentry', image: 'https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png' },
     { name: 'Skopós', image: 'https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png' },
   ];
-  
-  const selectedAttackers = ref<OPERATORS[]>([]);
-  const selectedDefenders = ref<OPERATORS[]>([]);
 
-  interface OPERATORS {
-    name: string;
-    image: string;
-  }
-  
-  function randomizeAttackers() {
-    selectedAttackers.value = getRandomOperators(attackers, 5);
-  }
-  
-  function randomizeDefenders() {
-    selectedDefenders.value = getRandomOperators(defenders, 5);
-  }
-  
-  function getRandomOperators(operatorList:OPERATORS[], count:number) {
-    const operatorsCopy = [...operatorList];
-    const selected = [];
-    for (let i = 0; i < count; i++) {
-      if (operatorsCopy.length === 0) break;
-      const randomIndex = Math.floor(Math.random() * operatorsCopy.length);
-      selected.push(operatorsCopy.splice(randomIndex, 1)[0]);
+
+const playerNames = useLocalStorage<string[]>('player-names', ['', '', '', '', '']);
+
+interface Operaters {
+  name: string;
+  image: string;
+}
+
+interface AssignedOperator {
+  operator: Operaters;
+  name: string;
+}
+
+const selectedAttackers = ref<AssignedOperator[]>([]);
+const selectedDefenders = ref<AssignedOperator[]>([]);
+
+function getPlayerNames() {
+  const names = playerNames.value.map((name, index) => {
+    if (name.trim() !== '') {
+      return name.trim();
+    } else {
+      return 'Player ' + (index + 1);
     }
-    return selected;
-  }
-  
-  function rerandomizeAttacker(index:number) {
-    const alreadySelectedNames = selectedAttackers.value.map((op:OPERATORS) => op.name);
-    const availableOperators = attackers.filter(op => !alreadySelectedNames.includes(op.name));
-    if (availableOperators.length === 0) return;
-    const randomIndex = Math.floor(Math.random() * availableOperators.length);
-    selectedAttackers.value[index] = availableOperators[randomIndex];
-  }
-  
-function rerandomizeDefender(index:number) {
-    const alreadySelectedNames = selectedDefenders.value.map((op:OPERATORS) => op.name);
-    const availableOperators = defenders.filter(op => !alreadySelectedNames.includes(op.name));
-    if (availableOperators.length === 0) return;
-        const randomIndex = Math.floor(Math.random() * availableOperators.length);
-    selectedDefenders.value[index] = availableOperators[randomIndex];
+  });
+  return names;
 }
 
-const colorMode = useColorMode()
+function randomizeAttackers() {
+  const names = getPlayerNames();
+  const operators = getRandomOperators(attackers, 5);
+  selectedAttackers.value = operators.map((op, index) => ({
+    operator: op,
+    name: names[index],
+  }));
+}
+
+function randomizeDefenders() {
+  const names = getPlayerNames();
+  const operators = getRandomOperators(defenders, 5);
+  selectedDefenders.value = operators.map((op, index) => ({
+    operator: op,
+    name: names[index],
+  }));
+}
+
+function getRandomOperators(operatorList: Operaters[], count: number) {
+  const operatorsCopy = [...operatorList];
+  const selected = [];
+  for (let i = 0; i < count; i++) {
+    if (operatorsCopy.length === 0) break;
+    const randomIndex = Math.floor(Math.random() * operatorsCopy.length);
+    selected.push(operatorsCopy.splice(randomIndex, 1)[0]);
+  }
+  return selected;
+}
+
+function rerandomizeAttacker(index: number) {
+  const alreadySelectedNames = selectedAttackers.value.map((assignment) => assignment.operator.name);
+  const availableOperators = attackers.filter(op => !alreadySelectedNames.includes(op.name));
+  if (availableOperators.length === 0) return;
+  const randomIndex = Math.floor(Math.random() * availableOperators.length);
+  selectedAttackers.value[index].operator = availableOperators[randomIndex];
+}
+
+function rerandomizeDefender(index: number) {
+  const alreadySelectedNames = selectedDefenders.value.map((assignment) => assignment.operator.name);
+  const availableOperators = defenders.filter(op => !alreadySelectedNames.includes(op.name));
+  if (availableOperators.length === 0) return;
+  const randomIndex = Math.floor(Math.random() * availableOperators.length);
+  selectedDefenders.value[index].operator = availableOperators[randomIndex];
+}
+
+const colorMode = useColorMode();
 const toggleColorMode = () => {
-    colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
-}
-
+  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark';
+};
 </script>
-  
-  
