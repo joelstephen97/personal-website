@@ -85,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useLocalStorage } from '@vueuse/core';
 
 definePageMeta({
@@ -189,6 +189,28 @@ const defenders = [
 
 const playerNames = useLocalStorage<string[]>('player-names', ['', '', '', '', '']);
 
+let debounceTimeout: ReturnType<typeof setTimeout> | null = null;
+
+// added deep watcher to remove selection if new name is added after timeout
+watch(
+  playerNames,
+  (newV, oldV) => {
+    if (debounceTimeout) {
+      clearTimeout(debounceTimeout); 
+    }
+    
+    debounceTimeout = setTimeout(() => {
+      if (selectedAttackers.value.length > 0) {
+        selectedAttackers.value = []
+      }
+      if (selectedDefenders.value.length > 0) {
+        selectedDefenders.value =[]
+      }
+    }, 300); 
+  },
+  { deep: true } 
+);
+
 interface Operaters {
   name: string;
   image: string;
@@ -286,7 +308,6 @@ function rerandomizeDefender(index: number) {
   secureShuffle(availableOperators);
   selectedDefenders.value[index].operator = availableOperators[0];
 }
-
 
 const colorMode = useColorMode();
 const toggleColorMode = () => {
