@@ -23,6 +23,6 @@ export default {
 
 <style>
 main {
-  min-height: calc(100vh - 64px); /* Adjust based on your footer height */
+  min-height: calc(100vh - 64px);
 }
 </style>
