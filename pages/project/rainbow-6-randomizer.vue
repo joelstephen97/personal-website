@@ -231,32 +231,62 @@ function randomizeDefenders() {
   }));
 }
 
+// Use windows.crypto
+function getSecureRandomInt(max:number) {
+  if (max <= 0) throw new Error('Max must be a positive integer');
+
+  const cryptoObj = window.crypto || window.msCrypto; // For compatibility with IE11
+  const array = new Uint32Array(1);
+  const maxUint32 = 0xFFFFFFFF;
+  const maxValid = Math.floor(maxUint32 / max) * max;
+
+  let rand;
+  do {
+    cryptoObj.getRandomValues(array);
+    rand = array[0];
+  } while (rand >= maxValid);
+
+  return rand % max;
+}
+
+
+// Ficher-Yates Shuffle Algorithm
+function secureShuffle(array:Operaters[]) {
+  let currentIndex = array.length;
+
+  while (currentIndex !== 0) {
+    const randomIndex = getSecureRandomInt(currentIndex);
+    currentIndex--;
+
+    // Swap elements
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+}
+
 function getRandomOperators(operatorList: Operaters[], count: number) {
   const operatorsCopy = [...operatorList];
-  const selected = [];
-  for (let i = 0; i < count; i++) {
-    if (operatorsCopy.length === 0) break;
-    const randomIndex = Math.floor(Math.random() * operatorsCopy.length);
-    selected.push(operatorsCopy.splice(randomIndex, 1)[0]);
-  }
-  return selected;
+  secureShuffle(operatorsCopy);
+  return operatorsCopy.slice(0, count);
 }
 
 function rerandomizeAttacker(index: number) {
   const alreadySelectedNames = selectedAttackers.value.map((assignment) => assignment.operator.name);
   const availableOperators = attackers.filter(op => !alreadySelectedNames.includes(op.name));
   if (availableOperators.length === 0) return;
-  const randomIndex = Math.floor(Math.random() * availableOperators.length);
-  selectedAttackers.value[index].operator = availableOperators[randomIndex];
+
+  secureShuffle(availableOperators);
+  selectedAttackers.value[index].operator = availableOperators[0];
 }
 
 function rerandomizeDefender(index: number) {
   const alreadySelectedNames = selectedDefenders.value.map((assignment) => assignment.operator.name);
   const availableOperators = defenders.filter(op => !alreadySelectedNames.includes(op.name));
   if (availableOperators.length === 0) return;
-  const randomIndex = Math.floor(Math.random() * availableOperators.length);
-  selectedDefenders.value[index].operator = availableOperators[randomIndex];
+
+  secureShuffle(availableOperators);
+  selectedDefenders.value[index].operator = availableOperators[0];
 }
+
 
 const colorMode = useColorMode();
 const toggleColorMode = () => {
