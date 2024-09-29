@@ -142,8 +142,8 @@ const attackers = [
     { name: 'Grim', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/grim.png' },
     { name: 'Brava', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/brava.png' },
     { name: 'Ram', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/ram.png' },
-    { name: 'Deimos', image: 'https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png' },
-    { name: 'Striker', image: 'https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png' },
+    { name: 'Deimos', image: '/_nuxt/assets/deimos.webp' },
+    { name: 'Striker', image: '/_nuxt/assets/striker.webp' },
   ];
 
 const defenders = [
@@ -182,8 +182,8 @@ const defenders = [
     { name: 'Solis', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/solis.png' },
     { name: 'Fenrir', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/fenrir.png' },
     { name: 'Tubarão', image: 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/tubarao.png' },
-    { name: 'Sentry', image: 'https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png' },
-    { name: 'Skopós', image: 'https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png' },
+    { name: 'Sentry', image: '/_nuxt/assets/sentry.webp' },
+    { name: 'Skopós', image: '/_nuxt/assets/skopos.webp' },
   ];
 
 
