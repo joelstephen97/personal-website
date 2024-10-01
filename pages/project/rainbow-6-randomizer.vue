@@ -12,16 +12,16 @@
 
     <!-- Number of Players Selection -->
     <div class="w-full max-w-4xl flex flex-row justify-between items-center mb-8">
-      <p class="text-lg font-semibold mb-2 w-1/2">Select Number of Players:</p>
+      <p class="text-lg font-semibold w-1/2">Select Number of Players:</p>
       
       <USelect v-model="numberOfPlayers" :options="stacking" option-attribute="name" class="w-full">
         </USelect>
     </div>
 
     <!-- Player Names Input Section -->
-    <div class="w-full max-w-4xl flex flex-col items-center mb-8">
-      <p class="text-lg font-semibold mb-2">Enter Player Names:</p>
-      <div class="grid grid-cols-1 md:grid-cols-5 gap-4 w-full">
+    <div class="w-full max-w-4xl flex flex-col mb-8">
+      <p class="text-lg font-semibold mb-2">Enter Player Names for Random Characters:</p>
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4 w-full items-center">
         <input
           v-for="(name, index) in playerNames.slice(0, numberOfPlayers)"
           :key="index"
