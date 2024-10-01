@@ -10,12 +10,20 @@
       </UButton>
     </div>
 
+    <!-- Number of Players Selection -->
+    <div class="w-full max-w-4xl flex flex-row justify-between items-center mb-8">
+      <p class="text-lg font-semibold mb-2 w-1/2">Select Number of Players:</p>
+      
+      <USelect v-model="numberOfPlayers" :options="stacking" option-attribute="name" class="w-full">
+        </USelect>
+    </div>
+
     <!-- Player Names Input Section -->
     <div class="w-full max-w-4xl flex flex-col items-center mb-8">
-      <p class="text-lg font-semibold mb-2">Enter Player Names : (up to 5 or leave blank )</p>
+      <p class="text-lg font-semibold mb-2">Enter Player Names:</p>
       <div class="grid grid-cols-1 md:grid-cols-5 gap-4 w-full">
         <input
-          v-for="(name, index) in playerNames"
+          v-for="(name, index) in playerNames.slice(0, numberOfPlayers)"
           :key="index"
           v-model="playerNames[index]"
           class="border p-2 rounded w-full"
@@ -26,10 +34,10 @@
 
     <!-- Attackers Section -->
     <div class="w-full max-w-4xl flex flex-col items-center mb-8">
-      <UButton @click="randomizeAttackers" class="mb-4 uppercase">Randomize 5 Attackers</UButton>
+      <UButton @click="randomizeAttackers" class="mb-4 uppercase">Randomize {{ numberOfPlayers }} Attackers</UButton>
       <div v-if="selectedAttackers.length" class="w-full">
         <p class="text-lg font-semibold mb-2">Selected Attackers:</p>
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <div :class="`grid grid-cols-1 md:grid-cols-${numberOfPlayers} gap-4`">
           <div
             class="flex flex-col items-center p-2 rounded"
             v-for="(assignment, index) in selectedAttackers"
@@ -46,10 +54,10 @@
 
     <!-- Defenders Section -->
     <div class="w-full max-w-4xl flex flex-col items-center">
-      <UButton @click="randomizeDefenders" class="mb-4 uppercase">Randomize 5 Defenders</UButton>
+      <UButton @click="randomizeDefenders" class="mb-4 uppercase">Randomize {{ numberOfPlayers }} Defenders</UButton>
       <div v-if="selectedDefenders.length" class="w-full">
         <p class="text-lg font-semibold mb-2">Selected Defenders:</p>
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <div :class="`grid grid-cols-1 md:grid-cols-${numberOfPlayers} gap-4`">
           <div
             class="flex flex-col items-center p-2 rounded"
             v-for="(assignment, index) in selectedDefenders"
@@ -72,7 +80,7 @@ import { useLocalStorage } from '@vueuse/core';
 
 useSeoMeta({
   title: 'Rainbow Six Siege Operator Randomizer',
-  description: 'Randomly select operators for Rainbow Six Siege. Choose 5 attackers or 5 defenders with the option to re-randomize individual selections.',
+  description: 'Randomly select operators for Rainbow Six Siege. Choose attackers or defenders with the option to re-randomize individual selections.',
   keywords: [
     'Rainbow Six Siege',
     'R6S',
@@ -91,6 +99,23 @@ useSeoMeta({
 definePageMeta({
   layout: false,
 });
+
+const stacking = [{
+  name: 'Solo Gamer',
+  value: '1'
+}, {
+  name: '2 Stack',
+  value: '2',
+}, {
+  name: '3 Stack',
+  value: '3'
+}, {
+  name: '4 Stack',
+  value: '4'
+}, {
+  name: '5 Stack',
+  value: '5'
+}]
 
 const baseImageUrl = 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/';
 
@@ -135,6 +160,19 @@ const defenders = createOperators(defenderNames, specialDefenders);
 
 const playerNames = useLocalStorage<string[]>('player-names', ['', '', '', '', '']);
 
+const numberOfPlayers = useLocalStorage<number>('number-of-players', 5);
+
+watch(numberOfPlayers, (newVal) => {
+  while (playerNames.value.length < newVal) {
+    playerNames.value.push('');
+  }
+  while (playerNames.value.length > newVal) {
+    playerNames.value.pop();
+  }
+  selectedAttackers.value = [];
+  selectedDefenders.value = [];
+});
+
 watch(
   playerNames,
   () => {
@@ -158,7 +196,7 @@ const selectedAttackers = ref<AssignedOperator[]>([]);
 const selectedDefenders = ref<AssignedOperator[]>([]);
 
 function getPlayerNames() {
-  return playerNames.value.map((name, index) => name.trim() || 'Player ' + (index + 1));
+  return playerNames.value.slice(0, numberOfPlayers.value).map((name, index) => name.trim() || 'Player ' + (index + 1));
 }
 
 function randomizeOperators(operatorList: Operator[], selectedOperators: typeof selectedAttackers) {
