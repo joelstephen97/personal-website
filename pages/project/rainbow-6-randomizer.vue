@@ -34,7 +34,7 @@
 
     <!-- Attackers Section -->
     <div class="w-full max-w-4xl flex flex-col items-center mb-8">
-      <UButton @click="randomizeAttackers" class="mb-4 uppercase">Randomize {{ numberOfPlayers }} Attackers</UButton>
+      <UButton icon="i-heroicons-arrow-path" color="black" @click="randomizeAttackers" class="mb-4 uppercase font-bold text-lg">Randomize {{ numberOfPlayers }} Attackers</UButton>
       <div v-if="selectedAttackers.length" class="w-full">
         <p class="text-lg font-semibold mb-2">Selected Attackers:</p>
         <div :class="`grid grid-cols-1 md:grid-cols-${numberOfPlayers} gap-4`">
@@ -54,7 +54,7 @@
 
     <!-- Defenders Section -->
     <div class="w-full max-w-4xl flex flex-col items-center">
-      <UButton @click="randomizeDefenders" class="mb-4 uppercase">Randomize {{ numberOfPlayers }} Defenders</UButton>
+      <UButton icon="i-heroicons-arrow-path" color="black" @click="randomizeDefenders" class="mb-4 uppercase font-bold text-lg">Randomize {{ numberOfPlayers }} Defenders</UButton>
       <div v-if="selectedDefenders.length" class="w-full">
         <p class="text-lg font-semibold mb-2">Selected Defenders:</p>
         <div :class="`grid grid-cols-1 md:grid-cols-${numberOfPlayers} gap-4`">
