@@ -133,22 +133,22 @@ const stacking = [{
   value: '5'
 }]
 
-const baseImageUrl = 'https://tiermaker.com/images/media/template_images/2024/17131851/tom-clancys-rainbow-six-siege-operator-icons-y9s1-17131851/';
+const baseImageUrl = 'https://r6operators.marcopixel.eu/icons/svg/';
 
 const specialAttackers = {
-  Deimos: '/_nuxt/assets/deimos.webp',
-  Striker: '/_nuxt/assets/striker.webp',
+  // Deimos: '@/assets/deimos.webp',
+  // Striker: '@/assets/striker.webp',
 };
 
 const specialDefenders = {
-  Sentry: '/_nuxt/assets/sentry.webp',
-  Skopós: '/_nuxt/assets/skopos.webp',
+  // Sentry: '@/assets/sentry.webp',
+  // Skopós: '@/assets/skopos.webp',
 };
 
 const attackerNames = [
   'Sledge', 'Thatcher', 'Ash', 'Thermite', 'Twitch', 'Montagne', 'Glaz', 'Fuze', 'Blitz', 'IQ',
   'Buck', 'Blackbeard', 'Capitao', 'Hibana', 'Jackal', 'Ying', 'Zofia', 'Dokkaebi', 'Lion', 'Finka',
-  'Maverick', 'Nomad', 'Gridlock', 'Nøkk', 'Amaru', 'Kali', 'Iana', 'Ace', 'Zero', 'Flores', 'Osa',
+  'Maverick', 'Nomad', 'Gridlock', 'Nokk', 'Amaru', 'Kali', 'Iana', 'Ace', 'Zero', 'Flores', 'Osa',
   'Sens', 'Grim', 'Brava', 'Ram', 'Deimos', 'Striker',
 ];
 
@@ -168,7 +168,7 @@ function createOperators(names: string[], specials: Record<string, string>) {
         .toLowerCase()
         .normalize('NFD') 
         .replace(/[\u0300-\u036f]/g, '') 
-        .replace(/[^a-z0-9]/g, '')}.png`,
+        .replace(/[^a-z0-9]/g, '')}.svg`,
   }));
 }
 const attackers = createOperators(attackerNames, specialAttackers);
