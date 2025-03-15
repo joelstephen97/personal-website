@@ -12,15 +12,14 @@ export default {
     extend: {
       keyframes: {
         wiggle: {
-          '0%, 100%': { transform: 'rotate(-5deg)' },
-          '50%': { transform: 'rotate(5deg)' },
-        }
+          "0%, 100%": { transform: "rotate(-5deg)" },
+          "50%": { transform: "rotate(5deg)" },
+        },
       },
       animation: {
-        wiggle: 'wiggle 0.4s ease-in-out infinite',
-      }
+        wiggle: "wiggle 0.4s ease-in-out infinite",
+      },
     },
   },
   plugins: [],
-}
-
+};

@@ -2,13 +2,13 @@
   <div>
     <NuxtRouteAnnouncer />
     <NuxtLayout>
-      <NuxtPage/>
+      <NuxtPage />
     </NuxtLayout>
     <UNotifications />
-    <SpeedInsights/>
+    <SpeedInsights />
   </div>
 </template>
 
 <script setup lang="js">
-import { SpeedInsights } from "@vercel/speed-insights/nuxt"
+import { SpeedInsights } from "@vercel/speed-insights/nuxt";
 </script>
