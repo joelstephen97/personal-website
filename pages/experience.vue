@@ -4,20 +4,22 @@
       <h1
         class="lg:leading-tighter pb-2 text-4xl font-bold tracking-tighter sm:text-2xl md:text-4xl xl:text-6xl 2xl:text-6xl -mt-8 md:-mt-20"
       >
-        Experiences
+        <TypingEffect :strings="['EXPERIENCES']" :loop="false" />
       </h1>
     </div>
     <div class="container mx-auto p-4 -mt-8 mb-20">
-      <template v-for="(exp, index) in experiencesList" :key="index">
-        <JobExperiences
-          :title="exp.title"
-          :company="exp.company"
-          :location="exp.location"
-          :duration="exp.duration"
-          :tasks="exp.tasks"
-          :skills="exp.skills"
-        />
-      </template>
+      <div class="space-y-6">
+        <template v-for="(exp, index) in experiencesList" :key="index">
+          <JobExperiences
+            :title="exp.title"
+            :company="exp.company"
+            :location="exp.location"
+            :duration="exp.duration"
+            :tasks="exp.tasks"
+            :skills="exp.skills"
+          />
+        </template>
+      </div>
     </div>
   </UContainer>
 </template>
@@ -99,13 +101,13 @@ const experiencesList = [
     location: "Dubai, United Arab Emirates",
     duration: "Nov 2019 - May 2020 · 7 months",
     tasks: [
-      " Working with Vend POS and Vend API development ",
+      "Working with Vend POS and Vend API development",
       "Using AWS Lambda and deployment on AWS API Gateway using Python and AWS Tools.",
       "Worked with Airtable database",
       "Website optimisation and working with CMS systems.",
       "E-commerce experience",
       "Managing and monitoring website.",
-      "Worked with JIRA, Confluence, Google Analytics, Imgix, Python scripting ",
+      "Worked with JIRA, Confluence, Google Analytics, Imgix, Python scripting",
       "Prototyping and wire-framing using Adobe XD and FIGMA.",
     ],
     skills: [
@@ -125,11 +127,11 @@ const experiencesList = [
     duration: "Jan 2019 - Jul 2019 · 7 months",
     tasks: [
       "Developed Web Application for internal company usage, to transition dependency from MS Excel to databases.",
-      "Used Flask, implemented Model View Controller (MVC) architecture for application. Also implemented many libraries, mainly for authentication, authorization and security. Training for Flask was supervised under experienced professionals in company. ",
+      "Used Flask, implemented Model View Controller (MVC) architecture for application. Also implemented many libraries, mainly for authentication, authorization and security. Training for Flask was supervised under experienced professionals in company.",
       "Created DB schema in MySQL and SQLite, and used ORM - SQLAlchemy.",
-      "Implemented JSON and CSV parsing to read data into the database. ",
-      "Worked extensively with event-driven functions to provide user-friendliness. ",
-      "Implemented front-end designs using HTML5/CSS, JavaScript and jQuery. ",
+      "Implemented JSON and CSV parsing to read data into the database.",
+      "Worked extensively with event-driven functions to provide user-friendliness.",
+      "Implemented front-end designs using HTML5/CSS, JavaScript and jQuery.",
       "Ran checks and audits to optimize performance using Selenium and Chrome Lighthouse.",
       "Developed basic REST APIs to handle the web application.",
       "Used Git VCS, and Agile Programming methodology to gather requirements from the client.",
