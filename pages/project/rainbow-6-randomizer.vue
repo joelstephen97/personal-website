@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/html-self-closing -->
 <template>
   <div
     :style="{ backgroundImage: `url(${currentBackground})` }"

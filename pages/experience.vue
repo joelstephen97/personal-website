@@ -4,7 +4,7 @@
       <h1
         class="lg:leading-tighter pb-2 text-4xl font-bold tracking-tighter sm:text-2xl md:text-4xl xl:text-6xl 2xl:text-6xl -mt-8 md:-mt-20"
       >
-        Experience
+        Experiences
       </h1>
     </div>
     <div class="container mx-auto p-4 -mt-8 mb-20">
@@ -28,7 +28,7 @@ const experiencesList = [
     title: "Senior Software Engineer",
     company: "Otani Trading FZCO",
     location: "Dubai, United Arab Emirates",
-    duration: "Jun 2024 - Present · 3 months",
+    duration: "Jun 2024 - Feb 2025 · 9 months",
     tasks: [
       "Training Junior members",
       "Managing a team and leading front-end development on a new project. Web Mobile Application.",

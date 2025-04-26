@@ -14,11 +14,10 @@
             >
               <TypingEffect
                 :strings="[
-                  'Full-stack Engineer',
-                  'Front-end',
-                  'Back-end',
-                  'UI-UX',
-                  'Testing',
+                  'FULL STACK ENGINEER',
+                  'UI-UX DESIGNER',
+                  'QA AND TESTING',
+                  'AI AND ML',
                 ]"
               />
             </h2>

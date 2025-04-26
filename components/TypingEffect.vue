@@ -17,7 +17,7 @@ const props = defineProps({
   },
   backSpeed: {
     type: Number,
-    default: 25,
+    default: 50,
   },
   loop: {
     type: Boolean,

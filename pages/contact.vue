@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/html-self-closing -->
 <template>
   <UContainer>
     <div class="w-full pt-12 md:pt-24 lg:pt-32 pb-10">
