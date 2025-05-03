@@ -56,5 +56,13 @@ const projects: Project[] = [
     link: "/project/rainbow-6-randomizer",
     buttonText: "Try It Out",
   },
+  {
+    id: 2,
+    title: "Basic Background Remover",
+    description:
+      "Remove backgrounds from your PNG/JPG images instantly with this easy-to-use tool.",
+    link: "/project/bg-remover",
+    buttonText: "Remove Backgrounds",
+  },
 ];
 </script>
