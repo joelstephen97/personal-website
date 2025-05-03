@@ -1,6 +1,6 @@
+<!-- eslint-disable vue/html-self-closing -->
 <template>
   <div
-    :style="{ backgroundImage: `url(${currentBackground})` }"
     class="relative flex flex-col items-center p-4 w-screen h-screen bg-cover bg-center transition-all duration-500"
   >
     <!-- Overlay -->
@@ -170,9 +170,6 @@ const isDarkMode = computed(() => colorMode.value === "dark");
 const toggleDarkMode = () =>
   (colorMode.value = isDarkMode.value ? "light" : "dark");
 const buttonColor = computed(() => (isDarkMode.value ? "white" : "black"));
-const currentBackground = computed(() =>
-  isDarkMode.value ? "/dark-bg.jpg" : "/light-bg.jpg",
-);
 
 // Handlers
 const triggerFileInput = () => fileInput.value?.click();
