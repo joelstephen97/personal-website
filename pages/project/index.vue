@@ -67,8 +67,7 @@ const projects: Project[] = [
   {
     id: 3,
     title: "Basic Aim Trainer",
-    description:
-      "Train you aim for FPS games",
+    description: "Train you aim for FPS games",
     link: "/project/aim-trainer",
     buttonText: "Train your aim",
   },
