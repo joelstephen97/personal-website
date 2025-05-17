@@ -64,5 +64,13 @@ const projects: Project[] = [
     link: "/project/bg-remover",
     buttonText: "Remove Backgrounds",
   },
+  {
+    id: 3,
+    title: "Basic Aim Trainer",
+    description:
+      "Train you aim for FPS games",
+    link: "/project/aim-trainer",
+    buttonText: "Train your aim",
+  },
 ];
 </script>
