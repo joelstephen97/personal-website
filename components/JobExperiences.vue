@@ -39,7 +39,7 @@
                 name="i-heroicons-check-circle"
                 class="text-red-600 dark:text-red-400 w-5 h-5 mr-2 flex-shrink-0 mt-1"
               />
-              <span>{{ task }}</span>
+              <span v-html="formatTaskWithLinks(task)"></span>
             </li>
           </ul>
         </div>
@@ -90,4 +90,12 @@ defineProps({
     default: () => [],
   },
 });
+
+const formatTaskWithLinks = (task: string): string => {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  return task.replace(
+    urlRegex,
+    '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-red-600 dark:text-red-400 hover:underline">$1</a>'
+  );
+};
 </script>

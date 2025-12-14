@@ -5,7 +5,7 @@
   >
     <!-- Overlay -->
     <div
-      :class="`fixed inset-0 ${isDarkMode ? 'bg-black opacity-50' : 'bg-white opacity-50'}`"
+      :class="`fixed inset-0 ${colorMode.value === 'dark' ? 'bg-black opacity-50' : 'bg-white opacity-50'}`"
       aria-hidden="true"
     />
 
@@ -16,17 +16,7 @@
       <!-- Header -->
       <header class="flex w-full justify-between items-center">
         <h1 class="text-2xl font-bold uppercase">Basic Background Remover</h1>
-        <UButton
-          :color="buttonColor"
-          class="p-2 rounded-full drop-shadow-sm"
-          @click="toggleDarkMode"
-        >
-          <UIcon
-            :name="isDarkMode ? 'i-heroicons-sun' : 'i-heroicons-moon'"
-            class="w-6 h-6 mr-2"
-          />
-          {{ isDarkMode ? "Light" : "Dark" }}
-        </UButton>
+        <DarkModeToggle />
       </header>
 
       <!-- File Upload & Controls -->
@@ -141,8 +131,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onUnmounted, onMounted } from "vue";
+import { ref, onUnmounted, onMounted } from "vue";
 import { useColorMode } from "#imports";
+
+const colorMode = useColorMode();
 import * as tf from "@tensorflow/tfjs-core";
 import "@tensorflow/tfjs-backend-webgl";
 import * as bodyPix from "@tensorflow-models/body-pix";
@@ -164,12 +156,6 @@ const isProcessing = ref(false);
 const tolerance = ref(30);
 const feather = ref(2);
 
-// Dark Mode
-const colorMode = useColorMode();
-const isDarkMode = computed(() => colorMode.value === "dark");
-const toggleDarkMode = () =>
-  (colorMode.value = isDarkMode.value ? "light" : "dark");
-const buttonColor = computed(() => (isDarkMode.value ? "white" : "black"));
 
 // Handlers
 const triggerFileInput = () => fileInput.value?.click();

@@ -76,46 +76,11 @@
             </NuxtLink>
           </li>
           <li>
-            <UButton
-              color="white"
-              class="p-2 rounded-full drop-shadow-sm"
-              @click="toggleColorMode"
-            >
-              <div
-                v-if="colorMode.value === 'dark'"
-                class="flex justify-center items-center font-bold"
-              >
-                <UIcon name="i-heroicons-sun" class="w-6 h-6 mr-2 text-white" />
-                Light
-              </div>
-              <div v-else class="flex justify-center items-center font-bold">
-                <UIcon
-                  name="i-heroicons-moon"
-                  class="w-6 h-6 mr-2 text-black"
-                />
-                Dark
-              </div>
-            </UButton>
+            <DarkModeToggle />
           </li>
         </ul>
         <div class="md:hidden flex items-center space-x-4">
-          <UButton
-            color="white"
-            class="p-2 rounded-full drop-shadow-sm"
-            @click="toggleColorMode"
-          >
-            <div
-              v-if="colorMode.value === 'dark'"
-              class="flex justify-center items-center font-bold"
-            >
-              <UIcon name="i-heroicons-sun" class="w-6 h-6 mr-2 text-white" />
-              Light
-            </div>
-            <div v-else class="flex justify-center items-center font-bold">
-              <UIcon name="i-heroicons-moon" class="w-6 h-6 mr-2 text-black" />
-              Dark
-            </div>
-          </UButton>
+          <DarkModeToggle />
           <UButton color="white" class="drop-shadow-sm" @click="toggleMenu">
             <UIcon
               v-if="!isMenuOpen"
@@ -185,14 +150,9 @@
 import { useRoute } from "vue-router";
 const route = useRoute();
 
-const colorMode = useColorMode();
 const isMenuOpen = ref(false);
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
-};
-
-const toggleColorMode = () => {
-  colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
 };
 </script>

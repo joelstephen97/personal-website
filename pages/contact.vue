@@ -1,111 +1,43 @@
 <!-- eslint-disable vue/html-self-closing -->
 <template>
-  <UContainer>
+  <PageContainer>
     <div class="w-full py-10 md:py-10">
       <div class="grid md:grid-cols-2 gap-8 lg:gap-16 items-center">
         <div class="space-y-8">
-          <div>
-            <h1
-              class="lg:leading-tighter pb-2 text-4xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl"
-            >
-              <TypingEffect :strings="['CONTACT ME']" :loop="false" />
-            </h1>
-            <p class="text-lg text-gray-800 dark:text-gray-200">
-              Have a <b>question</b> or <b>project</b> or <b>job offer</b> in
-              mind? I'd love to hear from you. I'm passionate about my work and
-              always open to new opportunities.
-            </p>
-          </div>
+          <PageHeader
+            title="CONTACT ME"
+            subtitle="Have a <b>question</b> or <b>project</b> or <b>job offer</b> in mind? I'd love to hear from you. I'm passionate about my work and always open to new opportunities."
+          />
 
           <div class="space-y-4 mt-8">
-            <a
+            <ContactInfoCard
+              title="EMAIL"
+              value="joel.stephen.work@gmail.com"
+              icon="i-heroicons-envelope"
               href="mailto:joel.stephen.work@gmail.com"
-              class="block hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-colors"
-            >
-              <div class="flex items-center gap-4 p-3">
-                <div class="bg-red-600/20 p-3 pb-1 rounded-full">
-                  <UIcon
-                    name="i-heroicons-envelope"
-                    class="text-red-600 dark:text-red-400 w-6 h-6"
-                  />
-                </div>
-                <div>
-                  <p class="text-lg font-bold text-black dark:text-white">
-                    EMAIL
-                  </p>
-                  <p
-                    class="font-medium text-gray-800 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-400 transition-colors"
-                  >
-                    joel.stephen.work@gmail.com
-                  </p>
-                </div>
-              </div>
-            </a>
+            />
 
-            <a
+            <ContactInfoCard
+              title="WHATSAPP"
+              value="Click to message me"
+              icon="i-heroicons-device-phone-mobile"
               href="https://wa.me/+971568098085"
               target="_blank"
-              rel="noopener noreferrer"
-              class="block hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-colors"
-            >
-              <div class="flex items-center gap-4 p-3">
-                <div class="bg-red-600/20 p-3 pb-1 rounded-full">
-                  <UIcon
-                    name="i-heroicons-device-phone-mobile"
-                    class="text-red-600 dark:text-red-400 w-6 h-6"
-                  />
-                </div>
-                <div>
-                  <p class="text-lg font-bold text-black dark:text-white">
-                    WHATSAPP
-                  </p>
-                  <p class="font-medium text-gray-800 dark:text-gray-200">
-                    Click to message me
-                  </p>
-                </div>
-              </div>
-            </a>
+            />
 
-            <a
+            <ContactInfoCard
+              title="LOCATION"
+              value="Abu Dhabi, United Arab Emirates"
+              icon="i-heroicons-map-pin"
               href="https://maps.google.com/?q=Abu+Dhabi,+United+Arab+Emirates"
               target="_blank"
-              rel="noopener noreferrer"
-              class="block hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-colors"
-            >
-              <div class="flex items-center gap-4 p-3">
-                <div class="bg-red-600/20 p-3 pb-1 rounded-full">
-                  <UIcon
-                    name="i-heroicons-map-pin"
-                    class="text-red-600 dark:text-red-400 w-6 h-6"
-                  />
-                </div>
-                <div>
-                  <p class="text-lg font-bold text-black dark:text-white">
-                    LOCATION
-                  </p>
-                  <p class="font-medium text-gray-800 dark:text-gray-200">
-                    Abu Dhabi, United Arab Emirates
-                  </p>
-                </div>
-              </div>
-            </a>
+            />
 
-            <div class="flex items-center gap-4 p-3">
-              <div class="bg-red-600/20 p-3 pb-1 rounded-full">
-                <UIcon
-                  name="i-heroicons-clock"
-                  class="text-red-600 dark:text-red-400 w-6 h-6"
-                />
-              </div>
-              <div>
-                <p class="text-lg font-bold text-black dark:text-white">
-                  RESPONSE TIME
-                </p>
-                <p class="font-medium text-gray-800 dark:text-gray-200">
-                  Within 6-12 hours
-                </p>
-              </div>
-            </div>
+            <ContactInfoCard
+              title="RESPONSE TIME"
+              value="Within 6-12 hours"
+              icon="i-heroicons-clock"
+            />
           </div>
         </div>
 
@@ -227,7 +159,7 @@
         </div>
       </div>
     </div>
-  </UContainer>
+  </PageContainer>
 </template>
 
 <script setup lang="ts">

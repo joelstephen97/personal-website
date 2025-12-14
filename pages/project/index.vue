@@ -1,17 +1,11 @@
 <template>
-  <UContainer>
+  <PageContainer>
     <!-- Section Header -->
-    <div class="w-full pt-10 md:pt-24 lg:pt-32 flex-row pb-10">
-      <h1
-        class="lg:leading-tighter pb-2 text-4xl font-bold tracking-tighter sm:text-2xl md:text-4xl xl:text-6xl 2xl:text-6xl -mt-8 md:-mt-20"
-      >
-        <TypingEffect :strings="['PROJECTS']" :loop="false" />
-      </h1>
-      <p class="text-lg text-gray-800 dark:text-gray-200 mt-4">
-        A showcase of my latest experiments and fun utilities. Dive in and
-        explore!
-      </p>
-    </div>
+    <PageHeader
+      title="PROJECTS"
+      subtitle="A showcase of my latest experiments and fun utilities. Dive in and explore!"
+      title-class="-mt-8 md:-mt-20"
+    />
     <!-- Projects Grid -->
     <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
       <ProjectCard
@@ -35,7 +29,7 @@
         </UCard>
       </div>
     </div>
-  </UContainer>
+  </PageContainer>
 </template>
 
 <script setup lang="ts">

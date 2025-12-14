@@ -22,24 +22,7 @@
         <h1 class="text-2xl font-bold uppercase">
           Rainbow 6 Siege Operator Randomizer
         </h1>
-        <UButton
-          color="white"
-          class="p-2 rounded-full drop-shadow-sm"
-          @click="toggleColorMode"
-        >
-          <div class="flex justify-center items-center font-bold">
-            <UIcon
-              :name="
-                colorMode.value === 'dark'
-                  ? 'i-heroicons-sun'
-                  : 'i-heroicons-moon'
-              "
-              class="w-6 h-6 mr-2"
-              :class="colorMode.value === 'dark' ? 'text-white' : 'text-black'"
-            />
-            {{ colorMode.value === "dark" ? "Light" : "Dark" }}
-          </div>
-        </UButton>
+        <DarkModeToggle />
       </div>
 
       <!-- Number of Players Selection -->
@@ -171,6 +154,9 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, onBeforeUnmount } from "vue";
 import { useLocalStorage } from "@vueuse/core";
+import { useColorMode } from "#imports";
+
+const colorMode = useColorMode();
 
 // SEO and Page Meta
 useSeoMeta({
@@ -438,11 +424,6 @@ function getRandomOperators(operatorList: Operator[], count: number) {
   return operators.slice(0, count);
 }
 
-// Color Mode Toggle
-const colorMode = useColorMode();
-const toggleColorMode = () => {
-  colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
-};
 
 // --- Rotating Background Implementation ---
 const backgrounds = [
