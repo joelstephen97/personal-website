@@ -1,307 +1,130 @@
 <template>
-  <div
-    ref="gameContainer"
-    class="relative flex flex-col items-center w-full h-screen bg-white dark:bg-black overflow-hidden"
-  >
-    <header v-if="!gameRunning" class="text-center mb-4 pt-4">
-      <h1 class="text-3xl font-bold text-black dark:text-white">Aim Trainer</h1>
-      <p class="mt-2 text-lg text-black dark:text-white">
-        Time Left: {{ timeLeft.toFixed(1) }}s | Score: {{ score }}
-      </p>
-    </header>
+  <div class="min-h-screen bg-[rgb(var(--bg))]">
+    <!-- Pre-game -->
+    <div v-if="!playing" class="max-w-xl mx-auto px-6 py-20 text-center">
+      <h1 class="text-4xl font-bold text-[rgb(var(--foreground))] mb-2">Aim Trainer</h1>
+      <p class="text-[rgb(var(--foreground-secondary))] mb-8">Improve your precision and reaction time</p>
 
-    <div v-if="!gameRunning" class="flex flex-col items-center space-y-4">
-      <div class="flex space-x-4">
-        <button class="btn btn-green" @click="startGame">Start</button>
-        <button class="btn btn-red" @click="resetGame">Reset</button>
-      </div>
-      <div class="flex items-center space-x-2">
-        <label for="gameTime" class="text-gray-700 dark:text-gray-300"
-          >Set Time:</label
-        >
-        <input
-          id="gameTime"
-          v-model.number="gameDuration"
-          type="number"
-          class="input"
-        />
-      </div>
-    </div>
+      <div class="glass-solid rounded-2xl p-6 mb-6">
+        <div class="flex justify-center gap-8 mb-6">
+          <div class="text-center">
+            <p class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide">Time</p>
+            <p class="text-3xl font-bold text-red-500">{{ time }}s</p>
+          </div>
+          <div class="text-center">
+            <p class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide">Score</p>
+            <p class="text-3xl font-bold text-red-500">{{ score }}</p>
+          </div>
+        </div>
 
-    <div
-      v-if="gameRunning"
-      ref="playArea"
-      :class="isFullscreen ? 'fixed inset-0' : 'relative w-[600px] h-[600px]'"
-      class="bg-white dark:bg-black border-2 border-black dark:border-white overflow-hidden"
-    >
-      <!-- Header with score -->
-      <div
-        class="absolute top-0 left-0 right-0 text-center py-2 bg-white/80 dark:bg-black/80 z-10"
-      >
-        <p class="text-lg font-semibold text-black dark:text-white">
-          Time Left: {{ timeLeft.toFixed(1) }}s | Score: {{ score }}
-        </p>
+        <div class="flex items-center justify-center gap-3 mb-6">
+          <label class="text-sm text-[rgb(var(--foreground))]">Duration:</label>
+          <input v-model.number="duration" type="number" class="w-20 px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-center text-[rgb(var(--foreground))]" />
+          <span class="text-sm text-[rgb(var(--foreground-secondary))]">sec</span>
+        </div>
+
+        <div class="flex justify-center gap-3">
+          <button @click="start" class="px-6 py-3 rounded-xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 flex items-center gap-2">
+            <Icon name="Play" :size="18" /> Start
+          </button>
+          <button @click="reset" class="px-6 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2">
+            <Icon name="RotateCcw" :size="18" /> Reset
+          </button>
+        </div>
       </div>
 
-      <!-- Target -->
-      <div
-        class="absolute bg-red-500 border-2 border-red-900 rounded-full target"
-        :style="{
-          width: `${targetSize}px`,
-          height: `${targetSize}px`,
-          top: `${y}px`,
-          left: `${x}px`,
-        }"
-        @click.stop="hitTarget"
-      />
-
-      <!-- Invisible overlay to detect misclicks -->
-      <div class="absolute inset-0 z-0" @click="handleMisclick" />
-
-      <!-- Exit button -->
-      <button class="btn btn-red absolute top-4 right-4 z-10" @click="exitGame">
-        Exit Run
-      </button>
-    </div>
-
-    <div
-      v-if="!gameRunning && previousScores.length > 0"
-      class="mt-6 w-full max-w-md"
-    >
-      <h2 class="text-lg font-semibold text-black dark:text-white text-center">
-        Aim Progress
-      </h2>
-      <div class="mt-4 h-48">
-        <div class="p-4 bg-gray-100 dark:bg-gray-800 rounded">
-          <h3 class="text-center mb-2 text-black dark:text-white">
-            Previous Scores
-          </h3>
-          <div class="flex justify-between">
-            <div
-              v-for="(run, i) in previousScores"
-              :key="i"
-              class="text-center"
-            >
-              <div class="h-32 flex items-end justify-center">
-                <div
-                  class="w-12 bg-green-500"
-                  :style="{ height: `${Math.min(run.score * 2, 100)}%` }"
-                />
-              </div>
-              <p class="mt-1 text-sm text-black dark:text-white">
-                Run {{ i + 1 }}
-              </p>
-              <p class="text-xs text-gray-600 dark:text-gray-400">
-                {{ run.score.toFixed(1) }}
-              </p>
+      <!-- History -->
+      <div v-if="history.length" class="glass-solid rounded-2xl p-6">
+        <h3 class="font-semibold text-[rgb(var(--foreground))] mb-4">Recent Runs</h3>
+        <div class="flex justify-center gap-2">
+          <div v-for="(h, i) in history" :key="i" class="flex flex-col items-center">
+            <div class="w-8 h-24 bg-[rgb(var(--border))] rounded-t-lg relative overflow-hidden">
+              <div class="absolute bottom-0 w-full bg-gradient-to-t from-red-500 to-red-600 rounded-t-lg" :style="{ height: `${Math.min(h * 3, 100)}%` }" />
             </div>
+            <span class="text-xs text-[rgb(var(--foreground-muted))] mt-1">{{ h }}</span>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Game -->
+    <div v-else ref="area" class="fixed inset-0 bg-[rgb(var(--bg))] cursor-crosshair" @click="miss">
+      <div class="absolute top-0 inset-x-0 glass p-4 flex justify-between items-center">
+        <div class="flex gap-6">
+          <span class="flex items-center gap-2 text-[rgb(var(--foreground))]">
+            <Icon name="Clock" :size="18" class="text-red-500" /> {{ time.toFixed(1) }}s
+          </span>
+          <span class="flex items-center gap-2 text-[rgb(var(--foreground))]">
+            <Icon name="Target" :size="18" class="text-red-500" /> {{ score }}
+          </span>
+        </div>
+        <button @click="end" class="px-4 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-sm font-medium">Exit</button>
+      </div>
+
+      <div
+        class="absolute w-12 h-12 rounded-full bg-gradient-to-br from-red-500 to-red-600 shadow-lg shadow-red-500/50 cursor-pointer hover:scale-110 transition-transform"
+        :style="{ left: `${x}px`, top: `${y}px` }"
+        @click.stop="hit"
+      />
+    </div>
   </div>
 </template>
 
-<script setup>
-import { ref, onUnmounted, watch, onMounted } from "vue";
+<script setup lang="ts">
+import { ref, onUnmounted } from "vue";
+import Icon from "~/components/ui/Icon.vue";
 
-// Reactive game state with starting score of 5
-const score = ref(5); // Starting with 5 points
-const timeLeft = ref(30.0);
-const gameDuration = ref(30.0);
-const gameRunning = ref(false);
-const isFullscreen = ref(false);
-const accuracy = ref(100); // Starting accuracy percentage
-const hits = ref(0);
-const misses = ref(0);
-const previousScores = ref([
-  // Default scores to show progress history
-  { duration: 30, score: 15, accuracy: 90 },
-  { duration: 30, score: 18, accuracy: 92 },
-  { duration: 30, score: 22, accuracy: 95 },
-]);
+definePageMeta({ layout: false });
 
-// Play area and target dimensions
-const targetSize = 50;
-const x = ref(0);
-const y = ref(0);
+const playing = ref(false);
+const score = ref(0);
+const time = ref(30);
+const duration = ref(30);
+const x = ref(100);
+const y = ref(200);
+const history = ref<number[]>([]);
+const area = ref<HTMLElement | null>(null);
 
-let timerId = null;
-const gameContainer = ref(null);
-const playArea = ref(null);
+let timer: ReturnType<typeof setInterval> | null = null;
 
-// Load saved data from localStorage on mount
-onMounted(() => {
-  const savedDuration = localStorage.getItem("aim-trainer-duration");
-  if (savedDuration) {
-    gameDuration.value = parseFloat(savedDuration);
-  }
-
-  const savedScores = localStorage.getItem("aim-trainer-scores");
-  if (savedScores) {
-    try {
-      const parsed = JSON.parse(savedScores);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        previousScores.value = parsed;
-      }
-    } catch (e) {
-      console.error("Error parsing saved scores:", e);
-    }
-  }
-
-  // Check fullscreen status
-  document.addEventListener("fullscreenchange", updateFullscreenStatus);
-
-  // Handle window resize to reposition target if needed
-  window.addEventListener("resize", () => {
-    if (gameRunning.value) {
-      positionTarget();
-    }
-  });
-});
-
-// Handle resize cleanup
-onUnmounted(() => {
-  clearInterval(timerId);
-  window.removeEventListener("resize", positionTarget);
-  document.removeEventListener("fullscreenchange", updateFullscreenStatus);
-});
-
-// Update fullscreen status
-const updateFullscreenStatus = () => {
-  isFullscreen.value = !!document.fullscreenElement;
-};
-
-// Randomize target position
-const positionTarget = () => {
-  const area = playArea.value;
-  let maxWidth, maxHeight;
-
-  if (area) {
-    const rect = area.getBoundingClientRect();
-    maxWidth = rect.width - targetSize;
-    maxHeight = rect.height - targetSize - 40; // Extra space for the header
-  } else {
-    if (isFullscreen.value) {
-      maxWidth = window.innerWidth - targetSize;
-      maxHeight = window.innerHeight - targetSize - 40;
-    } else {
-      maxWidth = 600 - targetSize;
-      maxHeight = 600 - targetSize - 40;
-    }
-  }
-
-  // Ensure we have positive values and add padding to keep targets away from edges
-  maxWidth = Math.max(maxWidth - 20, 100);
-  maxHeight = Math.max(maxHeight - 20, 100);
-
-  // Set position with padding from edges
-  x.value = 10 + Math.random() * maxWidth;
-  y.value = 50 + Math.random() * maxHeight; // Start below the header
-};
-
-const startGame = () => {
-  score.value = 5; // Starting with 5 points
-  hits.value = 0;
-  misses.value = 0;
-  accuracy.value = 100;
-  timeLeft.value = gameDuration.value;
-  gameRunning.value = true;
-  positionTarget();
-  clearInterval(timerId);
-  timerId = setInterval(() => {
-    timeLeft.value = Math.max(0, timeLeft.value - 0.1);
-    if (timeLeft.value <= 0) endGame();
+function start() {
+  score.value = 0;
+  time.value = duration.value;
+  playing.value = true;
+  place();
+  timer = setInterval(() => {
+    time.value = Math.max(0, time.value - 0.1);
+    if (time.value <= 0) end();
   }, 100);
-};
+}
 
-const endGame = () => {
-  clearInterval(timerId);
-  gameRunning.value = false;
-  saveRun();
-};
+function end() {
+  if (timer) clearInterval(timer);
+  playing.value = false;
+  history.value.push(score.value);
+  if (history.value.length > 5) history.value.shift();
+}
 
-const resetGame = () => {
-  clearInterval(timerId);
-  score.value = 5; // Reset to 5 points
-  hits.value = 0;
-  misses.value = 0;
-  accuracy.value = 100;
-  timeLeft.value = gameDuration.value;
-  gameRunning.value = false;
-};
+function reset() {
+  score.value = 0;
+  time.value = duration.value;
+}
 
-const exitGame = () => {
-  clearInterval(timerId);
-  gameRunning.value = false;
-};
+function hit() {
+  score.value += 2;
+  place();
+}
 
-const hitTarget = (e) => {
-  if (!gameRunning.value) return;
-  score.value += 2; // Reward accuracy with extra point
-  hits.value++;
-  updateAccuracy();
-  positionTarget();
-  e.preventDefault(); // Prevent event bubbling to the misclick handler
-};
+function miss() {
+  score.value = Math.max(0, score.value - 1);
+}
 
-const handleMisclick = () => {
-  if (!gameRunning.value) return;
-  score.value = Math.max(0, score.value - 1); // Penalty for missing, minimum score is 0
-  misses.value++;
-  updateAccuracy();
-};
+function place() {
+  const w = window.innerWidth - 60;
+  const h = window.innerHeight - 120;
+  x.value = Math.random() * w;
+  y.value = 80 + Math.random() * h;
+}
 
-const updateAccuracy = () => {
-  const total = hits.value + misses.value;
-  if (total > 0) {
-    accuracy.value = Math.round((hits.value / total) * 100);
-  }
-};
-
-const saveRun = () => {
-  const normalizedScore = (score.value / gameDuration.value) * 30; // Normalize to 30 seconds
-  previousScores.value.push({
-    duration: gameDuration.value,
-    score: normalizedScore,
-    accuracy: accuracy.value,
-  });
-  if (previousScores.value.length > 5) previousScores.value.shift();
-  localStorage.setItem(
-    "aim-trainer-scores",
-    JSON.stringify(previousScores.value),
-  );
-};
-
-// Watch for changes to game duration and save to localStorage
-watch(gameDuration, (newDuration) => {
-  localStorage.setItem("aim-trainer-duration", newDuration.toString());
-});
+onUnmounted(() => { if (timer) clearInterval(timer); });
 </script>
-
-<style scoped>
-.btn {
-  @apply px-4 py-2 rounded-lg text-white transition;
-}
-
-.btn-green {
-  @apply bg-green-500 hover:bg-green-600;
-}
-
-.btn-red {
-  @apply bg-red-500 hover:bg-red-600;
-}
-
-.btn-blue {
-  @apply bg-blue-500 hover:bg-blue-600;
-}
-
-.input {
-  @apply w-16 p-1 border rounded dark:bg-gray-700 dark:text-white;
-}
-
-.target {
-  cursor: crosshair;
-  z-index: 5;
-}
-</style>

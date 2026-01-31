@@ -1,158 +1,89 @@
 <template>
-  <header
-    class="fixed top-0 left-0 right-0 bg-white dark:bg-black shadow-md z-50 w-full"
-  >
-    <div class="max-w-7xl mx-auto px-4">
-      <nav class="flex justify-between items-center py-4">
-        <div class="flex items-center">
-          <NuxtLink
-            to="/"
-            class="flex items-center text-black dark:text-white no-underline"
-          >
-            <UAvatar
-              src="https://avatars.githubusercontent.com/u/40371897"
-              alt="Avatar"
-            />
-            <span class="pl-4 font-bold text-xl">Joel Stephen</span>
-          </NuxtLink>
-        </div>
-        <ul class="hidden md:flex items-center space-x-8 list-none m-0 p-0">
-          <li>
-            <NuxtLink
-              to="/"
-              :class="{
-                'text-red-600 font-extrabold': route.path === '/',
-                'text-black dark:text-white font-bold': route.path !== '/',
-              }"
-              class="no-underline hover:font-extrabold flex items-center"
-            >
-              <UIcon name="i-heroicons-user" class="w-5 h-5 mr-1" />
-              About Me
-            </NuxtLink>
-          </li>
-          <li>
-            <NuxtLink
-              to="/experience"
-              :class="{
-                'text-red-600 font-extrabold': route.path === '/experience',
-                'text-black dark:text-white font-bold':
-                  route.path !== '/experience',
-              }"
-              class="no-underline hover:font-extrabold flex items-center"
-            >
-              <UIcon name="i-heroicons-briefcase" class="w-5 h-5 mr-1" />
-              Experiences
-            </NuxtLink>
-          </li>
-          <li>
-            <NuxtLink
-              to="/project"
-              :class="{
-                'text-red-600 font-extrabold': route.path === '/project',
-                'text-black dark:text-white font-bold':
-                  route.path !== '/project',
-              }"
-              class="no-underline hover:font-extrabold flex items-center"
-            >
-              <UIcon
-                name="i-heroicons-wrench-screwdriver"
-                class="w-5 h-5 mr-1"
-              />
-              Projects
-            </NuxtLink>
-          </li>
-          <li>
-            <NuxtLink
-              to="/contact"
-              :class="{
-                'text-red-600 font-extrabold': route.path === '/contact',
-                'text-black dark:text-white font-bold':
-                  route.path !== '/contact',
-              }"
-              class="no-underline hover:font-extrabold flex items-center"
-            >
-              <UIcon name="i-heroicons-envelope" class="w-5 h-5 mr-1" />
-              Contact
-            </NuxtLink>
-          </li>
-          <li>
-            <DarkModeToggle />
-          </li>
-        </ul>
-        <div class="md:hidden flex items-center space-x-4">
-          <DarkModeToggle />
-          <UButton color="white" class="drop-shadow-sm" @click="toggleMenu">
-            <UIcon
-              v-if="!isMenuOpen"
-              name="i-heroicons-bars-3"
-              class="w-8 h-8"
-            />
-            <UIcon v-else name="i-heroicons-x-mark" class="w-8 h-8" />
-          </UButton>
-        </div>
-      </nav>
-      <div v-if="isMenuOpen" class="md:hidden flex flex-col py-4 space-y-1">
+  <header class="fixed top-0 inset-x-0 z-50 glass">
+    <nav class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+      <!-- Logo -->
+      <NuxtLink to="/" class="flex items-center gap-3 group">
+        <img
+          src="https://avatars.githubusercontent.com/u/40371897"
+          alt="Joel Stephen"
+          class="w-8 h-8 rounded-full ring-2 ring-transparent group-hover:ring-red-500/50 transition-all"
+        />
+        <span class="font-semibold text-[rgb(var(--foreground))] group-hover:text-red-500 transition-colors">
+          Joel Stephen
+        </span>
+      </NuxtLink>
+      
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-1">
         <NuxtLink
-          to="/"
-          :class="{
-            'text-red-500 font-extrabold': route.path === '/',
-            'text-black dark:text-white font-bold': route.path !== '/',
-          }"
-          class="py-2 no-underline flex items-center border-black rounded-xl border-2 p-2 dark:border-white"
-          @click="toggleMenu"
+          v-for="link in links"
+          :key="link.to"
+          :to="link.to"
+          :class="[
+            'flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all',
+            route.path === link.to 
+              ? 'text-red-500 bg-red-500/10' 
+              : 'text-[rgb(var(--foreground-secondary))] hover:text-[rgb(var(--foreground))] hover:bg-[rgb(var(--glass))]'
+          ]"
         >
-          <UIcon name="i-heroicons-user" class="w-5 h-5 mr-1" />
-          About
+          <Icon :name="link.icon" :size="16" />
+          {{ link.label }}
         </NuxtLink>
-        <NuxtLink
-          to="/experience"
-          :class="{
-            'text-red-500 font-extrabold': route.path === '/experience',
-            'text-black dark:text-white font-bold':
-              route.path !== '/experience',
-          }"
-          class="py-2 no-underline flex items-center border-black rounded-xl border-2 p-2 dark:border-white"
-          @click="toggleMenu"
+        <div class="w-px h-5 bg-[rgb(var(--border))] mx-2" />
+        <DarkModeToggle />
+      </div>
+      
+      <!-- Mobile -->
+      <div class="md:hidden flex items-center gap-2">
+        <DarkModeToggle />
+        <button 
+          class="p-2 rounded-xl hover:bg-[rgb(var(--glass))] transition-colors"
+          @click="open = !open"
         >
-          <UIcon name="i-heroicons-briefcase" class="w-5 h-5 mr-1" />
-          Experiences
-        </NuxtLink>
+          <Icon :name="open ? 'X' : 'Menu'" :size="22" />
+        </button>
+      </div>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <Transition
+      enter-active-class="transition duration-200"
+      enter-from-class="opacity-0 -translate-y-2"
+      leave-active-class="transition duration-150"
+      leave-to-class="opacity-0 -translate-y-2"
+    >
+      <div v-if="open" class="md:hidden px-6 pb-4 space-y-1">
         <NuxtLink
-          to="/project"
-          :class="{
-            'text-red-500 font-extrabold': route.path === '/project',
-            'text-black dark:text-white font-bold': route.path !== '/project',
-          }"
-          class="py-2 no-underline flex items-center border-black rounded-xl border-2 p-2 dark:border-white"
-          @click="toggleMenu"
+          v-for="link in links"
+          :key="link.to"
+          :to="link.to"
+          :class="[
+            'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all',
+            route.path === link.to 
+              ? 'text-red-500 bg-red-500/10' 
+              : 'text-[rgb(var(--foreground))] hover:bg-[rgb(var(--glass))]'
+          ]"
+          @click="open = false"
         >
-          <UIcon name="i-heroicons-wrench-screwdriver" class="w-5 h-5 mr-1" />
-          Projects
-        </NuxtLink>
-        <NuxtLink
-          to="/contact"
-          :class="{
-            'text-red-500 font-extrabold': route.path === '/contact',
-            'text-black dark:text-white font-bold': route.path !== '/contact',
-          }"
-          class="py-2 no-underline flex items-center border-black rounded-xl border-2 p-2 dark:border-white"
-          @click="toggleMenu"
-        >
-          <UIcon name="i-heroicons-envelope" class="w-5 h-5 mr-1" />
-          Contact
+          <Icon :name="link.icon" :size="18" />
+          {{ link.label }}
         </NuxtLink>
       </div>
-    </div>
+    </Transition>
   </header>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useRoute } from "vue-router";
+import Icon from "~/components/ui/Icon.vue";
+
 const route = useRoute();
+const open = ref(false);
 
-const isMenuOpen = ref(false);
-
-const toggleMenu = () => {
-  isMenuOpen.value = !isMenuOpen.value;
-};
+const links = [
+  { to: "/", label: "About", icon: "User" },
+  { to: "/experience", label: "Experience", icon: "Briefcase" },
+  { to: "/project", label: "Projects", icon: "FolderOpen" },
+  { to: "/contact", label: "Contact", icon: "Mail" },
+];
 </script>

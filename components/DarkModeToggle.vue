@@ -1,26 +1,20 @@
 <template>
-  <UButton
-    :color="buttonColor"
-    class="p-2 rounded-full drop-shadow-sm"
-    @click="toggleColorMode"
+  <button
+    class="p-2 rounded-xl hover:bg-[rgb(var(--glass))] transition-colors"
+    @click="$colorMode.preference = $colorMode.value === 'dark' ? 'light' : 'dark'"
   >
-    <div class="flex justify-center items-center font-bold">
-      <UIcon
-        :name="colorMode.value === 'dark' ? 'i-heroicons-sun' : 'i-heroicons-moon'"
-        class="w-6 h-6 mr-2"
-        :class="colorMode.value === 'dark' ? 'text-white' : 'text-black'"
-      />
-      {{ colorMode.value === "dark" ? "Light" : "Dark" }}
-    </div>
-  </UButton>
+    <Transition mode="out-in"
+      enter-active-class="transition duration-200"
+      enter-from-class="opacity-0 rotate-90 scale-75"
+      leave-active-class="transition duration-150"
+      leave-to-class="opacity-0 -rotate-90 scale-75"
+    >
+      <Icon v-if="$colorMode.value === 'dark'" name="Sun" :size="20" class="text-amber-400" />
+      <Icon v-else name="Moon" :size="20" class="text-slate-500" />
+    </Transition>
+  </button>
 </template>
 
 <script setup lang="ts">
-const colorMode = useColorMode();
-const buttonColor = computed(() => (colorMode.value === "dark" ? "white" : "black"));
-
-const toggleColorMode = () => {
-  colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
-};
+import Icon from "~/components/ui/Icon.vue";
 </script>
-

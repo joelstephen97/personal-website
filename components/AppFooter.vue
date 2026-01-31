@@ -1,35 +1,31 @@
 <template>
-  <footer class="fixed bottom-0 left-0 right-0 bg-black text-white py-4 w-full">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="flex justify-between items-center">
-        <p class="text-md">
-          &copy; {{ currentYear }} Joel Stephen. All rights reserved.
-        </p>
-        <div class="flex md:space-x-8 space-x-1">
-          <a
-            href="https://www.linkedin.com/in/joelthomasstephen/"
-            class="text-white hover:animate-wiggle"
-          >
-            <UIcon name="i-mdi-linkedin" class="w-8 h-8" />
-          </a>
-          <a
-            href="https://github.com/joelstephen97/"
-            class="text-white hover:animate-wiggle"
-          >
-            <UIcon name="i-mdi-github" class="w-8 h-8" />
-          </a>
-          <a
-            href="https://www.youtube.com/@he11b1azer6"
-            class="text-white hover:animate-wiggle"
-          >
-            <UIcon name="i-mdi-youtube" class="w-8 h-8" />
-          </a>
-        </div>
+  <footer class="fixed bottom-0 inset-x-0 z-40 glass">
+    <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+      <p class="text-sm text-[rgb(var(--foreground-secondary))]">
+        © {{ new Date().getFullYear() }} Joel Stephen
+      </p>
+      <div class="flex items-center gap-1">
+        <a
+          v-for="s in socials"
+          :key="s.url"
+          :href="s.url"
+          target="_blank"
+          rel="noopener"
+          class="p-2 rounded-xl text-[rgb(var(--foreground-secondary))] hover:text-red-500 hover:bg-red-500/10 transition-all"
+        >
+          <Icon :name="s.icon" :size="20" />
+        </a>
       </div>
     </div>
   </footer>
 </template>
 
-<script setup>
-const currentYear = new Date().getFullYear();
+<script setup lang="ts">
+import Icon from "~/components/ui/Icon.vue";
+
+const socials = [
+  { url: "https://linkedin.com/in/joelthomasstephen", icon: "Linkedin" },
+  { url: "https://github.com/joelstephen97", icon: "Github" },
+  { url: "https://youtube.com/@he11b1azer6", icon: "Youtube" },
+];
 </script>

@@ -1,229 +1,131 @@
-<!-- eslint-disable vue/html-self-closing -->
 <template>
-  <div
-    class="relative flex flex-col items-center p-4 w-screen h-screen bg-cover bg-center transition-all duration-500"
-  >
-    <!-- Overlay -->
-    <div
-      :class="`fixed inset-0 ${colorMode.value === 'dark' ? 'bg-black opacity-50' : 'bg-white opacity-50'}`"
-      aria-hidden="true"
-    />
-
-    <!-- Content -->
-    <div
-      class="relative z-10 flex flex-col items-center w-full max-w-4xl space-y-8"
-    >
+  <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
+    <div class="max-w-4xl mx-auto">
       <!-- Header -->
-      <header class="flex w-full justify-between items-center">
-        <h1 class="text-2xl font-bold uppercase">Basic Background Remover</h1>
+      <div class="flex items-center justify-between mb-8">
+        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Background Remover</h1>
         <DarkModeToggle />
-      </header>
-
-      <!-- File Upload & Controls -->
-      <div class="flex flex-col sm:flex-row gap-4 justify-center w-full">
-        <UButton
-          color="green"
-          icon="i-heroicons-arrow-up-tray"
-          @click="triggerFileInput"
-        >
-          Select Image
-        </UButton>
-        <input
-          ref="fileInput"
-          type="file"
-          accept="image/png, image/jpeg"
-          class="hidden"
-          @change="onFileSelected"
-        />
-        <UButton
-          v-if="processedImageUrl"
-          color="blue"
-          icon="i-heroicons-arrow-down-tray"
-          @click="downloadImage"
-        >
-          Download Result
-        </UButton>
       </div>
 
-      <!-- Image Previews -->
-      <div class="flex flex-col sm:flex-row gap-6 justify-evenly w-full">
-        <div class="flex-1 text-center">
-          <h2 class="font-semibold mb-2">Original Image</h2>
-          <div class="border rounded-lg p-2 bg-white dark:bg-gray-800">
-            <img
-              v-if="originalImageUrl"
-              :src="originalImageUrl"
-              alt="Original"
-              class="mx-auto max-h-64"
-            />
-            <p v-else class="text-gray-500">No image selected.</p>
+      <!-- Controls -->
+      <div class="flex flex-wrap gap-4 mb-8">
+        <button @click="$refs.file.click()" class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] font-medium flex items-center gap-2 hover:border-red-500/50 transition">
+          <Icon name="Upload" :size="18" /> Select Image
+        </button>
+        <input ref="file" type="file" accept="image/*" class="hidden" @change="load" />
+        <button v-if="result" @click="download" class="px-5 py-3 rounded-xl bg-gradient-to-r from-red-500 to-red-600 text-white font-medium flex items-center gap-2 shadow-lg shadow-red-500/25">
+          <Icon name="Download" :size="18" /> Download
+        </button>
+      </div>
+
+      <!-- Preview -->
+      <div class="grid md:grid-cols-2 gap-6 mb-8">
+        <div class="glass-solid rounded-2xl p-6 text-center">
+          <p class="text-sm font-medium text-[rgb(var(--foreground-muted))] mb-4">Original</p>
+          <img v-if="original" :src="original" class="max-h-64 mx-auto rounded-xl" />
+          <p v-else class="text-[rgb(var(--foreground-muted))] py-12">No image</p>
+        </div>
+        <div class="glass-solid rounded-2xl p-6 text-center">
+          <p class="text-sm font-medium text-[rgb(var(--foreground-muted))] mb-4">Result</p>
+          <div v-if="processing" class="py-12 flex flex-col items-center gap-3">
+            <div class="w-8 h-8 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
+            <span class="text-red-500 text-sm">Processing...</span>
           </div>
+          <img v-else-if="result" :src="result" class="max-h-64 mx-auto rounded-xl" />
+          <p v-else class="text-[rgb(var(--foreground-muted))] py-12">No result</p>
         </div>
-        <div class="flex-1 text-center">
-          <h2 class="font-semibold mb-2">Processed Image</h2>
-          <div class="border rounded-lg p-2 bg-white dark:bg-gray-800">
-            <div v-if="isProcessing" class="py-16">Processing...</div>
-            <img
-              v-else-if="processedImageUrl"
-              :src="processedImageUrl"
-              alt="Result"
-              class="mx-auto max-h-64"
-            />
-            <p v-else class="text-gray-500">No result yet.</p>
+      </div>
+
+      <!-- Options -->
+      <div class="glass-solid rounded-2xl p-6 space-y-6">
+        <h3 class="font-semibold text-[rgb(var(--foreground))]">Options</h3>
+        <div>
+          <div class="flex justify-between text-sm mb-2">
+            <span class="text-[rgb(var(--foreground))]">Tolerance</span>
+            <span class="text-red-500 font-medium">{{ tolerance }}</span>
           </div>
+          <input v-model.number="tolerance" type="range" min="0" max="100" class="w-full" />
         </div>
+        <div>
+          <div class="flex justify-between text-sm mb-2">
+            <span class="text-[rgb(var(--foreground))]">Edge Feather</span>
+            <span class="text-red-500 font-medium">{{ feather }}px</span>
+          </div>
+          <input v-model.number="feather" type="range" min="0" max="20" class="w-full" />
+        </div>
+        <button v-if="original" @click="process" :disabled="processing" class="w-full py-3 rounded-xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50">
+          <Icon name="Sparkles" :size="18" />
+          {{ processing ? 'Processing...' : 'Remove Background' }}
+        </button>
       </div>
-
-      <!-- Advanced Options -->
-      <div
-        class="w-full p-4 border rounded-lg space-y-4 bg-white dark:bg-gray-900"
-      >
-        <h3 class="font-bold">Advanced Options</h3>
-        <div class="space-y-2">
-          <label class="flex items-center justify-between">
-            <span>Tolerance (0–100):</span>
-            <span>{{ tolerance }}</span>
-          </label>
-          <input
-            v-model.number="tolerance"
-            type="range"
-            min="0"
-            max="100"
-            class="w-full"
-          />
-        </div>
-        <div class="space-y-2">
-          <label class="flex items-center justify-between">
-            <span>Edge Feather (px):</span>
-            <span>{{ feather }}</span>
-          </label>
-          <input
-            v-model.number="feather"
-            type="range"
-            min="0"
-            max="20"
-            class="w-full"
-          />
-        </div>
-        <UButton
-          v-if="originalImageUrl"
-          color="primary"
-          icon="i-heroicons-magic-wand-square"
-          :loading="isProcessing"
-          @click="processImage"
-        >
-          Remove Background
-        </UButton>
-      </div>
-
-      <!-- How It Works -->
-      <section class="w-full p-6 rounded-lg bg-yellow-100 dark:bg-yellow-900">
-        <h2 class="text-xl font-bold mb-2">How It Works</h2>
-        <ol class="list-decimal pl-5 space-y-1">
-          <li>Select or drag an image (PNG/JPEG).</li>
-          <li>Adjust the Tolerance and Edge Feather sliders.</li>
-          <li>Click “Remove Background” to start processing.</li>
-          <li>Download the transparent PNG.</li>
-        </ol>
-      </section>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onUnmounted, onMounted } from "vue";
-import { useColorMode } from "#imports";
-
-const colorMode = useColorMode();
+import { ref, onMounted, onUnmounted } from "vue";
+import Icon from "~/components/ui/Icon.vue";
 import * as tf from "@tensorflow/tfjs-core";
 import "@tensorflow/tfjs-backend-webgl";
 import * as bodyPix from "@tensorflow-models/body-pix";
 
-// Ensure WebGL backend
-onMounted(() => {
-  tf.setBackend("webgl");
-});
+definePageMeta({ layout: false });
 
-definePageMeta({
-  layout: false,
-});
+onMounted(() => tf.setBackend("webgl"));
 
-// State
-const fileInput = ref<HTMLInputElement | null>(null);
-const originalImageUrl = ref<string | null>(null);
-const processedImageUrl = ref<string | null>(null);
-const isProcessing = ref(false);
+const original = ref<string | null>(null);
+const result = ref<string | null>(null);
+const processing = ref(false);
 const tolerance = ref(30);
 const feather = ref(2);
 
-
-// Handlers
-const triggerFileInput = () => fileInput.value?.click();
-function onFileSelected(e: Event) {
-  const file = (e.target as HTMLInputElement).files?.[0];
-  if (!file) return;
-  processedImageUrl.value = null;
-  originalImageUrl.value = URL.createObjectURL(file);
+function load(e: Event) {
+  const f = (e.target as HTMLInputElement).files?.[0];
+  if (f) {
+    result.value = null;
+    original.value = URL.createObjectURL(f);
+  }
 }
 
-async function processImage() {
-  if (!originalImageUrl.value) return;
-  isProcessing.value = true;
+async function process() {
+  if (!original.value) return;
+  processing.value = true;
 
-  // Load and decode image
   const img = new Image();
-  img.src = originalImageUrl.value;
+  img.src = original.value;
   await img.decode();
 
-  // Canvas setup
   const canvas = document.createElement("canvas");
   canvas.width = img.width;
   canvas.height = img.height;
   const ctx = canvas.getContext("2d")!;
   ctx.drawImage(img, 0, 0);
 
-  // Run segmentation
   const net = await bodyPix.load();
-  const seg = await net.segmentPerson(img, {
-    segmentationThreshold: tolerance.value / 100,
-  });
+  const seg = await net.segmentPerson(img, { segmentationThreshold: tolerance.value / 100 });
+  const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  seg.data.forEach((v, i) => { data.data[i * 4 + 3] = v > tolerance.value / 100 ? 255 : 0; });
 
-  // Apply mask
-  const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  seg.data.forEach((v, i) => {
-    imgData.data[i * 4 + 3] = v > tolerance.value / 100 ? 255 : 0;
-  });
-
-  // Feather edges
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.filter = feather.value > 0 ? `blur(${feather.value}px)` : "none";
-  ctx.putImageData(imgData, 0, 0);
+  if (feather.value) ctx.filter = `blur(${feather.value}px)`;
+  ctx.putImageData(data, 0, 0);
 
-  // Export
-  canvas.toBlob((blob) => {
-    if (blob) processedImageUrl.value = URL.createObjectURL(blob);
-    isProcessing.value = false;
+  canvas.toBlob(b => {
+    if (b) result.value = URL.createObjectURL(b);
+    processing.value = false;
   }, "image/png");
 }
 
-function downloadImage() {
-  if (!processedImageUrl.value) return;
+function download() {
+  if (!result.value) return;
   const a = document.createElement("a");
-  a.href = processedImageUrl.value;
-  a.download = "transparent.png";
+  a.href = result.value;
+  a.download = "result.png";
   a.click();
 }
 
 onUnmounted(() => {
-  if (originalImageUrl.value) URL.revokeObjectURL(originalImageUrl.value);
-  if (processedImageUrl.value) URL.revokeObjectURL(processedImageUrl.value);
+  if (original.value) URL.revokeObjectURL(original.value);
+  if (result.value) URL.revokeObjectURL(result.value);
 });
 </script>
-
-<style scoped>
-/* Optional: constrain image max width */
-img {
-  max-width: 100%;
-  height: auto;
-}
-</style>

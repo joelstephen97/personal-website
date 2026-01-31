@@ -1,388 +1,117 @@
-<!-- eslint-disable vue/html-self-closing -->
 <template>
-  <PageContainer>
-    <div class="w-full py-10 md:py-10">
-      <div class="grid md:grid-cols-2 gap-8 lg:gap-16 items-center">
-        <div class="space-y-8">
-          <PageHeader
-            title="CONTACT ME"
-            subtitle="Have a <b>question</b> or <b>project</b> or <b>job offer</b> in mind? I'd love to hear from you. I'm passionate about my work and always open to new opportunities."
-          />
+  <div class="max-w-5xl mx-auto px-6 py-20">
+    <div class="grid lg:grid-cols-2 gap-16">
+      <!-- Left -->
+      <div>
+        <p class="text-sm font-medium text-red-500 tracking-wide uppercase mb-4">Get in Touch</p>
+        <h1 class="text-4xl md:text-5xl font-bold text-[rgb(var(--foreground))] mb-4">Contact</h1>
+        <p class="text-lg text-[rgb(var(--foreground-secondary))] mb-8">
+          Have a project in mind? Let's talk.
+        </p>
 
-          <div class="space-y-4 mt-8">
-            <ContactInfoCard
-              title="EMAIL"
-              value="joel.stephen.work@gmail.com"
-              icon="i-heroicons-envelope"
-              href="mailto:joel.stephen.work@gmail.com"
-            />
-
-            <ContactInfoCard
-              title="WHATSAPP"
-              value="Click to message me"
-              icon="i-heroicons-device-phone-mobile"
-              href="https://wa.me/+971568098085"
-              target="_blank"
-            />
-
-            <ContactInfoCard
-              title="LOCATION"
-              value="Abu Dhabi, United Arab Emirates"
-              icon="i-heroicons-map-pin"
-              href="https://maps.google.com/?q=Abu+Dhabi,+United+Arab+Emirates"
-              target="_blank"
-            />
-
-            <ContactInfoCard
-              title="RESPONSE TIME"
-              value="Within 6-12 hours"
-              icon="i-heroicons-clock"
-            />
-          </div>
-        </div>
-
-        <div
-          class="bg-white dark:bg-black rounded-xl p-6 md:p-8 shadow-md border border-gray-200 dark:border-black"
-        >
-          <h2
-            class="text-2xl font-semibold mb-6 text-red-700 dark:text-red-500"
+        <div class="space-y-4">
+          <a
+            v-for="info in contactInfo"
+            :key="info.label"
+            :href="info.href"
+            :target="info.external ? '_blank' : undefined"
+            class="flex items-center gap-4 p-4 rounded-xl glass-solid hover:border-red-500/30 transition-all group"
           >
-            <TypingEffect :strings="['SEND ME A MESSAGE']" :loop="false" />
-          </h2>
-          <UForm
-            :validate="validate"
-            :state="state"
-            class="space-y-6"
-            @submit="onSubmit"
-            @error="onError"
-          >
-            <UFormGroup
-              label="Full Name"
-              name="name"
-              label-class="text-gray-800 dark:text-gray-200"
-            >
-              <UInput
-                v-model="state.name"
-                placeholder="Your name / company name"
-                icon="i-heroicons-user"
-                size="lg"
-              />
-            </UFormGroup>
-
-            <UFormGroup
-              label="Email Address"
-              name="email"
-              label-class="text-gray-800 dark:text-gray-200"
-            >
-              <UInput
-                v-model="state.email"
-                placeholder="your.email@example.com"
-                icon="i-heroicons-envelope"
-                size="lg"
-              />
-            </UFormGroup>
-
-            <UFormGroup
-              label="Your Message"
-              name="message"
-              label-class="text-gray-800 dark:text-gray-200"
-            >
-              <UTextarea
-                v-model="state.message"
-                placeholder="What would you like to discuss? Please include any preferred contact methods."
-                :rows="4"
-                class="resize-none"
-              />
-            </UFormGroup>
-
-            <div class="hidden" aria-hidden="true">
-              <input
-                v-model="honeypot"
-                type="text"
-                tabindex="-1"
-                autocomplete="off"
-              />
+            <div class="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
+              <Icon :name="info.icon" :size="20" class="text-red-500" />
             </div>
-
-            <UFormGroup
-              v-if="showCaptcha"
-              label="Anti-Spam Verification"
-              name="captcha"
-              label-class="text-gray-800 dark:text-gray-200"
-            >
-              <div class="space-y-3">
-                <p class="text-sm text-gray-600 dark:text-gray-400">
-                  {{ captchaQuestion }}
-                </p>
-                <UInput
-                  v-model="state.captcha"
-                  placeholder="Your answer"
-                  size="lg"
-                  aria-label="Captcha answer"
-                />
-              </div>
-            </UFormGroup>
-
-            <div class="pt-2">
-              <UButton
-                type="submit"
-                block
-                color="red"
-                size="lg"
-                :loading="isSubmitting"
-                class="bg-red-700 hover:bg-red-800 text-white"
-              >
-                <UIcon name="i-heroicons-paper-airplane" class="mr-2" />
-                Send Message
-              </UButton>
+            <div class="flex-1 min-w-0">
+              <p class="text-xs font-medium text-[rgb(var(--foreground-muted))] uppercase tracking-wide">{{ info.label }}</p>
+              <p class="text-sm font-medium text-[rgb(var(--foreground))] group-hover:text-red-500 transition-colors truncate">{{ info.value }}</p>
             </div>
-          </UForm>
-
-          <div
-            v-if="submitSuccess"
-            class="mt-4 p-4 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-500 rounded-lg flex items-center gap-2"
-          >
-            <UIcon name="i-heroicons-check-circle" class="flex-shrink-0" />
-            <p>Message sent successfully! I'll be in touch soon.</p>
-          </div>
-
-          <div
-            v-if="submitError"
-            class="mt-4 p-4 bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-500 rounded-lg flex items-center gap-2"
-          >
-            <UIcon
-              name="i-heroicons-exclamation-circle"
-              class="flex-shrink-0"
-            />
-            <p>{{ errorMessage }}</p>
-          </div>
+            <Icon v-if="info.external" name="ArrowUpRight" :size="18" class="text-[rgb(var(--foreground-muted))] group-hover:text-red-500" />
+          </a>
         </div>
       </div>
+
+      <!-- Right: Form -->
+      <div class="glass-solid rounded-2xl p-8">
+        <h2 class="text-xl font-semibold text-red-500 mb-6">Send a Message</h2>
+        
+        <form class="space-y-5" @submit.prevent="submit">
+          <div>
+            <label class="block text-sm font-medium text-[rgb(var(--foreground))] mb-2">Name</label>
+            <input v-model="form.name" type="text" placeholder="Your name" class="w-full px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] placeholder:text-[rgb(var(--foreground-muted))] focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:border-red-500 transition" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-[rgb(var(--foreground))] mb-2">Email</label>
+            <input v-model="form.email" type="email" placeholder="you@example.com" class="w-full px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] placeholder:text-[rgb(var(--foreground-muted))] focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:border-red-500 transition" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-[rgb(var(--foreground))] mb-2">Message</label>
+            <textarea v-model="form.message" rows="4" placeholder="Your message..." class="w-full px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] placeholder:text-[rgb(var(--foreground-muted))] focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:border-red-500 transition resize-none" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-[rgb(var(--foreground))] mb-2">{{ captcha.q }}</label>
+            <input v-model="form.captcha" type="text" placeholder="Answer" class="w-full px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] placeholder:text-[rgb(var(--foreground-muted))] focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:border-red-500 transition" />
+          </div>
+          <button type="submit" :disabled="sending" class="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 hover:shadow-red-500/40 transition-all disabled:opacity-50 flex items-center justify-center gap-2">
+            <Icon name="Send" :size="18" />
+            {{ sending ? 'Sending...' : 'Send Message' }}
+          </button>
+        </form>
+
+        <Transition enter-active-class="transition" enter-from-class="opacity-0 translate-y-2">
+          <div v-if="success" class="mt-4 p-4 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center gap-2 text-green-600">
+            <Icon name="CheckCircle" :size="18" />
+            <span class="text-sm font-medium">Message sent successfully!</span>
+          </div>
+        </Transition>
+      </div>
     </div>
-  </PageContainer>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, onMounted, computed } from "vue";
-import type { FormError, FormErrorEvent, FormSubmitEvent } from "#ui/types";
+import { reactive, ref, onMounted } from "vue";
+import Icon from "~/components/ui/Icon.vue";
 
-declare global {
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    emailjs: any;
-  }
-}
+declare global { interface Window { emailjs: any; } }
 
-const EMAILJS_SERVICE_ID = "service_dnizv9b";
-const EMAILJS_TEMPLATE_ID = "template_bkiydiu";
-const EMAILJS_PUBLIC_KEY = "HZeS1ehR96UvqjMx_";
-
-interface State {
-  name: string | undefined;
-  email: string | undefined;
-  message: string | undefined;
-  captcha: string | undefined;
-}
-
-const state: State = reactive({
-  name: undefined,
-  email: undefined,
-  message: undefined,
-  captcha: undefined,
-});
-
-const honeypot = ref("");
-
-const showCaptcha = ref(true);
-const captchaQuestions = [
-  { question: "What is 2 + 3?", answer: "5" },
-  { question: "What is 4 + 5?", answer: "9" },
-  { question: "What is 7 - 2?", answer: "5" },
-  { question: "What is 10 - 5?", answer: "5" },
-  { question: "What is 3 × 3?", answer: "9" },
-  { question: "What is 2 × 4?", answer: "8" },
+const contactInfo = [
+  { label: "Email", value: "joel.stephen.work@gmail.com", icon: "Mail", href: "mailto:joel.stephen.work@gmail.com" },
+  { label: "WhatsApp", value: "Message me", icon: "MessageCircle", href: "https://wa.me/+971568098085", external: true },
+  { label: "Location", value: "Abu Dhabi, UAE", icon: "MapPin", href: "https://maps.google.com/?q=Abu+Dhabi", external: true },
 ];
 
-const captchaIndex = ref(Math.floor(Math.random() * captchaQuestions.length));
-const captchaQuestion = computed(
-  () => captchaQuestions[captchaIndex.value].question,
-);
-const captchaAnswer = computed(
-  () => captchaQuestions[captchaIndex.value].answer,
-);
+const captchas = [
+  { q: "What is 2 + 3?", a: "5" },
+  { q: "What is 4 + 5?", a: "9" },
+  { q: "What is 7 - 2?", a: "5" },
+];
+const captcha = captchas[Math.floor(Math.random() * captchas.length)];
 
-const isSubmitting = ref(false);
-const submitSuccess = ref(false);
-const submitError = ref(false);
-const errorMessage = ref("");
-
-const submissionAttempts = ref(0);
-const lastSubmissionTime = ref(0);
+const form = reactive({ name: "", email: "", message: "", captcha: "" });
+const sending = ref(false);
+const success = ref(false);
 
 onMounted(() => {
-  if (!document.getElementById("emailjs-script")) {
-    const script = document.createElement("script");
-    script.id = "emailjs-script";
-    script.src =
-      "https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js";
-    script.async = true;
-    document.body.appendChild(script);
-
-    script.onload = () => {
-      window.emailjs.init(EMAILJS_PUBLIC_KEY);
-    };
+  if (!document.getElementById("emailjs")) {
+    const s = document.createElement("script");
+    s.id = "emailjs";
+    s.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js";
+    s.onload = () => window.emailjs.init("HZeS1ehR96UvqjMx_");
+    document.body.appendChild(s);
   }
-
-  const botDetectionDelay = 100;
-  setTimeout(() => {
-    if (state.name || state.email || state.message || honeypot.value) {
-      console.warn("Potential automated form fill detected");
-    }
-  }, botDetectionDelay);
 });
 
-const validate = (state: State): FormError[] => {
-  const errors: FormError[] = [];
-
-  if (!state.name?.trim()) {
-    errors.push({
-      path: "name",
-      message: "Please enter your name",
+async function submit() {
+  if (form.captcha !== captcha.a) return;
+  sending.value = true;
+  try {
+    await window.emailjs.send("service_dnizv9b", "template_bkiydiu", {
+      from_name: form.name,
+      from_email: form.email,
+      message: form.message,
     });
-  } else if (state.name.trim().length < 2) {
-    errors.push({
-      path: "name",
-      message: "Name must be at least 2 characters",
-    });
-  }
-
-  if (!state.email?.trim()) {
-    errors.push({
-      path: "email",
-      message: "Please enter your email address",
-    });
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email)) {
-    errors.push({
-      path: "email",
-      message: "Please enter a valid email address",
-    });
-  }
-
-  if (!state.message?.trim()) {
-    errors.push({
-      path: "message",
-      message: "Please enter your message",
-    });
-  } else if (state.message.trim().length < 10) {
-    errors.push({
-      path: "message",
-      message: "Message must be at least 10 characters",
-    });
-  }
-
-  if (
-    showCaptcha.value &&
-    (!state.captcha ||
-      state.captcha.trim().toLowerCase() !== captchaAnswer.value.toLowerCase())
-  ) {
-    errors.push({
-      path: "captcha",
-      message: "Please answer the verification question correctly",
-    });
-  }
-
-  return errors;
-};
-
-async function onSubmit(event: FormSubmitEvent<State>) {
-  if (event) {
-    const now = Date.now();
-
-    if (honeypot.value !== "") {
-      console.warn("Honeypot triggered, likely bot submission");
-      submitError.value = true;
-      errorMessage.value = "Form submission failed. Please try again later.";
-      return;
-    }
-
-    if (now - lastSubmissionTime.value < 2000) {
-      submitError.value = true;
-      errorMessage.value = "Please wait before submitting again.";
-      return;
-    }
-
-    submissionAttempts.value++;
-    lastSubmissionTime.value = now;
-
-    if (submissionAttempts.value > 5) {
-      submitError.value = true;
-      errorMessage.value =
-        "Too many submission attempts. Please try again later.";
-      return;
-    }
-
-    isSubmitting.value = true;
-    submitSuccess.value = false;
-    submitError.value = false;
-
-    try {
-      if (!window.emailjs) {
-        throw new Error("Email service is not loaded. Please try again later.");
-      }
-
-      if (
-        showCaptcha.value &&
-        state.captcha?.trim().toLowerCase() !==
-          captchaAnswer.value.toLowerCase()
-      ) {
-        throw new Error("Incorrect verification answer");
-      }
-
-      const templateParams = {
-        to_email: "joel.stephen.work@gmail.com",
-        from_name: state.name,
-        from_email: state.email,
-        message: state.message,
-        user_agent: navigator.userAgent,
-        timestamp: new Date().toISOString(),
-      };
-
-      await window.emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        templateParams,
-      );
-
-      submitSuccess.value = true;
-
-      captchaIndex.value = Math.floor(Math.random() * captchaQuestions.length);
-      state.captcha = undefined;
-      state.name = undefined;
-      state.email = undefined;
-      state.message = undefined;
-      submissionAttempts.value = 0;
-    } catch (error) {
-      submitError.value = true;
-      errorMessage.value =
-        error instanceof Error
-          ? error.message
-          : "There was an error sending your message. Please email me directly at joel.stephen.work@gmail.com.";
-
-      captchaIndex.value = Math.floor(Math.random() * captchaQuestions.length);
-      state.captcha = undefined;
-    } finally {
-      isSubmitting.value = false;
-    }
-  }
-}
-
-function onError(event: FormErrorEvent) {
-  const element = document.getElementById(event.errors[0].id);
-  if (element) {
-    setTimeout(() => {
-      element.focus();
-      element.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 100);
-  }
+    success.value = true;
+    form.name = form.email = form.message = form.captcha = "";
+  } catch (e) { /* handle error */ }
+  sending.value = false;
 }
 </script>

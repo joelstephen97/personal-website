@@ -4,11 +4,10 @@
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-    <UNotifications />
     <SpeedInsights />
   </div>
 </template>
 
-<script setup lang="js">
+<script setup lang="ts">
 import { SpeedInsights } from "@vercel/speed-insights/nuxt";
 </script>
