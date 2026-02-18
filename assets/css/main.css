@@ -34,7 +34,12 @@
 
   body {
     @apply bg-[rgb(var(--bg))] text-[rgb(var(--foreground))] transition-colors duration-300;
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    font-family:
+      "Inter",
+      -apple-system,
+      BlinkMacSystemFont,
+      "SF Pro Display",
+      sans-serif;
   }
 
   ::selection {
@@ -96,7 +101,9 @@ select:focus {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }

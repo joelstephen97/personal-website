@@ -11,7 +11,7 @@ const props = withDefaults(
   {
     size: 20,
     strokeWidth: 2,
-  }
+  },
 );
 
 const iconComponent = computed(() => {
@@ -21,7 +21,7 @@ const iconComponent = computed(() => {
     .replace(/-./g, (x) => x[1].toUpperCase())
     .replace(/^./, (x) => x.toUpperCase());
 
-  return (icons as Record<string, any>)[name] || icons.Circle;
+  return (icons as Record<string, unknown>)[name] || icons.Circle;
 });
 </script>
 

@@ -11,7 +11,8 @@
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint .",
     "lint:prettier": "prettier . --check",
-    "lintfix": "eslint . --fix && prettier --write --list-different ."
+    "format": "prettier --write .",
+    "lintfix": "eslint . --fix && prettier --write ."
   },
   "dependencies": {
     "@nuxtjs/color-mode": "^3.5.2",

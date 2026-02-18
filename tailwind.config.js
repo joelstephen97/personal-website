@@ -11,7 +11,13 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "SF Pro Display", "sans-serif"],
+        sans: [
+          "Inter",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "SF Pro Display",
+          "sans-serif",
+        ],
         mono: ["SF Mono", "Menlo", "Monaco", "Consolas", "monospace"],
       },
       colors: {
