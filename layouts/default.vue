@@ -11,8 +11,12 @@
     </div>
 
     <AppHeader />
-    <main class="pt-16 pb-20 min-h-screen">
-      <slot />
+    <main class="pt-16 pb-24 min-h-screen">
+      <div class="page-content">
+        <Transition name="page" mode="out-in">
+          <slot />
+        </Transition>
+      </div>
     </main>
     <AppFooter />
   </div>

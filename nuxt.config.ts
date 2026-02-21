@@ -6,6 +6,10 @@ export default defineNuxtConfig({
   modules: ["@nuxtjs/color-mode", "@nuxtjs/google-fonts", "@nuxt/eslint"],
   pages: true,
 
+  experimental: {
+    viewTransition: true,
+  },
+
   app: {
     head: {
       title: "Joel Stephen | Software Engineer",

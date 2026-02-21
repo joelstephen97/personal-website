@@ -1,7 +1,7 @@
 <template>
-  <div class="max-w-5xl mx-auto px-6">
+  <div class="max-w-5xl mx-auto px-6 py-20">
     <!-- Hero Section -->
-    <section class="py-20 md:py-32" aria-labelledby="hero-heading">
+    <section class="pt-0" aria-labelledby="hero-heading">
       <div class="grid lg:grid-cols-5 gap-16 items-start">
         <!-- Left: Content -->
         <div class="lg:col-span-3 space-y-8">
@@ -52,7 +52,7 @@
           </TerminalWindow>
 
           <!-- Tech Stack -->
-          <div class="space-y-4">
+          <div class="space-y-4 pt-8 border-t border-border">
             <p
               class="text-sm font-medium text-muted-foreground uppercase tracking-wide"
             >

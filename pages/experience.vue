@@ -16,7 +16,7 @@
       >
         <Icon name="Briefcase" :size="18" class="text-accent" />
         <span class="text-sm font-medium text-foreground"
-          >{{ totalYears }}+ years in tech</span
+          >{{ totalYears }}+ years of professional experience</span
         >
       </div>
     </header>
@@ -41,7 +41,7 @@
             class="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-4"
           >
             <div>
-              <h3 class="text-h2 font-semibold text-accent">
+              <h3 class="text-h3 font-semibold text-accent">
                 {{ job.title }}
               </h3>
               <p class="text-foreground font-medium">

@@ -43,6 +43,7 @@
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -161,6 +162,56 @@ select:focus {
   @apply outline-none;
   box-shadow: 0 0 0 2px rgb(var(--accent) / 0.3);
   border-color: rgb(var(--accent));
+}
+
+/* Page transition - cinematic blur + fade + slide */
+.page-enter-active,
+.page-leave-active {
+  transition:
+    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    filter 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(12px);
+}
+
+/* View Transitions API - only main content transitions; header/footer stay static */
+.page-content {
+  view-transition-name: page-content;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+::view-transition-old(page-content) {
+  animation: view-transition-fade-blur-out 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+::view-transition-new(page-content) {
+  animation: view-transition-fade-blur-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes view-transition-fade-blur-out {
+  from {
+    opacity: 1;
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    filter: blur(8px);
+  }
+}
+@keyframes view-transition-fade-blur-in {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
