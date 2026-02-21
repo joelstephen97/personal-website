@@ -153,7 +153,7 @@
                   </p>
                 </div>
                 <div>
-                  <p class="text-2xl font-bold text-red-500">15+</p>
+                  <p class="text-2xl font-bold text-red-500">16+</p>
                   <p class="text-xs text-[rgb(var(--foreground-muted))]">
                     Projects
                   </p>

@@ -128,23 +128,6 @@
           </span>
         </NuxtLink>
 
-        <!-- Coming Soon -->
-        <div
-          class="glass-solid rounded-2xl p-6 flex flex-col items-center justify-center text-center opacity-60"
-        >
-          <div
-            class="w-12 h-12 rounded-xl bg-[rgb(var(--glass))] border border-dashed border-[rgb(var(--border))] flex items-center justify-center mb-4"
-          >
-            <Icon
-              name="Plus"
-              :size="24"
-              class="text-[rgb(var(--foreground-muted))]"
-            />
-          </div>
-          <p class="text-sm text-[rgb(var(--foreground-muted))]">
-            More coming soon
-          </p>
-        </div>
       </div>
     </section>
   </div>
@@ -207,6 +190,86 @@ const hobbies = [
     link: "/project/aim-trainer",
     cta: "Train now",
     icon: "Target",
+  },
+  {
+    id: 4,
+    title: "Sorting Visualizer",
+    description: "Watch bubble, merge, quick, and heap sort race in real-time.",
+    link: "/project/sorting-visualizer",
+    cta: "Visualize",
+    icon: "BarChart3",
+  },
+  {
+    id: 5,
+    title: "Pathfinding Visualizer",
+    description: "A*, Dijkstra, and BFS on an interactive grid with walls.",
+    link: "/project/pathfinding-visualizer",
+    cta: "Find paths",
+    icon: "Route",
+  },
+  {
+    id: 6,
+    title: "Game of Life",
+    description: "Conway's cellular automaton with presets and canvas rendering.",
+    link: "/project/game-of-life",
+    cta: "Simulate",
+    icon: "Grid3x3",
+  },
+  {
+    id: 7,
+    title: "Regex Tester",
+    description: "Real-time regex matching with highlighted results and capture groups.",
+    link: "/project/regex-tester",
+    cta: "Test regex",
+    icon: "Regex",
+  },
+  {
+    id: 8,
+    title: "JSON Diff",
+    description: "Deep recursive comparison of two JSON objects with color-coded output.",
+    link: "/project/json-diff",
+    cta: "Compare",
+    icon: "GitCompareArrows",
+  },
+  {
+    id: 9,
+    title: "Cron Parser",
+    description: "Parse cron expressions into human-readable schedules with next runs.",
+    link: "/project/cron-parser",
+    cta: "Parse cron",
+    icon: "Clock",
+  },
+  {
+    id: 10,
+    title: "Hash Generator",
+    description: "SHA-1/256/384/512 hashing for text and files via Web Crypto API.",
+    link: "/project/hash-generator",
+    cta: "Generate hash",
+    icon: "Fingerprint",
+  },
+  {
+    id: 11,
+    title: "Color Palette",
+    description: "Generate harmonious palettes with color theory and contrast checking.",
+    link: "/project/color-palette",
+    cta: "Create palette",
+    icon: "Palette",
+  },
+  {
+    id: 12,
+    title: "Markdown Previewer",
+    description: "Split-pane editor with live preview powered by a hand-rolled parser.",
+    link: "/project/markdown-previewer",
+    cta: "Write markdown",
+    icon: "FileText",
+  },
+  {
+    id: 13,
+    title: "Audio Visualizer",
+    description: "Real-time waveform and frequency visualization via Web Audio API.",
+    link: "/project/audio-visualizer",
+    cta: "Visualize audio",
+    icon: "AudioLines",
   },
 ];
 </script>
