@@ -3,7 +3,7 @@
     <div class="max-w-5xl mx-auto">
       <div class="flex items-center justify-between mb-8">
         <div class="flex items-center gap-3">
-          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-red-500/50 transition-colors">
+          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-accent/50 transition-colors">
             <Icon name="ArrowLeft" :size="16" class="text-[rgb(var(--foreground-secondary))]" />
           </NuxtLink>
           <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">JSON Diff</h1>
@@ -15,7 +15,7 @@
         <div class="glass-solid rounded-2xl p-6">
           <div class="flex items-center justify-between mb-2">
             <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide">Original</label>
-            <button class="text-xs text-red-500 font-medium hover:opacity-80" @click="formatLeft">Format</button>
+            <button class="text-xs text-accent font-medium hover:opacity-80" @click="formatLeft">Format</button>
           </div>
           <textarea
             v-model="leftJson"
@@ -24,12 +24,12 @@
             spellcheck="false"
             placeholder='{"key": "value"}'
           />
-          <p v-if="leftError" class="text-red-500 text-xs mt-2">{{ leftError }}</p>
+          <p v-if="leftError" class="text-accent text-xs mt-2">{{ leftError }}</p>
         </div>
         <div class="glass-solid rounded-2xl p-6">
           <div class="flex items-center justify-between mb-2">
             <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide">Modified</label>
-            <button class="text-xs text-red-500 font-medium hover:opacity-80" @click="formatRight">Format</button>
+            <button class="text-xs text-accent font-medium hover:opacity-80" @click="formatRight">Format</button>
           </div>
           <textarea
             v-model="rightJson"
@@ -38,13 +38,13 @@
             spellcheck="false"
             placeholder='{"key": "new_value"}'
           />
-          <p v-if="rightError" class="text-red-500 text-xs mt-2">{{ rightError }}</p>
+          <p v-if="rightError" class="text-accent text-xs mt-2">{{ rightError }}</p>
         </div>
       </div>
 
       <div class="flex flex-wrap gap-3 mb-6">
         <button
-          class="px-5 py-3 rounded-xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 flex items-center gap-2"
+          class="px-5 py-3 rounded-xl bg-gradient-to-r from-accent to-accent-hover text-white font-semibold shadow-lg shadow-accent/25 flex items-center gap-2"
           @click="computeDiff"
         >
           <Icon name="GitCompareArrows" :size="18" /> Compare
@@ -76,7 +76,7 @@
             <span class="w-3 h-3 rounded bg-emerald-500/30" /> Added: <strong class="text-emerald-500">{{ stats.added }}</strong>
           </span>
           <span class="flex items-center gap-1.5">
-            <span class="w-3 h-3 rounded bg-red-500/30" /> Removed: <strong class="text-red-500">{{ stats.removed }}</strong>
+            <span class="w-3 h-3 rounded bg-accent/30" /> Removed: <strong class="text-accent">{{ stats.removed }}</strong>
           </span>
           <span class="flex items-center gap-1.5">
             <span class="w-3 h-3 rounded bg-amber-500/30" /> Modified: <strong class="text-amber-500">{{ stats.modified }}</strong>
@@ -89,7 +89,7 @@
             class="px-3 py-1 rounded"
             :class="{
               'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400': line.type === 'added',
-              'bg-red-500/10 text-red-600 dark:text-red-400': line.type === 'removed',
+              'bg-accent/10 text-accent-hover dark:text-accent': line.type === 'removed',
               'bg-amber-500/10 text-amber-600 dark:text-amber-400': line.type === 'modified',
               'text-[rgb(var(--foreground-secondary))]': line.type === 'unchanged',
             }"

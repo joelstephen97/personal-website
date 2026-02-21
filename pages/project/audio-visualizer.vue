@@ -3,7 +3,7 @@
     <div class="max-w-4xl mx-auto">
       <div class="flex items-center justify-between mb-8">
         <div class="flex items-center gap-3">
-          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-red-500/50 transition-colors">
+          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-accent/50 transition-colors">
             <Icon name="ArrowLeft" :size="16" class="text-[rgb(var(--foreground-secondary))]" />
           </NuxtLink>
           <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Audio Visualizer</h1>
@@ -14,7 +14,7 @@
       <div class="glass-solid rounded-2xl p-6 mb-6">
         <div class="flex flex-wrap gap-4 items-end">
           <button
-            class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2 hover:border-red-500/50 transition"
+            class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2 hover:border-accent/50 transition"
             @click="fileInput?.click()"
           >
             <Icon name="Upload" :size="18" /> Upload Audio
@@ -24,8 +24,8 @@
           <button
             class="px-5 py-3 rounded-xl font-semibold flex items-center gap-2 transition"
             :class="micActive
-              ? 'bg-red-500 text-white shadow-lg shadow-red-500/25'
-              : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] hover:border-red-500/50'"
+              ? 'bg-accent text-white shadow-lg shadow-accent/25'
+              : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] hover:border-accent/50'"
             @click="toggleMic"
           >
             <Icon :name="micActive ? 'MicOff' : 'Mic'" :size="18" />
@@ -34,7 +34,7 @@
 
           <div v-if="audioSrc" class="flex gap-2">
             <button
-              class="px-5 py-3 rounded-xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 flex items-center gap-2"
+              class="px-5 py-3 rounded-xl bg-gradient-to-r from-accent to-accent-hover text-white font-semibold shadow-lg shadow-accent/25 flex items-center gap-2"
               @click="togglePlay"
             >
               <Icon :name="isPlaying ? 'Pause' : 'Play'" :size="18" />
@@ -52,7 +52,7 @@
           </div>
 
           <button
-            class="px-3 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-secondary))] hover:border-red-500/50 transition"
+            class="px-3 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-secondary))] hover:border-accent/50 transition"
             title="Fullscreen"
             @click="toggleFullscreen"
           >
@@ -68,7 +68,7 @@
             class="h-1.5 rounded-full bg-[rgb(var(--border))] cursor-pointer relative"
             @click="seek"
           >
-            <div class="h-full rounded-full bg-red-500 transition-all" :style="{ width: progressPct + '%' }" />
+            <div class="h-full rounded-full bg-accent transition-all" :style="{ width: progressPct + '%' }" />
           </div>
           <div class="flex justify-between text-xs text-[rgb(var(--foreground-muted))] mt-1 font-mono">
             <span>{{ formatTime(currentTime) }}</span>

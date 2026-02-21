@@ -12,7 +12,7 @@
       <!-- Controls -->
       <div class="flex flex-wrap gap-4 mb-8">
         <button
-          class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] font-medium flex items-center gap-2 hover:border-red-500/50 transition"
+          class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] font-medium flex items-center gap-2 hover:border-accent/50 transition"
           @click="$refs.file.click()"
         >
           <Icon name="Upload" :size="18" /> Select Image
@@ -26,7 +26,7 @@
         />
         <button
           v-if="result"
-          class="px-5 py-3 rounded-xl bg-gradient-to-r from-red-500 to-red-600 text-white font-medium flex items-center gap-2 shadow-lg shadow-red-500/25"
+          class="px-5 py-3 rounded-xl bg-gradient-to-r from-accent to-accent-hover text-white font-medium flex items-center gap-2 shadow-lg shadow-accent/25"
           @click="download"
         >
           <Icon name="Download" :size="18" /> Download
@@ -58,9 +58,9 @@
           </p>
           <div v-if="processing" class="py-12 flex flex-col items-center gap-3">
             <div
-              class="w-8 h-8 border-2 border-red-500 border-t-transparent rounded-full animate-spin"
+              class="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin"
             />
-            <span class="text-red-500 text-sm">Processing...</span>
+            <span class="text-accent text-sm">Processing...</span>
           </div>
           <img
             v-else-if="result"
@@ -79,7 +79,7 @@
         <div>
           <div class="flex justify-between text-sm mb-2">
             <span class="text-[rgb(var(--foreground))]">Tolerance</span>
-            <span class="text-red-500 font-medium">{{ tolerance }}</span>
+            <span class="text-accent font-medium">{{ tolerance }}</span>
           </div>
           <input
             v-model.number="tolerance"
@@ -92,7 +92,7 @@
         <div>
           <div class="flex justify-between text-sm mb-2">
             <span class="text-[rgb(var(--foreground))]">Edge Feather</span>
-            <span class="text-red-500 font-medium">{{ feather }}px</span>
+            <span class="text-accent font-medium">{{ feather }}px</span>
           </div>
           <input
             v-model.number="feather"
@@ -105,7 +105,7 @@
         <button
           v-if="original"
           :disabled="processing"
-          class="w-full py-3 rounded-xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50"
+          class="w-full py-3 rounded-xl bg-gradient-to-r from-accent to-accent-hover text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50"
           @click="process"
         >
           <Icon name="Sparkles" :size="18" />

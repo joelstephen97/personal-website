@@ -3,7 +3,7 @@
     <div class="max-w-3xl mx-auto">
       <div class="flex items-center justify-between mb-8">
         <div class="flex items-center gap-3">
-          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-red-500/50 transition-colors">
+          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-accent/50 transition-colors">
             <Icon name="ArrowLeft" :size="16" class="text-[rgb(var(--foreground-secondary))]" />
           </NuxtLink>
           <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Color Palette</h1>
@@ -32,14 +32,14 @@
             </select>
           </div>
           <button
-            class="px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2 hover:border-red-500/50 transition-colors"
+            class="px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2 hover:border-accent/50 transition-colors"
             @click="randomColor"
           >
             <Icon name="Shuffle" :size="16" /> Random
           </button>
           <button
             v-if="hasEyeDropper"
-            class="px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2 hover:border-red-500/50 transition-colors"
+            class="px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2 hover:border-accent/50 transition-colors"
             @click="pickFromScreen"
           >
             <Icon name="Pipette" :size="16" /> Pick
@@ -65,7 +65,7 @@
             <p class="text-[10px] text-[rgb(var(--foreground-muted))] text-center">{{ color.hslLabel }}</p>
           </div>
         </div>
-        <p v-if="copiedColor" class="text-xs text-red-500 text-center mt-3">Copied {{ copiedColor }}</p>
+        <p v-if="copiedColor" class="text-xs text-accent text-center mt-3">Copied {{ copiedColor }}</p>
       </div>
 
       <div class="glass-solid rounded-2xl p-6 mb-6">
@@ -91,7 +91,7 @@
             <div class="w-16 h-16 rounded-xl bg-white flex items-center justify-center text-lg font-bold" :style="{ color: hex }">Aa</div>
             <div>
               <p class="text-2xl font-bold text-[rgb(var(--foreground))]">{{ contrastWhite.toFixed(2) }}:1</p>
-              <p class="text-xs" :class="contrastWhite >= 4.5 ? 'text-emerald-500' : 'text-red-500'">
+              <p class="text-xs" :class="contrastWhite >= 4.5 ? 'text-emerald-500' : 'text-accent'">
                 {{ contrastWhite >= 7 ? 'AAA' : contrastWhite >= 4.5 ? 'AA' : contrastWhite >= 3 ? 'AA Large' : 'Fail' }}
               </p>
             </div>
@@ -103,7 +103,7 @@
             <div class="w-16 h-16 rounded-xl bg-black flex items-center justify-center text-lg font-bold" :style="{ color: hex }">Aa</div>
             <div>
               <p class="text-2xl font-bold text-[rgb(var(--foreground))]">{{ contrastBlack.toFixed(2) }}:1</p>
-              <p class="text-xs" :class="contrastBlack >= 4.5 ? 'text-emerald-500' : 'text-red-500'">
+              <p class="text-xs" :class="contrastBlack >= 4.5 ? 'text-emerald-500' : 'text-accent'">
                 {{ contrastBlack >= 7 ? 'AAA' : contrastBlack >= 4.5 ? 'AA' : contrastBlack >= 3 ? 'AA Large' : 'Fail' }}
               </p>
             </div>
@@ -121,7 +121,7 @@
             <p class="text-xs text-[rgb(var(--foreground-muted))] mb-1">CSS Custom Properties</p>
             <pre class="text-xs font-mono bg-[rgb(var(--glass))] rounded-lg p-3 border border-[rgb(var(--border))] text-[rgb(var(--foreground-secondary))] overflow-auto">{{ cssVars }}</pre>
           </div>
-          <button class="text-xs text-red-500 font-medium flex items-center gap-1 hover:opacity-80" @click="copyColor(cssVars)">
+          <button class="text-xs text-accent font-medium flex items-center gap-1 hover:opacity-80" @click="copyColor(cssVars)">
             <Icon name="Copy" :size="12" /> Copy CSS
           </button>
         </div>

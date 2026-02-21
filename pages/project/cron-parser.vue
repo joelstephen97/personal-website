@@ -3,7 +3,7 @@
     <div class="max-w-3xl mx-auto">
       <div class="flex items-center justify-between mb-8">
         <div class="flex items-center gap-3">
-          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-red-500/50 transition-colors">
+          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-accent/50 transition-colors">
             <Icon name="ArrowLeft" :size="16" class="text-[rgb(var(--foreground-secondary))]" />
           </NuxtLink>
           <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Cron Parser</h1>
@@ -14,7 +14,7 @@
       <div class="glass-solid rounded-2xl p-6 mb-6">
         <div class="flex items-center justify-between mb-2">
           <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide">Expression</label>
-          <button class="text-xs text-red-500 font-medium flex items-center gap-1 hover:opacity-80" @click="copyExpr">
+          <button class="text-xs text-accent font-medium flex items-center gap-1 hover:opacity-80" @click="copyExpr">
             <Icon :name="copied ? 'Check' : 'Copy'" :size="12" /> {{ copied ? "Copied" : "Copy" }}
           </button>
         </div>
@@ -29,7 +29,7 @@
           <span v-for="label in fieldLabels" :key="label" class="text-[10px] text-[rgb(var(--foreground-muted))] text-center flex-1">{{ label }}</span>
         </div>
 
-        <p v-if="error" class="text-red-500 text-sm mt-4">{{ error }}</p>
+        <p v-if="error" class="text-accent text-sm mt-4">{{ error }}</p>
         <p v-else-if="description" class="text-[rgb(var(--foreground-secondary))] mt-4 text-center text-lg">
           {{ description }}
         </p>
@@ -41,8 +41,8 @@
           :key="p.expr"
           class="px-4 py-2 rounded-xl text-sm font-medium transition-colors"
           :class="expression === p.expr
-            ? 'bg-red-500 text-white'
-            : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-secondary))] hover:border-red-500/50'"
+            ? 'bg-accent text-white'
+            : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-secondary))] hover:border-accent/50'"
           @click="expression = p.expr"
         >
           {{ p.label }}
@@ -60,7 +60,7 @@
             :key="i"
             class="flex items-center gap-3 text-sm"
           >
-            <span class="w-6 h-6 rounded-lg bg-red-500/10 text-red-500 flex items-center justify-center text-xs font-bold shrink-0">{{ i + 1 }}</span>
+            <span class="w-6 h-6 rounded-lg bg-accent/10 text-accent flex items-center justify-center text-xs font-bold shrink-0">{{ i + 1 }}</span>
             <span class="text-[rgb(var(--foreground))] font-mono flex-1">{{ run.formatted }}</span>
             <span class="text-xs text-[rgb(var(--foreground-muted))]">{{ run.relative }}</span>
           </div>

@@ -1,54 +1,55 @@
 <template>
   <div class="max-w-5xl mx-auto px-6 py-20">
     <!-- Header -->
-    <div class="text-center mb-16">
-      <p class="text-sm font-medium text-red-500 tracking-wide uppercase mb-4">
+    <header class="text-center mb-16" aria-labelledby="experience-heading">
+      <p class="text-sm font-medium text-accent tracking-wide uppercase mb-4">
         Career
       </p>
       <h1
-        class="text-4xl md:text-5xl font-bold text-[rgb(var(--foreground))] mb-4"
+        id="experience-heading"
+        class="text-h1 font-bold text-foreground mb-4"
       >
         Experience
       </h1>
       <div
         class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-solid"
       >
-        <Icon name="Briefcase" :size="18" class="text-red-500" />
-        <span class="text-sm font-medium text-[rgb(var(--foreground))]"
+        <Icon name="Briefcase" :size="18" class="text-accent" />
+        <span class="text-sm font-medium text-foreground"
           >{{ totalYears }}+ years in tech</span
         >
       </div>
-    </div>
+    </header>
 
     <!-- Timeline -->
-    <div class="space-y-6">
+    <section class="space-y-6" aria-label="Career timeline">
       <div
         v-for="(job, i) in jobs"
         :key="i"
-        class="relative pl-8 pb-8 border-l-2 border-[rgb(var(--border))] last:pb-0"
+        class="relative pl-8 pb-8 border-l-2 border-border last:pb-0"
       >
         <!-- Dot -->
         <div
-          class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-red-500 ring-4 ring-[rgb(var(--bg))]"
+          class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-accent ring-4 ring-[rgb(var(--bg))]"
         />
 
         <!-- Card -->
         <div
-          class="glass-solid rounded-2xl p-6 hover:border-red-500/30 transition-colors"
+          class="glass-solid rounded-2xl p-6 hover:border-accent/30 transition-colors"
         >
           <div
             class="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-4"
           >
             <div>
-              <h3 class="text-xl font-semibold text-red-500">
+              <h3 class="text-h2 font-semibold text-accent">
                 {{ job.title }}
               </h3>
-              <p class="text-[rgb(var(--foreground))] font-medium">
+              <p class="text-foreground font-medium">
                 {{ job.company }}
               </p>
             </div>
             <div
-              class="text-sm text-[rgb(var(--foreground-secondary))] md:text-right"
+              class="text-sm text-muted md:text-right"
             >
               <p class="flex items-center gap-1">
                 <Icon name="MapPin" :size="14" /> {{ job.location }}
@@ -63,12 +64,12 @@
             <li
               v-for="task in job.tasks"
               :key="task"
-              class="flex items-start gap-2 text-sm text-[rgb(var(--foreground-secondary))]"
+              class="flex items-start gap-2 text-sm text-muted"
             >
               <Icon
                 name="Check"
                 :size="16"
-                class="text-red-500 mt-0.5 flex-shrink-0"
+                class="text-accent mt-0.5 flex-shrink-0"
               />
               <span>{{ task }}</span>
             </li>
@@ -78,14 +79,14 @@
             <span
               v-for="skill in job.skills"
               :key="skill"
-              class="px-2.5 py-1 rounded-md text-xs font-medium bg-red-500/10 text-red-500"
+              class="px-2.5 py-1 rounded-md text-xs font-medium bg-accent/10 text-accent"
             >
               {{ skill }}
             </span>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 

@@ -3,7 +3,7 @@
     <div class="max-w-5xl mx-auto">
       <div class="flex items-center justify-between mb-8">
         <div class="flex items-center gap-3">
-          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-red-500/50 transition-colors">
+          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-accent/50 transition-colors">
             <Icon name="ArrowLeft" :size="16" class="text-[rgb(var(--foreground-secondary))]" />
           </NuxtLink>
           <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Pathfinding Visualizer</h1>
@@ -31,14 +31,14 @@
           </label>
           <button
             v-if="!running"
-            class="px-5 py-3 rounded-xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 flex items-center gap-2"
+            class="px-5 py-3 rounded-xl bg-gradient-to-r from-accent to-accent-hover text-white font-semibold shadow-lg shadow-accent/25 flex items-center gap-2"
             @click="visualize"
           >
             <Icon name="Play" :size="18" /> Visualize
           </button>
           <button
             v-else
-            class="px-5 py-3 rounded-xl bg-red-500/20 text-red-500 font-semibold border border-red-500/30 flex items-center gap-2"
+            class="px-5 py-3 rounded-xl bg-accent/20 text-accent font-semibold border border-accent/30 flex items-center gap-2"
             @click="cancelled = true"
           >
             <Icon name="Square" :size="18" /> Stop
@@ -65,8 +65,8 @@
             <Icon name="LayoutGrid" :size="18" /> Maze
           </button>
           <div class="ml-auto text-sm text-[rgb(var(--foreground-secondary))]">
-            Visited: <strong class="text-red-500">{{ visitedCount }}</strong>
-            &middot; Path: <strong class="text-red-500">{{ pathLength }}</strong>
+            Visited: <strong class="text-accent">{{ visitedCount }}</strong>
+            &middot; Path: <strong class="text-accent">{{ pathLength }}</strong>
           </div>
         </div>
       </div>
@@ -129,8 +129,8 @@ function cellClass(r: number, c: number) {
   if (r === end.r && c === end.c) return "bg-blue-500";
   const s = grid.value[r][c];
   if (s === "wall") return "bg-[rgb(var(--foreground))]";
-  if (s === "path") return "bg-red-500";
-  if (s === "visited") return "bg-red-500/20";
+  if (s === "path") return "bg-accent";
+  if (s === "visited") return "bg-accent/20";
   return "";
 }
 

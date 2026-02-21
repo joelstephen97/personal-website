@@ -1,6 +1,7 @@
 <template>
   <button
-    class="p-2 rounded-xl hover:bg-[rgb(var(--glass))] transition-colors"
+    aria-label="Toggle dark mode"
+    class="p-2 rounded-xl hover:bg-[rgb(var(--glass))] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--bg))]"
     @click="
       $colorMode.preference = $colorMode.value === 'dark' ? 'light' : 'dark'
     "
@@ -16,9 +17,9 @@
         v-if="$colorMode.value === 'dark'"
         name="Sun"
         :size="20"
-        class="text-amber-400"
+        class="text-foreground"
       />
-      <Icon v-else name="Moon" :size="20" class="text-slate-500" />
+      <Icon v-else name="Moon" :size="20" class="text-muted" />
     </Transition>
   </button>
 </template>

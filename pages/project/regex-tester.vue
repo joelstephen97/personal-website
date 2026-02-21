@@ -3,7 +3,7 @@
     <div class="max-w-3xl mx-auto">
       <div class="flex items-center justify-between mb-8">
         <div class="flex items-center gap-3">
-          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-red-500/50 transition-colors">
+          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-accent/50 transition-colors">
             <Icon name="ArrowLeft" :size="16" class="text-[rgb(var(--foreground-secondary))]" />
           </NuxtLink>
           <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Regex Tester</h1>
@@ -14,7 +14,7 @@
       <div class="glass-solid rounded-2xl p-6 mb-6">
         <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-2">Pattern</label>
         <div class="flex gap-2 items-center mb-4">
-          <span class="text-red-500 font-mono text-lg">/</span>
+          <span class="text-accent font-mono text-lg">/</span>
           <input
             v-model="pattern"
             type="text"
@@ -22,20 +22,20 @@
             placeholder="Enter regex..."
             spellcheck="false"
           />
-          <span class="text-red-500 font-mono text-lg">/</span>
+          <span class="text-accent font-mono text-lg">/</span>
           <div class="flex gap-1">
             <button
               v-for="f in flagOptions"
               :key="f"
               class="w-8 h-8 rounded-lg text-sm font-mono font-bold transition-colors"
-              :class="flags.includes(f) ? 'bg-red-500 text-white' : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-muted))]'"
+              :class="flags.includes(f) ? 'bg-accent text-white' : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-muted))]'"
               @click="toggleFlag(f)"
             >
               {{ f }}
             </button>
           </div>
         </div>
-        <p v-if="regexError" class="text-red-500 text-sm mb-4">{{ regexError }}</p>
+        <p v-if="regexError" class="text-accent text-sm mb-4">{{ regexError }}</p>
 
         <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-2">Test String</label>
         <div
@@ -72,8 +72,8 @@
         <div class="glass-solid rounded-2xl p-6">
           <h3 class="text-sm font-semibold text-[rgb(var(--foreground))] mb-3">Match Info</h3>
           <div class="space-y-2 text-sm text-[rgb(var(--foreground-secondary))]">
-            <p>Matches: <strong class="text-red-500">{{ matches.length }}</strong></p>
-            <p v-if="execTime !== null">Time: <strong class="text-red-500">{{ execTime.toFixed(3) }}ms</strong></p>
+            <p>Matches: <strong class="text-accent">{{ matches.length }}</strong></p>
+            <p v-if="execTime !== null">Time: <strong class="text-accent">{{ execTime.toFixed(3) }}ms</strong></p>
             <p v-if="matches.length">
               Full match: <code class="px-1.5 py-0.5 rounded bg-[rgb(var(--glass))] text-[rgb(var(--foreground))] font-mono text-xs">{{ matches[0]?.[0] }}</code>
             </p>
@@ -98,7 +98,7 @@
         </summary>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4 text-xs">
           <div v-for="item in cheatsheet" :key="item.token" class="flex gap-2">
-            <code class="text-red-500 font-mono font-bold whitespace-nowrap">{{ item.token }}</code>
+            <code class="text-accent font-mono font-bold whitespace-nowrap">{{ item.token }}</code>
             <span class="text-[rgb(var(--foreground-secondary))]">{{ item.desc }}</span>
           </div>
         </div>
@@ -120,7 +120,7 @@ const replacePattern = ref("");
 const flagOptions = ["g", "i", "m", "s", "u"];
 
 const matchColors = [
-  "bg-red-500/20 text-red-600 dark:text-red-400 rounded px-0.5",
+  "bg-accent/20 text-accent-hover dark:text-accent rounded px-0.5",
   "bg-blue-500/20 text-blue-600 dark:text-blue-400 rounded px-0.5",
   "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 rounded px-0.5",
   "bg-amber-500/20 text-amber-600 dark:text-amber-400 rounded px-0.5",

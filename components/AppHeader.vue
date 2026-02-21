@@ -6,10 +6,10 @@
         <img
           src="https://avatars.githubusercontent.com/u/40371897"
           alt="Joel Stephen"
-          class="w-8 h-8 rounded-full ring-2 ring-transparent group-hover:ring-red-500/50 transition-all"
+          class="w-8 h-8 rounded-full ring-2 ring-transparent group-hover:ring-accent/50 transition-all"
         />
         <span
-          class="font-semibold text-[rgb(var(--foreground))] group-hover:text-red-500 transition-colors"
+          class="font-semibold text-foreground group-hover:text-accent transition-colors"
         >
           Joel Stephen
         </span>
@@ -24,14 +24,17 @@
           :class="[
             'flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all',
             route.path === link.to
-              ? 'text-red-500 bg-red-500/10'
-              : 'text-[rgb(var(--foreground-secondary))] hover:text-[rgb(var(--foreground))] hover:bg-[rgb(var(--glass))]',
+              ? 'text-accent bg-accent/10'
+              : 'text-muted hover:text-foreground hover:bg-[rgb(var(--glass))]',
           ]"
         >
           <Icon :name="link.icon" :size="16" />
           {{ link.label }}
         </NuxtLink>
-        <div class="w-px h-5 bg-[rgb(var(--border))] mx-2" />
+        <div class="w-px h-5 bg-border mx-2" />
+        <UiButton variant="primary" to="/contact" class="!px-4 !py-2 text-sm">
+          Get in Touch
+        </UiButton>
         <DarkModeToggle />
       </div>
 
@@ -39,6 +42,7 @@
       <div class="md:hidden flex items-center gap-2">
         <DarkModeToggle />
         <button
+          aria-label="Toggle menu"
           class="p-2 rounded-xl hover:bg-[rgb(var(--glass))] transition-colors"
           @click="open = !open"
         >
@@ -62,13 +66,21 @@
           :class="[
             'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all',
             route.path === link.to
-              ? 'text-red-500 bg-red-500/10'
-              : 'text-[rgb(var(--foreground))] hover:bg-[rgb(var(--glass))]',
+              ? 'text-accent bg-accent/10'
+              : 'text-foreground hover:bg-[rgb(var(--glass))]',
           ]"
           @click="open = false"
         >
           <Icon :name="link.icon" :size="18" />
           {{ link.label }}
+        </NuxtLink>
+        <NuxtLink
+          to="/contact"
+          class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium btn-primary"
+          @click="open = false"
+        >
+          <Icon name="Mail" :size="18" />
+          Get in Touch
         </NuxtLink>
       </div>
     </Transition>

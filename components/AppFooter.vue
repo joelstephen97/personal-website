@@ -11,7 +11,8 @@
           :href="s.url"
           target="_blank"
           rel="noopener"
-          class="p-2 rounded-xl text-[rgb(var(--foreground-secondary))] hover:text-red-500 hover:bg-red-500/10 transition-all"
+          :aria-label="s.label"
+          class="p-2 rounded-xl text-muted hover:text-accent hover:bg-accent/10 transition-all"
         >
           <Icon :name="s.icon" :size="20" />
         </a>
@@ -24,8 +25,20 @@
 import Icon from "~/components/ui/Icon.vue";
 
 const socials = [
-  { url: "https://linkedin.com/in/joelthomasstephen", icon: "Linkedin" },
-  { url: "https://github.com/joelstephen97", icon: "Github" },
-  { url: "https://youtube.com/@he11b1azer6", icon: "Youtube" },
+  {
+    url: "https://linkedin.com/in/joelthomasstephen",
+    icon: "Linkedin",
+    label: "LinkedIn profile",
+  },
+  {
+    url: "https://github.com/joelstephen97",
+    icon: "Github",
+    label: "GitHub profile",
+  },
+  {
+    url: "https://youtube.com/@he11b1azer6",
+    icon: "Youtube",
+    label: "YouTube channel",
+  },
 ];
 </script>

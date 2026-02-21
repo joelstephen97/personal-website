@@ -3,7 +3,7 @@
     <div class="max-w-4xl mx-auto">
       <div class="flex items-center justify-between mb-8">
         <div class="flex items-center gap-3">
-          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-red-500/50 transition-colors">
+          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-accent/50 transition-colors">
             <Icon name="ArrowLeft" :size="16" class="text-[rgb(var(--foreground-secondary))]" />
           </NuxtLink>
           <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Sorting Visualizer</h1>
@@ -30,14 +30,14 @@
           <div class="flex gap-2">
             <button
               v-if="!running"
-              class="px-5 py-3 rounded-xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 flex items-center gap-2"
+              class="px-5 py-3 rounded-xl bg-gradient-to-r from-accent to-accent-hover text-white font-semibold shadow-lg shadow-accent/25 flex items-center gap-2"
               @click="run"
             >
               <Icon name="Play" :size="18" /> Sort
             </button>
             <button
               v-else
-              class="px-5 py-3 rounded-xl bg-red-500/20 text-red-500 font-semibold border border-red-500/30 flex items-center gap-2"
+              class="px-5 py-3 rounded-xl bg-accent/20 text-accent font-semibold border border-accent/30 flex items-center gap-2"
               @click="stop"
             >
               <Icon name="Square" :size="18" /> Stop
@@ -56,10 +56,10 @@
         </div>
 
         <div class="flex items-center gap-4 text-sm text-[rgb(var(--foreground-secondary))] flex-wrap">
-          <span>Comparisons: <strong class="text-red-500">{{ comparisons }}</strong></span>
-          <span>Swaps: <strong class="text-red-500">{{ swaps }}</strong></span>
-          <span>Complexity: <strong class="text-red-500">{{ algorithms.find(a => a.key === algorithm)?.complexity }}</strong></span>
-          <span>Elapsed: <strong class="text-red-500">{{ elapsedDisplay }}</strong></span>
+          <span>Comparisons: <strong class="text-accent">{{ comparisons }}</strong></span>
+          <span>Swaps: <strong class="text-accent">{{ swaps }}</strong></span>
+          <span>Complexity: <strong class="text-accent">{{ algorithms.find(a => a.key === algorithm)?.complexity }}</strong></span>
+          <span>Elapsed: <strong class="text-accent">{{ elapsedDisplay }}</strong></span>
         </div>
       </div>
 
@@ -119,7 +119,7 @@ const elapsedDisplay = computed(() => {
 
 function barClass(i: number) {
   if (sorted.value.has(i)) return "bg-emerald-500";
-  if (active.value.has(i)) return "bg-red-500";
+  if (active.value.has(i)) return "bg-accent";
   return "bg-[rgb(var(--foreground-muted))]";
 }
 

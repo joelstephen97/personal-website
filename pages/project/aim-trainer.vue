@@ -17,7 +17,7 @@
             >
               Time
             </p>
-            <p class="text-3xl font-bold text-red-500">{{ time }}s</p>
+            <p class="text-3xl font-bold text-accent">{{ time }}s</p>
           </div>
           <div class="text-center">
             <p
@@ -25,7 +25,7 @@
             >
               Score
             </p>
-            <p class="text-3xl font-bold text-red-500">{{ score }}</p>
+            <p class="text-3xl font-bold text-accent">{{ score }}</p>
           </div>
         </div>
 
@@ -43,7 +43,7 @@
 
         <div class="flex justify-center gap-3">
           <button
-            class="px-6 py-3 rounded-xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 flex items-center gap-2"
+            class="px-6 py-3 rounded-xl bg-gradient-to-r from-accent to-accent-hover text-white font-semibold shadow-lg shadow-accent/25 flex items-center gap-2"
             @click="start"
           >
             <Icon name="Play" :size="18" /> Start
@@ -72,7 +72,7 @@
               class="w-8 h-24 bg-[rgb(var(--border))] rounded-t-lg relative overflow-hidden"
             >
               <div
-                class="absolute bottom-0 w-full bg-gradient-to-t from-red-500 to-red-600 rounded-t-lg"
+                class="absolute bottom-0 w-full bg-gradient-to-t from-accent to-accent-hover rounded-t-lg"
                 :style="{ height: `${Math.min(h * 3, 100)}%` }"
               />
             </div>
@@ -96,11 +96,11 @@
       >
         <div class="flex gap-6">
           <span class="flex items-center gap-2 text-[rgb(var(--foreground))]">
-            <Icon name="Clock" :size="18" class="text-red-500" />
+            <Icon name="Clock" :size="18" class="text-accent" />
             {{ time.toFixed(1) }}s
           </span>
           <span class="flex items-center gap-2 text-[rgb(var(--foreground))]">
-            <Icon name="Target" :size="18" class="text-red-500" /> {{ score }}
+            <Icon name="Target" :size="18" class="text-accent" /> {{ score }}
           </span>
         </div>
         <button
@@ -112,7 +112,7 @@
       </div>
 
       <div
-        class="absolute w-12 h-12 rounded-full bg-gradient-to-br from-red-500 to-red-600 shadow-lg shadow-red-500/50 cursor-pointer hover:scale-110 transition-transform"
+        class="absolute w-12 h-12 rounded-full bg-gradient-to-br from-accent to-accent-hover shadow-lg shadow-accent/50 cursor-pointer hover:scale-110 transition-transform"
         :style="{ left: `${x}px`, top: `${y}px` }"
         @click.stop="hit"
       />

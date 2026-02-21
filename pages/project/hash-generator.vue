@@ -3,7 +3,7 @@
     <div class="max-w-3xl mx-auto">
       <div class="flex items-center justify-between mb-8">
         <div class="flex items-center gap-3">
-          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-red-500/50 transition-colors">
+          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-accent/50 transition-colors">
             <Icon name="ArrowLeft" :size="16" class="text-[rgb(var(--foreground-secondary))]" />
           </NuxtLink>
           <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Hash Generator</h1>
@@ -38,7 +38,7 @@
         <div v-else>
           <div
             class="border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors"
-            :class="dragActive ? 'border-red-500 bg-red-500/5' : 'border-[rgb(var(--border))] hover:border-red-500/50'"
+            :class="dragActive ? 'border-accent bg-accent/5' : 'border-[rgb(var(--border))] hover:border-accent/50'"
             @click="fileInput?.click()"
             @dragover.prevent="dragActive = true"
             @dragenter.prevent="dragActive = true"
@@ -62,8 +62,8 @@
               :key="algo"
               class="px-4 py-2 rounded-xl text-sm font-medium transition-colors"
               :class="selected === algo
-                ? 'bg-red-500 text-white'
-                : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-secondary))] hover:border-red-500/50'"
+                ? 'bg-accent text-white'
+                : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-secondary))] hover:border-accent/50'"
               @click="selected = algo"
             >
               {{ algo }}
@@ -73,15 +73,15 @@
       </div>
 
       <div v-if="hashing" class="glass-solid rounded-2xl p-8 text-center mb-6">
-        <div class="w-8 h-8 border-2 border-red-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-        <p class="text-sm text-red-500">Hashing...</p>
+        <div class="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+        <p class="text-sm text-accent">Hashing...</p>
       </div>
 
       <div v-else-if="selected === 'All' && allHashes.length" class="glass-solid rounded-2xl p-6 mb-6 space-y-4">
         <div v-for="h in allHashes" :key="h.algo">
           <div class="flex items-center justify-between mb-1">
             <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide">{{ h.algo }}</label>
-            <button class="text-xs text-red-500 font-medium flex items-center gap-1 hover:opacity-80" @click="copyText(h.hash)">
+            <button class="text-xs text-accent font-medium flex items-center gap-1 hover:opacity-80" @click="copyText(h.hash)">
               <Icon name="Copy" :size="12" /> Copy
             </button>
           </div>
@@ -95,7 +95,7 @@
         <div class="flex items-center justify-between mb-2">
           <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide">{{ selected }} Hash</label>
           <button
-            class="text-xs text-red-500 font-medium flex items-center gap-1 hover:opacity-80"
+            class="text-xs text-accent font-medium flex items-center gap-1 hover:opacity-80"
             @click="copyText(hash)"
           >
             <Icon :name="copied ? 'Check' : 'Copy'" :size="14" />
@@ -120,9 +120,9 @@
           <Icon
             :name="isMatch ? 'CheckCircle' : 'XCircle'"
             :size="20"
-            :class="isMatch ? 'text-emerald-500' : 'text-red-500'"
+            :class="isMatch ? 'text-emerald-500' : 'text-accent'"
           />
-          <span class="text-sm" :class="isMatch ? 'text-emerald-500' : 'text-red-500'">
+          <span class="text-sm" :class="isMatch ? 'text-emerald-500' : 'text-accent'">
             {{ isMatch ? "Hashes match" : "Hashes do not match" }}
           </span>
         </div>

@@ -3,7 +3,7 @@
     <div class="max-w-4xl mx-auto">
       <div class="flex items-center justify-between mb-8">
         <div class="flex items-center gap-3">
-          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-red-500/50 transition-colors">
+          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-accent/50 transition-colors">
             <Icon name="ArrowLeft" :size="16" class="text-[rgb(var(--foreground-secondary))]" />
           </NuxtLink>
           <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Game of Life</h1>
@@ -28,7 +28,7 @@
             <input v-model.number="fps" type="range" min="1" max="60" class="w-32" />
           </div>
           <button
-            class="px-5 py-3 rounded-xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 flex items-center gap-2"
+            class="px-5 py-3 rounded-xl bg-gradient-to-r from-accent to-accent-hover text-white font-semibold shadow-lg shadow-accent/25 flex items-center gap-2"
             @click="toggle"
           >
             <Icon :name="playing ? 'Pause' : 'Play'" :size="18" />
@@ -54,8 +54,8 @@
             <Icon name="Trash2" :size="18" /> Clear
           </button>
           <div class="ml-auto text-sm text-[rgb(var(--foreground-secondary))]">
-            Gen: <strong class="text-red-500">{{ generation }}</strong>
-            &middot; Alive: <strong class="text-red-500">{{ currentAlive }}</strong>
+            Gen: <strong class="text-accent">{{ generation }}</strong>
+            &middot; Alive: <strong class="text-accent">{{ currentAlive }}</strong>
           </div>
         </div>
       </div>
@@ -76,7 +76,7 @@
             <div
               v-for="(p, i) in popHistory"
               :key="i"
-              class="flex-1 bg-red-500/60 rounded-t transition-all"
+              class="flex-1 bg-accent/60 rounded-t transition-all"
               :style="{ height: maxPop > 0 ? `${(p / maxPop) * 100}%` : '0%' }"
             />
           </div>

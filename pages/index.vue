@@ -1,65 +1,60 @@
 <template>
   <div class="max-w-5xl mx-auto px-6">
     <!-- Hero Section -->
-    <section class="py-20 md:py-32">
+    <section class="py-20 md:py-32" aria-labelledby="hero-heading">
       <div class="grid lg:grid-cols-5 gap-16 items-start">
         <!-- Left: Content -->
         <div class="lg:col-span-3 space-y-8">
           <!-- Intro -->
           <div class="space-y-4">
-            <p class="text-sm font-medium text-red-500 tracking-wide uppercase">
+            <p class="text-sm font-medium text-accent tracking-wide uppercase">
               Software Engineer
             </p>
             <h1
-              class="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-[rgb(var(--foreground))]"
+              id="hero-heading"
+              class="text-display font-bold tracking-tight text-foreground"
             >
               Joel Stephen
             </h1>
             <p
-              class="text-xl md:text-2xl text-[rgb(var(--foreground-secondary))] max-w-lg leading-relaxed"
+              class="text-lg md:text-xl text-muted max-w-lg leading-relaxed"
             >
               Building beautiful, performant web experiences with modern
               technologies.
             </p>
+
+            <!-- Hero CTAs -->
+            <div class="flex flex-wrap gap-3 pt-2">
+              <UiButton variant="primary" to="/contact">
+                Work with me
+              </UiButton>
+              <UiButton variant="secondary" to="/project">
+                View Projects
+              </UiButton>
+              <UiButton
+                variant="tertiary"
+                href="https://github.com/joelstephen97"
+              >
+                <Icon name="Github" :size="18" />
+                View Source on GitHub
+              </UiButton>
+            </div>
           </div>
 
           <!-- Terminal -->
-          <div
-            class="rounded-2xl overflow-hidden bg-neutral-900 shadow-2xl max-w-xl"
+          <TerminalWindow
+            title="about.sh"
+            command="cat profile.txt"
+            class="max-w-xl"
           >
-            <div
-              class="flex items-center gap-2 px-4 py-3 bg-neutral-800/50 border-b border-white/5"
-            >
-              <div class="flex gap-2">
-                <span class="w-3 h-3 rounded-full bg-red-500" />
-                <span class="w-3 h-3 rounded-full bg-yellow-500" />
-                <span class="w-3 h-3 rounded-full bg-green-500" />
-              </div>
-              <span class="flex-1 text-center text-xs text-white/50 font-mono"
-                >about.sh</span
-              >
-            </div>
-            <div class="p-5 font-mono text-sm text-gray-300 leading-relaxed">
-              <p>
-                <span class="text-green-400">➜</span>
-                <span class="text-cyan-400">~</span> cat profile.txt
-              </p>
-              <p class="mt-3 text-white/80">
-                Full-stack engineer with 5+ years of experience. Passionate
-                about clean code, intuitive UX, and solving complex problems.
-              </p>
-              <p class="mt-3 flex items-center gap-2">
-                <span class="text-green-400">➜</span>
-                <span class="text-cyan-400">~</span>
-                <span class="w-2 h-4 bg-white/80 animate-pulse" />
-              </p>
-            </div>
-          </div>
+            Full-stack engineer with 5+ years of experience. Passionate
+            about clean code, intuitive UX, and solving complex problems.
+          </TerminalWindow>
 
           <!-- Tech Stack -->
           <div class="space-y-4">
             <p
-              class="text-sm font-medium text-[rgb(var(--foreground-muted))] uppercase tracking-wide"
+              class="text-sm font-medium text-muted-foreground uppercase tracking-wide"
             >
               Tech Stack
             </p>
@@ -67,11 +62,12 @@
               <button
                 v-for="stack in stacks"
                 :key="stack.name"
+                :aria-pressed="activeStack === stack.name"
                 :class="[
-                  'px-4 py-2 rounded-full text-sm font-medium transition-all',
+                  'px-4 py-2 rounded-full text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--bg))]',
                   activeStack === stack.name
-                    ? 'bg-red-500 text-white shadow-lg shadow-red-500/25'
-                    : 'bg-[rgb(var(--glass))] text-[rgb(var(--foreground))] hover:bg-red-500/10 hover:text-red-500 border border-[rgb(var(--border))]',
+                    ? 'bg-accent text-white shadow-lg shadow-accent/25'
+                    : 'bg-[rgb(var(--glass))] text-foreground hover:bg-accent/10 hover:text-accent border border-border',
                 ]"
                 @click="
                   activeStack = activeStack === stack.name ? null : stack.name
@@ -90,7 +86,7 @@
                 <span
                   v-for="tech in currentTechs"
                   :key="tech"
-                  class="px-3 py-1.5 rounded-lg text-sm bg-red-500/10 text-red-500 font-medium"
+                  class="px-3 py-1.5 rounded-lg text-sm bg-accent/10 text-accent font-medium"
                 >
                   {{ tech }}
                 </span>
@@ -100,10 +96,10 @@
         </div>
 
         <!-- Right: Skills -->
-        <div class="lg:col-span-2">
+        <aside class="lg:col-span-2" aria-label="Skills and experience">
           <div class="space-y-6">
             <h3
-              class="text-sm font-medium text-[rgb(var(--foreground-muted))] uppercase tracking-wide"
+              class="text-sm font-medium text-muted-foreground uppercase tracking-wide"
             >
               Years of Experience
             </h3>
@@ -116,19 +112,19 @@
               >
                 <div class="flex items-center justify-between mb-2">
                   <span
-                    class="text-sm font-medium text-[rgb(var(--foreground))]"
+                    class="text-sm font-medium text-foreground"
                     >{{ skill.name }}</span
                   >
                   <span
-                    class="text-sm tabular-nums text-[rgb(var(--foreground-secondary))]"
+                    class="text-sm tabular-nums text-muted"
                     >{{ skill.years }} yrs</span
                   >
                 </div>
                 <div
-                  class="h-2 bg-[rgb(var(--border))] rounded-full overflow-hidden"
+                  class="h-2 bg-border rounded-full overflow-hidden"
                 >
                   <div
-                    class="h-full bg-red-500 rounded-full transition-all duration-500 group-hover:bg-red-400"
+                    class="h-full bg-accent rounded-full transition-all duration-500 group-hover:bg-accent-hover"
                     :style="{ width: `${(skill.years / maxYears) * 100}%` }"
                   />
                 </div>
@@ -136,32 +132,32 @@
             </div>
 
             <!-- Quick Stats -->
-            <div class="pt-6 mt-6 border-t border-[rgb(var(--border))]">
+            <div class="pt-6 mt-6 border-t border-border">
               <div class="grid grid-cols-3 gap-4 text-center">
                 <div>
-                  <p class="text-2xl font-bold text-red-500">5+</p>
-                  <p class="text-xs text-[rgb(var(--foreground-muted))]">
+                  <p class="text-2xl font-bold text-accent">5+</p>
+                  <p class="text-xs text-muted-foreground">
                     Years
                   </p>
                 </div>
                 <div>
-                  <p class="text-2xl font-bold text-red-500">
+                  <p class="text-2xl font-bold text-accent">
                     {{ timeline.length }}
                   </p>
-                  <p class="text-xs text-[rgb(var(--foreground-muted))]">
+                  <p class="text-xs text-muted-foreground">
                     Technologies
                   </p>
                 </div>
                 <div>
-                  <p class="text-2xl font-bold text-red-500">16+</p>
-                  <p class="text-xs text-[rgb(var(--foreground-muted))]">
+                  <p class="text-2xl font-bold text-accent">16+</p>
+                  <p class="text-xs text-muted-foreground">
                     Projects
                   </p>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </aside>
       </div>
     </section>
   </div>

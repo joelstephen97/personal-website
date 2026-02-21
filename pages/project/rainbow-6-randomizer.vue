@@ -49,7 +49,7 @@
         <div class="mb-10">
           <div class="flex justify-center mb-6">
             <button
-              class="px-6 py-3 rounded-xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 flex items-center gap-2"
+              class="px-6 py-3 rounded-xl bg-gradient-to-r from-accent to-accent-hover text-white font-semibold shadow-lg shadow-accent/25 flex items-center gap-2"
               @click="randomize('atk')"
             >
               <Icon name="Shuffle" :size="18" /> Randomize Attackers
@@ -62,7 +62,7 @@
             <div
               v-for="(a, i) in attackers"
               :key="a.op"
-              class="glass-solid rounded-xl p-4 text-center group hover:border-red-500/30 transition"
+              class="glass-solid rounded-xl p-4 text-center group hover:border-accent/30 transition"
             >
               <img
                 :src="opImg(a.op)"
@@ -78,7 +78,7 @@
                 {{ a.name }}
               </p>
               <button
-                class="mt-2 text-xs text-red-500 font-medium"
+                class="mt-2 text-xs text-accent font-medium"
                 @click="reroll('atk', i)"
               >
                 Re-roll
@@ -91,7 +91,7 @@
         <div>
           <div class="flex justify-center mb-6">
             <button
-              class="px-6 py-3 rounded-xl bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-lg shadow-red-500/25 flex items-center gap-2"
+              class="px-6 py-3 rounded-xl bg-gradient-to-r from-accent to-accent-hover text-white font-semibold shadow-lg shadow-accent/25 flex items-center gap-2"
               @click="randomize('def')"
             >
               <Icon name="Shuffle" :size="18" /> Randomize Defenders
@@ -104,7 +104,7 @@
             <div
               v-for="(d, i) in defenders"
               :key="d.op"
-              class="glass-solid rounded-xl p-4 text-center group hover:border-red-500/30 transition"
+              class="glass-solid rounded-xl p-4 text-center group hover:border-accent/30 transition"
             >
               <img
                 :src="opImg(d.op)"
@@ -120,7 +120,7 @@
                 {{ d.name }}
               </p>
               <button
-                class="mt-2 text-xs text-red-500 font-medium"
+                class="mt-2 text-xs text-accent font-medium"
                 @click="reroll('def', i)"
               >
                 Re-roll

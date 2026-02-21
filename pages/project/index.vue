@@ -1,66 +1,70 @@
 <template>
   <div class="max-w-5xl mx-auto px-6 py-20">
     <!-- Header -->
-    <div class="text-center mb-16">
-      <p class="text-sm font-medium text-red-500 tracking-wide uppercase mb-4">
+    <header class="text-center mb-16" aria-labelledby="projects-heading">
+      <p class="text-sm font-medium text-accent tracking-wide uppercase mb-4">
         Portfolio
       </p>
       <h1
-        class="text-4xl md:text-5xl font-bold text-[rgb(var(--foreground))] mb-4"
+        id="projects-heading"
+        class="text-h1 font-bold text-foreground mb-4"
       >
         Projects
       </h1>
       <p
-        class="text-lg text-[rgb(var(--foreground-secondary))] max-w-md mx-auto"
+        class="text-lg text-muted max-w-md mx-auto"
       >
         Professional work and personal experiments.
       </p>
-    </div>
+    </header>
 
     <!-- Professional Work -->
-    <section class="mb-16">
+    <section class="mb-16" aria-labelledby="professional-heading">
       <div class="flex items-center gap-3 mb-6">
         <div
-          class="w-8 h-8 rounded-lg bg-red-500 flex items-center justify-center"
+          class="w-8 h-8 rounded-lg bg-accent flex items-center justify-center"
         >
           <Icon name="Briefcase" :size="16" class="text-white" />
         </div>
-        <h2 class="text-xl font-semibold text-[rgb(var(--foreground))]">
+        <h2 id="professional-heading" class="text-h2 font-semibold text-foreground">
           Professional Work
         </h2>
       </div>
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <a
+        <article
           v-for="project in professional"
           :key="project.name"
-          :href="project.url"
-          target="_blank"
-          rel="noopener"
-          class="group glass-solid rounded-2xl p-6 hover:border-red-500/30 transition-all hover:-translate-y-1"
+          class="group glass-solid rounded-2xl p-6 hover:border-accent/30 transition-all hover:-translate-y-1"
         >
+          <a
+            :href="project.url"
+            target="_blank"
+            rel="noopener"
+            class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--bg))] focus-visible:rounded-2xl"
+          >
           <div class="flex items-start justify-between mb-4">
             <div
-              class="w-12 h-12 rounded-xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center shadow-lg shadow-red-500/20"
+              class="w-12 h-12 rounded-xl bg-gradient-to-br from-accent to-accent-hover flex items-center justify-center shadow-lg shadow-accent/20"
             >
               <Icon :name="project.icon" :size="24" class="text-white" />
             </div>
             <Icon
               name="ArrowUpRight"
               :size="18"
-              class="text-[rgb(var(--foreground-muted))] group-hover:text-red-500 transition-colors"
+              class="text-muted-foreground group-hover:text-accent transition-colors"
             />
           </div>
           <h3
-            class="text-lg font-semibold text-[rgb(var(--foreground))] group-hover:text-red-500 transition-colors mb-1"
+            class="text-lg font-semibold text-foreground group-hover:text-accent transition-colors mb-1"
           >
             {{ project.name }}
           </h3>
-          <p class="text-xs text-red-500 font-medium mb-2">
+          <p class="text-xs text-accent font-medium mb-2">
             {{ project.company }}
           </p>
           <p
-            class="text-sm text-[rgb(var(--foreground-secondary))] leading-relaxed"
+            class="text-sm text-muted leading-relaxed"
           >
             {{ project.description }}
           </p>
@@ -68,56 +72,60 @@
             <span
               v-for="tech in project.tech"
               :key="tech"
-              class="px-2 py-0.5 rounded text-xs bg-[rgb(var(--glass))] text-[rgb(var(--foreground-muted))] border border-[rgb(var(--border))]"
+              class="px-2 py-0.5 rounded text-xs bg-[rgb(var(--glass))] text-muted-foreground border border-border"
             >
               {{ tech }}
             </span>
           </div>
-        </a>
+          </a>
+        </article>
       </div>
     </section>
 
     <!-- Side Projects / Hobbies -->
-    <section>
+    <section aria-labelledby="side-projects-heading">
       <div class="flex items-center gap-3 mb-6">
         <div
           class="w-8 h-8 rounded-lg bg-[rgb(var(--foreground-muted))] flex items-center justify-center"
         >
           <Icon name="Sparkles" :size="16" class="text-white" />
         </div>
-        <h2 class="text-xl font-semibold text-[rgb(var(--foreground))]">
+        <h2 id="side-projects-heading" class="text-h2 font-semibold text-foreground">
           Side Projects
         </h2>
       </div>
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <NuxtLink
+        <article
           v-for="project in hobbies"
           :key="project.id"
-          :to="project.link"
-          class="group glass-solid rounded-2xl p-6 hover:border-red-500/30 transition-all hover:-translate-y-1"
+          class="group glass-solid rounded-2xl p-6 hover:border-accent/30 transition-all hover:-translate-y-1"
         >
+          <NuxtLink
+            :to="project.link"
+            class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--bg))] focus-visible:rounded-2xl"
+          >
           <div
-            class="w-12 h-12 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center mb-4 group-hover:border-red-500/50 transition-colors"
+            class="w-12 h-12 rounded-xl bg-[rgb(var(--glass))] border border-border flex items-center justify-center mb-4 group-hover:border-accent/50 transition-colors"
           >
             <Icon
               :name="project.icon"
               :size="24"
-              class="text-[rgb(var(--foreground-secondary))] group-hover:text-red-500 transition-colors"
+              class="text-muted group-hover:text-accent transition-colors"
             />
           </div>
           <h3
-            class="text-lg font-semibold text-[rgb(var(--foreground))] group-hover:text-red-500 transition-colors mb-2"
+            class="text-lg font-semibold text-foreground group-hover:text-accent transition-colors mb-2"
           >
             {{ project.title }}
           </h3>
           <p
-            class="text-sm text-[rgb(var(--foreground-secondary))] mb-4 leading-relaxed"
+            class="text-sm text-muted mb-4 leading-relaxed"
           >
             {{ project.description }}
           </p>
           <span
-            class="inline-flex items-center gap-1 text-sm font-medium text-red-500"
+            class="inline-flex items-center gap-1 text-sm font-medium text-accent"
           >
             {{ project.cta }}
             <Icon
@@ -126,7 +134,8 @@
               class="group-hover:translate-x-1 transition-transform"
             />
           </span>
-        </NuxtLink>
+          </NuxtLink>
+        </article>
 
       </div>
     </section>

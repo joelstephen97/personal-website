@@ -3,16 +3,16 @@
     <div class="max-w-6xl mx-auto">
       <div class="flex items-center justify-between mb-8">
         <div class="flex items-center gap-3">
-          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-red-500/50 transition-colors">
+          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-accent/50 transition-colors">
             <Icon name="ArrowLeft" :size="16" class="text-[rgb(var(--foreground-secondary))]" />
           </NuxtLink>
           <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Markdown Previewer</h1>
         </div>
         <div class="flex items-center gap-2">
-          <button class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-xs font-medium text-[rgb(var(--foreground-secondary))] hover:border-red-500/50 transition-colors flex items-center gap-1" @click="copyHtml">
+          <button class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-xs font-medium text-[rgb(var(--foreground-secondary))] hover:border-accent/50 transition-colors flex items-center gap-1" @click="copyHtml">
             <Icon :name="copied ? 'Check' : 'Copy'" :size="14" /> {{ copied ? 'Copied' : 'Copy HTML' }}
           </button>
-          <button class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-xs font-medium text-[rgb(var(--foreground-secondary))] hover:border-red-500/50 transition-colors flex items-center gap-1" @click="downloadMd">
+          <button class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-xs font-medium text-[rgb(var(--foreground-secondary))] hover:border-accent/50 transition-colors flex items-center gap-1" @click="downloadMd">
             <Icon name="Download" :size="14" /> .md
           </button>
           <DarkModeToggle />
@@ -21,7 +21,7 @@
 
       <!-- Toolbar -->
       <div class="glass-solid rounded-2xl px-4 py-2 mb-4 flex flex-wrap gap-1">
-        <button v-for="tool in toolbar" :key="tool.label" class="w-8 h-8 rounded-lg hover:bg-[rgb(var(--glass))] flex items-center justify-center text-[rgb(var(--foreground-secondary))] hover:text-red-500 transition-colors" :title="tool.label" @click="tool.action">
+        <button v-for="tool in toolbar" :key="tool.label" class="w-8 h-8 rounded-lg hover:bg-[rgb(var(--glass))] flex items-center justify-center text-[rgb(var(--foreground-secondary))] hover:text-accent transition-colors" :title="tool.label" @click="tool.action">
           <Icon :name="tool.icon" :size="16" />
         </button>
       </div>
