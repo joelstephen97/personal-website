@@ -58,7 +58,7 @@
             class="px-5 py-3 rounded-xl bg-gradient-to-r from-accent to-accent-hover text-white font-semibold shadow-lg shadow-accent/25 flex items-center gap-2"
             @click="toggle"
           >
-            <Icon :name="playing ? 'Pause' : 'Play'" :size="18" />
+            <Icon :name="playing ? 'Square' : 'Play'" :size="18" />
             {{ playing ? "Pause" : "Play" }}
           </button>
           <button
