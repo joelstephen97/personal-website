@@ -85,6 +85,10 @@ useSeo({
   description: "Transcribe audio with Whisper AI—runs entirely in your browser.",
   path: "/project/speech-to-text",
   breadcrumbTitle: "Speech to Text",
+  projectSchema: {
+    name: "Speech to Text",
+    description: "Transcribe audio with Whisper AI—runs entirely in your browser.",
+  },
 });
 
 import { ref, computed, onUnmounted } from "vue";

@@ -74,6 +74,10 @@ useSeo({
   description: "Edit text files directly on disk via File System Access API.",
   path: "/project/local-file-editor",
   breadcrumbTitle: "Local File Editor",
+  projectSchema: {
+    name: "Local File Editor",
+    description: "Edit text files directly on disk via File System Access API.",
+  },
 });
 
 import { computed } from "vue";

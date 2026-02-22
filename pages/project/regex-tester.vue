@@ -130,6 +130,10 @@ useSeo({
   description: "Real-time regex matching with highlighted results and capture groups.",
   path: "/project/regex-tester",
   breadcrumbTitle: "Regex Tester",
+  projectSchema: {
+    name: "Regex Tester",
+    description: "Real-time regex matching with highlighted results and capture groups.",
+  },
 });
 
 import { ref, computed } from "vue";

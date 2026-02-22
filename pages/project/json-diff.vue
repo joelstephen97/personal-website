@@ -127,6 +127,10 @@ useSeo({
   description: "Deep recursive comparison of two JSON objects with color-coded output.",
   path: "/project/json-diff",
   breadcrumbTitle: "JSON Diff",
+  projectSchema: {
+    name: "JSON Diff",
+    description: "Deep recursive comparison of two JSON objects with color-coded output.",
+  },
 });
 
 import { ref } from "vue";

@@ -119,6 +119,10 @@ useSeo({
   description: "Conway's cellular automaton with presets and canvas rendering.",
   path: "/project/game-of-life",
   breadcrumbTitle: "Game of Life",
+  projectSchema: {
+    name: "Game of Life",
+    description: "Conway's cellular automaton with presets and canvas rendering.",
+  },
 });
 
 import { ref, computed, onMounted, onUnmounted, watch } from "vue";

@@ -135,6 +135,10 @@ useSeo({
   description: "Capture screen, draw annotations, share via Web Share API.",
   path: "/project/screen-capture",
   breadcrumbTitle: "Screen Capture & Annotation",
+  projectSchema: {
+    name: "Screen Capture & Annotation",
+    description: "Capture screen, draw annotations, share via Web Share API.",
+  },
 });
 
 import { ref, computed, onUnmounted, watch } from "vue";

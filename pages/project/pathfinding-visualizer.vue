@@ -129,6 +129,10 @@ useSeo({
   description: "A*, Dijkstra, and BFS on an interactive grid with walls.",
   path: "/project/pathfinding-visualizer",
   breadcrumbTitle: "Pathfinding Visualizer",
+  projectSchema: {
+    name: "Pathfinding Visualizer",
+    description: "A*, Dijkstra, and BFS on an interactive grid with walls.",
+  },
 });
 
 import { ref, reactive, computed, onMounted, onUnmounted } from "vue";

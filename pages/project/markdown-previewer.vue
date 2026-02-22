@@ -64,6 +64,10 @@ useSeo({
   description: "Split-pane editor with live preview powered by a hand-rolled parser.",
   path: "/project/markdown-previewer",
   breadcrumbTitle: "Markdown Previewer",
+  projectSchema: {
+    name: "Markdown Previewer",
+    description: "Split-pane editor with live preview powered by a hand-rolled parser.",
+  },
 });
 
 import { ref, computed } from "vue";

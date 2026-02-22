@@ -132,6 +132,10 @@ useSeo({
   description: "SHA-1/256/384/512 hashing for text and files via Web Crypto API.",
   path: "/project/hash-generator",
   breadcrumbTitle: "Hash Generator",
+  projectSchema: {
+    name: "Hash Generator",
+    description: "SHA-1/256/384/512 hashing for text and files via Web Crypto API.",
+  },
 });
 
 import { ref, watch, computed } from "vue";

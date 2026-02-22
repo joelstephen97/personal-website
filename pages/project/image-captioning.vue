@@ -94,6 +94,10 @@ useSeo({
   description: "AI-powered image descriptions run entirely in the browser.",
   path: "/project/image-captioning",
   breadcrumbTitle: "Image Captioning",
+  projectSchema: {
+    name: "Image Captioning",
+    description: "AI-powered image descriptions run entirely in the browser.",
+  },
 });
 
 import { ref, onMounted, onUnmounted } from "vue";

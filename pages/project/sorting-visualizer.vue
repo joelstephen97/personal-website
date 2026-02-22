@@ -85,6 +85,10 @@ useSeo({
   description: "Watch bubble, merge, quick, and heap sort race in real-time.",
   path: "/project/sorting-visualizer",
   breadcrumbTitle: "Sorting Visualizer",
+  projectSchema: {
+    name: "Sorting Visualizer",
+    description: "Watch bubble, merge, quick, and heap sort race in real-time.",
+  },
 });
 
 import { ref, computed, watch, onUnmounted } from "vue";

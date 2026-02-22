@@ -94,6 +94,10 @@ useSeo({
   description: "Pick colors from anywhere on screen via the native EyeDropper API.",
   path: "/project/eye-dropper",
   breadcrumbTitle: "Eye Dropper",
+  projectSchema: {
+    name: "Eye Dropper",
+    description: "Pick colors from anywhere on screen via the native EyeDropper API.",
+  },
 });
 
 import { ref, computed } from "vue";

@@ -112,6 +112,10 @@ useSeo({
   description: "Real-time waveform and frequency visualization via Web Audio API.",
   path: "/project/audio-visualizer",
   breadcrumbTitle: "Audio Visualizer",
+  projectSchema: {
+    name: "Audio Visualizer",
+    description: "Real-time waveform and frequency visualization via Web Audio API.",
+  },
 });
 
 import { ref, onUnmounted, watch, onMounted } from "vue";

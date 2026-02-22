@@ -185,6 +185,10 @@ useSeo({
   description: "Improve your FPS aim with this reaction time trainer. Flick, Gridshot, Tracking, Precision modes.",
   path: "/project/aim-trainer",
   breadcrumbTitle: "Aim Trainer",
+  projectSchema: {
+    name: "Aim Trainer",
+    description: "Improve your FPS aim with this reaction time trainer. Flick, Gridshot, Tracking, Precision modes.",
+  },
 });
 
 import type { AimMode } from "~/composables/useAimTrainer";

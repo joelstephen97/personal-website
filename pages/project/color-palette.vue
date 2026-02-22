@@ -153,6 +153,10 @@ useSeo({
   description: "Generate harmonious palettes with color theory and contrast checking.",
   path: "/project/color-palette",
   breadcrumbTitle: "Color Palette",
+  projectSchema: {
+    name: "Color Palette",
+    description: "Generate harmonious palettes with color theory and contrast checking.",
+  },
 });
 
 import { ref, computed } from "vue";

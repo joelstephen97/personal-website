@@ -173,6 +173,10 @@ useSeo({
   description: "Random operator selection for Rainbow Six Siege matches. Pick attackers and defenders.",
   path: "/project/rainbow-6-randomizer",
   breadcrumbTitle: "R6 Siege Randomizer",
+  projectSchema: {
+    name: "R6 Siege Randomizer",
+    description: "Random operator selection for Rainbow Six Siege matches. Pick attackers and defenders.",
+  },
 });
 
 import { ref, computed, onMounted } from "vue";

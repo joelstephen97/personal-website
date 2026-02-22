@@ -90,6 +90,10 @@ useSeo({
   description: "Parse cron expressions into human-readable schedules with next runs.",
   path: "/project/cron-parser",
   breadcrumbTitle: "Cron Parser",
+  projectSchema: {
+    name: "Cron Parser",
+    description: "Parse cron expressions into human-readable schedules with next runs.",
+  },
 });
 
 import { ref, computed } from "vue";

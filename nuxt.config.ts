@@ -9,7 +9,50 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxt/eslint",
     "@vite-pwa/nuxt",
+    "@nuxtjs/sitemap",
   ],
+
+  site: {
+    url: process.env.NUXT_PUBLIC_SITE_URL ?? "https://joelstephen.vercel.app",
+  },
+
+  sitemap: {
+    strictNuxtContentPaths: true,
+    urls: async () => {
+      const siteUrl =
+        process.env.NUXT_PUBLIC_SITE_URL ?? "https://joelstephen.vercel.app";
+      const routes = [
+        "/",
+        "/experience",
+        "/project",
+        "/contact",
+        "/project/bg-remover",
+        "/project/aim-trainer",
+        "/project/audio-visualizer",
+        "/project/color-palette",
+        "/project/cron-parser",
+        "/project/eye-dropper",
+        "/project/game-of-life",
+        "/project/hash-generator",
+        "/project/image-captioning",
+        "/project/json-diff",
+        "/project/local-file-editor",
+        "/project/markdown-previewer",
+        "/project/pathfinding-visualizer",
+        "/project/rainbow-6-randomizer",
+        "/project/regex-tester",
+        "/project/screen-capture",
+        "/project/sorting-visualizer",
+        "/project/speech-to-text",
+      ];
+      return routes.map((path) => ({
+        loc: path === "/" ? siteUrl : `${siteUrl}${path}`,
+        lastmod: new Date().toISOString(),
+        changefreq: "weekly" as const,
+        priority: path === "/" ? 1 : path === "/project" ? 0.9 : 0.8,
+      }));
+    },
+  },
 
   pwa: {
     disable: process.env.NODE_ENV === "development",
@@ -29,6 +72,7 @@ export default defineNuxtConfig({
     },
     workbox: {
       globPatterns: ["**/*.{js,css,html,png,svg,ico,woff2}"],
+      globIgnores: ["**/og-image.png"],
     },
     client: {
       installPrompt: true,
@@ -52,11 +96,20 @@ export default defineNuxtConfig({
       meta: [
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { name: "theme-color", content: "#007AFF" },
         {
           name: "description",
           content:
             "Full-stack engineer with 5+ years of experience. Building beautiful, performant web experiences with modern technologies.",
         },
+        ...(process.env.NUXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+          ? [
+              {
+                name: "google-site-verification",
+                content: process.env.NUXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+              },
+            ]
+          : []),
       ],
       link: [
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico?v=2" },
@@ -69,6 +122,7 @@ export default defineNuxtConfig({
           href: "https://fonts.gstatic.com",
           crossorigin: "",
         },
+        { rel: "dns-prefetch", href: "https://va.vercel-insights.com" },
       ],
     },
   },
@@ -78,12 +132,37 @@ export default defineNuxtConfig({
     public: {
       siteUrl:
         process.env.NUXT_PUBLIC_SITE_URL ?? "https://joelstephen.vercel.app",
+      twitterCreator: process.env.NUXT_PUBLIC_TWITTER_CREATOR ?? "@joelstephen97",
+      twitterSite: process.env.NUXT_PUBLIC_TWITTER_SITE ?? "@joelstephen97",
     },
   },
 
   nitro: {
     prerender: {
-      routes: ["/", "/experience", "/project", "/contact"],
+      routes: [
+        "/",
+        "/experience",
+        "/project",
+        "/contact",
+        "/project/bg-remover",
+        "/project/aim-trainer",
+        "/project/audio-visualizer",
+        "/project/color-palette",
+        "/project/cron-parser",
+        "/project/eye-dropper",
+        "/project/game-of-life",
+        "/project/hash-generator",
+        "/project/image-captioning",
+        "/project/json-diff",
+        "/project/local-file-editor",
+        "/project/markdown-previewer",
+        "/project/pathfinding-visualizer",
+        "/project/rainbow-6-randomizer",
+        "/project/regex-tester",
+        "/project/screen-capture",
+        "/project/sorting-visualizer",
+        "/project/speech-to-text",
+      ],
     },
   },
   $production: {

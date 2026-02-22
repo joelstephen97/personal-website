@@ -194,6 +194,10 @@ useSeo({
   description: "AI-powered tool to remove image backgrounds instantly. Browser-based, no uploads.",
   path: "/project/bg-remover",
   breadcrumbTitle: "Background Remover",
+  projectSchema: {
+    name: "Background Remover",
+    description: "AI-powered tool to remove image backgrounds instantly. Browser-based, no uploads.",
+  },
 });
 
 import { ref, onUnmounted } from "vue";
