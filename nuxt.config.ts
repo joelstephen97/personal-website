@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+// Note: ssr: false causes crawlers to miss H1/headings. Enabling SSR triggers
+// prerender "Unexpected token" error—investigate Node/Nitro compatibility.
 export default defineNuxtConfig({
   ssr: false,
   compatibilityDate: "2025-02-22",

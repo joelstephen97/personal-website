@@ -1,8 +1,10 @@
 <template>
   <footer class="fixed bottom-0 inset-x-0 z-40 glass">
-    <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-4">
-        <p class="text-sm text-[rgb(var(--foreground-secondary))]">
+    <div
+      class="max-w-5xl mx-auto px-4 sm:px-6 py-2 sm:py-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-between sm:gap-0"
+    >
+      <div class="flex items-center gap-2 sm:gap-4">
+        <p class="text-xs sm:text-sm text-[rgb(var(--foreground-secondary))]">
           © {{ new Date().getFullYear() }} Joel Stephen
         </p>
         <span
@@ -13,7 +15,8 @@
           <Icon name="Calendar" :size="14" />
         </span>
       </div>
-      <div class="flex items-center gap-1">
+      <div class="flex items-center gap-0.5 sm:gap-1">
+        <ShareButtons />
         <a
           v-for="s in socials"
           :key="s.url"
@@ -21,9 +24,9 @@
           target="_blank"
           rel="noopener"
           :aria-label="s.label"
-          class="p-2 rounded-xl text-muted hover:text-accent hover:bg-accent/10 transition-all"
+          class="p-1.5 sm:p-2 rounded-xl text-muted hover:text-accent hover:bg-accent/10 transition-all"
         >
-          <Icon :name="s.icon" :size="20" />
+          <Icon :name="s.icon" :size="18" />
         </a>
       </div>
     </div>

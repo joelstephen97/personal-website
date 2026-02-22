@@ -24,7 +24,8 @@
     </header>
 
     <!-- Terminal -->
-    <section class="mb-8" aria-label="About">
+    <section class="mb-8" aria-labelledby="about-heading">
+      <h2 id="about-heading" class="sr-only">About</h2>
       <TerminalWindow
         title="about.sh"
         command="cat profile.txt"
@@ -35,31 +36,34 @@
     </section>
 
     <!-- CTAs -->
-    <div class="flex flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-3">
-      <button
-        type="button"
-        class="btn-primary flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold w-full sm:w-auto"
-        @click="toggleChat"
-      >
+    <section aria-labelledby="connect-heading">
+      <h2 id="connect-heading" class="sr-only">Connect</h2>
+      <div class="flex flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-3">
+        <button
+          type="button"
+          class="btn-primary flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold w-full sm:w-auto"
+          @click="toggleChat"
+        >
         <Icon name="MessageCircle" :size="18" />
-        AI Chat — Ask about Joel
-      </button>
-      <UiButton
-        variant="primary"
-        to="/contact"
-        class="w-full sm:w-auto justify-center"
-      >
-        Contact
-      </UiButton>
-      <UiButton
-        variant="tertiary"
-        href="https://github.com/joelstephen97"
-        aria-label="View source on GitHub"
-        class="self-center sm:self-auto shrink-0"
-      >
-        <Icon name="Github" :size="18" />
-      </UiButton>
-    </div>
+          AI Chat — Ask about Joel
+        </button>
+        <UiButton
+          variant="primary"
+          to="/contact"
+          class="w-full sm:w-auto justify-center"
+        >
+          Contact
+        </UiButton>
+        <UiButton
+          variant="tertiary"
+          href="https://github.com/joelstephen97"
+          aria-label="View source on GitHub"
+          class="self-center sm:self-auto shrink-0"
+        >
+          <Icon name="Github" :size="18" />
+        </UiButton>
+      </div>
+    </section>
   </div>
 </template>
 
