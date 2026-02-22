@@ -9,14 +9,19 @@
       </div>
 
       <p class="text-[rgb(var(--foreground-muted))] mb-8">
-        AI-powered image descriptions run entirely in your browser. No server, no uploads—privacy-first.
+        AI-powered image descriptions run entirely in your browser. No server,
+        no uploads—privacy-first.
       </p>
 
       <div class="glass-solid rounded-2xl p-6 mb-8">
         <div
           ref="dropZoneRef"
           class="border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-colors"
-          :class="isOverDropZone ? 'border-accent bg-accent/5' : 'border-[rgb(var(--border))] hover:border-accent/50'"
+          :class="
+            isOverDropZone
+              ? 'border-accent bg-accent/5'
+              : 'border-[rgb(var(--border))] hover:border-accent/50'
+          "
           @click="fileInput?.click()"
         >
           <input
@@ -26,9 +31,17 @@
             class="hidden"
             @change="onFileSelect"
           />
-          <Icon name="Image" :size="48" class="text-[rgb(var(--foreground-muted))] mx-auto mb-4" />
+          <Icon
+            name="Image"
+            :size="48"
+            class="text-[rgb(var(--foreground-muted))] mx-auto mb-4"
+          />
           <p class="text-[rgb(var(--foreground))] font-medium mb-1">
-            {{ imageSrc ? "Drop another image or click to replace" : "Drop an image or click to select" }}
+            {{
+              imageSrc
+                ? "Drop another image or click to replace"
+                : "Drop an image or click to select"
+            }}
           </p>
           <p class="text-sm text-[rgb(var(--foreground-muted))]">
             JPG, PNG, WebP supported
@@ -37,7 +50,11 @@
 
         <div v-if="imageSrc" class="mt-6 grid md:grid-cols-2 gap-6">
           <div class="glass-solid rounded-xl p-4">
-            <p class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-2">Image</p>
+            <p
+              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-2"
+            >
+              Image
+            </p>
             <img
               :src="imageSrc"
               width="400"
@@ -47,13 +64,21 @@
             />
           </div>
           <div class="glass-solid rounded-xl p-4">
-            <p class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-2">Caption</p>
+            <p
+              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-2"
+            >
+              Caption
+            </p>
             <div v-if="processing" class="flex items-center gap-3 py-8">
-              <div class="w-6 h-6 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+              <div
+                class="w-6 h-6 border-2 border-accent border-t-transparent rounded-full animate-spin"
+              />
               <span class="text-accent text-sm">Generating caption...</span>
             </div>
             <div v-else-if="caption" class="space-y-2">
-              <p class="text-[rgb(var(--foreground))] leading-relaxed">{{ caption }}</p>
+              <p class="text-[rgb(var(--foreground))] leading-relaxed">
+                {{ caption }}
+              </p>
               <button
                 class="text-sm text-accent font-medium flex items-center gap-1 hover:opacity-80"
                 @click="copyCaption"
@@ -61,7 +86,9 @@
                 <Icon name="Copy" :size="14" /> Copy
               </button>
             </div>
-            <p v-else class="text-[rgb(var(--foreground-muted))] py-8">Caption will appear here</p>
+            <p v-else class="text-[rgb(var(--foreground-muted))] py-8">
+              Caption will appear here
+            </p>
           </div>
         </div>
 
@@ -81,7 +108,10 @@
         </div>
       </div>
 
-      <div v-if="loadError" class="glass-solid rounded-2xl p-6 border border-red-900/30">
+      <div
+        v-if="loadError"
+        class="glass-solid rounded-2xl p-6 border border-red-900/30"
+      >
         <p class="text-red-900 text-sm">{{ loadError }}</p>
       </div>
     </div>
@@ -89,6 +119,11 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted } from "vue";
+import { useDropZone, useClipboard } from "@vueuse/core";
+import Icon from "~/components/ui/Icon.vue";
+import { getTransformers } from "~/composables/useTransformersClient";
+
 useSeo({
   title: "Image Captioning | Joel Stephen - Portfolio",
   description: "AI-powered image descriptions run entirely in the browser.",
@@ -100,11 +135,6 @@ useSeo({
   },
 });
 
-import { ref, onMounted, onUnmounted } from "vue";
-import { useDropZone, useClipboard } from "@vueuse/core";
-import Icon from "~/components/ui/Icon.vue";
-import { getTransformers } from "~/composables/useTransformersClient";
-
 definePageMeta({ layout: "project-detail" });
 
 const dropZoneRef = ref<HTMLElement | null>(null);
@@ -115,8 +145,10 @@ const processing = ref(false);
 const loadError = ref("");
 const { copy } = useClipboard({ copiedDuring: 2000 });
 
-let pipelineFn: ((img: string | HTMLImageElement) => Promise<{ generated_text: string }[]>) | null = null;
-let currentFile: File | null = null;
+let pipelineFn:
+  | ((img: string | HTMLImageElement) => Promise<{ generated_text: string }[]>)
+  | null = null;
+let _currentFile: File | null = null;
 
 const { isOverDropZone } = useDropZone(dropZoneRef, {
   onDrop: (files) => {
@@ -128,10 +160,14 @@ async function initPipeline() {
   if (pipelineFn) return;
   try {
     const { pipeline } = await getTransformers();
-    const captioner = await pipeline("image-to-text", "Xenova/vit-gpt2-image-captioning");
+    const captioner = await pipeline(
+      "image-to-text",
+      "Xenova/vit-gpt2-image-captioning",
+    );
     pipelineFn = captioner;
   } catch (e) {
-    loadError.value = e instanceof Error ? e.message : "Failed to load AI model";
+    loadError.value =
+      e instanceof Error ? e.message : "Failed to load AI model";
   }
 }
 
@@ -139,7 +175,7 @@ function loadImage(file: File) {
   if (imageSrc.value) URL.revokeObjectURL(imageSrc.value);
   imageSrc.value = URL.createObjectURL(file);
   caption.value = "";
-  currentFile = file;
+  _currentFile = file;
 }
 
 function onFileSelect(e: Event) {
@@ -158,7 +194,8 @@ async function generateCaption() {
     caption.value = result[0]?.generated_text ?? "No caption generated";
   } catch (e) {
     caption.value = "";
-    loadError.value = e instanceof Error ? e.message : "Caption generation failed";
+    loadError.value =
+      e instanceof Error ? e.message : "Caption generation failed";
   }
   processing.value = false;
 }

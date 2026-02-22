@@ -8,18 +8,20 @@ const ALLOWED_SCRIPT_ORIGINS = [
 
 export default defineNuxtPlugin(() => {
   if (typeof window === "undefined") return;
-  const tt = (window as Window & {
-    trustedTypes?: {
-      createPolicy: (
-        name: string,
-        config: {
-          createHTML: (input: string) => unknown;
-          createScriptURL?: (input: string) => string;
-          createScript?: (input: string) => string;
-        }
-      ) => unknown;
-    };
-  }).trustedTypes;
+  const tt = (
+    window as Window & {
+      trustedTypes?: {
+        createPolicy: (
+          name: string,
+          config: {
+            createHTML: (input: string) => unknown;
+            createScriptURL?: (input: string) => string;
+            createScript?: (input: string) => string;
+          },
+        ) => unknown;
+      };
+    }
+  ).trustedTypes;
   if (!tt?.createPolicy) return;
   try {
     tt.createPolicy("default", {

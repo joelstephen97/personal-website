@@ -3,14 +3,24 @@
     <div class="max-w-5xl mx-auto">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
-        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">JSON Diff</h1>
+        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+          JSON Diff
+        </h1>
       </div>
 
       <div class="grid md:grid-cols-2 gap-6 mb-6">
         <div class="glass-solid rounded-2xl p-6">
           <div class="flex items-center justify-between mb-2">
-            <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide">Original</label>
-            <button class="text-xs text-accent font-medium hover:opacity-80" @click="formatLeft">Format</button>
+            <label
+              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide"
+              >Original</label
+            >
+            <button
+              class="text-xs text-accent font-medium hover:opacity-80"
+              @click="formatLeft"
+            >
+              Format
+            </button>
           </div>
           <textarea
             v-model="leftJson"
@@ -19,12 +29,22 @@
             spellcheck="false"
             placeholder='{"key": "value"}'
           />
-          <p v-if="leftError" class="text-accent text-xs mt-2">{{ leftError }}</p>
+          <p v-if="leftError" class="text-accent text-xs mt-2">
+            {{ leftError }}
+          </p>
         </div>
         <div class="glass-solid rounded-2xl p-6">
           <div class="flex items-center justify-between mb-2">
-            <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide">Modified</label>
-            <button class="text-xs text-accent font-medium hover:opacity-80" @click="formatRight">Format</button>
+            <label
+              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide"
+              >Modified</label
+            >
+            <button
+              class="text-xs text-accent font-medium hover:opacity-80"
+              @click="formatRight"
+            >
+              Format
+            </button>
           </div>
           <textarea
             v-model="rightJson"
@@ -33,7 +53,9 @@
             spellcheck="false"
             placeholder='{"key": "new_value"}'
           />
-          <p v-if="rightError" class="text-accent text-xs mt-2">{{ rightError }}</p>
+          <p v-if="rightError" class="text-accent text-xs mt-2">
+            {{ rightError }}
+          </p>
         </div>
       </div>
 
@@ -43,10 +65,12 @@
             <input v-model="diffOptions.sortKeys" type="checkbox" /> Sort keys
           </label>
           <label class="flex items-center gap-1.5 text-sm cursor-pointer">
-            <input v-model="diffOptions.ignoreNull" type="checkbox" /> Ignore null
+            <input v-model="diffOptions.ignoreNull" type="checkbox" /> Ignore
+            null
           </label>
           <label class="flex items-center gap-1.5 text-sm cursor-pointer">
-            <input v-model="diffOptions.ignoreArrayOrder" type="checkbox" /> Ignore array order
+            <input v-model="diffOptions.ignoreArrayOrder" type="checkbox" />
+            Ignore array order
           </label>
         </div>
         <button
@@ -72,27 +96,34 @@
           class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2"
           @click="copyDiff"
         >
-          <Icon :name="copied ? 'Check' : 'Copy'" :size="18" /> {{ copied ? "Copied" : "Copy Diff" }}
+          <Icon :name="copied ? 'Check' : 'Copy'" :size="18" />
+          {{ copied ? "Copied" : "Copy Diff" }}
         </button>
         <button
           v-if="diffLines.length"
           class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2"
           @click="copyJsonPatch"
         >
-          <Icon :name="patchCopied ? 'Check' : 'Code'" :size="18" /> {{ patchCopied ? "Copied" : "JSON Patch" }}
+          <Icon :name="patchCopied ? 'Check' : 'Code'" :size="18" />
+          {{ patchCopied ? "Copied" : "JSON Patch" }}
         </button>
       </div>
 
       <div v-if="diffLines.length" class="glass-solid rounded-2xl p-6">
-        <div class="flex items-center gap-4 mb-4 text-sm text-[rgb(var(--foreground-secondary))]">
+        <div
+          class="flex items-center gap-4 mb-4 text-sm text-[rgb(var(--foreground-secondary))]"
+        >
           <span class="flex items-center gap-1.5">
-            <span class="w-3 h-3 rounded bg-emerald-500/30" /> Added: <strong class="text-emerald-500">{{ stats.added }}</strong>
+            <span class="w-3 h-3 rounded bg-emerald-500/30" /> Added:
+            <strong class="text-emerald-500">{{ stats.added }}</strong>
           </span>
           <span class="flex items-center gap-1.5">
-            <span class="w-3 h-3 rounded bg-accent/30" /> Removed: <strong class="text-accent">{{ stats.removed }}</strong>
+            <span class="w-3 h-3 rounded bg-accent/30" /> Removed:
+            <strong class="text-accent">{{ stats.removed }}</strong>
           </span>
           <span class="flex items-center gap-1.5">
-            <span class="w-3 h-3 rounded bg-amber-500/30" /> Modified: <strong class="text-amber-500">{{ stats.modified }}</strong>
+            <span class="w-3 h-3 rounded bg-amber-500/30" /> Modified:
+            <strong class="text-amber-500">{{ stats.modified }}</strong>
           </span>
         </div>
         <div class="font-mono text-sm space-y-0.5 max-h-96 overflow-auto">
@@ -101,41 +132,54 @@
             :key="i"
             class="px-3 py-1 rounded"
             :class="{
-              'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400': line.type === 'added',
-              'bg-accent/10 text-accent-hover dark:text-accent': line.type === 'removed',
-              'bg-amber-500/10 text-amber-600 dark:text-amber-400': line.type === 'modified',
-              'text-[rgb(var(--foreground-secondary))]': line.type === 'unchanged',
+              'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400':
+                line.type === 'added',
+              'bg-accent/10 text-accent-hover dark:text-accent':
+                line.type === 'removed',
+              'bg-amber-500/10 text-amber-600 dark:text-amber-400':
+                line.type === 'modified',
+              'text-[rgb(var(--foreground-secondary))]':
+                line.type === 'unchanged',
             }"
           >
             <span class="select-none mr-2 opacity-50">{{ line.prefix }}</span>
-            <span :style="{ paddingLeft: line.depth * 12 + 'px' }">{{ line.text }}</span>
+            <span :style="{ paddingLeft: line.depth * 12 + 'px' }">{{
+              line.text
+            }}</span>
           </div>
         </div>
       </div>
 
-      <div v-else-if="compared" class="glass-solid rounded-2xl p-12 text-center">
+      <div
+        v-else-if="compared"
+        class="glass-solid rounded-2xl p-12 text-center"
+      >
         <Icon name="Check" :size="48" class="text-emerald-500 mx-auto mb-3" />
-        <p class="text-[rgb(var(--foreground-secondary))]">Objects are identical</p>
+        <p class="text-[rgb(var(--foreground-secondary))]">
+          Objects are identical
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+import { useClipboard } from "@vueuse/core";
+import Icon from "~/components/ui/Icon.vue";
+
 useSeo({
   title: "JSON Diff | Joel Stephen - Portfolio",
-  description: "Deep recursive comparison of two JSON objects with color-coded output.",
+  description:
+    "Deep recursive comparison of two JSON objects with color-coded output.",
   path: "/project/json-diff",
   breadcrumbTitle: "JSON Diff",
   projectSchema: {
     name: "JSON Diff",
-    description: "Deep recursive comparison of two JSON objects with color-coded output.",
+    description:
+      "Deep recursive comparison of two JSON objects with color-coded output.",
   },
 });
-
-import { ref } from "vue";
-import { useClipboard } from "@vueuse/core";
-import Icon from "~/components/ui/Icon.vue";
 
 definePageMeta({ layout: "project-detail" });
 
@@ -144,21 +188,40 @@ const rightJson = ref("");
 const leftError = ref("");
 const rightError = ref("");
 const compared = ref(false);
-const diffOptions = ref({ sortKeys: false, ignoreNull: false, ignoreArrayOrder: false });
+const diffOptions = ref({
+  sortKeys: false,
+  ignoreNull: false,
+  ignoreArrayOrder: false,
+});
 const { copy, copied } = useClipboard({ copiedDuring: 2000 });
 const patchCopied = ref(false);
 
-interface DiffLine { type: "added" | "removed" | "modified" | "unchanged"; text: string; prefix: string; depth: number; path?: string; value?: unknown; }
+interface DiffLine {
+  type: "added" | "removed" | "modified" | "unchanged";
+  text: string;
+  prefix: string;
+  depth: number;
+  path?: string;
+  value?: unknown;
+}
 const diffLines = ref<DiffLine[]>([]);
 const stats = ref({ added: 0, removed: 0, modified: 0 });
 
 function formatLeft() {
-  try { leftJson.value = JSON.stringify(JSON.parse(leftJson.value), null, 2); leftError.value = ""; }
-  catch { leftError.value = "Invalid JSON"; }
+  try {
+    leftJson.value = JSON.stringify(JSON.parse(leftJson.value), null, 2);
+    leftError.value = "";
+  } catch {
+    leftError.value = "Invalid JSON";
+  }
 }
 function formatRight() {
-  try { rightJson.value = JSON.stringify(JSON.parse(rightJson.value), null, 2); rightError.value = ""; }
-  catch { rightError.value = "Invalid JSON"; }
+  try {
+    rightJson.value = JSON.stringify(JSON.parse(rightJson.value), null, 2);
+    rightError.value = "";
+  } catch {
+    rightError.value = "Invalid JSON";
+  }
 }
 
 function swapSides() {
@@ -168,16 +231,30 @@ function swapSides() {
 }
 
 function loadSample() {
-  leftJson.value = JSON.stringify({
-    name: "John Doe", age: 30, email: "john@example.com",
-    address: { city: "New York", zip: "10001" },
-    hobbies: ["reading", "gaming"], active: true,
-  }, null, 2);
-  rightJson.value = JSON.stringify({
-    name: "John Doe", age: 31, email: "john.doe@example.com",
-    address: { city: "San Francisco", zip: "94102", state: "CA" },
-    hobbies: ["reading", "gaming", "cooking"], role: "admin",
-  }, null, 2);
+  leftJson.value = JSON.stringify(
+    {
+      name: "John Doe",
+      age: 30,
+      email: "john@example.com",
+      address: { city: "New York", zip: "10001" },
+      hobbies: ["reading", "gaming"],
+      active: true,
+    },
+    null,
+    2,
+  );
+  rightJson.value = JSON.stringify(
+    {
+      name: "John Doe",
+      age: 31,
+      email: "john.doe@example.com",
+      address: { city: "San Francisco", zip: "94102", state: "CA" },
+      hobbies: ["reading", "gaming", "cooking"],
+      role: "admin",
+    },
+    null,
+    2,
+  );
 }
 
 function computeDiff() {
@@ -187,9 +264,19 @@ function computeDiff() {
   stats.value = { added: 0, removed: 0, modified: 0 };
   compared.value = false;
 
-  let left: any, right: any;
-  try { left = JSON.parse(leftJson.value || "{}"); } catch { leftError.value = "Invalid JSON"; return; }
-  try { right = JSON.parse(rightJson.value || "{}"); } catch { rightError.value = "Invalid JSON"; return; }
+  let left: unknown, right: unknown;
+  try {
+    left = JSON.parse(leftJson.value || "{}");
+  } catch {
+    leftError.value = "Invalid JSON";
+    return;
+  }
+  try {
+    right = JSON.parse(rightJson.value || "{}");
+  } catch {
+    rightError.value = "Invalid JSON";
+    return;
+  }
 
   if (diffOptions.value.ignoreNull) {
     left = filterNull(left);
@@ -205,22 +292,31 @@ function computeDiff() {
   diff(left, right, "", 0);
 }
 
-function filterNull(obj: any): any {
+function filterNull(obj: unknown): unknown {
   if (obj === null || obj === undefined) return undefined;
-  if (Array.isArray(obj)) return obj.map(filterNull).filter((x) => x !== undefined);
+  if (Array.isArray(obj))
+    return obj.map(filterNull).filter((x) => x !== undefined);
   if (typeof obj === "object") {
-    const r: any = {};
+    const r: Record<string, unknown> = {};
     for (const [k, v] of Object.entries(obj))
-      if (v != null) { const f = filterNull(v); if (f !== undefined) r[k] = f; }
+      if (v != null) {
+        const f = filterNull(v);
+        if (f !== undefined) r[k] = f;
+      }
     return r;
   }
   return obj;
 }
 
-function sortKeys(obj: any): any {
+function sortKeys(obj: unknown): unknown {
   if (obj === null || typeof obj !== "object") return obj;
   if (Array.isArray(obj)) return obj.map(sortKeys);
-  return Object.keys(obj).sort().reduce((r: any, k) => { r[k] = sortKeys(obj[k]); return r; }, {});
+  return Object.keys(obj as object)
+    .sort()
+    .reduce((r: Record<string, unknown>, k) => {
+      r[k] = sortKeys((obj as Record<string, unknown>)[k]);
+      return r;
+    }, {});
 }
 
 const jsonPatchOps = ref<{ op: string; path: string; value?: unknown }[]>([]);
@@ -232,30 +328,45 @@ function toJsonPath(path: string): string {
 
 async function copyJsonPatch() {
   const ops = jsonPatchOps.value.map((o) => {
-    const r: any = { op: o.op, path: toJsonPath(o.path) };
+    const r: { op: string; path: string; value?: unknown } = {
+      op: o.op,
+      path: toJsonPath(o.path),
+    };
     if (o.value !== undefined) r.value = o.value;
     return r;
   });
   await copy(JSON.stringify(ops, null, 2));
   patchCopied.value = true;
-  setTimeout(() => { patchCopied.value = false; }, 2000);
+  setTimeout(() => {
+    patchCopied.value = false;
+  }, 2000);
 }
 
-function typeLabel(v: any): string {
+function typeLabel(v: unknown): string {
   if (v === null) return "null";
   if (Array.isArray(v)) return "array";
   return typeof v;
 }
 
-function diff(a: any, b: any, path: string, depth: number) {
+function diff(a: unknown, b: unknown, path: string, depth: number) {
   const aIsObj = a !== null && typeof a === "object" && !Array.isArray(a);
   const bIsObj = b !== null && typeof b === "object" && !Array.isArray(b);
   const aIsArr = Array.isArray(a);
   const bIsArr = Array.isArray(b);
 
-  if ((aIsObj && !bIsObj) || (aIsArr && !bIsArr) || (!aIsObj && bIsObj) || (!aIsArr && bIsArr)) {
+  if (
+    (aIsObj && !bIsObj) ||
+    (aIsArr && !bIsArr) ||
+    (!aIsObj && bIsObj) ||
+    (!aIsArr && bIsArr)
+  ) {
     if (typeof a !== typeof b || aIsArr !== bIsArr) {
-      diffLines.value.push({ type: "modified", text: `${path}: ${typeLabel(a)} → ${typeLabel(b)}`, prefix: "~", depth });
+      diffLines.value.push({
+        type: "modified",
+        text: `${path}: ${typeLabel(a)} → ${typeLabel(b)}`,
+        prefix: "~",
+        depth,
+      });
       stats.value.modified++;
       return;
     }
@@ -263,15 +374,27 @@ function diff(a: any, b: any, path: string, depth: number) {
 
   if (aIsObj && bIsObj) {
     const allKeys = new Set([...Object.keys(a), ...Object.keys(b)]);
-    const keys = diffOptions.value.sortKeys ? [...allKeys].sort() : [...allKeys];
+    const keys = diffOptions.value.sortKeys
+      ? [...allKeys].sort()
+      : [...allKeys];
     for (const key of keys) {
       const p = path ? `${path}.${key}` : key;
       if (!(key in a)) {
-        diffLines.value.push({ type: "added", text: `${p}: ${JSON.stringify(b[key])}`, prefix: "+", depth });
+        diffLines.value.push({
+          type: "added",
+          text: `${p}: ${JSON.stringify(b[key])}`,
+          prefix: "+",
+          depth,
+        });
         jsonPatchOps.value.push({ op: "add", path: p, value: b[key] });
         stats.value.added++;
       } else if (!(key in b)) {
-        diffLines.value.push({ type: "removed", text: `${p}: ${JSON.stringify(a[key])}`, prefix: "-", depth });
+        diffLines.value.push({
+          type: "removed",
+          text: `${p}: ${JSON.stringify(a[key])}`,
+          prefix: "-",
+          depth,
+        });
         jsonPatchOps.value.push({ op: "remove", path: p });
         stats.value.removed++;
       } else {
@@ -283,11 +406,21 @@ function diff(a: any, b: any, path: string, depth: number) {
     for (let i = 0; i < maxLen; i++) {
       const p = `${path}[${i}]`;
       if (i >= a.length) {
-        diffLines.value.push({ type: "added", text: `${p}: ${JSON.stringify(b[i])}`, prefix: "+", depth });
+        diffLines.value.push({
+          type: "added",
+          text: `${p}: ${JSON.stringify(b[i])}`,
+          prefix: "+",
+          depth,
+        });
         jsonPatchOps.value.push({ op: "add", path: p, value: b[i] });
         stats.value.added++;
       } else if (i >= b.length) {
-        diffLines.value.push({ type: "removed", text: `${p}: ${JSON.stringify(a[i])}`, prefix: "-", depth });
+        diffLines.value.push({
+          type: "removed",
+          text: `${p}: ${JSON.stringify(a[i])}`,
+          prefix: "-",
+          depth,
+        });
         jsonPatchOps.value.push({ op: "remove", path: p });
         stats.value.removed++;
       } else {
@@ -295,11 +428,21 @@ function diff(a: any, b: any, path: string, depth: number) {
       }
     }
   } else if (a !== b) {
-    diffLines.value.push({ type: "modified", text: `${path}: ${JSON.stringify(a)} → ${JSON.stringify(b)}`, prefix: "~", depth });
+    diffLines.value.push({
+      type: "modified",
+      text: `${path}: ${JSON.stringify(a)} → ${JSON.stringify(b)}`,
+      prefix: "~",
+      depth,
+    });
     jsonPatchOps.value.push({ op: "replace", path, value: b });
     stats.value.modified++;
   } else {
-    diffLines.value.push({ type: "unchanged", text: `${path}: ${JSON.stringify(a)}`, prefix: " ", depth });
+    diffLines.value.push({
+      type: "unchanged",
+      text: `${path}: ${JSON.stringify(a)}`,
+      prefix: " ",
+      depth,
+    });
   }
 }
 

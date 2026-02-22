@@ -3,30 +3,61 @@
     <div class="max-w-4xl mx-auto">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
-        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Sorting Visualizer</h1>
+        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+          Sorting Visualizer
+        </h1>
       </div>
 
       <div class="glass-solid rounded-2xl p-6 mb-6">
         <div class="flex flex-wrap gap-4 items-end mb-6">
           <div>
-            <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1">Algorithm</label>
+            <label
+              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              >Algorithm</label
+            >
             <select v-model="algorithm" :disabled="running" class="w-44">
-              <option v-for="a in algorithms" :key="a.key" :value="a.key">{{ a.label }}</option>
+              <option v-for="a in algorithms" :key="a.key" :value="a.key">
+                {{ a.label }}
+              </option>
             </select>
           </div>
           <div>
-            <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1">Preset</label>
+            <label
+              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              >Preset</label
+            >
             <select v-model="preset" :disabled="running" class="w-36">
-              <option v-for="p in presets" :key="p.key" :value="p.key">{{ p.label }}</option>
+              <option v-for="p in presets" :key="p.key" :value="p.key">
+                {{ p.label }}
+              </option>
             </select>
           </div>
           <div>
-            <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1">Size: {{ size }}</label>
-            <input v-model.number="size" type="range" min="10" max="120" :disabled="running" class="w-32" />
+            <label
+              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              >Size: {{ size }}</label
+            >
+            <input
+              v-model.number="size"
+              type="range"
+              min="10"
+              max="120"
+              :disabled="running"
+              class="w-32"
+            />
           </div>
           <div>
-            <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1">Speed</label>
-            <input v-model.number="speed" type="range" min="1" max="100" class="w-32" />
+            <label
+              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              >Speed</label
+            >
+            <input
+              v-model.number="speed"
+              type="range"
+              min="1"
+              max="100"
+              class="w-32"
+            />
           </div>
           <div class="flex gap-2">
             <button
@@ -51,16 +82,33 @@
               <Icon name="Shuffle" :size="18" /> Shuffle
             </button>
           </div>
-          <label class="flex items-center gap-2 text-sm text-[rgb(var(--foreground-secondary))] cursor-pointer select-none ml-auto">
+          <label
+            class="flex items-center gap-2 text-sm text-[rgb(var(--foreground-secondary))] cursor-pointer select-none ml-auto"
+          >
             <input v-model="soundEnabled" type="checkbox" /> Sound
           </label>
         </div>
 
-        <div class="flex items-center gap-4 text-sm text-[rgb(var(--foreground-secondary))] flex-wrap">
-          <span>Comparisons: <strong class="text-accent">{{ comparisons }}</strong></span>
-          <span>Swaps: <strong class="text-accent">{{ swaps }}</strong></span>
-          <span>Complexity: <strong class="text-accent">{{ algorithms.find(a => a.key === algorithm)?.complexity }}</strong></span>
-          <span>Elapsed: <strong class="text-accent">{{ elapsedDisplay }}</strong></span>
+        <div
+          class="flex items-center gap-4 text-sm text-[rgb(var(--foreground-secondary))] flex-wrap"
+        >
+          <span
+            >Comparisons:
+            <strong class="text-accent">{{ comparisons }}</strong></span
+          >
+          <span
+            >Swaps: <strong class="text-accent">{{ swaps }}</strong></span
+          >
+          <span
+            >Complexity:
+            <strong class="text-accent">{{
+              algorithms.find((a) => a.key === algorithm)?.complexity
+            }}</strong></span
+          >
+          <span
+            >Elapsed:
+            <strong class="text-accent">{{ elapsedDisplay }}</strong></span
+          >
         </div>
       </div>
 
@@ -80,6 +128,10 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed, watch, onUnmounted } from "vue";
+import { useIntervalFn } from "@vueuse/core";
+import Icon from "~/components/ui/Icon.vue";
+
 useSeo({
   title: "Sorting Visualizer | Joel Stephen - Portfolio",
   description: "Watch bubble, merge, quick, and heap sort race in real-time.",
@@ -90,10 +142,6 @@ useSeo({
     description: "Watch bubble, merge, quick, and heap sort race in real-time.",
   },
 });
-
-import { ref, computed, watch, onUnmounted } from "vue";
-import { useIntervalFn } from "@vueuse/core";
-import Icon from "~/components/ui/Icon.vue";
 
 definePageMeta({ layout: "project-detail" });
 
@@ -133,9 +181,11 @@ let cancelled = false;
 let startTime = 0;
 
 const { pause: pauseElapsedTimer, resume: resumeElapsedTimer } = useIntervalFn(
-  () => { elapsed.value = performance.now() - startTime; },
+  () => {
+    elapsed.value = performance.now() - startTime;
+  },
   100,
-  { immediate: false }
+  { immediate: false },
 );
 
 let audioCtx: AudioContext | null = null;
@@ -170,19 +220,31 @@ function playTone(freq: number) {
 function generateArray() {
   const n = size.value;
   if (preset.value === "random") {
-    arr.value = Array.from({ length: n }, () => Math.floor(Math.random() * 200) + 5);
+    arr.value = Array.from(
+      { length: n },
+      () => Math.floor(Math.random() * 200) + 5,
+    );
   } else if (preset.value === "nearly") {
-    arr.value = Array.from({ length: n }, (_, i) => i * 3 + Math.floor(Math.random() * 5));
+    arr.value = Array.from(
+      { length: n },
+      (_, i) => i * 3 + Math.floor(Math.random() * 5),
+    );
     for (let i = 0; i < n / 10; i++) {
       const a = Math.floor(Math.random() * n);
       const b = Math.floor(Math.random() * n);
       [arr.value[a], arr.value[b]] = [arr.value[b], arr.value[a]];
     }
   } else if (preset.value === "reverse") {
-    arr.value = Array.from({ length: n }, (_, i) => (n - i) * 3 + Math.floor(Math.random() * 3));
+    arr.value = Array.from(
+      { length: n },
+      (_, i) => (n - i) * 3 + Math.floor(Math.random() * 3),
+    );
   } else {
     const vals = [10, 50, 100, 150, 200];
-    arr.value = Array.from({ length: n }, () => vals[Math.floor(Math.random() * vals.length)]);
+    arr.value = Array.from(
+      { length: n },
+      () => vals[Math.floor(Math.random() * vals.length)],
+    );
   }
 }
 
@@ -197,7 +259,9 @@ function shuffle() {
 
 shuffle();
 
-watch([size, preset], () => { if (!running.value) shuffle(); });
+watch([size, preset], () => {
+  if (!running.value) shuffle();
+});
 
 function delay() {
   return new Promise((r) => setTimeout(r, Math.max(1, 101 - speed.value)));
@@ -250,30 +314,41 @@ async function insertionSort() {
   for (let i = 1; i < n && !cancelled; i++) {
     let j = i;
     while (j > 0 && !cancelled) {
-      if (await compare(j - 1, j)) { await swap(j - 1, j); j--; }
-      else break;
+      if (await compare(j - 1, j)) {
+        await swap(j - 1, j);
+        j--;
+      } else break;
     }
   }
-  if (!cancelled) sorted.value = new Set(Array.from({ length: n }, (_, i) => i));
+  if (!cancelled)
+    sorted.value = new Set(Array.from({ length: n }, (_, i) => i));
 }
 
 async function shellSort() {
   const n = arr.value.length;
-  for (let gap = Math.floor(n / 2); gap > 0 && !cancelled; gap = Math.floor(gap / 2)) {
+  for (
+    let gap = Math.floor(n / 2);
+    gap > 0 && !cancelled;
+    gap = Math.floor(gap / 2)
+  ) {
     for (let i = gap; i < n && !cancelled; i++) {
       let j = i;
       while (j >= gap && !cancelled) {
-        if (await compare(j - gap, j)) { await swap(j - gap, j); j -= gap; }
-        else break;
+        if (await compare(j - gap, j)) {
+          await swap(j - gap, j);
+          j -= gap;
+        } else break;
       }
     }
   }
-  if (!cancelled) sorted.value = new Set(Array.from({ length: n }, (_, i) => i));
+  if (!cancelled)
+    sorted.value = new Set(Array.from({ length: n }, (_, i) => i));
 }
 
 async function cocktailSort() {
   const n = arr.value.length;
-  let start = 0, end = n - 1;
+  let start = 0,
+    end = n - 1;
   while (start < end && !cancelled) {
     for (let i = start; i < end && !cancelled; i++) {
       if (await compare(i, i + 1)) await swap(i, i + 1);
@@ -293,17 +368,30 @@ async function mergeSort() {
   async function merge(l: number, m: number, r: number) {
     const left = arr.value.slice(l, m + 1);
     const right = arr.value.slice(m + 1, r + 1);
-    let i = 0, j = 0, k = l;
+    let i = 0,
+      j = 0,
+      k = l;
     while (i < left.length && j < right.length && !cancelled) {
       comparisons.value++;
       active.value = new Set([k]);
       playTone(arr.value[k]);
       await delay();
       if (left[i] <= right[j]) arr.value[k++] = left[i++];
-      else { arr.value[k++] = right[j++]; swaps.value++; }
+      else {
+        arr.value[k++] = right[j++];
+        swaps.value++;
+      }
     }
-    while (i < left.length && !cancelled) { arr.value[k++] = left[i++]; active.value = new Set([k - 1]); await delay(); }
-    while (j < right.length && !cancelled) { arr.value[k++] = right[j++]; active.value = new Set([k - 1]); await delay(); }
+    while (i < left.length && !cancelled) {
+      arr.value[k++] = left[i++];
+      active.value = new Set([k - 1]);
+      await delay();
+    }
+    while (j < right.length && !cancelled) {
+      arr.value[k++] = right[j++];
+      active.value = new Set([k - 1]);
+      await delay();
+    }
   }
   async function sort(l: number, r: number) {
     if (l >= r || cancelled) return;
@@ -313,7 +401,10 @@ async function mergeSort() {
     await merge(l, m, r);
   }
   await sort(0, arr.value.length - 1);
-  if (!cancelled) sorted.value = new Set(Array.from({ length: arr.value.length }, (_, i) => i));
+  if (!cancelled)
+    sorted.value = new Set(
+      Array.from({ length: arr.value.length }, (_, i) => i),
+    );
 }
 
 async function quickSort() {
@@ -324,14 +415,20 @@ async function quickSort() {
       comparisons.value++;
       active.value = new Set([j, r]);
       await delay();
-      if (arr.value[j] < pivot) { i++; await swap(i, j); }
+      if (arr.value[j] < pivot) {
+        i++;
+        await swap(i, j);
+      }
     }
     await swap(i + 1, r);
     sorted.value.add(i + 1);
     return i + 1;
   }
   async function sort(l: number, r: number) {
-    if (l >= r || cancelled) { if (l === r) sorted.value.add(l); return; }
+    if (l >= r || cancelled) {
+      if (l === r) sorted.value.add(l);
+      return;
+    }
     const p = await partition(l, r);
     await sort(l, p - 1);
     await sort(p + 1, r);
@@ -345,14 +442,19 @@ async function heapSort() {
     let largest = root;
     const left = 2 * root + 1;
     const right = 2 * root + 2;
-    if (left < sz) { if (await compare(left, largest)) largest = left; }
-    if (right < sz) { if (await compare(right, largest)) largest = right; }
+    if (left < sz) {
+      if (await compare(left, largest)) largest = left;
+    }
+    if (right < sz) {
+      if (await compare(right, largest)) largest = right;
+    }
     if (largest !== root && !cancelled) {
       await swap(root, largest);
       await heapify(sz, largest);
     }
   }
-  for (let i = Math.floor(n / 2) - 1; i >= 0 && !cancelled; i--) await heapify(n, i);
+  for (let i = Math.floor(n / 2) - 1; i >= 0 && !cancelled; i--)
+    await heapify(n, i);
   for (let i = n - 1; i > 0 && !cancelled; i--) {
     await swap(0, i);
     sorted.value.add(i);
@@ -404,7 +506,8 @@ async function radixSort() {
     }
     exp *= 10;
   }
-  if (!cancelled) sorted.value = new Set(Array.from({ length: n }, (_, i) => i));
+  if (!cancelled)
+    sorted.value = new Set(Array.from({ length: n }, (_, i) => i));
 }
 
 function stop() {
@@ -422,9 +525,16 @@ async function run() {
   resumeElapsedTimer();
 
   const sorters: Record<string, () => Promise<void>> = {
-    bubble: bubbleSort, selection: selectionSort, insertion: insertionSort,
-    shell: shellSort, cocktail: cocktailSort, merge: mergeSort, quick: quickSort,
-    heap: heapSort, counting: countingSort, radix: radixSort,
+    bubble: bubbleSort,
+    selection: selectionSort,
+    insertion: insertionSort,
+    shell: shellSort,
+    cocktail: cocktailSort,
+    merge: mergeSort,
+    quick: quickSort,
+    heap: heapSort,
+    counting: countingSort,
+    radix: radixSort,
   };
   const fn = sorters[algorithm.value];
   if (fn) await fn();

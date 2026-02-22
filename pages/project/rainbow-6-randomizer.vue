@@ -11,13 +11,18 @@
         <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
           <div class="flex items-center gap-2">
             <BackToProjects />
-            <h1 class="text-xl sm:text-2xl font-bold text-[rgb(var(--foreground))]">
+            <h1
+              class="text-xl sm:text-2xl font-bold text-[rgb(var(--foreground))]"
+            >
               R6 Siege Randomizer
             </h1>
           </div>
           <div class="flex items-center gap-2">
-            <label class="flex items-center gap-1.5 text-xs text-[rgb(var(--foreground-secondary))] cursor-pointer select-none">
-              <input v-model="soundEnabled" type="checkbox" class="rounded" /> Sound
+            <label
+              class="flex items-center gap-1.5 text-xs text-[rgb(var(--foreground-secondary))] cursor-pointer select-none"
+            >
+              <input v-model="soundEnabled" type="checkbox" class="rounded" />
+              Sound
             </label>
             <button
               class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] hover:border-accent/50 transition flex items-center gap-1.5"
@@ -33,8 +38,13 @@
         <div class="glass-solid rounded-xl p-4 mb-4">
           <div class="flex flex-wrap items-center gap-4">
             <div class="flex items-center gap-2">
-              <label class="text-sm font-medium text-[rgb(var(--foreground))]">Players</label>
-              <select v-model.number="count" class="px-3 py-1.5 rounded-lg text-sm bg-[rgb(var(--glass))] border border-[rgb(var(--border))]">
+              <label class="text-sm font-medium text-[rgb(var(--foreground))]"
+                >Players</label
+              >
+              <select
+                v-model.number="count"
+                class="px-3 py-1.5 rounded-lg text-sm bg-[rgb(var(--glass))] border border-[rgb(var(--border))]"
+              >
                 <option v-for="n in 5" :key="n" :value="n">{{ n }}</option>
               </select>
             </div>
@@ -52,18 +62,30 @@
 
         <!-- Operator Toggles (collapsed by default) -->
         <details class="glass-solid rounded-xl p-3 mb-4">
-          <summary class="text-xs font-semibold text-[rgb(var(--foreground))] cursor-pointer select-none flex items-center gap-1.5">
+          <summary
+            class="text-xs font-semibold text-[rgb(var(--foreground))] cursor-pointer select-none flex items-center gap-1.5"
+          >
             <Icon name="Settings" :size="14" /> Operator Toggles
           </summary>
-          <div class="grid sm:grid-cols-2 gap-4 mt-3 pt-3 border-t border-[rgb(var(--border))]">
+          <div
+            class="grid sm:grid-cols-2 gap-4 mt-3 pt-3 border-t border-[rgb(var(--border))]"
+          >
             <div>
-              <p class="text-[10px] text-[rgb(var(--foreground-muted))] uppercase mb-1.5">Attackers</p>
+              <p
+                class="text-[10px] text-[rgb(var(--foreground-muted))] uppercase mb-1.5"
+              >
+                Attackers
+              </p>
               <div class="flex flex-wrap gap-1">
                 <button
                   v-for="op in atkOps"
                   :key="op"
                   class="px-1.5 py-0.5 rounded text-[10px] font-medium transition-colors"
-                  :class="enabledAtk.has(op) ? 'bg-accent/20 text-accent border border-accent/50' : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-muted))] opacity-60'"
+                  :class="
+                    enabledAtk.has(op)
+                      ? 'bg-accent/20 text-accent border border-accent/50'
+                      : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-muted))] opacity-60'
+                  "
                   @click="toggleOp('atk', op)"
                 >
                   {{ op }}
@@ -71,13 +93,21 @@
               </div>
             </div>
             <div>
-              <p class="text-[10px] text-[rgb(var(--foreground-muted))] uppercase mb-1.5">Defenders</p>
+              <p
+                class="text-[10px] text-[rgb(var(--foreground-muted))] uppercase mb-1.5"
+              >
+                Defenders
+              </p>
               <div class="flex flex-wrap gap-1">
                 <button
                   v-for="op in defOps"
                   :key="op"
                   class="px-1.5 py-0.5 rounded text-[10px] font-medium transition-colors"
-                  :class="enabledDef.has(op) ? 'bg-accent/20 text-accent border border-accent/50' : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-muted))] opacity-60'"
+                  :class="
+                    enabledDef.has(op)
+                      ? 'bg-accent/20 text-accent border border-accent/50'
+                      : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-muted))] opacity-60'
+                  "
                   @click="toggleOp('def', op)"
                 >
                   {{ op }}
@@ -88,8 +118,15 @@
         </details>
 
         <!-- History (compact, collapsible) -->
-        <details v-if="pickHistory.length" class="glass-solid rounded-xl p-2 mb-4">
-          <summary class="text-[10px] text-[rgb(var(--foreground-muted))] uppercase cursor-pointer px-2 py-1">Last Picks</summary>
+        <details
+          v-if="pickHistory.length"
+          class="glass-solid rounded-xl p-2 mb-4"
+        >
+          <summary
+            class="text-[10px] text-[rgb(var(--foreground-muted))] uppercase cursor-pointer px-2 py-1"
+          >
+            Last Picks
+          </summary>
           <div class="flex flex-wrap gap-1 px-2 pb-2 pt-0">
             <span
               v-for="(p, i) in pickHistory"
@@ -111,7 +148,10 @@
               >
                 <Icon name="Shuffle" :size="16" /> Randomize Attackers
               </button>
-              <div v-if="attackers.length" class="flex flex-wrap justify-center gap-2">
+              <div
+                v-if="attackers.length"
+                class="flex flex-wrap justify-center gap-2"
+              >
                 <div
                   v-for="(a, i) in attackers"
                   :key="`${a.op}-${i}`"
@@ -125,9 +165,22 @@
                     loading="lazy"
                     class="w-12 h-12 mx-auto mb-1 rounded-lg"
                   />
-                  <p class="font-semibold text-[rgb(var(--foreground))] text-xs truncate">{{ a.op }}</p>
-                  <p class="text-[10px] text-[rgb(var(--foreground-muted))] truncate">{{ a.name }}</p>
-                  <button class="mt-1 text-[10px] text-accent font-medium" @click="reroll('atk', i)">Re-roll</button>
+                  <p
+                    class="font-semibold text-[rgb(var(--foreground))] text-xs truncate"
+                  >
+                    {{ a.op }}
+                  </p>
+                  <p
+                    class="text-[10px] text-[rgb(var(--foreground-muted))] truncate"
+                  >
+                    {{ a.name }}
+                  </p>
+                  <button
+                    class="mt-1 text-[10px] text-accent font-medium"
+                    @click="reroll('atk', i)"
+                  >
+                    Re-roll
+                  </button>
                 </div>
               </div>
             </div>
@@ -140,7 +193,10 @@
               >
                 <Icon name="Shuffle" :size="16" /> Randomize Defenders
               </button>
-              <div v-if="defenders.length" class="flex flex-wrap justify-center gap-2">
+              <div
+                v-if="defenders.length"
+                class="flex flex-wrap justify-center gap-2"
+              >
                 <div
                   v-for="(d, i) in defenders"
                   :key="`${d.op}-${i}`"
@@ -154,9 +210,22 @@
                     loading="lazy"
                     class="w-12 h-12 mx-auto mb-1 rounded-lg"
                   />
-                  <p class="font-semibold text-[rgb(var(--foreground))] text-xs truncate">{{ d.op }}</p>
-                  <p class="text-[10px] text-[rgb(var(--foreground-muted))] truncate">{{ d.name }}</p>
-                  <button class="mt-1 text-[10px] text-accent font-medium" @click="reroll('def', i)">Re-roll</button>
+                  <p
+                    class="font-semibold text-[rgb(var(--foreground))] text-xs truncate"
+                  >
+                    {{ d.op }}
+                  </p>
+                  <p
+                    class="text-[10px] text-[rgb(var(--foreground-muted))] truncate"
+                  >
+                    {{ d.name }}
+                  </p>
+                  <button
+                    class="mt-1 text-[10px] text-accent font-medium"
+                    @click="reroll('def', i)"
+                  >
+                    Re-roll
+                  </button>
                 </div>
               </div>
             </div>
@@ -168,37 +237,98 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed, onMounted } from "vue";
+import { useStorage, useClipboard } from "@vueuse/core";
+import Icon from "~/components/ui/Icon.vue";
+
 useSeo({
   title: "R6 Siege Randomizer | Joel Stephen - Portfolio",
-  description: "Random operator selection for Rainbow Six Siege matches. Pick attackers and defenders.",
+  description:
+    "Random operator selection for Rainbow Six Siege matches. Pick attackers and defenders.",
   path: "/project/rainbow-6-randomizer",
   breadcrumbTitle: "R6 Siege Randomizer",
   projectSchema: {
     name: "R6 Siege Randomizer",
-    description: "Random operator selection for Rainbow Six Siege matches. Pick attackers and defenders.",
+    description:
+      "Random operator selection for Rainbow Six Siege matches. Pick attackers and defenders.",
   },
 });
-
-import { ref, computed, onMounted } from "vue";
-import { useStorage } from "@vueuse/core";
-import { useClipboard } from "@vueuse/core";
-import Icon from "~/components/ui/Icon.vue";
 
 definePageMeta({ layout: "project-detail" });
 
 const atkOps = [
-  "Sledge", "Thatcher", "Ash", "Thermite", "Twitch", "Montagne", "Glaz", "Fuze",
-  "Blitz", "IQ", "Buck", "Blackbeard", "Capitao", "Hibana", "Jackal", "Ying",
-  "Zofia", "Dokkaebi", "Lion", "Finka", "Maverick", "Nomad", "Gridlock", "Nokk",
-  "Amaru", "Kali", "Iana", "Ace", "Zero", "Flores", "Osa", "Sens", "Grim",
-  "Brava", "Ram",
+  "Sledge",
+  "Thatcher",
+  "Ash",
+  "Thermite",
+  "Twitch",
+  "Montagne",
+  "Glaz",
+  "Fuze",
+  "Blitz",
+  "IQ",
+  "Buck",
+  "Blackbeard",
+  "Capitao",
+  "Hibana",
+  "Jackal",
+  "Ying",
+  "Zofia",
+  "Dokkaebi",
+  "Lion",
+  "Finka",
+  "Maverick",
+  "Nomad",
+  "Gridlock",
+  "Nokk",
+  "Amaru",
+  "Kali",
+  "Iana",
+  "Ace",
+  "Zero",
+  "Flores",
+  "Osa",
+  "Sens",
+  "Grim",
+  "Brava",
+  "Ram",
 ];
 const defOps = [
-  "Smoke", "Mute", "Castle", "Pulse", "Doc", "Rook", "Kapkan", "Tachanka",
-  "Jäger", "Bandit", "Frost", "Valkyrie", "Caveira", "Echo", "Mira", "Lesion",
-  "Ela", "Vigil", "Maestro", "Alibi", "Clash", "Kaid", "Mozzie", "Warden",
-  "Goyo", "Wamai", "Oryx", "Melusi", "Aruni", "Thunderbird", "Thorn", "Azami",
-  "Solis", "Fenrir", "Tubarao",
+  "Smoke",
+  "Mute",
+  "Castle",
+  "Pulse",
+  "Doc",
+  "Rook",
+  "Kapkan",
+  "Tachanka",
+  "Jäger",
+  "Bandit",
+  "Frost",
+  "Valkyrie",
+  "Caveira",
+  "Echo",
+  "Mira",
+  "Lesion",
+  "Ela",
+  "Vigil",
+  "Maestro",
+  "Alibi",
+  "Clash",
+  "Kaid",
+  "Mozzie",
+  "Warden",
+  "Goyo",
+  "Wamai",
+  "Oryx",
+  "Melusi",
+  "Aruni",
+  "Thunderbird",
+  "Thorn",
+  "Azami",
+  "Solis",
+  "Fenrir",
+  "Tubarao",
 ];
 
 const opImg = (n: string) =>
@@ -221,7 +351,9 @@ const enabledDef = computed(() => new Set(enabledDefRaw.value));
 const attackers = ref<{ op: string; name: string }[]>([]);
 const defenders = ref<{ op: string; name: string }[]>([]);
 
-const { copy: copyToClipboard, copied: shareCopied } = useClipboard({ copiedDuring: 2000 });
+const { copy: copyToClipboard, copied: shareCopied } = useClipboard({
+  copiedDuring: 2000,
+});
 
 const bgs = [
   "https://wallpapercave.com/wp/wp1846902.jpg",
@@ -246,19 +378,29 @@ function applyShareState() {
     if (namesParam) {
       try {
         const arr = JSON.parse(decodeURIComponent(namesParam)) as string[];
-        names.value = [...arr.slice(0, count.value), ...Array(5).fill("")].slice(0, 5);
+        names.value = [
+          ...arr.slice(0, count.value),
+          ...Array(5).fill(""),
+        ].slice(0, 5);
       } catch {
-        const arr = namesParam.split("|").map((s) => decodeURIComponent(s)).slice(0, count.value);
+        const arr = namesParam
+          .split("|")
+          .map((s) => decodeURIComponent(s))
+          .slice(0, count.value);
         names.value = [...arr, ...Array(5).fill("")].slice(0, 5);
       }
     }
     if (disabledAtkParam) {
       const disabled = disabledAtkParam.split(",").filter(Boolean);
-      enabledAtkRaw.value = disabled.length ? atkOps.filter((o) => !disabled.includes(o)) : atkOps;
+      enabledAtkRaw.value = disabled.length
+        ? atkOps.filter((o) => !disabled.includes(o))
+        : atkOps;
     }
     if (disabledDefParam) {
       const disabled = disabledDefParam.split(",").filter(Boolean);
-      enabledDefRaw.value = disabled.length ? defOps.filter((o) => !disabled.includes(o)) : defOps;
+      enabledDefRaw.value = disabled.length
+        ? defOps.filter((o) => !disabled.includes(o))
+        : defOps;
     }
     const atkParam = params.get("atk");
     const defParam = params.get("def");
@@ -266,19 +408,24 @@ function applyShareState() {
       try {
         const arr = JSON.parse(atkParam) as { op: string; name: string }[];
         attackers.value = arr.filter((a) => atkOps.includes(a.op));
-      } catch { /* ignore */ }
+      } catch {
+        /* ignore */
+      }
     }
     if (defParam) {
       try {
         const arr = JSON.parse(defParam) as { op: string; name: string }[];
         defenders.value = arr.filter((d) => defOps.includes(d.op));
-      } catch { /* ignore */ }
+      } catch {
+        /* ignore */
+      }
     }
   }
 }
 
 function toggleOp(type: "atk" | "def", op: string) {
-  const arr = type === "atk" ? [...enabledAtkRaw.value] : [...enabledDefRaw.value];
+  const arr =
+    type === "atk" ? [...enabledAtkRaw.value] : [...enabledDefRaw.value];
   const idx = arr.indexOf(op);
   if (idx >= 0) arr.splice(idx, 1);
   else arr.push(op);
@@ -289,7 +436,9 @@ function toggleOp(type: "atk" | "def", op: string) {
 function playShuffleSound() {
   if (!soundEnabled.value || typeof window === "undefined") return;
   try {
-    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const ctx = new (window.AudioContext ||
+      (window as Window & { webkitAudioContext?: new () => AudioContext })
+        .webkitAudioContext!)();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.connect(gain);
@@ -299,7 +448,9 @@ function playShuffleSound() {
     osc.start();
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
     osc.stop(ctx.currentTime + 0.1);
-  } catch { /* ignore */ }
+  } catch {
+    /* ignore */
+  }
 }
 
 function shuffle<T>(arr: T[]): T[] {
@@ -317,16 +468,23 @@ function getNames() {
     .map((n, i) => n.trim() || `Player ${i + 1}`);
 }
 
-function addToHistory(type: "atk" | "def", ops: { op: string; name: string }[]) {
+function addToHistory(
+  type: "atk" | "def",
+  ops: { op: string; name: string }[],
+) {
   const entries = ops.map((o) => `${o.name}: ${o.op}`).join(" · ");
-  const next = [`${type === "atk" ? "ATK" : "DEF"}: ${entries}`, ...pickHistory.value].slice(0, 10);
+  const next = [
+    `${type === "atk" ? "ATK" : "DEF"}: ${entries}`,
+    ...pickHistory.value,
+  ].slice(0, 10);
   pickHistory.value = next;
 }
 
 function randomize(type: "atk" | "def") {
-  const pool = type === "atk"
-    ? atkOps.filter((o) => enabledAtk.value.has(o))
-    : defOps.filter((o) => enabledDef.value.has(o));
+  const pool =
+    type === "atk"
+      ? atkOps.filter((o) => enabledAtk.value.has(o))
+      : defOps.filter((o) => enabledDef.value.has(o));
   if (pool.length < count.value) return;
   const ops = shuffle(pool).slice(0, count.value);
   const ns = getNames();
@@ -339,9 +497,10 @@ function randomize(type: "atk" | "def") {
 
 function reroll(type: "atk" | "def", idx: number) {
   const list = type === "atk" ? attackers : defenders;
-  const pool = type === "atk"
-    ? atkOps.filter((o) => enabledAtk.value.has(o))
-    : defOps.filter((o) => enabledDef.value.has(o));
+  const pool =
+    type === "atk"
+      ? atkOps.filter((o) => enabledAtk.value.has(o))
+      : defOps.filter((o) => enabledDef.value.has(o));
   const used = list.value.map((x) => x.op);
   const avail = pool.filter((o) => !used.includes(o));
   if (avail.length) {
@@ -355,14 +514,18 @@ function copyShareLink() {
   const base = window.location.origin + window.location.pathname;
   const params = new URLSearchParams();
   params.set("c", String(count.value));
-  const namesEncoded = encodeURIComponent(JSON.stringify(names.value.slice(0, count.value)));
+  const namesEncoded = encodeURIComponent(
+    JSON.stringify(names.value.slice(0, count.value)),
+  );
   params.set("n", namesEncoded);
   const disabledAtk = atkOps.filter((o) => !enabledAtk.value.has(o));
   const disabledDef = defOps.filter((o) => !enabledDef.value.has(o));
   if (disabledAtk.length) params.set("da", disabledAtk.join(","));
   if (disabledDef.length) params.set("dd", disabledDef.join(","));
-  if (attackers.value.length) params.set("atk", JSON.stringify(attackers.value));
-  if (defenders.value.length) params.set("def", JSON.stringify(defenders.value));
+  if (attackers.value.length)
+    params.set("atk", JSON.stringify(attackers.value));
+  if (defenders.value.length)
+    params.set("def", JSON.stringify(defenders.value));
   const url = `${base}?${params.toString()}`;
   copyToClipboard(url);
 }

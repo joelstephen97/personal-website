@@ -3,7 +3,8 @@
     ref="gridZoneRef"
     class="min-h-[160px] project-grid grid grid-cols-1 sm:grid-cols-2 gap-4 overflow-visible"
     :class="[
-      isGridDropTarget && 'ring-2 ring-accent/30 ring-dashed rounded-2xl -m-1 p-1',
+      isGridDropTarget &&
+        'ring-2 ring-accent/30 ring-dashed rounded-2xl -m-1 p-1',
     ]"
   >
     <slot />

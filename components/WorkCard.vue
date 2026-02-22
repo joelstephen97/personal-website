@@ -20,7 +20,9 @@
           class="text-muted-foreground group-hover:text-accent transition-colors"
         />
       </div>
-      <h3 class="text-base font-semibold text-foreground group-hover:text-accent transition-colors mb-1">
+      <h3
+        class="text-base font-semibold text-foreground group-hover:text-accent transition-colors mb-1"
+      >
         {{ project.name }}
       </h3>
       <p class="text-sm text-accent font-medium mb-1.5">

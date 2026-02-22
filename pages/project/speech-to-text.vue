@@ -9,7 +9,8 @@
       </div>
 
       <p class="text-[rgb(var(--foreground-muted))] mb-8">
-        Transcribe audio with Whisper AI—runs entirely in your browser. Upload a file or record from your microphone.
+        Transcribe audio with Whisper AI—runs entirely in your browser. Upload a
+        file or record from your microphone.
       </p>
 
       <div class="glass-solid rounded-2xl p-6 mb-6">
@@ -30,9 +31,11 @@
           />
           <button
             class="px-5 py-3 rounded-xl font-medium flex items-center gap-2 transition"
-            :class="recording
-              ? 'bg-red-900 text-white'
-              : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] hover:border-accent/50'"
+            :class="
+              recording
+                ? 'bg-red-900 text-white'
+                : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] hover:border-accent/50'
+            "
             :disabled="processing"
             @click="toggleRecord"
           >
@@ -42,18 +45,28 @@
         </div>
 
         <div v-if="audioUrl" class="mb-6">
-          <p class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-2">Audio</p>
+          <p
+            class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-2"
+          >
+            Audio
+          </p>
           <audio :src="audioUrl" controls class="w-full rounded-lg" />
         </div>
 
         <div v-if="processing" class="flex items-center gap-3 py-8">
-          <div class="w-6 h-6 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+          <div
+            class="w-6 h-6 border-2 border-accent border-t-transparent rounded-full animate-spin"
+          />
           <span class="text-accent text-sm">Transcribing...</span>
         </div>
 
         <div v-else-if="transcript" class="space-y-2">
           <div class="flex items-center justify-between">
-            <p class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide">Transcript</p>
+            <p
+              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide"
+            >
+              Transcript
+            </p>
             <button
               class="text-sm text-accent font-medium flex items-center gap-1 hover:opacity-80"
               @click="copyTranscript"
@@ -61,7 +74,11 @@
               <Icon name="Copy" :size="14" /> Copy
             </button>
           </div>
-          <p class="text-[rgb(var(--foreground))] leading-relaxed whitespace-pre-wrap">{{ transcript }}</p>
+          <p
+            class="text-[rgb(var(--foreground))] leading-relaxed whitespace-pre-wrap"
+          >
+            {{ transcript }}
+          </p>
         </div>
 
         <div v-else-if="audioUrl && !processing" class="py-8 text-center">
@@ -73,27 +90,31 @@
           </button>
         </div>
 
-        <div v-if="loadError" class="mt-4 text-amber-600 text-sm">{{ loadError }}</div>
+        <div v-if="loadError" class="mt-4 text-amber-600 text-sm">
+          {{ loadError }}
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, computed, onUnmounted } from "vue";
+import { useClipboard } from "@vueuse/core";
+import Icon from "~/components/ui/Icon.vue";
+
 useSeo({
   title: "Speech to Text | Joel Stephen - Portfolio",
-  description: "Transcribe audio with Whisper AI—runs entirely in your browser.",
+  description:
+    "Transcribe audio with Whisper AI—runs entirely in your browser.",
   path: "/project/speech-to-text",
   breadcrumbTitle: "Speech to Text",
   projectSchema: {
     name: "Speech to Text",
-    description: "Transcribe audio with Whisper AI—runs entirely in your browser.",
+    description:
+      "Transcribe audio with Whisper AI—runs entirely in your browser.",
   },
 });
-
-import { ref, computed, onUnmounted } from "vue";
-import { useClipboard } from "@vueuse/core";
-import Icon from "~/components/ui/Icon.vue";
 
 definePageMeta({ layout: "project-detail" });
 
@@ -171,8 +192,7 @@ async function transcribe() {
     const result = await fn(audioUrl.value);
     transcript.value = result?.text?.trim() ?? "No speech detected";
   } catch (e) {
-    localError.value =
-      e instanceof Error ? e.message : "Transcription failed";
+    localError.value = e instanceof Error ? e.message : "Transcription failed";
   }
   processing.value = false;
 }

@@ -17,7 +17,8 @@
     --glass-solid: 242 244 250;
     --glass-border: rgb(210 214 222);
     --glass-highlight: rgba(255, 255, 255, 0.6);
-    --glass-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.1);
+    --glass-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.1);
     --success: 52 199 89;
     --error: 255 59 48;
     --terminal-bg: 28 28 30;
@@ -86,7 +87,9 @@
     border-color: var(--glass-border);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
-    box-shadow: inset 0 1px 0 var(--glass-highlight), var(--glass-shadow);
+    box-shadow:
+      inset 0 1px 0 var(--glass-highlight),
+      var(--glass-shadow);
   }
 
   .glass-solid {
@@ -94,7 +97,9 @@
     border-color: var(--glass-border);
     backdrop-filter: blur(40px) saturate(180%);
     -webkit-backdrop-filter: blur(40px) saturate(180%);
-    box-shadow: inset 0 1px 0 var(--glass-highlight), var(--glass-shadow);
+    box-shadow:
+      inset 0 1px 0 var(--glass-highlight),
+      var(--glass-shadow);
   }
 
   .btn-primary {
@@ -218,10 +223,12 @@ select:focus {
   animation: none;
 }
 ::view-transition-old(page-content) {
-  animation: view-transition-fade-blur-out 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: view-transition-fade-blur-out 0.35s cubic-bezier(0.4, 0, 0.2, 1)
+    forwards;
 }
 ::view-transition-new(page-content) {
-  animation: view-transition-fade-blur-in 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: view-transition-fade-blur-in 0.35s cubic-bezier(0.4, 0, 0.2, 1)
+    forwards;
 }
 
 /* Project card shared-element transition - smooth expand/collapse */

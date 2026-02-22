@@ -5,7 +5,9 @@
     :style="crosshairStyle"
   >
     <!-- Cross -->
-    <template v-if="settings.style === 'cross' || settings.style === 'cross-dot'">
+    <template
+      v-if="settings.style === 'cross' || settings.style === 'cross-dot'"
+    >
       <div
         class="absolute bg-current"
         :style="{
@@ -16,7 +18,9 @@
           marginLeft: `-${settings.thickness / 2}px`,
           marginTop: `-${settings.size / 2}px`,
           transform: `translateY(-${settings.gap}px)`,
-          boxShadow: settings.outline ? `0 0 0 1px ${settings.outlineColor}` : undefined,
+          boxShadow: settings.outline
+            ? `0 0 0 1px ${settings.outlineColor}`
+            : undefined,
         }"
       />
       <div
@@ -29,7 +33,9 @@
           marginLeft: `-${settings.thickness / 2}px`,
           marginTop: `-${settings.size / 2}px`,
           transform: `translateY(${settings.gap}px)`,
-          boxShadow: settings.outline ? `0 0 0 1px ${settings.outlineColor}` : undefined,
+          boxShadow: settings.outline
+            ? `0 0 0 1px ${settings.outlineColor}`
+            : undefined,
         }"
       />
       <div
@@ -42,7 +48,9 @@
           marginLeft: `-${settings.size / 2}px`,
           marginTop: `-${settings.thickness / 2}px`,
           transform: `translateX(-${settings.gap}px)`,
-          boxShadow: settings.outline ? `0 0 0 1px ${settings.outlineColor}` : undefined,
+          boxShadow: settings.outline
+            ? `0 0 0 1px ${settings.outlineColor}`
+            : undefined,
         }"
       />
       <div
@@ -55,7 +63,9 @@
           marginLeft: `-${settings.size / 2}px`,
           marginTop: `-${settings.thickness / 2}px`,
           transform: `translateX(${settings.gap}px)`,
-          boxShadow: settings.outline ? `0 0 0 1px ${settings.outlineColor}` : undefined,
+          boxShadow: settings.outline
+            ? `0 0 0 1px ${settings.outlineColor}`
+            : undefined,
         }"
       />
     </template>
@@ -70,7 +80,9 @@
         height: `${settings.size / 2}px`,
         marginLeft: `-${settings.size / 4}px`,
         marginTop: `-${settings.size / 4}px`,
-        boxShadow: settings.outline ? `0 0 0 1px ${settings.outlineColor}` : undefined,
+        boxShadow: settings.outline
+          ? `0 0 0 1px ${settings.outlineColor}`
+          : undefined,
       }"
     />
     <!-- Circle -->
@@ -85,7 +97,9 @@
         marginLeft: `-${settings.size / 2}px`,
         marginTop: `-${settings.size / 2}px`,
         borderWidth: `${settings.thickness}px`,
-        boxShadow: settings.outline ? `0 0 0 1px ${settings.outlineColor}` : undefined,
+        boxShadow: settings.outline
+          ? `0 0 0 1px ${settings.outlineColor}`
+          : undefined,
       }"
     />
   </div>

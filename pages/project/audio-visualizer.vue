@@ -3,7 +3,9 @@
     <div class="max-w-4xl mx-auto">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
-        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Audio Visualizer</h1>
+        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+          Audio Visualizer
+        </h1>
       </div>
 
       <div class="glass-solid rounded-2xl p-6 mb-6">
@@ -14,13 +16,21 @@
           >
             <Icon name="Upload" :size="18" /> Upload Audio
           </button>
-          <input ref="fileInput" type="file" accept="audio/*" class="hidden" @change="onFileSelect" />
+          <input
+            ref="fileInput"
+            type="file"
+            accept="audio/*"
+            class="hidden"
+            @change="onFileSelect"
+          />
 
           <button
             class="px-5 py-3 rounded-xl font-semibold flex items-center gap-2 transition"
-            :class="micActive
-              ? 'bg-accent text-white shadow-lg shadow-accent/25'
-              : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] hover:border-accent/50'"
+            :class="
+              micActive
+                ? 'bg-accent text-white shadow-lg shadow-accent/25'
+                : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] hover:border-accent/50'
+            "
             @click="toggleMic"
           >
             <Icon :name="micActive ? 'MicOff' : 'Mic'" :size="18" />
@@ -38,7 +48,10 @@
           </div>
 
           <div>
-            <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1">Mode</label>
+            <label
+              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              >Mode</label
+            >
             <select v-model="vizMode">
               <option value="bars">Frequency Bars</option>
               <option value="waveform">Waveform</option>
@@ -47,7 +60,10 @@
             </select>
           </div>
           <div>
-            <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1">FFT Size</label>
+            <label
+              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              >FFT Size</label
+            >
             <select v-model="fftSize" @change="applyFftSize">
               <option :value="256">256</option>
               <option :value="512">512</option>
@@ -66,7 +82,12 @@
           </button>
         </div>
 
-        <p v-if="fileName" class="text-sm text-[rgb(var(--foreground-secondary))] mt-3">{{ fileName }}</p>
+        <p
+          v-if="fileName"
+          class="text-sm text-[rgb(var(--foreground-secondary))] mt-3"
+        >
+          {{ fileName }}
+        </p>
 
         <!-- Progress bar -->
         <div v-if="audioSrc && duration > 0" class="mt-4">
@@ -74,9 +95,14 @@
             class="h-1.5 rounded-full bg-[rgb(var(--border))] cursor-pointer relative"
             @click="seek"
           >
-            <div class="h-full rounded-full bg-accent transition-all" :style="{ width: progressPct + '%' }" />
+            <div
+              class="h-full rounded-full bg-accent transition-all"
+              :style="{ width: progressPct + '%' }"
+            />
           </div>
-          <div class="flex justify-between text-xs text-[rgb(var(--foreground-muted))] mt-1 font-mono">
+          <div
+            class="flex justify-between text-xs text-[rgb(var(--foreground-muted))] mt-1 font-mono"
+          >
             <span>{{ formatTime(currentTime) }}</span>
             <span>{{ formatTime(duration) }}</span>
           </div>
@@ -85,42 +111,65 @@
         <!-- Controls -->
         <div class="flex flex-wrap gap-6 mt-4 items-end">
           <div class="flex-1 min-w-[120px]">
-            <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1">Volume: {{ Math.round(gain * 100) }}%</label>
-            <input v-model.number="gain" type="range" min="0" max="1" step="0.01" class="w-full" />
+            <label
+              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              >Volume: {{ Math.round(gain * 100) }}%</label
+            >
+            <input
+              v-model.number="gain"
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              class="w-full"
+            />
           </div>
           <div class="flex-1 min-w-[120px]">
-            <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1">Smoothing: {{ smoothing.toFixed(2) }}</label>
-            <input v-model.number="smoothing" type="range" min="0" max="0.99" step="0.01" class="w-full" />
+            <label
+              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              >Smoothing: {{ smoothing.toFixed(2) }}</label
+            >
+            <input
+              v-model.number="smoothing"
+              type="range"
+              min="0"
+              max="0.99"
+              step="0.01"
+              class="w-full"
+            />
           </div>
         </div>
       </div>
 
       <div ref="vizContainer" class="glass-solid rounded-2xl p-6">
-        <canvas
-          ref="canvas"
-          class="w-full rounded-xl"
-          style="height: 300px"
-        />
+        <canvas ref="canvas" class="w-full rounded-xl" style="height: 300px" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, onUnmounted, watch, onMounted } from "vue";
+import {
+  useFullscreen,
+  useIntervalFn,
+  useRafFn,
+  useEventListener,
+} from "@vueuse/core";
+import Icon from "~/components/ui/Icon.vue";
+
 useSeo({
   title: "Audio Visualizer | Joel Stephen - Portfolio",
-  description: "Real-time waveform and frequency visualization via Web Audio API.",
+  description:
+    "Real-time waveform and frequency visualization via Web Audio API.",
   path: "/project/audio-visualizer",
   breadcrumbTitle: "Audio Visualizer",
   projectSchema: {
     name: "Audio Visualizer",
-    description: "Real-time waveform and frequency visualization via Web Audio API.",
+    description:
+      "Real-time waveform and frequency visualization via Web Audio API.",
   },
 });
-
-import { ref, onUnmounted, watch, onMounted } from "vue";
-import { useFullscreen, useIntervalFn, useRafFn, useEventListener } from "@vueuse/core";
-import Icon from "~/components/ui/Icon.vue";
 
 definePageMeta({ layout: "project-detail" });
 
@@ -157,14 +206,19 @@ const { pause: pauseTimeUpdate, resume: resumeTimeUpdate } = useIntervalFn(
   () => {
     if (audioEl.value) {
       currentTime.value = audioEl.value.currentTime;
-      progressPct.value = duration.value > 0 ? (audioEl.value.currentTime / duration.value) * 100 : 0;
+      progressPct.value =
+        duration.value > 0
+          ? (audioEl.value.currentTime / duration.value) * 100
+          : 0;
     }
   },
   100,
-  { immediate: false }
+  { immediate: false },
 );
 
-const { pause: pauseRaf, resume: resumeRaf } = useRafFn(draw, { immediate: false });
+const { pause: pauseRaf, resume: resumeRaf } = useRafFn(draw, {
+  immediate: false,
+});
 
 function formatTime(s: number): string {
   const m = Math.floor(s / 60);
@@ -191,8 +245,12 @@ function applyFftSize() {
   }
 }
 
-watch(gain, (v) => { if (gainNode) gainNode.gain.value = v; });
-watch(smoothing, (v) => { if (analyser) analyser.smoothingTimeConstant = v; });
+watch(gain, (v) => {
+  if (gainNode) gainNode.gain.value = v;
+});
+watch(smoothing, (v) => {
+  if (analyser) analyser.smoothingTimeConstant = v;
+});
 
 function onFileSelect(e: Event) {
   const file = (e.target as HTMLInputElement).files?.[0];
@@ -207,8 +265,14 @@ function onFileSelect(e: Event) {
 
 function setupAudioElement() {
   initAudioContext();
-  if (audioEl.value) { audioEl.value.pause(); audioEl.value.remove(); }
-  if (sourceNode) { sourceNode.disconnect(); sourceNode = null; }
+  if (audioEl.value) {
+    audioEl.value.pause();
+    audioEl.value.remove();
+  }
+  if (sourceNode) {
+    sourceNode.disconnect();
+    sourceNode = null;
+  }
 
   const el = new Audio(audioSrc.value);
   el.crossOrigin = "anonymous";
@@ -217,7 +281,9 @@ function setupAudioElement() {
   sourceNode.connect(analyser!);
   analyser!.connect(gainNode!);
 
-  useEventListener(el, "loadedmetadata", () => { duration.value = el.duration; });
+  useEventListener(el, "loadedmetadata", () => {
+    duration.value = el.duration;
+  });
   useEventListener(el, "ended", () => {
     isPlaying.value = false;
     pauseTimeUpdate();
@@ -233,14 +299,14 @@ function stopTimeUpdate() {
 }
 
 function togglePlay() {
-  if (!audioEl || !audioCtx) return;
+  if (!audioEl.value || !audioCtx) return;
   if (audioCtx.state === "suspended") audioCtx.resume();
   if (isPlaying.value) {
-    audioEl.pause();
+    audioEl.value.pause();
     isPlaying.value = false;
     stopTimeUpdate();
   } else {
-    audioEl.play();
+    audioEl.value.play();
     isPlaying.value = true;
     startTimeUpdate();
     startVisualization();
@@ -257,10 +323,20 @@ function seek(e: MouseEvent) {
 }
 
 async function toggleMic() {
-  if (micActive.value) { stopMic(); return; }
+  if (micActive.value) {
+    stopMic();
+    return;
+  }
   initAudioContext();
-  if (audioEl.value) { audioEl.value.pause(); isPlaying.value = false; stopTimeUpdate(); }
-  if (sourceNode) { sourceNode.disconnect(); sourceNode = null; }
+  if (audioEl.value) {
+    audioEl.value.pause();
+    isPlaying.value = false;
+    stopTimeUpdate();
+  }
+  if (sourceNode) {
+    sourceNode.disconnect();
+    sourceNode = null;
+  }
 
   try {
     micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -276,8 +352,14 @@ async function toggleMic() {
 }
 
 function stopMic() {
-  if (micStream) { micStream.getTracks().forEach((t) => t.stop()); micStream = null; }
-  if (sourceNode) { sourceNode.disconnect(); sourceNode = null; }
+  if (micStream) {
+    micStream.getTracks().forEach((t) => t.stop());
+    micStream = null;
+  }
+  if (sourceNode) {
+    sourceNode.disconnect();
+    sourceNode = null;
+  }
   micActive.value = false;
   if (analyser && gainNode) {
     analyser.disconnect();
@@ -317,7 +399,7 @@ function draw() {
   if (vizMode.value === "bars") {
     const data = new Uint8Array(bufferLength);
     analyser.getByteFrequencyData(data);
-    const barW = w / bufferLength * 2.5;
+    const barW = (w / bufferLength) * 2.5;
     const usableBars = Math.floor(w / barW);
 
     for (let i = 0; i < usableBars && i < bufferLength; i++) {
@@ -340,7 +422,8 @@ function draw() {
     for (let i = 0; i < bufferLength; i++) {
       const v = data[i] / 128.0;
       const y = (v * h) / 2;
-      if (i === 0) ctx.moveTo(0, y); else ctx.lineTo(i * sliceW, y);
+      if (i === 0) ctx.moveTo(0, y);
+      else ctx.lineTo(i * sliceW, y);
     }
     ctx.stroke();
 
@@ -389,11 +472,19 @@ function draw() {
       const r = radius + amp;
       const x = cx + Math.cos(angle) * r;
       const y = cy + Math.sin(angle) * r;
-      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
     }
     ctx.closePath();
     const { accentRgba } = useThemeColors();
-    const grad = ctx.createRadialGradient(cx, cy, radius * 0.5, cx, cy, radius * 2);
+    const grad = ctx.createRadialGradient(
+      cx,
+      cy,
+      radius * 0.5,
+      cx,
+      cy,
+      radius * 2,
+    );
     grad.addColorStop(0, accentRgba(0.3));
     grad.addColorStop(1, accentRgba(0.05));
     ctx.fillStyle = grad;
@@ -432,7 +523,11 @@ watch([isPlaying, micActive], () => {
 onMounted(() => {
   useEventListener(document, "keydown", (e) => {
     const tag = (e.target as HTMLElement)?.tagName;
-    if (e.code === "Space" && !["INPUT", "TEXTAREA"].includes(tag) && audioSrc.value) {
+    if (
+      e.code === "Space" &&
+      !["INPUT", "TEXTAREA"].includes(tag) &&
+      audioSrc.value
+    ) {
       e.preventDefault();
       togglePlay();
     }
@@ -443,7 +538,10 @@ onUnmounted(() => {
   pauseRaf();
   pauseTimeUpdate();
   stopMic();
-  if (audioEl.value) { audioEl.value.pause(); audioEl.value.remove(); }
+  if (audioEl.value) {
+    audioEl.value.pause();
+    audioEl.value.remove();
+  }
   if (audioCtx) audioCtx.close();
   if (prevObjUrl) URL.revokeObjectURL(prevObjUrl);
 });

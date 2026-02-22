@@ -1,5 +1,7 @@
 <template>
-  <div class="rounded-2xl overflow-hidden bg-terminal-bg shadow-2xl border border-white/5">
+  <div
+    class="rounded-2xl overflow-hidden bg-terminal-bg shadow-2xl border border-white/5"
+  >
     <!-- Header -->
     <div
       class="flex items-center gap-2 px-4 py-3 bg-terminal-bg/95 border-b border-white/5 select-none"

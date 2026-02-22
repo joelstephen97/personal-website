@@ -3,14 +3,23 @@
     <div class="max-w-3xl mx-auto">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
-        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Cron Parser</h1>
+        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+          Cron Parser
+        </h1>
       </div>
 
       <div class="glass-solid rounded-2xl p-6 mb-6">
         <div class="flex items-center justify-between mb-2">
-          <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide">Expression</label>
-          <button class="text-xs text-accent font-medium flex items-center gap-1 hover:opacity-80" @click="copyExpr">
-            <Icon :name="copied ? 'Check' : 'Copy'" :size="12" /> {{ copied ? "Copied" : "Copy" }}
+          <label
+            class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide"
+            >Expression</label
+          >
+          <button
+            class="text-xs text-accent font-medium flex items-center gap-1 hover:opacity-80"
+            @click="copyExpr"
+          >
+            <Icon :name="copied ? 'Check' : 'Copy'" :size="12" />
+            {{ copied ? "Copied" : "Copy" }}
           </button>
         </div>
         <input
@@ -21,30 +30,55 @@
           spellcheck="false"
         />
         <div class="flex justify-between mt-2 px-2">
-          <span v-for="label in fieldLabels" :key="label" class="text-[10px] text-[rgb(var(--foreground-muted))] text-center flex-1">{{ label }}</span>
+          <span
+            v-for="label in fieldLabels"
+            :key="label"
+            class="text-[10px] text-[rgb(var(--foreground-muted))] text-center flex-1"
+            >{{ label }}</span
+          >
         </div>
 
         <p v-if="error" class="text-accent text-sm mt-4">{{ error }}</p>
-        <p v-else-if="description" class="text-[rgb(var(--foreground-secondary))] mt-4 text-center text-lg">
+        <p
+          v-else-if="description"
+          class="text-[rgb(var(--foreground-secondary))] mt-4 text-center text-lg"
+        >
           {{ description }}
         </p>
       </div>
 
       <div class="flex flex-wrap items-center gap-4 mb-6">
         <div>
-          <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1">Timezone</label>
-          <select v-model="timezone" class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-sm">
-            <option v-for="tz in timezones" :key="tz" :value="tz">{{ tz }}</option>
+          <label
+            class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+            >Timezone</label
+          >
+          <select
+            v-model="timezone"
+            class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-sm"
+          >
+            <option v-for="tz in timezones" :key="tz" :value="tz">
+              {{ tz }}
+            </option>
           </select>
         </div>
       </div>
 
-      <div v-if="parsed && fieldBreakdown.length" class="glass-solid rounded-2xl p-4 mb-6">
-        <h3 class="text-xs font-semibold text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-2">Field Breakdown</h3>
+      <div
+        v-if="parsed && fieldBreakdown.length"
+        class="glass-solid rounded-2xl p-4 mb-6"
+      >
+        <h3
+          class="text-xs font-semibold text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-2"
+        >
+          Field Breakdown
+        </h3>
         <div class="space-y-1 text-sm">
           <div v-for="(f, i) in fieldBreakdown" :key="i" class="flex gap-3">
             <span class="font-mono text-accent w-24">{{ f.field }}</span>
-            <span class="text-[rgb(var(--foreground-secondary))]">{{ f.explanation }}</span>
+            <span class="text-[rgb(var(--foreground-secondary))]">{{
+              f.explanation
+            }}</span>
           </div>
         </div>
       </div>
@@ -54,9 +88,11 @@
           v-for="p in presets"
           :key="p.expr"
           class="px-4 py-2 rounded-xl text-sm font-medium transition-colors"
-          :class="expression === p.expr
-            ? 'bg-accent text-white'
-            : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-secondary))] hover:border-accent/50'"
+          :class="
+            expression === p.expr
+              ? 'bg-accent text-white'
+              : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-secondary))] hover:border-accent/50'
+          "
           @click="expression = p.expr"
         >
           {{ p.label }}
@@ -65,8 +101,12 @@
 
       <div v-if="nextRuns.length" class="glass-solid rounded-2xl p-6">
         <div class="flex items-center justify-between mb-4">
-          <h3 class="text-sm font-semibold text-[rgb(var(--foreground))]">Next 10 Executions</h3>
-          <span class="text-xs text-[rgb(var(--foreground-muted))]">{{ timezone }}</span>
+          <h3 class="text-sm font-semibold text-[rgb(var(--foreground))]">
+            Next 10 Executions
+          </h3>
+          <span class="text-xs text-[rgb(var(--foreground-muted))]">{{
+            timezone
+          }}</span>
         </div>
         <div class="space-y-2">
           <div
@@ -74,9 +114,16 @@
             :key="i"
             class="flex items-center gap-3 text-sm"
           >
-            <span class="w-6 h-6 rounded-lg bg-accent/10 text-accent flex items-center justify-center text-xs font-bold shrink-0">{{ i + 1 }}</span>
-            <span class="text-[rgb(var(--foreground))] font-mono flex-1">{{ run.formatted }}</span>
-            <span class="text-xs text-[rgb(var(--foreground-muted))]">{{ run.relative }}</span>
+            <span
+              class="w-6 h-6 rounded-lg bg-accent/10 text-accent flex items-center justify-center text-xs font-bold shrink-0"
+              >{{ i + 1 }}</span
+            >
+            <span class="text-[rgb(var(--foreground))] font-mono flex-1">{{
+              run.formatted
+            }}</span>
+            <span class="text-xs text-[rgb(var(--foreground-muted))]">{{
+              run.relative
+            }}</span>
           </div>
         </div>
       </div>
@@ -85,26 +132,31 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed } from "vue";
+import { useClipboard } from "@vueuse/core";
+import Icon from "~/components/ui/Icon.vue";
+
 useSeo({
   title: "Cron Parser | Joel Stephen - Portfolio",
-  description: "Parse cron expressions into human-readable schedules with next runs.",
+  description:
+    "Parse cron expressions into human-readable schedules with next runs.",
   path: "/project/cron-parser",
   breadcrumbTitle: "Cron Parser",
   projectSchema: {
     name: "Cron Parser",
-    description: "Parse cron expressions into human-readable schedules with next runs.",
+    description:
+      "Parse cron expressions into human-readable schedules with next runs.",
   },
 });
-
-import { ref, computed } from "vue";
-import { useClipboard } from "@vueuse/core";
-import Icon from "~/components/ui/Icon.vue";
 
 definePageMeta({ layout: "project-detail" });
 
 const expression = ref("0 9 * * 1-5");
 const fieldLabels = ["Minute", "Hour", "Day", "Month", "Weekday"];
-const { copy, copied } = useClipboard({ source: expression, copiedDuring: 2000 });
+const { copy, copied } = useClipboard({
+  source: expression,
+  copiedDuring: 2000,
+});
 
 const timezones = [
   "UTC",
@@ -134,8 +186,16 @@ const presets = [
   { label: "First Mon", expr: "0 0 1-7 * 1" },
 ];
 
-const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const DAYS_SHORT = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const DAYS = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+const _DAYS_SHORT = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 function parseField(field: string, min: number, max: number): number[] | null {
   const values = new Set<number>();
@@ -143,8 +203,10 @@ function parseField(field: string, min: number, max: number): number[] | null {
     const stepMatch = part.match(/^(.+)\/(\d+)$/);
     let range: string;
     let step = 1;
-    if (stepMatch) { range = stepMatch[1]; step = parseInt(stepMatch[2]); }
-    else range = part;
+    if (stepMatch) {
+      range = stepMatch[1];
+      step = parseInt(stepMatch[2]);
+    } else range = part;
 
     if (range === "*") {
       for (let i = min; i <= max; i += step) values.add(i);
@@ -170,8 +232,14 @@ const parsed = computed(() => {
   const months = parseField(parts[3], 1, 12);
   const weekdays = parseField(parts[4], 0, 7);
   if (!minutes || !hours || !days || !months || !weekdays) return null;
-  const normWeekdays = weekdays.map((d) => d === 7 ? 0 : d);
-  return { minutes, hours, days, months, weekdays: [...new Set(normWeekdays)].sort((a, b) => a - b) };
+  const normWeekdays = weekdays.map((d) => (d === 7 ? 0 : d));
+  return {
+    minutes,
+    hours,
+    days,
+    months,
+    weekdays: [...new Set(normWeekdays)].sort((a, b) => a - b),
+  };
 });
 
 const error = computed(() => {
@@ -183,13 +251,12 @@ const error = computed(() => {
 const fieldBreakdown = computed(() => {
   if (!parsed.value) return [];
   const parts = expression.value.trim().split(/\s+/);
-  const { minutes, hours, days, months, weekdays } = parsed.value;
   const labels = ["Minute", "Hour", "Day", "Month", "Weekday"];
-  const data = [minutes, hours, days, months, weekdays];
   return parts.map((p, i) => {
     let exp = "";
     if (p === "*") exp = "every " + labels[i].toLowerCase();
-    else if (p.includes("/")) exp = `every ${p.split("/")[1]} ${labels[i].toLowerCase()}s`;
+    else if (p.includes("/"))
+      exp = `every ${p.split("/")[1]} ${labels[i].toLowerCase()}s`;
     else if (p.includes("-")) exp = `${labels[i]}s ${p}`;
     else if (p.includes(",")) exp = `${labels[i]}s ${p}`;
     else exp = `at ${labels[i].toLowerCase()} ${p}`;
@@ -197,7 +264,9 @@ const fieldBreakdown = computed(() => {
   });
 });
 
-function pad(n: number): string { return n.toString().padStart(2, "0"); }
+function pad(n: number): string {
+  return n.toString().padStart(2, "0");
+}
 
 const description = computed(() => {
   if (!parsed.value) return "";
@@ -213,7 +282,9 @@ const description = computed(() => {
   if (isAllMinutes && isAllHours) {
     parts.push("Every minute");
   } else if (isAllMinutes) {
-    parts.push(`Every minute past ${hours.map(h => pad(h) + ":00").join(", ")}`);
+    parts.push(
+      `Every minute past ${hours.map((h) => pad(h) + ":00").join(", ")}`,
+    );
   } else if (minutes.length === 1 && hours.length === 1) {
     parts.push(`At ${pad(hours[0])}:${pad(minutes[0])}`);
   } else if (minutes.length === 1 && isAllHours) {
@@ -224,24 +295,50 @@ const description = computed(() => {
     if (isStep && isAllHours) {
       parts.push(`Every ${step} minutes`);
     } else if (isStep) {
-      parts.push(`Every ${step} minutes past ${hours.map(h => pad(h) + ":00").join(", ")}`);
+      parts.push(
+        `Every ${step} minutes past ${hours.map((h) => pad(h) + ":00").join(", ")}`,
+      );
     } else {
-      parts.push(`At minute ${minutes.join(", ")} past ${hours.map(h => pad(h) + ":00").join(", ")}`);
+      parts.push(
+        `At minute ${minutes.join(", ")} past ${hours.map((h) => pad(h) + ":00").join(", ")}`,
+      );
     }
   }
 
   if (!isAllDays) parts.push(`on day ${days.join(", ")} of the month`);
   if (!isAllMonths) {
-    const monthNames = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    parts.push(`in ${months.map(m => monthNames[m]).join(", ")}`);
+    const monthNames = [
+      "",
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    parts.push(`in ${months.map((m) => monthNames[m]).join(", ")}`);
   }
   if (!isAllWeekdays) {
-    if (weekdays.length === 5 && !weekdays.includes(0) && !weekdays.includes(6)) {
+    if (
+      weekdays.length === 5 &&
+      !weekdays.includes(0) &&
+      !weekdays.includes(6)
+    ) {
       parts.push("on weekdays");
-    } else if (weekdays.length === 2 && weekdays.includes(0) && weekdays.includes(6)) {
+    } else if (
+      weekdays.length === 2 &&
+      weekdays.includes(0) &&
+      weekdays.includes(6)
+    ) {
       parts.push("on weekends");
     } else {
-      parts.push(`on ${weekdays.map(d => DAYS[d]).join(", ")}`);
+      parts.push(`on ${weekdays.map((d) => DAYS[d]).join(", ")}`);
     }
   }
 
@@ -265,7 +362,15 @@ const nextRuns = computed(() => {
   const { minutes, hours, days, months, weekdays } = parsed.value;
   const results: { formatted: string; relative: string }[] = [];
   const now = new Date();
-  const cursor = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes() + 1, 0, 0);
+  const cursor = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    now.getHours(),
+    now.getMinutes() + 1,
+    0,
+    0,
+  );
 
   let safety = 0;
   while (results.length < 10 && safety < 525960) {
@@ -276,16 +381,35 @@ const nextRuns = computed(() => {
     const h = cursor.getHours();
     const min = cursor.getMinutes();
 
-    if (!months.includes(m)) { cursor.setMonth(cursor.getMonth() + 1, 1); cursor.setHours(0, 0, 0, 0); continue; }
-    if (!days.includes(d) || !weekdays.includes(w)) { cursor.setDate(cursor.getDate() + 1); cursor.setHours(0, 0, 0, 0); continue; }
-    if (!hours.includes(h)) { cursor.setHours(cursor.getHours() + 1, 0, 0, 0); continue; }
-    if (!minutes.includes(min)) { cursor.setMinutes(cursor.getMinutes() + 1); continue; }
+    if (!months.includes(m)) {
+      cursor.setMonth(cursor.getMonth() + 1, 1);
+      cursor.setHours(0, 0, 0, 0);
+      continue;
+    }
+    if (!days.includes(d) || !weekdays.includes(w)) {
+      cursor.setDate(cursor.getDate() + 1);
+      cursor.setHours(0, 0, 0, 0);
+      continue;
+    }
+    if (!hours.includes(h)) {
+      cursor.setHours(cursor.getHours() + 1, 0, 0, 0);
+      continue;
+    }
+    if (!minutes.includes(min)) {
+      cursor.setMinutes(cursor.getMinutes() + 1);
+      continue;
+    }
 
     const snapshot = new Date(cursor);
     results.push({
       formatted: snapshot.toLocaleString("en-US", {
-        weekday: "short", year: "numeric", month: "short", day: "numeric",
-        hour: "2-digit", minute: "2-digit", hour12: false,
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
         timeZone: timezone.value,
       }),
       relative: relativeTime(snapshot),

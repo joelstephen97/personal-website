@@ -1,10 +1,7 @@
 <template>
   <div class="space-y-4">
     <!-- Performance rating -->
-    <div
-      v-if="run.hits + run.misses > 0"
-      class="flex items-center gap-2"
-    >
+    <div v-if="run.hits + run.misses > 0" class="flex items-center gap-2">
       <span
         class="text-lg font-bold w-8 h-8 flex items-center justify-center rounded"
         :class="gradeClass(getPerformanceRating(run).grade)"
@@ -18,36 +15,64 @@
 
     <!-- Primary stats -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-      <div class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3">
+      <div
+        class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3"
+      >
         <p class="text-xs text-[rgb(var(--foreground-muted))]">Score</p>
-        <p class="font-semibold text-[rgb(var(--foreground))]">{{ run.score }}</p>
+        <p class="font-semibold text-[rgb(var(--foreground))]">
+          {{ run.score }}
+        </p>
       </div>
-      <div class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3">
+      <div
+        class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3"
+      >
         <p class="text-xs text-[rgb(var(--foreground-muted))]">Accuracy</p>
-        <p class="font-semibold text-[rgb(var(--foreground))]">{{ run.accuracy.toFixed(1) }}%</p>
+        <p class="font-semibold text-[rgb(var(--foreground))]">
+          {{ run.accuracy.toFixed(1) }}%
+        </p>
       </div>
-      <div class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3">
+      <div
+        class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3"
+      >
         <p class="text-xs text-[rgb(var(--foreground-muted))]">KPS</p>
-        <p class="font-semibold text-[rgb(var(--foreground))]">{{ run.kps.toFixed(2) }}</p>
+        <p class="font-semibold text-[rgb(var(--foreground))]">
+          {{ run.kps.toFixed(2) }}
+        </p>
       </div>
-      <div class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3">
+      <div
+        class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3"
+      >
         <p class="text-xs text-[rgb(var(--foreground-muted))]">Duration</p>
-        <p class="font-semibold text-[rgb(var(--foreground))]">{{ run.duration.toFixed(1) }}s</p>
+        <p class="font-semibold text-[rgb(var(--foreground))]">
+          {{ run.duration.toFixed(1) }}s
+        </p>
       </div>
     </div>
 
     <!-- Secondary stats -->
     <div
-      v-if="run.hits + run.misses > 0 || run.totalMouseDistancePx || run.avgFlickDistancePx != null"
+      v-if="
+        run.hits + run.misses > 0 ||
+        run.totalMouseDistancePx ||
+        run.avgFlickDistancePx != null
+      "
       class="grid grid-cols-2 sm:grid-cols-4 gap-3"
     >
-      <div class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3">
+      <div
+        class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3"
+      >
         <p class="text-xs text-[rgb(var(--foreground-muted))]">Hits</p>
-        <p class="font-semibold text-[rgb(var(--foreground))]">{{ run.hits }}</p>
+        <p class="font-semibold text-[rgb(var(--foreground))]">
+          {{ run.hits }}
+        </p>
       </div>
-      <div class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3">
+      <div
+        class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3"
+      >
         <p class="text-xs text-[rgb(var(--foreground-muted))]">Misses</p>
-        <p class="font-semibold text-[rgb(var(--foreground))]">{{ run.misses }}</p>
+        <p class="font-semibold text-[rgb(var(--foreground))]">
+          {{ run.misses }}
+        </p>
       </div>
       <div
         v-if="run.totalMouseDistancePx"
@@ -63,7 +88,9 @@
         class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3"
       >
         <p class="text-xs text-[rgb(var(--foreground-muted))]">Avg flick</p>
-        <p class="font-semibold text-[rgb(var(--foreground))]">{{ run.avgFlickDistancePx }}px</p>
+        <p class="font-semibold text-[rgb(var(--foreground))]">
+          {{ run.avgFlickDistancePx }}px
+        </p>
       </div>
     </div>
 
@@ -96,7 +123,8 @@
         </div>
       </div>
       <p class="text-xs text-[rgb(var(--foreground-muted))]">
-        Min {{ run.reactionTimeStats.min }}ms · Max {{ run.reactionTimeStats.max }}ms
+        Min {{ run.reactionTimeStats.min }}ms · Max
+        {{ run.reactionTimeStats.max }}ms
       </p>
     </div>
 
@@ -108,7 +136,9 @@
       <h4 class="font-semibold text-[rgb(var(--foreground))] mb-3">
         Mouse Path
       </h4>
-      <div class="relative aspect-video bg-[rgb(var(--bg))] rounded-lg overflow-hidden">
+      <div
+        class="relative aspect-video bg-[rgb(var(--bg))] rounded-lg overflow-hidden"
+      >
         <svg
           class="absolute inset-0 w-full h-full"
           :viewBox="pathViewBox"
@@ -122,7 +152,7 @@
             stroke-opacity="0.6"
           />
           <circle
-            v-for="(h, i) in (run.hitData ?? [])"
+            v-for="(h, i) in run.hitData ?? []"
             :key="`h-${i}`"
             :cx="h.clickX"
             :cy="h.clickY"
@@ -130,7 +160,7 @@
             fill="rgb(var(--success))"
           />
           <circle
-            v-for="(m, i) in (run.missData ?? [])"
+            v-for="(m, i) in run.missData ?? []"
             :key="`m-${i}`"
             :cx="m.x"
             :cy="m.y"
@@ -146,7 +176,12 @@
 
     <!-- Hit-by-hit (for modes with hit data) -->
     <div
-      v-if="(run.hitData?.length ?? 0) > 0 && (run.hitData ?? []).some((h) => h.reactionMs != null || h.flickDistancePx != null)"
+      v-if="
+        (run.hitData?.length ?? 0) > 0 &&
+        (run.hitData ?? []).some(
+          (h) => h.reactionMs != null || h.flickDistancePx != null,
+        )
+      "
       class="rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-4"
     >
       <h4 class="font-semibold text-[rgb(var(--foreground))] mb-3">
@@ -154,15 +189,21 @@
       </h4>
       <div class="max-h-48 overflow-y-auto space-y-1 text-sm">
         <div
-          v-for="(h, i) in (run.hitData ?? [])"
+          v-for="(h, i) in run.hitData ?? []"
           :key="i"
           class="flex justify-between gap-4 py-1 border-b border-[rgb(var(--border))] last:border-0"
         >
           <span class="text-[rgb(var(--foreground-muted))]">#{{ i + 1 }}</span>
-          <span v-if="h.reactionMs != null" class="text-[rgb(var(--foreground))]">
+          <span
+            v-if="h.reactionMs != null"
+            class="text-[rgb(var(--foreground))]"
+          >
             {{ h.reactionMs }}ms
           </span>
-          <span v-if="h.flickDistancePx != null" class="text-[rgb(var(--foreground))]">
+          <span
+            v-if="h.flickDistancePx != null"
+            class="text-[rgb(var(--foreground))]"
+          >
             {{ Math.round(h.flickDistancePx) }}px flick
           </span>
         </div>
@@ -172,7 +213,10 @@
 </template>
 
 <script setup lang="ts">
-import type { AimTrainerRun, PerformanceGrade } from "~/composables/useAimTrainer";
+import type {
+  AimTrainerRun,
+  PerformanceGrade,
+} from "~/composables/useAimTrainer";
 import { getPerformanceRating } from "~/composables/useAimTrainer";
 
 const props = defineProps<{
@@ -204,7 +248,12 @@ const pathBounds = computed(() => {
     maxY = Math.max(maxY, p.y);
   }
   const pad = 20;
-  return { minX: minX - pad, minY: minY - pad, maxX: maxX + pad, maxY: maxY + pad };
+  return {
+    minX: minX - pad,
+    minY: minY - pad,
+    maxX: maxX + pad,
+    maxY: maxY + pad,
+  };
 });
 
 const pathViewBox = computed(() => {
@@ -215,9 +264,6 @@ const pathViewBox = computed(() => {
 const pathD = computed(() => {
   const path = props.run.mousePath ?? [];
   if (path.length < 2) return "";
-  return path
-    .map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`)
-    .join(" ");
+  return path.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
 });
-
 </script>

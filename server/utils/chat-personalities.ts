@@ -76,7 +76,10 @@ export function getSystemPrompt(personalityId: PersonalityId): string {
   return p ? p.systemPrompt : CHAT_PERSONALITIES.yoda.systemPrompt;
 }
 
-export function buildXmlSystemMessage(personalityId: PersonalityId, trustedContext: string): string {
+export function buildXmlSystemMessage(
+  personalityId: PersonalityId,
+  trustedContext: string,
+): string {
   const personalityPrompt = getSystemPrompt(personalityId);
   return `<system_instructions>
 ${personalityPrompt}

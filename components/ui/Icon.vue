@@ -5,7 +5,7 @@ import { computed, defineAsyncComponent } from "vue";
 
 const iconLoaders = import.meta.glob<{ default: Component }>(
   "../../node_modules/lucide-vue-next/dist/esm/icons/*.js",
-  { eager: false }
+  { eager: false },
 );
 
 const ICON_PATHS: Record<string, string> = {
@@ -129,7 +129,9 @@ const iconComponent = computed((): Component => {
   }
 
   const iconFile = `${kebab}.js`;
-  const loader = Object.entries(iconLoaders).find(([p]) => p.endsWith(iconFile))?.[1];
+  const loader = Object.entries(iconLoaders).find(([p]) =>
+    p.endsWith(iconFile),
+  )?.[1];
   if (!loader) {
     return Circle;
   }

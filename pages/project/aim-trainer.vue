@@ -19,92 +19,99 @@
         :class="{ 'lg:grid-cols-2': hasRuns }"
       >
         <div class="glass-solid rounded-2xl p-6 lg:min-w-0">
-        <!-- Mode selector -->
-        <div class="mb-6">
-          <p class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-3">
-            Mode
-          </p>
-          <div class="grid grid-cols-2 gap-4">
-            <button
-              v-for="m in modes"
-              :key="m.id"
-              class="px-4 py-3.5 rounded-xl border text-left transition-all min-w-0"
-              :class="
-                mode === m.id
-                  ? 'border-accent bg-accent/10 text-accent'
-                  : 'border-[rgb(var(--border))] bg-[rgb(var(--glass))] text-[rgb(var(--foreground))] hover:border-[rgb(var(--foreground-muted))]'
-              "
-              @click="mode = m.id"
+          <!-- Mode selector -->
+          <div class="mb-6">
+            <p
+              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-3"
             >
-              <span class="font-semibold block">{{ m.name }}</span>
-              <span class="text-xs text-[rgb(var(--foreground-muted))]">{{
-                m.desc
-              }}</span>
+              Mode
+            </p>
+            <div class="grid grid-cols-2 gap-4">
+              <button
+                v-for="m in modes"
+                :key="m.id"
+                class="px-4 py-3.5 rounded-xl border text-left transition-all min-w-0"
+                :class="
+                  mode === m.id
+                    ? 'border-accent bg-accent/10 text-accent'
+                    : 'border-[rgb(var(--border))] bg-[rgb(var(--glass))] text-[rgb(var(--foreground))] hover:border-[rgb(var(--foreground-muted))]'
+                "
+                @click="mode = m.id"
+              >
+                <span class="font-semibold block">{{ m.name }}</span>
+                <span class="text-xs text-[rgb(var(--foreground-muted))]">{{
+                  m.desc
+                }}</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Settings -->
+          <div class="flex flex-wrap items-center gap-6 mb-6">
+            <div class="flex items-center gap-3">
+              <label class="text-sm text-[rgb(var(--foreground))]"
+                >Duration:</label
+              >
+              <select
+                v-model.number="duration"
+                class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))]"
+              >
+                <option :value="15">15s</option>
+                <option :value="30">30s</option>
+                <option :value="60">60s</option>
+              </select>
+            </div>
+            <div v-if="mode !== 'precision'" class="flex items-center gap-3">
+              <label class="text-sm text-[rgb(var(--foreground))]"
+                >Target:</label
+              >
+              <select
+                v-model="targetSize"
+                class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))]"
+              >
+                <option value="sm">Small</option>
+                <option value="md">Medium</option>
+                <option value="lg">Large</option>
+              </select>
+            </div>
+            <div class="flex items-center gap-2">
+              <input
+                id="raw-input"
+                v-model="rawInput"
+                type="checkbox"
+                class="rounded"
+              />
+              <label
+                for="raw-input"
+                class="text-sm text-[rgb(var(--foreground))]"
+              >
+                Raw input (pointer lock)
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <AimTrainerCrosshairSettings />
+            <p class="text-xs text-[rgb(var(--foreground-muted))] mt-2">
+              For pure aim: disable "Enhance pointer precision" in Windows mouse
+              settings.
+            </p>
+          </div>
+
+          <div class="flex justify-center gap-3">
+            <button
+              class="px-6 py-3 rounded-xl bg-gradient-to-r from-accent to-accent-hover text-white font-semibold shadow-lg shadow-accent/25 flex items-center gap-2"
+              @click="start"
+            >
+              <Icon name="Play" :size="18" /> Start
+            </button>
+            <button
+              class="px-6 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2"
+              @click="reset"
+            >
+              <Icon name="RotateCcw" :size="18" /> Reset
             </button>
           </div>
-        </div>
-
-        <!-- Settings -->
-        <div class="flex flex-wrap items-center gap-6 mb-6">
-          <div class="flex items-center gap-3">
-            <label class="text-sm text-[rgb(var(--foreground))]">Duration:</label>
-            <select
-              v-model.number="duration"
-              class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))]"
-            >
-              <option :value="15">15s</option>
-              <option :value="30">30s</option>
-              <option :value="60">60s</option>
-            </select>
-          </div>
-          <div
-            v-if="mode !== 'precision'"
-            class="flex items-center gap-3"
-          >
-            <label class="text-sm text-[rgb(var(--foreground))]">Target:</label>
-            <select
-              v-model="targetSize"
-              class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))]"
-            >
-              <option value="sm">Small</option>
-              <option value="md">Medium</option>
-              <option value="lg">Large</option>
-            </select>
-          </div>
-          <div class="flex items-center gap-2">
-            <input
-              v-model="rawInput"
-              type="checkbox"
-              id="raw-input"
-              class="rounded"
-            />
-            <label for="raw-input" class="text-sm text-[rgb(var(--foreground))]">
-              Raw input (pointer lock)
-            </label>
-          </div>
-        </div>
-
-        <div class="mb-6">
-          <AimTrainerCrosshairSettings />
-          <p class="text-xs text-[rgb(var(--foreground-muted))] mt-2">
-            For pure aim: disable "Enhance pointer precision" in Windows mouse settings.
-          </p>
-        </div>
-
-        <div class="flex justify-center gap-3">
-          <button
-            class="px-6 py-3 rounded-xl bg-gradient-to-r from-accent to-accent-hover text-white font-semibold shadow-lg shadow-accent/25 flex items-center gap-2"
-            @click="start"
-          >
-            <Icon name="Play" :size="18" /> Start
-          </button>
-          <button
-            class="px-6 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2"
-            @click="reset"
-          >
-            <Icon name="RotateCcw" :size="18" /> Reset
-          </button>
-        </div>
         </div>
 
         <div v-if="hasRuns" class="lg:min-h-[400px] lg:min-w-0">
@@ -122,10 +129,7 @@
       v-else
       ref="area"
       class="fixed inset-0 z-[60] bg-[rgb(var(--bg))] select-none transition-colors duration-75"
-      :class="[
-        { 'bg-[rgb(var(--error)/0.15)]': missFlash },
-        'cursor-none',
-      ]"
+      :class="[{ 'bg-[rgb(var(--error)/0.15)]': missFlash }, 'cursor-none']"
       @click="handleClick"
       @mousemove="handleMouseMove"
       @mousedown="handlePointerDown"
@@ -180,17 +184,6 @@
 </template>
 
 <script setup lang="ts">
-useSeo({
-  title: "Aim Trainer | Joel Stephen - Portfolio",
-  description: "Improve your FPS aim with this reaction time trainer. Flick, Gridshot, Tracking, Precision modes.",
-  path: "/project/aim-trainer",
-  breadcrumbTitle: "Aim Trainer",
-  projectSchema: {
-    name: "Aim Trainer",
-    description: "Improve your FPS aim with this reaction time trainer. Flick, Gridshot, Tracking, Precision modes.",
-  },
-});
-
 import type { AimMode } from "~/composables/useAimTrainer";
 import { useEventListener, usePointerLock } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
@@ -202,6 +195,19 @@ import AimTrainerTracking from "~/components/aim-trainer/AimTrainerTracking.vue"
 import AimTrainerPrecision from "~/components/aim-trainer/AimTrainerPrecision.vue";
 import AimTrainerCrosshair from "~/components/aim-trainer/AimTrainerCrosshair.vue";
 import AimTrainerCrosshairSettings from "~/components/aim-trainer/AimTrainerCrosshairSettings.vue";
+
+useSeo({
+  title: "Aim Trainer | Joel Stephen - Portfolio",
+  description:
+    "Improve your FPS aim with this reaction time trainer. Flick, Gridshot, Tracking, Precision modes.",
+  path: "/project/aim-trainer",
+  breadcrumbTitle: "Aim Trainer",
+  projectSchema: {
+    name: "Aim Trainer",
+    description:
+      "Improve your FPS aim with this reaction time trainer. Flick, Gridshot, Tracking, Precision modes.",
+  },
+});
 
 definePageMeta({ layout: "project-detail" });
 
@@ -233,7 +239,11 @@ const {
   reset,
 } = useAimTrainer();
 
-const { runs: storedRuns, save: saveRun, clear: clearStored } = useAimTrainerStorage();
+const {
+  runs: storedRuns,
+  save: saveRun,
+  clear: clearStored,
+} = useAimTrainerStorage();
 
 const hasRuns = computed(() => {
   const stored = storedRuns.value ?? [];
@@ -244,18 +254,32 @@ const { settings: crosshairSettings } = useAimTrainerCrosshair();
 const area = ref<HTMLElement | null>(null);
 const { lock, unlock, element: pointerLockElement } = usePointerLock(area);
 const isLocked = computed(() => !!pointerLockElement.value);
-const modeRef = ref<InstanceType<typeof AimTrainerFlick> | InstanceType<typeof AimTrainerGridshot> | InstanceType<typeof AimTrainerPrecision> | null>(null);
+const modeRef = ref<
+  | InstanceType<typeof AimTrainerFlick>
+  | InstanceType<typeof AimTrainerGridshot>
+  | InstanceType<typeof AimTrainerPrecision>
+  | null
+>(null);
 const missFlash = ref(false);
 const rawInput = ref(true);
 const cursorX = ref(0);
 const cursorY = ref(0);
 
-provide("aimTrainerPointerLocked", computed(() => isLocked.value));
+provide(
+  "aimTrainerPointerLocked",
+  computed(() => isLocked.value),
+);
 
 function handleMouseMove(e: MouseEvent) {
   if (isLocked.value) {
-    cursorX.value = Math.max(0, Math.min(window.innerWidth, cursorX.value + e.movementX));
-    cursorY.value = Math.max(0, Math.min(window.innerHeight, cursorY.value + e.movementY));
+    cursorX.value = Math.max(
+      0,
+      Math.min(window.innerWidth, cursorX.value + e.movementX),
+    );
+    cursorY.value = Math.max(
+      0,
+      Math.min(window.innerHeight, cursorY.value + e.movementY),
+    );
   } else {
     cursorX.value = e.clientX;
     cursorY.value = e.clientY;
@@ -267,10 +291,15 @@ function handlePointerDown(e: PointerEvent) {
   if (!rawInput.value || !isLocked.value) return;
   e.preventDefault();
   if (mode.value === "tracking") return;
-  const modeComp = modeRef.value as { hitTest?: (px: number, py: number) => { hit: boolean; data?: unknown } } | null;
+  const modeComp = modeRef.value as {
+    hitTest?: (px: number, py: number) => { hit: boolean; data?: unknown };
+  } | null;
   const result = modeComp?.hitTest?.(cursorX.value, cursorY.value);
   if (result?.hit && result.data) {
-    recordHit(mode.value === "precision" ? 1 : 2, result.data as Parameters<typeof recordHit>[1]);
+    recordHit(
+      mode.value === "precision" ? 1 : 2,
+      result.data as Parameters<typeof recordHit>[1],
+    );
   } else {
     if (mode.value === "precision") return;
     recordMiss(1, cursorX.value, cursorY.value);

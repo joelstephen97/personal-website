@@ -48,7 +48,10 @@ export interface ReactionTimeStats {
 
 export type PerformanceGrade = "S" | "A" | "B" | "C" | "D";
 
-export function getPerformanceRating(run: AimTrainerRun): { grade: PerformanceGrade; label: string } {
+export function getPerformanceRating(run: AimTrainerRun): {
+  grade: PerformanceGrade;
+  label: string;
+} {
   const avgReaction = run.avgReactionMs ?? run.reactionTimeStats?.avg;
   if (avgReaction != null) {
     if (avgReaction < 200) return { grade: "S", label: "Exceptional" };
@@ -170,7 +173,7 @@ export function useAimTrainer() {
       if (time.value <= 0) end();
     },
     100,
-    { immediate: false }
+    { immediate: false },
   );
 
   function computeReactionStats(): ReactionTimeStats | undefined {
@@ -231,7 +234,9 @@ export function useAimTrainer() {
     const path = mousePath.value;
     const storedPath =
       path.length > STORED_PATH_MAX_POINTS
-        ? path.filter((_, i) => i % Math.ceil(path.length / STORED_PATH_MAX_POINTS) === 0)
+        ? path.filter(
+            (_, i) => i % Math.ceil(path.length / STORED_PATH_MAX_POINTS) === 0,
+          )
         : [...path];
     const run: AimTrainerRun = {
       mode: mode.value,
@@ -273,7 +278,7 @@ export function useAimTrainer() {
       targetX: number;
       targetY: number;
       reactionMs?: number;
-    }
+    },
   ) {
     score.value += points;
     hits.value += 1;

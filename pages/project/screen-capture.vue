@@ -9,7 +9,8 @@
       </div>
 
       <p class="text-[rgb(var(--foreground-muted))] mb-8">
-        Capture your screen, window, or tab. Draw annotations and share via Web Share API or copy to clipboard.
+        Capture your screen, window, or tab. Draw annotations and share via Web
+        Share API or copy to clipboard.
       </p>
 
       <div class="glass-solid rounded-2xl p-6 mb-6">
@@ -40,25 +41,35 @@
         </div>
 
         <div v-if="!displayMediaSupported" class="text-amber-600 text-sm">
-          Screen capture is not supported in this browser. Try Chrome, Edge, or Firefox.
+          Screen capture is not supported in this browser. Try Chrome, Edge, or
+          Firefox.
         </div>
 
         <div v-if="stream" class="space-y-4">
           <div class="flex flex-wrap gap-2 items-center">
-            <span class="text-xs text-[rgb(var(--foreground-muted))] uppercase">Tools</span>
+            <span class="text-xs text-[rgb(var(--foreground-muted))] uppercase"
+              >Tools</span
+            >
             <button
               v-for="t in tools"
               :key="t.id"
               class="px-3 py-2 rounded-lg text-sm font-medium transition-colors"
-              :class="tool === t.id
-                ? 'bg-accent text-white'
-                : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] hover:border-accent/50'"
+              :class="
+                tool === t.id
+                  ? 'bg-accent text-white'
+                  : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] hover:border-accent/50'
+              "
               @click="tool = t.id"
             >
               <Icon :name="t.icon" :size="14" class="inline mr-1" />
               {{ t.label }}
             </button>
-            <input v-model="strokeColor" type="color" class="w-8 h-8 rounded cursor-pointer border-0" title="Stroke color" />
+            <input
+              v-model="strokeColor"
+              type="color"
+              class="w-8 h-8 rounded cursor-pointer border-0"
+              title="Stroke color"
+            />
             <button
               class="px-3 py-2 rounded-lg text-sm bg-[rgb(var(--glass))] border border-[rgb(var(--border))] hover:border-accent/50"
               @click="undo"
@@ -81,7 +92,14 @@
             <canvas
               ref="canvasRef"
               class="absolute inset-0 w-full h-full cursor-crosshair"
-              :style="{ cursor: tool === 'arrow' ? 'crosshair' : tool === 'rect' ? 'crosshair' : 'crosshair' }"
+              :style="{
+                cursor:
+                  tool === 'arrow'
+                    ? 'crosshair'
+                    : tool === 'rect'
+                      ? 'crosshair'
+                      : 'crosshair',
+              }"
               @pointerdown="onPointerDown"
               @pointermove="onPointerMove"
               @pointerup="onPointerUp"
@@ -91,7 +109,9 @@
         </div>
 
         <div v-if="capturedImage" class="mt-6 space-y-4">
-          <p class="text-sm font-medium text-[rgb(var(--foreground))]">Captured with annotations</p>
+          <p class="text-sm font-medium text-[rgb(var(--foreground))]">
+            Captured with annotations
+          </p>
           <img
             :src="capturedImage"
             width="800"
@@ -120,8 +140,16 @@
               <Icon name="Download" :size="18" /> Download
             </button>
           </div>
-          <p v-if="shareStatus" class="text-sm" :class="shareStatus === 'success' ? 'text-emerald-500' : 'text-amber-600'">
-            {{ shareStatus === 'success' ? 'Shared successfully' : shareStatus }}
+          <p
+            v-if="shareStatus"
+            class="text-sm"
+            :class="
+              shareStatus === 'success' ? 'text-emerald-500' : 'text-amber-600'
+            "
+          >
+            {{
+              shareStatus === "success" ? "Shared successfully" : shareStatus
+            }}
           </p>
         </div>
       </div>
@@ -130,6 +158,10 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed, onUnmounted, watch } from "vue";
+import { useShare, useClipboard } from "@vueuse/core";
+import Icon from "~/components/ui/Icon.vue";
+
 useSeo({
   title: "Screen Capture & Annotation | Joel Stephen - Portfolio",
   description: "Capture screen, draw annotations, share via Web Share API.",
@@ -140,10 +172,6 @@ useSeo({
     description: "Capture screen, draw annotations, share via Web Share API.",
   },
 });
-
-import { ref, computed, onUnmounted, watch } from "vue";
-import { useShare, useClipboard } from "@vueuse/core";
-import Icon from "~/components/ui/Icon.vue";
 
 definePageMeta({ layout: "project-detail" });
 
@@ -163,15 +191,24 @@ const tools = [
   { id: "rect" as const, label: "Rect", icon: "Square" },
 ];
 
-const displayMediaSupported = computed(() =>
-  typeof navigator !== "undefined" && !!navigator.mediaDevices?.getDisplayMedia
+const displayMediaSupported = computed(
+  () =>
+    typeof navigator !== "undefined" &&
+    !!navigator.mediaDevices?.getDisplayMedia,
 );
 
 const { share, isSupported: shareSupported } = useShare();
 const { copy } = useClipboard();
 
-interface Point { x: number; y: number; }
-interface Stroke { tool: string; color: string; points: Point[]; }
+interface Point {
+  x: number;
+  y: number;
+}
+interface Stroke {
+  tool: string;
+  color: string;
+  points: Point[];
+}
 const strokes = ref<Stroke[]>([]);
 const currentStroke = ref<Stroke | null>(null);
 const isDrawing = ref(false);
@@ -215,27 +252,43 @@ function redraw() {
         Math.min(a.x, b.x),
         Math.min(a.y, b.y),
         Math.abs(b.x - a.x),
-        Math.abs(b.y - a.y)
+        Math.abs(b.y - a.y),
       );
     }
   });
   if (currentStroke.value) {
     ctx.strokeStyle = currentStroke.value.color;
     ctx.lineWidth = 4;
-    if (currentStroke.value.tool === "draw" && currentStroke.value.points.length > 1) {
+    if (
+      currentStroke.value.tool === "draw" &&
+      currentStroke.value.points.length > 1
+    ) {
       ctx.beginPath();
-      ctx.moveTo(currentStroke.value.points[0].x, currentStroke.value.points[0].y);
+      ctx.moveTo(
+        currentStroke.value.points[0].x,
+        currentStroke.value.points[0].y,
+      );
       currentStroke.value.points.slice(1).forEach((p) => ctx.lineTo(p.x, p.y));
       ctx.stroke();
-    } else if (currentStroke.value.tool === "arrow" && currentStroke.value.points.length === 2) {
-      drawArrow(ctx, currentStroke.value.points[0], currentStroke.value.points[1]);
-    } else if (currentStroke.value.tool === "rect" && currentStroke.value.points.length === 2) {
+    } else if (
+      currentStroke.value.tool === "arrow" &&
+      currentStroke.value.points.length === 2
+    ) {
+      drawArrow(
+        ctx,
+        currentStroke.value.points[0],
+        currentStroke.value.points[1],
+      );
+    } else if (
+      currentStroke.value.tool === "rect" &&
+      currentStroke.value.points.length === 2
+    ) {
       const [a, b] = currentStroke.value.points;
       ctx.strokeRect(
         Math.min(a.x, b.x),
         Math.min(a.y, b.y),
         Math.abs(b.x - a.x),
-        Math.abs(b.y - a.y)
+        Math.abs(b.y - a.y),
       );
     }
   }
@@ -250,8 +303,14 @@ function drawArrow(ctx: CanvasRenderingContext2D, from: Point, to: Point) {
   ctx.stroke();
   ctx.beginPath();
   ctx.moveTo(to.x, to.y);
-  ctx.lineTo(to.x - headLen * Math.cos(angle - Math.PI / 6), to.y - headLen * Math.sin(angle - Math.PI / 6));
-  ctx.lineTo(to.x - headLen * Math.cos(angle + Math.PI / 6), to.y - headLen * Math.sin(angle + Math.PI / 6));
+  ctx.lineTo(
+    to.x - headLen * Math.cos(angle - Math.PI / 6),
+    to.y - headLen * Math.sin(angle - Math.PI / 6),
+  );
+  ctx.lineTo(
+    to.x - headLen * Math.cos(angle + Math.PI / 6),
+    to.y - headLen * Math.sin(angle + Math.PI / 6),
+  );
   ctx.closePath();
   ctx.fillStyle = ctx.strokeStyle;
   ctx.fill();
@@ -326,7 +385,6 @@ function resizeCanvas() {
   const c = canvasRef.value;
   const cont = canvasContainer.value;
   if (!v || !c || !cont) return;
-  const rect = cont.getBoundingClientRect();
   c.width = v.videoWidth;
   c.height = v.videoHeight;
   c.style.width = "100%";
@@ -383,9 +441,7 @@ async function copyToClipboard() {
   try {
     const res = await fetch(capturedImage.value);
     const blob = await res.blob();
-    await navigator.clipboard.write([
-      new ClipboardItem({ "image/png": blob }),
-    ]);
+    await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
     shareStatus.value = "Copied to clipboard";
   } catch {
     shareStatus.value = "Copy failed";

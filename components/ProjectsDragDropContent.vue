@@ -16,7 +16,9 @@
       >
         <Icon name="Bookmark" :size="14" class="text-white" />
       </div>
-      <span class="text-lg font-semibold text-foreground">Bookmarked projects</span>
+      <span class="text-lg font-semibold text-foreground"
+        >Bookmarked projects</span
+      >
     </div>
     <div class="p-3">
       <p
@@ -29,10 +31,7 @@
             : "Drag projects here or use the bookmark icon to save favorites"
         }}
       </p>
-      <div
-        v-else
-        class="grid grid-cols-1 sm:grid-cols-2 gap-4"
-      >
+      <div v-else class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <SortableProjectCard
           v-for="(project, index) in stashedProjects"
           :key="project.id"
@@ -63,7 +62,16 @@ import SortableProjectCard from "~/components/SortableProjectCard.vue";
 const STASH_ZONE_ID = "stash-zone";
 
 defineProps<{
-  stashedProjects: { id: number; slug: string; title: string; description: string; link: string; cta: string; icon: string; tech?: string[] }[];
+  stashedProjects: {
+    id: number;
+    slug: string;
+    title: string;
+    description: string;
+    link: string;
+    cta: string;
+    icon: string;
+    tech?: string[];
+  }[];
   stashedIds: number[];
   onStash: (id: number) => void;
   expandedProjectId?: number | null;
@@ -75,5 +83,4 @@ const { isDropTarget: isStashDropTarget } = useDroppable({
   id: STASH_ZONE_ID,
   element: stashZoneRef,
 });
-
 </script>

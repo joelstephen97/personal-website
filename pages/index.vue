@@ -5,10 +5,7 @@
       <p class="text-xs font-medium text-accent tracking-wide uppercase mb-2">
         Software Engineer
       </p>
-      <h1
-        id="hero-heading"
-        class="text-h2 font-bold text-foreground mb-1"
-      >
+      <h1 id="hero-heading" class="text-h2 font-bold text-foreground mb-1">
         Joel Stephen
       </h1>
       <p class="text-sm text-muted max-w-md mx-auto mb-4">
@@ -38,9 +35,7 @@
     </section>
 
     <!-- CTAs -->
-    <div
-      class="flex flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-3"
-    >
+    <div class="flex flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-3">
       <button
         type="button"
         class="btn-primary flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold w-full sm:w-auto"

@@ -41,7 +41,8 @@
           type="button"
           :class="[
             'flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all btn-primary',
-            isChatOpen && 'ring-2 ring-accent ring-offset-2 ring-offset-[rgb(var(--bg))]',
+            isChatOpen &&
+              'ring-2 ring-accent ring-offset-2 ring-offset-[rgb(var(--bg))]',
           ]"
           aria-label="AI Chat — Ask about Joel"
           @click="toggleChat"
@@ -58,7 +59,9 @@
           type="button"
           :class="[
             'p-2.5 rounded-xl transition-colors',
-            isChatOpen ? 'bg-accent/15 text-accent' : 'text-muted hover:text-foreground hover:bg-[rgb(var(--glass))]',
+            isChatOpen
+              ? 'bg-accent/15 text-accent'
+              : 'text-muted hover:text-foreground hover:bg-[rgb(var(--glass))]',
           ]"
           aria-label="AI Chat — Ask about Joel"
           @click="toggleChat"
@@ -87,7 +90,10 @@
         <button
           type="button"
           class="flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-semibold w-full btn-primary"
-          @click="toggleOpen(false); toggleChat()"
+          @click="
+            toggleOpen(false);
+            toggleChat();
+          "
         >
           <Icon name="MessageCircle" :size="20" />
           AI Chat — Ask about Joel
@@ -119,7 +125,7 @@ import Icon from "~/components/ui/Icon.vue";
 
 const route = useRoute();
 const [open, toggleOpen] = useToggle(false);
-const { isOpen: isChatOpen, toggleOpen: toggleChat, openChat } = useJoelAgent();
+const { isOpen: isChatOpen, toggleOpen: toggleChat } = useJoelAgent();
 
 const links = [
   { to: "/", label: "About", icon: "User" },

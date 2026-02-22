@@ -9,8 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import type { HitData } from "~/composables/useAimTrainer";
-import type { TargetSize } from "~/composables/useAimTrainer";
+import type { HitData, TargetSize } from "~/composables/useAimTrainer";
 import { TARGET_SIZES, usePlayZone } from "~/composables/useAimTrainer";
 import AimTrainerTarget from "./AimTrainerTarget.vue";
 
@@ -47,7 +46,7 @@ watch(
   (isPlaying) => {
     if (isPlaying) place();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 watch(zone, () => {

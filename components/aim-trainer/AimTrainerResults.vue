@@ -3,7 +3,9 @@
     <div class="flex items-center justify-between mb-4">
       <h3 class="font-semibold text-[rgb(var(--foreground))]">
         Run History
-        <span class="text-sm font-normal text-[rgb(var(--foreground-muted))] ml-2">
+        <span
+          class="text-sm font-normal text-[rgb(var(--foreground-muted))] ml-2"
+        >
           (stored locally)
         </span>
       </h3>
@@ -41,7 +43,8 @@
               {{ run.mode }}
             </span>
             <span class="text-sm text-[rgb(var(--foreground))]">
-              {{ run.score }} pts · {{ run.accuracy.toFixed(0) }}% · {{ run.kps.toFixed(1) }} KPS
+              {{ run.score }} pts · {{ run.accuracy.toFixed(0) }}% ·
+              {{ run.kps.toFixed(1) }} KPS
             </span>
             <span
               v-if="run.avgReactionMs != null"
@@ -74,7 +77,10 @@
 </template>
 
 <script setup lang="ts">
-import type { AimTrainerRun, PerformanceGrade } from "~/composables/useAimTrainer";
+import type {
+  AimTrainerRun,
+  PerformanceGrade,
+} from "~/composables/useAimTrainer";
 import { getPerformanceRating } from "~/composables/useAimTrainer";
 import Icon from "~/components/ui/Icon.vue";
 import AimTrainerRunDetail from "./AimTrainerRunDetail.vue";

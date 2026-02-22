@@ -52,16 +52,22 @@ type PwaRef = { value: boolean } | boolean;
 
 onMounted(() => {
   if (import.meta.server) return;
-  const installed = ($pwa?.isPWAInstalled as PwaRef | undefined);
-  if (installed && (typeof installed === "object" ? installed.value : installed)) return;
+  const installed = $pwa?.isPWAInstalled as PwaRef | undefined;
+  if (
+    installed &&
+    (typeof installed === "object" ? installed.value : installed)
+  )
+    return;
   if (dismissed.value) return;
-  const prompt = ($pwa?.showInstallPrompt as PwaRef | undefined);
-  showPrompt.value = !!(prompt && (typeof prompt === "object" ? prompt.value : prompt));
+  const prompt = $pwa?.showInstallPrompt as PwaRef | undefined;
+  showPrompt.value = !!(
+    prompt && (typeof prompt === "object" ? prompt.value : prompt)
+  );
 });
 
 watch(
   () => {
-    const prompt = ($pwa?.showInstallPrompt as PwaRef | undefined);
+    const prompt = $pwa?.showInstallPrompt as PwaRef | undefined;
     return !!(prompt && (typeof prompt === "object" ? prompt.value : prompt));
   },
   (val) => {
@@ -69,7 +75,7 @@ watch(
       showPrompt.value = true;
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 async function install() {

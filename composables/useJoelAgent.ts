@@ -5,7 +5,6 @@ const TYPING_CHAR_MS = 28;
 const PUNCTUATION_PAUSE_MS = 320;
 const PUNCTUATION_CHARS = new Set([".", ",", ";", "!", "?", ":"]);
 
-
 export const CHAT_PERSONALITIES = [
   { id: "yoda", name: "Master Yoda" },
   { id: "tony", name: "Tony Stark" },
@@ -33,7 +32,7 @@ function loadStoredMessages(): ChatMessage[] {
         "role" in m &&
         "content" in m &&
         (m.role === "user" || m.role === "assistant") &&
-        typeof m.content === "string"
+        typeof m.content === "string",
     );
   } catch {
     return [];
@@ -86,11 +85,7 @@ export function useJoelAgent() {
 
   watch(personality, (val) => savePersonality(val));
 
-  watch(
-    messages,
-    (val) => saveMessages(val),
-    { deep: true }
-  );
+  watch(messages, (val) => saveMessages(val), { deep: true });
 
   let typingTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
@@ -110,7 +105,10 @@ export function useJoelAgent() {
       const { content } = await $fetch<{ content: string }>("/api/chat", {
         method: "POST",
         body: {
-          messages: messages.value.map((m) => ({ role: m.role, content: m.content })),
+          messages: messages.value.map((m) => ({
+            role: m.role,
+            content: m.content,
+          })),
           personality: personality.value,
         },
       });

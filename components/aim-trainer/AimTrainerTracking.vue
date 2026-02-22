@@ -39,11 +39,7 @@ function getCenter() {
 function getMaxRadius() {
   const z = zone.value;
   const targetRadius = (TARGET_SIZES[props.targetSize] ?? 40) / 2;
-  return Math.min(
-    120,
-    z.width / 2 - targetRadius,
-    z.height / 2 - targetRadius
-  );
+  return Math.min(120, z.width / 2 - targetRadius, z.height / 2 - targetRadius);
 }
 
 function updatePosition() {
@@ -98,7 +94,7 @@ watch(
       window.removeEventListener("mousemove", onMouseMove);
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 onUnmounted(() => {

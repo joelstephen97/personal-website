@@ -2,7 +2,9 @@
   <article
     ref="elementRef"
     :style="[
-      activeTransitionSlug === project.slug && { viewTransitionName: 'project-detail' },
+      activeTransitionSlug === project.slug && {
+        viewTransitionName: 'project-detail',
+      },
       isDragging && { opacity: 0.5, zIndex: 50 },
     ]"
     :class="[
@@ -11,8 +13,8 @@
     ]"
   >
     <button
-      type="button"
       ref="handleRef"
+      type="button"
       class="absolute top-2 right-2 p-1 rounded-md text-muted hover:text-accent hover:bg-accent/10 cursor-grab active:cursor-grabbing touch-none z-10"
       aria-label="Drag to reorder"
     >
@@ -37,15 +39,14 @@
       :class="[
         'absolute top-2 p-1 rounded-md z-10 transition-colors',
         showStash ? 'right-16' : 'right-10',
-        expanded ? 'text-accent bg-accent/10' : 'text-muted hover:text-accent hover:bg-accent/10',
+        expanded
+          ? 'text-accent bg-accent/10'
+          : 'text-muted hover:text-accent hover:bg-accent/10',
       ]"
       :aria-label="expanded ? 'Collapse' : 'Expand'"
       @click.stop="onExpand?.()"
     >
-      <Icon
-        :name="expanded ? 'ChevronUp' : 'ChevronDown'"
-        :size="16"
-      />
+      <Icon :name="expanded ? 'ChevronUp' : 'ChevronDown'" :size="16" />
     </button>
 
     <!-- Small view -->
@@ -59,7 +60,9 @@
       @mouseenter="preloadRoute"
       @click.prevent="handleProjectClick"
     >
-      <h3 class="text-lg font-semibold text-foreground group-hover:text-accent transition-colors line-clamp-2 break-words">
+      <h3
+        class="text-lg font-semibold text-foreground group-hover:text-accent transition-colors line-clamp-2 break-words"
+      >
         {{ project.title }}
       </h3>
       <div
@@ -90,17 +93,16 @@
             class="text-muted group-hover:text-accent transition-colors"
           />
         </div>
-        <h3 class="text-base font-semibold text-foreground group-hover:text-accent transition-colors mb-1">
+        <h3
+          class="text-base font-semibold text-foreground group-hover:text-accent transition-colors mb-1"
+        >
           {{ project.title }}
         </h3>
         <p class="text-sm text-muted mb-2 leading-relaxed">
           {{ project.description }}
         </p>
         <div class="flex flex-col gap-1.5">
-          <span
-            v-if="project.tech?.length"
-            class="flex flex-wrap gap-1"
-          >
+          <span v-if="project.tech?.length" class="flex flex-wrap gap-1">
             <span
               v-for="t in project.tech"
               :key="t"
@@ -148,10 +150,17 @@ const props = withDefaults(
     expanded?: boolean;
     group?: string;
   }>(),
-  { group: "grid", expanded: false }
+  {
+    group: "grid",
+    expanded: false,
+    stashedIds: () => [],
+    onStash: undefined,
+    onExpand: undefined,
+  },
 );
 
-const { activeTransitionSlug, setActiveTransitionSlug } = useProjectTransition();
+const { activeTransitionSlug, setActiveTransitionSlug } =
+  useProjectTransition();
 
 function preloadRoute() {
   if (import.meta.client) preloadRouteComponents(props.project.link);
@@ -168,7 +177,9 @@ async function handleProjectClick() {
 
 const showStash = computed(() => !!props.onStash);
 const isStashed = computed(
-  () => Array.isArray(props.stashedIds) && props.stashedIds.includes(props.project.id)
+  () =>
+    Array.isArray(props.stashedIds) &&
+    props.stashedIds.includes(props.project.id),
 );
 
 function toggleStash() {

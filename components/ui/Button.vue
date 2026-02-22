@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = withDefaults(
+withDefaults(
   defineProps<{
     variant?: "primary" | "secondary" | "tertiary";
     to?: string;
@@ -10,6 +10,8 @@ const props = withDefaults(
   {
     variant: "primary",
     type: "button",
+    to: undefined,
+    href: undefined,
   },
 );
 

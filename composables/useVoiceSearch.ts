@@ -6,7 +6,12 @@ function extractText(result: unknown): string {
     const t = (result as { text?: unknown }).text;
     return typeof t === "string" ? t.trim() : "";
   }
-  if (Array.isArray(result) && result[0] && typeof result[0] === "object" && "text" in result[0]) {
+  if (
+    Array.isArray(result) &&
+    result[0] &&
+    typeof result[0] === "object" &&
+    "text" in result[0]
+  ) {
     const t = (result[0] as { text?: unknown }).text;
     return typeof t === "string" ? t.trim() : "";
   }
@@ -15,7 +20,7 @@ function extractText(result: unknown): string {
 
 export function useVoiceSearch(
   searchQueryRef: Ref<string>,
-  options?: { manualStop?: boolean }
+  options?: { manualStop?: boolean },
 ) {
   const manualStop = options?.manualStop ?? false;
   let mediaRecorder: MediaRecorder | null = null;

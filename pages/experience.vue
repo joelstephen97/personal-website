@@ -16,7 +16,9 @@
         :title="`${totalYears}+ years of professional experience`"
       >
         <Icon name="Briefcase" :size="18" class="text-accent" />
-        <span class="text-sm font-medium text-foreground">{{ totalYears }}+ yrs</span>
+        <span class="text-sm font-medium text-foreground"
+          >{{ totalYears }}+ yrs</span
+        >
       </div>
     </header>
 
@@ -47,9 +49,7 @@
                 {{ job.company }}
               </p>
             </div>
-            <div
-              class="text-sm text-muted md:text-right"
-            >
+            <div class="text-sm text-muted md:text-right">
               <p class="flex items-center gap-1">
                 <Icon name="MapPin" :size="14" /> {{ job.location }}
               </p>
@@ -90,13 +90,13 @@
 </template>
 
 <script setup lang="ts">
+import Icon from "~/components/ui/Icon.vue";
+
 useSeo({
   title: "Experience | Joel Stephen - Software Engineer",
   description:
     "Career timeline: Frontend Engineer at AppliedAI, Senior Software Engineer at Otani, Software Engineer at RIOT. 5+ years in Vue, React, Python, FastAPI.",
 });
-
-import Icon from "~/components/ui/Icon.vue";
 
 const totalYears = 5;
 
@@ -140,7 +140,15 @@ const jobs = [
       "ShadCN, RadixVue, Pytest, Cypress.",
       "Led features, mentored, agile sprints.",
     ],
-    skills: ["Vue.js", "FastAPI", "Python", "GraphQL", "DynamoDB", "Pytest", "Cypress"],
+    skills: [
+      "Vue.js",
+      "FastAPI",
+      "Python",
+      "GraphQL",
+      "DynamoDB",
+      "Pytest",
+      "Cypress",
+    ],
   },
   {
     title: "Junior Software Engineer",

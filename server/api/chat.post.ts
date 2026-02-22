@@ -1,5 +1,9 @@
 import { JOEL_CONTEXT } from "../utils/joel-context";
-import { CHAT_MODELS, DEFAULT_CHAT_MODEL_ID, GROQ_CHAT_URL } from "../utils/chat-models";
+import {
+  CHAT_MODELS,
+  DEFAULT_CHAT_MODEL_ID,
+  GROQ_CHAT_URL,
+} from "../utils/chat-models";
 import {
   buildXmlSystemMessage,
   type PersonalityId,
@@ -20,11 +24,13 @@ export default defineEventHandler(async (event) => {
     personality?: string;
   }>(event);
   const rawMessages = body?.messages;
-  const personalityId = (VALID_PERSONALITIES.includes(
-    body?.personality as (typeof VALID_PERSONALITIES)[number]
-  )
-    ? body?.personality
-    : "yoda") as PersonalityId;
+  const personalityId = (
+    VALID_PERSONALITIES.includes(
+      body?.personality as (typeof VALID_PERSONALITIES)[number],
+    )
+      ? body?.personality
+      : "yoda"
+  ) as PersonalityId;
 
   if (!Array.isArray(rawMessages) || rawMessages.length === 0) {
     throw createError({
@@ -47,9 +53,14 @@ export default defineEventHandler(async (event) => {
         const sanitized = sanitizeUserInput(m.content);
         if (!sanitized) return null;
         const escaped = escapeXmlForUntrustedInput(sanitized);
-        return { role: m.role, content: `<untrusted_user_input>\n${escaped}\n</untrusted_user_input>` };
+        return {
+          role: m.role,
+          content: `<untrusted_user_input>\n${escaped}\n</untrusted_user_input>`,
+        };
       }
-      return (m.content as string).length > 0 ? { role: m.role, content: m.content } : null;
+      return (m.content as string).length > 0
+        ? { role: m.role, content: m.content }
+        : null;
     })
     .filter((m): m is { role: string; content: string } => m !== null);
 
@@ -109,7 +120,8 @@ export default defineEventHandler(async (event) => {
   const data = (await response.json()) as {
     choices?: { message?: { content?: string } }[];
   };
-  const rawContent = data.choices?.[0]?.message?.content ?? "No response generated.";
+  const rawContent =
+    data.choices?.[0]?.message?.content ?? "No response generated.";
 
   const { safe, filtered } = validateOutput(rawContent);
   const content = safe ? rawContent : (filtered ?? REFUSAL_MESSAGE);

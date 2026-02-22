@@ -8,9 +8,7 @@
     >
       <div
         v-if="isOpen"
-        class="fixed z-50 flex flex-col rounded-2xl glass-solid shadow-xl border border-border overflow-hidden
-          inset-x-4 bottom-[5.5rem] w-auto max-w-[400px] h-[min(520px,calc(100dvh-8rem))]
-          sm:inset-x-auto sm:left-auto sm:right-6 sm:bottom-[5.5rem] sm:w-[380px] sm:h-[min(560px,calc(100dvh-10rem))]"
+        class="fixed z-50 flex flex-col rounded-2xl glass-solid shadow-xl border border-border overflow-hidden inset-x-4 bottom-[5.5rem] w-auto max-w-[400px] h-[min(520px,calc(100dvh-8rem))] sm:inset-x-auto sm:left-auto sm:right-6 sm:bottom-[5.5rem] sm:w-[380px] sm:h-[min(560px,calc(100dvh-10rem))]"
       >
         <div
           class="flex items-center justify-between gap-2 px-3 py-2.5 border-b border-border bg-[rgb(var(--glass))] shrink-0"
@@ -26,11 +24,7 @@
               class="min-w-0 max-w-[140px] text-sm font-medium text-foreground bg-transparent border-0 cursor-pointer focus:outline-none focus:ring-0 [&>option]:bg-[rgb(var(--bg))]"
               aria-label="Select chat personality"
             >
-              <option
-                v-for="p in CHAT_PERSONALITIES"
-                :key="p.id"
-                :value="p.id"
-              >
+              <option v-for="p in CHAT_PERSONALITIES" :key="p.id" :value="p.id">
                 {{ p.name }}
               </option>
             </select>
@@ -97,24 +91,34 @@
             >
               {{ displayContent(msg, i) }}
               <span
-                v-if="msg.role === 'assistant' && i === lastAssistantIndex && typingContent"
+                v-if="
+                  msg.role === 'assistant' &&
+                  i === lastAssistantIndex &&
+                  typingContent
+                "
                 class="inline-block w-2 h-3.5 ml-0.5 bg-accent/70 animate-pulse"
                 aria-hidden="true"
               />
             </div>
           </div>
-          <div
-            v-if="isLoading"
-            class="flex justify-start"
-          >
+          <div v-if="isLoading" class="flex justify-start">
             <div
               class="rounded-xl rounded-bl-md px-3 py-2 bg-[rgb(var(--glass))] border border-border flex items-center gap-2"
             >
               <span class="text-muted-foreground text-sm">typing</span>
               <span class="flex gap-0.5">
-                <span class="w-1.5 h-1.5 rounded-full bg-accent/60 animate-bounce" style="animation-delay: 0ms" />
-                <span class="w-1.5 h-1.5 rounded-full bg-accent/60 animate-bounce" style="animation-delay: 120ms" />
-                <span class="w-1.5 h-1.5 rounded-full bg-accent/60 animate-bounce" style="animation-delay: 240ms" />
+                <span
+                  class="w-1.5 h-1.5 rounded-full bg-accent/60 animate-bounce"
+                  style="animation-delay: 0ms"
+                />
+                <span
+                  class="w-1.5 h-1.5 rounded-full bg-accent/60 animate-bounce"
+                  style="animation-delay: 120ms"
+                />
+                <span
+                  class="w-1.5 h-1.5 rounded-full bg-accent/60 animate-bounce"
+                  style="animation-delay: 240ms"
+                />
               </span>
             </div>
           </div>
@@ -177,11 +181,7 @@
             class="shrink-0 w-9 h-9 flex items-center justify-center rounded-lg bg-accent text-white hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             aria-label="Send"
           >
-            <Loader2
-              v-if="isLoading"
-              :size="20"
-              class="animate-spin"
-            />
+            <Loader2 v-if="isLoading" :size="20" class="animate-spin" />
             <Send v-else :size="20" />
           </button>
         </form>
@@ -214,8 +214,12 @@ const lastAssistantIndex = computed(() => {
   return -1;
 });
 
-function displayContent(msg: { role: string; content: string }, i: number): string {
-  if (msg.role !== "assistant" || i !== lastAssistantIndex.value) return msg.content;
+function displayContent(
+  msg: { role: string; content: string },
+  i: number,
+): string {
+  if (msg.role !== "assistant" || i !== lastAssistantIndex.value)
+    return msg.content;
   return typingContent.value || msg.content;
 }
 

@@ -9,12 +9,14 @@
       </div>
 
       <p class="text-[rgb(var(--foreground-muted))] mb-8">
-        Pick colors from anywhere on your screen—browser, desktop, or other apps. Uses the native EyeDropper API.
+        Pick colors from anywhere on your screen—browser, desktop, or other
+        apps. Uses the native EyeDropper API.
       </p>
 
       <div v-if="!isSupported" class="glass-solid rounded-2xl p-8 text-center">
         <p class="text-amber-600">
-          EyeDropper API is not supported in this browser. Try Chrome, Edge, or Opera.
+          EyeDropper API is not supported in this browser. Try Chrome, Edge, or
+          Opera.
         </p>
       </div>
 
@@ -26,12 +28,18 @@
             @click="pickColor"
           >
             <Icon name="Pipette" :size="24" />
-            {{ picking ? "Pick a color on screen..." : "Pick Color from Screen" }}
+            {{
+              picking ? "Pick a color on screen..." : "Pick Color from Screen"
+            }}
           </button>
         </div>
 
         <div v-if="sRGBHex" class="glass-solid rounded-2xl p-6 mb-6">
-          <p class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-3">Current Color</p>
+          <p
+            class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-3"
+          >
+            Current Color
+          </p>
           <div class="flex flex-wrap items-center gap-4">
             <div
               class="w-24 h-24 rounded-xl border-2 border-[rgb(var(--border))] shadow-lg"
@@ -64,7 +72,9 @@
 
         <div v-if="history.length" class="glass-solid rounded-2xl p-6">
           <div class="flex items-center justify-between mb-4">
-            <p class="text-sm font-semibold text-[rgb(var(--foreground))]">Color History</p>
+            <p class="text-sm font-semibold text-[rgb(var(--foreground))]">
+              Color History
+            </p>
             <button
               class="text-xs text-accent hover:opacity-80"
               @click="clearHistory"
@@ -89,20 +99,22 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed } from "vue";
+import { useEyeDropper, useClipboard, useStorage } from "@vueuse/core";
+import Icon from "~/components/ui/Icon.vue";
+
 useSeo({
   title: "Eye Dropper | Joel Stephen - Portfolio",
-  description: "Pick colors from anywhere on screen via the native EyeDropper API.",
+  description:
+    "Pick colors from anywhere on screen via the native EyeDropper API.",
   path: "/project/eye-dropper",
   breadcrumbTitle: "Eye Dropper",
   projectSchema: {
     name: "Eye Dropper",
-    description: "Pick colors from anywhere on screen via the native EyeDropper API.",
+    description:
+      "Pick colors from anywhere on screen via the native EyeDropper API.",
   },
 });
-
-import { ref, computed } from "vue";
-import { useEyeDropper, useClipboard, useStorage } from "@vueuse/core";
-import Icon from "~/components/ui/Icon.vue";
 
 definePageMeta({ layout: "project-detail" });
 
@@ -158,7 +170,10 @@ async function pickColor() {
 }
 
 function addToHistory(color: string) {
-  const next = [color, ...history.value.filter((c) => c !== color)].slice(0, MAX_HISTORY);
+  const next = [color, ...history.value.filter((c) => c !== color)].slice(
+    0,
+    MAX_HISTORY,
+  );
   history.value = next;
 }
 

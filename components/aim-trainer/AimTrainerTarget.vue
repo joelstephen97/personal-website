@@ -19,10 +19,12 @@ const props = withDefaults(
     size?: TargetSize;
     moving?: boolean;
   }>(),
-  { size: "md", moving: false }
+  { size: "md", moving: false },
 );
 
-const pointerLocked = inject<Ref<boolean>>("aimTrainerPointerLocked", () => ref(false));
+const pointerLocked = inject<Ref<boolean>>("aimTrainerPointerLocked", () =>
+  ref(false),
+);
 
 defineEmits<{
   hit: [event: MouseEvent];

@@ -5,15 +5,10 @@
       <p class="text-xs font-medium text-accent tracking-wide uppercase mb-2">
         Get in touch
       </p>
-      <h1
-        id="contact-heading"
-        class="text-h2 font-bold text-foreground mb-1"
-      >
+      <h1 id="contact-heading" class="text-h2 font-bold text-foreground mb-1">
         Contact
       </h1>
-      <p class="text-sm text-muted max-w-md mx-auto">
-        Let's talk.
-      </p>
+      <p class="text-sm text-muted max-w-md mx-auto">Let's talk.</p>
     </header>
 
     <div class="grid lg:grid-cols-2 gap-8 items-stretch">
@@ -22,15 +17,17 @@
         class="glass-solid rounded-2xl p-5 flex flex-col"
         aria-label="Contact details"
       >
-        <h2 class="flex items-center gap-2 text-lg font-semibold text-accent mb-3">
+        <h2
+          class="flex items-center gap-2 text-lg font-semibold text-accent mb-3"
+        >
           <Icon name="Mail" :size="18" />
           Reach out
         </h2>
         <div class="space-y-2 flex-1">
           <component
+            :is="info.href ? 'a' : 'div'"
             v-for="info in contactInfo"
             :key="info.label"
-            :is="info.href ? 'a' : 'div'"
             :href="info.href || undefined"
             :target="info.external ? '_blank' : undefined"
             class="flex items-center gap-3 p-3 rounded-lg glass-solid hover:border-accent/30 transition-all group"
@@ -59,16 +56,21 @@
       </section>
 
       <!-- Right: Message form -->
-      <section class="glass-solid rounded-2xl p-5" aria-labelledby="form-heading">
-        <h2 id="form-heading" class="flex items-center gap-2 text-lg font-semibold text-accent mb-3">
+      <section
+        class="glass-solid rounded-2xl p-5"
+        aria-labelledby="form-heading"
+      >
+        <h2
+          id="form-heading"
+          class="flex items-center gap-2 text-lg font-semibold text-accent mb-3"
+        >
           <Icon name="Send" :size="18" />
           Message
         </h2>
 
         <form class="space-y-2" @submit.prevent="submit">
           <div>
-            <label
-              class="block text-xs font-medium text-foreground mb-0.5"
+            <label class="block text-xs font-medium text-foreground mb-0.5"
               >Name</label
             >
             <input
@@ -79,8 +81,7 @@
             />
           </div>
           <div>
-            <label
-              class="block text-xs font-medium text-foreground mb-0.5"
+            <label class="block text-xs font-medium text-foreground mb-0.5"
               >Email</label
             >
             <input
@@ -91,8 +92,7 @@
             />
           </div>
           <div>
-            <label
-              class="block text-xs font-medium text-foreground mb-0.5"
+            <label class="block text-xs font-medium text-foreground mb-0.5"
               >Message</label
             >
             <textarea
@@ -103,10 +103,9 @@
             />
           </div>
           <div>
-            <label
-              class="block text-xs font-medium text-foreground mb-0.5"
-              >{{ captcha.q }}</label
-            >
+            <label class="block text-xs font-medium text-foreground mb-0.5">{{
+              captcha.q
+            }}</label>
             <input
               v-model="form.captcha"
               type="text"
@@ -165,7 +164,13 @@
             @click="tryWebAuthn"
           >
             <Icon name="Fingerprint" :size="16" />
-            {{ webauthnLoading ? "Checking..." : webauthnSuccess ? "Authenticated" : "Try biometric login" }}
+            {{
+              webauthnLoading
+                ? "Checking..."
+                : webauthnSuccess
+                  ? "Authenticated"
+                  : "Try biometric login"
+            }}
           </button>
           <p v-else class="text-xs text-muted">
             WebAuthn not supported in this browser.
@@ -177,15 +182,15 @@
 </template>
 
 <script setup lang="ts">
+import { reactive, ref, onMounted } from "vue";
+import Icon from "~/components/ui/Icon.vue";
+import emailjs from "@emailjs/browser";
+
 useSeo({
   title: "Contact | Joel Stephen - Software Engineer",
   description:
     "Get in touch with Joel Stephen. Email, LinkedIn, WhatsApp, Calendly. Based in Abu Dhabi, UAE. Open to work globally.",
 });
-
-import { reactive, ref, onMounted } from "vue";
-import Icon from "~/components/ui/Icon.vue";
-import emailjs from "@emailjs/browser";
 
 const contactInfo = [
   {
@@ -270,8 +275,7 @@ async function submit() {
 }
 
 const webauthnSupported =
-  typeof window !== "undefined" &&
-  window.PublicKeyCredential !== undefined;
+  typeof window !== "undefined" && window.PublicKeyCredential !== undefined;
 const webauthnLoading = ref(false);
 const webauthnSuccess = ref(false);
 

@@ -104,7 +104,9 @@ export function detectJailbreakAttempt(userInput: string): boolean {
   if (detectBase64Injection(normalized)) return true;
 
   const lower = normalized.toLowerCase();
-  const riskCount = HIGH_RISK_KEYWORDS.filter((kw) => lower.includes(kw)).length;
+  const riskCount = HIGH_RISK_KEYWORDS.filter((kw) =>
+    lower.includes(kw),
+  ).length;
   if (riskCount >= 2) return true;
 
   return false;
@@ -113,10 +115,13 @@ export function detectJailbreakAttempt(userInput: string): boolean {
 /** Sanitize user input: length limit, strip control chars */
 export function sanitizeUserInput(input: string): string {
   if (!input || typeof input !== "string") return "";
-  return input
-    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "")
-    .trim()
-    .slice(0, MAX_INPUT_LENGTH);
+  return (
+    input
+      // eslint-disable-next-line no-control-regex -- intentionally stripping control chars
+      .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "")
+      .trim()
+      .slice(0, MAX_INPUT_LENGTH)
+  );
 }
 
 /** Escape XML special chars so user input cannot break out of tags or inject markup */
@@ -163,7 +168,10 @@ const OUTPUT_LEAKAGE_PATTERNS = [
   /<\s*grounding_rules\s*>/i,
 ];
 
-export function validateOutput(content: string): { safe: boolean; filtered?: string } {
+export function validateOutput(content: string): {
+  safe: boolean;
+  filtered?: string;
+} {
   if (!content || typeof content !== "string") {
     return { safe: false, filtered: REFUSAL_MESSAGE };
   }

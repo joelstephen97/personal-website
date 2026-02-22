@@ -8,10 +8,11 @@ async function initPipeline() {
   if (transcriberFn) return;
   try {
     const { pipeline } = await getTransformers();
-    transcriberFn = await pipeline(
+    const model = await pipeline(
       "automatic-speech-recognition",
-      "Xenova/whisper-tiny.en"
+      "Xenova/whisper-tiny.en",
     );
+    transcriberFn = model as (url: string) => Promise<{ text: string }>;
     isReady.value = true;
   } catch (e) {
     loadError.value =

@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   ssr: false,
   compatibilityDate: "2025-02-22",
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   modules: [
     "@nuxtjs/color-mode",
     "@nuxtjs/google-fonts",
@@ -62,14 +62,25 @@ export default defineNuxtConfig({
     manifest: {
       name: "Joel Stephen | Software Engineer",
       short_name: "Joel Stephen",
-      description: "Full-stack engineer with 5+ years of experience. Building beautiful, performant web experiences.",
+      description:
+        "Full-stack engineer with 5+ years of experience. Building beautiful, performant web experiences.",
       theme_color: "#007AFF",
       background_color: "#fafafc",
       icons: [
         { src: "/pwa-64x64.png", sizes: "64x64", type: "image/png" },
         { src: "/pwa-192x192.png", sizes: "192x192", type: "image/png" },
-        { src: "/pwa-512x512.png", sizes: "512x512", type: "image/png", purpose: "any" },
-        { src: "/maskable-icon-512x512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+        {
+          src: "/pwa-512x512.png",
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "any",
+        },
+        {
+          src: "/maskable-icon-512x512.png",
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "maskable",
+        },
       ],
     },
     workbox: {
@@ -130,7 +141,8 @@ export default defineNuxtConfig({
     public: {
       siteUrl:
         process.env.NUXT_PUBLIC_SITE_URL ?? "https://joelstephen.vercel.app",
-      twitterCreator: process.env.NUXT_PUBLIC_TWITTER_CREATOR ?? "@joelstephen97",
+      twitterCreator:
+        process.env.NUXT_PUBLIC_TWITTER_CREATOR ?? "@joelstephen97",
       twitterSite: process.env.NUXT_PUBLIC_TWITTER_SITE ?? "@joelstephen97",
     },
   },
@@ -260,7 +272,7 @@ export default defineNuxtConfig({
             (f) =>
               f.endsWith(".woff2") &&
               (f.startsWith("Geist-400-3") ||
-                f.startsWith("Geist_Mono-400-12"))
+                f.startsWith("Geist_Mono-400-12")),
           );
         } catch {
           return;
@@ -271,7 +283,7 @@ export default defineNuxtConfig({
         const preloadLinks = fontFiles
           .map(
             (f) =>
-              `<link rel="preload" href="/_nuxt/${f}" as="font" type="font/woff2" crossorigin>`
+              `<link rel="preload" href="/_nuxt/${f}" as="font" type="font/woff2" crossorigin>`,
           )
           .join("\n    ");
 

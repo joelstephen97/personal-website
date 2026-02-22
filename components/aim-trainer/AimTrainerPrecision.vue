@@ -72,7 +72,7 @@ watch(
       place();
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 watch(zone, () => {

@@ -15,8 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import type { HitData } from "~/composables/useAimTrainer";
-import type { TargetSize } from "~/composables/useAimTrainer";
+import type { HitData, TargetSize } from "~/composables/useAimTrainer";
 import { TARGET_SIZES, usePlayZone } from "~/composables/useAimTrainer";
 import AimTrainerTarget from "./AimTrainerTarget.vue";
 
@@ -58,8 +57,7 @@ function randomPosition(): { x: number; y: number } {
 
 function overlaps(pos: { x: number; y: number }, others: Target[]) {
   return others.some(
-    (t) =>
-      Math.hypot(pos.x - t.x, pos.y - t.y) < MIN_DISTANCE
+    (t) => Math.hypot(pos.x - t.x, pos.y - t.y) < MIN_DISTANCE,
   );
 }
 
@@ -114,7 +112,7 @@ watch(
   (isPlaying) => {
     if (isPlaying) initTargets();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 watch(zone, () => {

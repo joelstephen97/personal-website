@@ -47,7 +47,7 @@ onMounted(() => {
       () => {
         deferMounted.value = true;
       },
-      { timeout: 100 }
+      { timeout: 100 },
     );
   } else {
     setTimeout(() => {
