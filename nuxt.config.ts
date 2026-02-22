@@ -102,14 +102,12 @@ export default defineNuxtConfig({
           content:
             "Full-stack engineer with 5+ years of experience. Building beautiful, performant web experiences with modern technologies.",
         },
-        ...(process.env.NUXT_PUBLIC_GOOGLE_SITE_VERIFICATION
-          ? [
-              {
-                name: "google-site-verification",
-                content: process.env.NUXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
-              },
-            ]
-          : []),
+        {
+          name: "google-site-verification",
+          content:
+            process.env.NUXT_PUBLIC_GOOGLE_SITE_VERIFICATION ??
+            "bYqlobb96_jw9-bMer4ClmINiQdolk0iW7dvLYVYKC4",
+        },
       ],
       link: [
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico?v=2" },
