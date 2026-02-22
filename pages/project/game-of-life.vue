@@ -247,10 +247,13 @@ function step() {
   draw();
 }
 
-function loop(ts: number) {
+function loop({ timestamp }: { delta: number; timestamp: number }) {
   if (!playing.value) return;
   const interval = 1000 / fps.value;
-  if (ts - lastTick >= interval) { step(); lastTick = ts; }
+  if (timestamp - lastTick >= interval) {
+    step();
+    lastTick = timestamp;
+  }
 }
 
 const { pause: pauseRaf, resume: resumeRaf } = useRafFn(loop, { immediate: false });

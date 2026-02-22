@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   modules: [
     "@nuxtjs/color-mode",
     "@nuxtjs/google-fonts",
+    "@nuxtjs/critters",
     "@nuxt/image",
     "@nuxt/eslint",
     "@vite-pwa/nuxt",
@@ -238,6 +239,54 @@ export default defineNuxtConfig({
     },
   },
 
+  critters: {
+    config: { preload: "swap" },
+  },
+  hooks: {
+    "nitro:init"(nitro) {
+      nitro.hooks.hook("prerender:generate", async (route) => {
+        if (typeof route.contents !== "string") return;
+
+        const { join } = await import("node:path");
+        const { readdir } = await import("node:fs/promises");
+
+        const rootDir = nitro.options.rootDir;
+        const clientDir = join(rootDir, ".nuxt", "dist", "client", "_nuxt");
+
+        let fontFiles: string[];
+        try {
+          const files = await readdir(clientDir);
+          fontFiles = files.filter(
+            (f) =>
+              f.endsWith(".woff2") &&
+              (f.startsWith("Geist-400-3") ||
+                f.startsWith("Geist_Mono-400-12"))
+          );
+        } catch {
+          return;
+        }
+
+        if (fontFiles.length === 0) return;
+
+        const preloadLinks = fontFiles
+          .map(
+            (f) =>
+              `<link rel="preload" href="/_nuxt/${f}" as="font" type="font/woff2" crossorigin>`
+          )
+          .join("\n    ");
+
+        const headClose = route.contents.indexOf("</head>");
+        if (headClose === -1) return;
+
+        route.contents =
+          route.contents.slice(0, headClose) +
+          "\n    " +
+          preloadLinks +
+          "\n  " +
+          route.contents.slice(headClose);
+      });
+    },
+  },
   vite: {
     build: {
       sourcemap: true,
