@@ -95,7 +95,7 @@ import { ref, computed, watch, onUnmounted } from "vue";
 import { useIntervalFn } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "project-detail" });
 
 const algorithms = [
   { key: "bubble", label: "Bubble Sort", complexity: "O(n²)" },

@@ -143,7 +143,7 @@ import { useClipboard, useDropZone } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 import SparkMD5 from "spark-md5";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "project-detail" });
 
 const algorithms = ["SHA-1", "SHA-256", "SHA-384", "SHA-512"];
 const algorithmOptions = ["All", "MD5", ...algorithms];

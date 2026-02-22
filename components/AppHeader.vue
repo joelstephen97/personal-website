@@ -5,9 +5,12 @@
       <NuxtLink to="/" class="flex items-center gap-3 group">
         <NuxtImg
           src="https://avatars.githubusercontent.com/u/40371897"
-          alt="Joel Stephen"
+          alt=""
           width="32"
           height="32"
+          sizes="32px"
+          format="webp"
+          quality="80"
           fetchpriority="high"
           class="w-8 h-8 rounded-full ring-2 ring-transparent group-hover:ring-accent/50 transition-all"
         />
@@ -27,7 +30,7 @@
           :class="[
             'flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all',
             route.path === link.to
-              ? 'text-accent bg-accent/10'
+              ? 'text-foreground bg-accent/10'
               : 'text-muted hover:text-foreground hover:bg-[rgb(var(--glass))]',
           ]"
         >
@@ -41,7 +44,7 @@
             'flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all btn-primary',
             isChatOpen && 'ring-2 ring-accent ring-offset-2 ring-offset-[rgb(var(--bg))]',
           ]"
-          aria-label="Open AI chat to ask about Joel"
+          aria-label="AI Chat — Ask about Joel"
           @click="toggleChat"
         >
           <Icon name="MessageCircle" :size="18" />
@@ -58,7 +61,7 @@
             'p-2.5 rounded-xl transition-colors',
             isChatOpen ? 'bg-accent/15 text-accent' : 'text-muted hover:text-foreground hover:bg-[rgb(var(--glass))]',
           ]"
-          aria-label="Open AI chat to ask about Joel"
+          aria-label="AI Chat — Ask about Joel"
           @click="toggleChat"
         >
           <Icon name="MessageCircle" :size="22" />
@@ -97,7 +100,7 @@
           :class="[
             'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all',
             route.path === link.to
-              ? 'text-accent bg-accent/10'
+              ? 'text-foreground bg-accent/10'
               : 'text-foreground hover:bg-[rgb(var(--glass))]',
           ]"
           @click="toggleOpen(false)"

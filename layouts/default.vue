@@ -18,7 +18,6 @@
             v-if="projectSlug"
             :key="`project-${projectSlug}`"
             class="project-detail-content"
-            :style="{ viewTransitionName: 'project-detail' }"
           >
             <slot />
           </div>
@@ -29,12 +28,33 @@
       </div>
     </main>
     <AppFooter />
-    <JoelAgentChat />
-    <PwaInstallPrompt />
+    <ClientOnly>
+      <LazyJoelAgentChat v-if="deferMounted" />
+      <template #fallback />
+    </ClientOnly>
+    <ClientOnly>
+      <LazyPwaInstallPrompt v-if="deferMounted" />
+      <template #fallback />
+    </ClientOnly>
   </div>
 </template>
 
 <script setup lang="ts">
+const deferMounted = ref(false);
+onMounted(() => {
+  if ("requestIdleCallback" in window) {
+    requestIdleCallback(
+      () => {
+        deferMounted.value = true;
+      },
+      { timeout: 100 }
+    );
+  } else {
+    setTimeout(() => {
+      deferMounted.value = true;
+    }, 100);
+  }
+});
 const config = useRuntimeConfig();
 const SITE_URL =
   (config.public as { siteUrl?: string }).siteUrl ??
@@ -70,7 +90,7 @@ useHead({
   script: [
     {
       type: "application/ld+json",
-      children: JSON.stringify(websiteSchema),
+      innerHTML: JSON.stringify(websiteSchema),
     },
   ],
 });

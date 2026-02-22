@@ -184,7 +184,7 @@ import { useStorage } from "@vueuse/core";
 import { useClipboard } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "project-detail" });
 
 const atkOps = [
   "Sledge", "Thatcher", "Ash", "Thermite", "Twitch", "Montagne", "Glaz", "Fuze",

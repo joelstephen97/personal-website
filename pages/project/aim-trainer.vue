@@ -203,7 +203,7 @@ import AimTrainerPrecision from "~/components/aim-trainer/AimTrainerPrecision.vu
 import AimTrainerCrosshair from "~/components/aim-trainer/AimTrainerCrosshair.vue";
 import AimTrainerCrosshairSettings from "~/components/aim-trainer/AimTrainerCrosshairSettings.vue";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "project-detail" });
 
 const modes: { id: AimMode; name: string; desc: string }[] = [
   { id: "flick", name: "Flick", desc: "Single target, reaction time" },

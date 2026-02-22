@@ -104,7 +104,7 @@ import { ref, computed } from "vue";
 import { useEyeDropper, useClipboard, useStorage } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "project-detail" });
 
 const HISTORY_KEY = "eye-dropper-history";
 const MAX_HISTORY = 24;

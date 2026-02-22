@@ -163,7 +163,7 @@ import { ref, computed } from "vue";
 import { useClipboard, refAutoReset } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "project-detail" });
 
 const hex = ref("#007AFF");
 const harmony = ref("complementary");

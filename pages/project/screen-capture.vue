@@ -145,7 +145,7 @@ import { ref, computed, onUnmounted, watch } from "vue";
 import { useShare, useClipboard } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "project-detail" });
 
 const videoRef = ref<HTMLVideoElement | null>(null);
 const canvasRef = ref<HTMLCanvasElement | null>(null);

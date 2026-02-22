@@ -88,6 +88,13 @@ export default defineNuxtConfig({
   experimental: {
     viewTransition: true,
     appManifest: false,
+    renderJsonPayloads: false,
+    payloadExtraction: false,
+    defaults: {
+      nuxtLink: {
+        prefetch: false,
+      },
+    },
   },
 
   app: {
@@ -133,6 +140,34 @@ export default defineNuxtConfig({
         process.env.NUXT_PUBLIC_SITE_URL ?? "https://joelstephen.vercel.app",
       twitterCreator: process.env.NUXT_PUBLIC_TWITTER_CREATOR ?? "@joelstephen97",
       twitterSite: process.env.NUXT_PUBLIC_TWITTER_SITE ?? "@joelstephen97",
+    },
+  },
+
+  routeRules: {
+    "/**": {
+      headers: {
+        "X-Frame-Options": "DENY",
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "Permissions-Policy":
+          "camera=(), microphone=(self), geolocation=(), interest-cohort=()",
+        "Cross-Origin-Opener-Policy": "same-origin",
+        "Cross-Origin-Embedder-Policy": "credentialless",
+        "Content-Security-Policy":
+          "default-src 'self'; " +
+          "script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' blob: https://va.vercel-insights.com https://va.vercel-scripts.com https://cdn.jsdelivr.net; " +
+          "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+          "font-src 'self' https://fonts.gstatic.com data:; " +
+          "img-src 'self' data: blob: https:; " +
+          "media-src 'self' blob:; " +
+          "connect-src 'self' blob: https://va.vercel-insights.com https://api.groq.com https://*.huggingface.co https://huggingface.co https://cdn.jsdelivr.net; " +
+          "frame-ancestors 'none'; " +
+          "base-uri 'self'; " +
+          "form-action 'self'; " +
+          "object-src 'none'; " +
+          "require-trusted-types-for 'script'; " +
+          "trusted-types default vue dompurify;",
+      },
     },
   },
 
@@ -195,6 +230,9 @@ export default defineNuxtConfig({
   },
 
   vite: {
+    build: {
+      sourcemap: true,
+    },
     optimizeDeps: {
       exclude: [
         "@tensorflow/tfjs-core",

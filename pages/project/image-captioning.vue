@@ -103,8 +103,9 @@ useSeo({
 import { ref, onMounted, onUnmounted } from "vue";
 import { useDropZone, useClipboard } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
+import { getTransformers } from "~/composables/useTransformersClient";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "project-detail" });
 
 const dropZoneRef = ref<HTMLElement | null>(null);
 const fileInput = ref<HTMLInputElement | null>(null);
@@ -126,7 +127,7 @@ const { isOverDropZone } = useDropZone(dropZoneRef, {
 async function initPipeline() {
   if (pipelineFn) return;
   try {
-    const { pipeline } = await import("@huggingface/transformers");
+    const { pipeline } = await getTransformers();
     const captioner = await pipeline("image-to-text", "Xenova/vit-gpt2-image-captioning");
     pipelineFn = captioner;
   } catch (e) {

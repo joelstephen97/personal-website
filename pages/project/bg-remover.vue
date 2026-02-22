@@ -203,7 +203,7 @@ useSeo({
 import { ref, onUnmounted } from "vue";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "project-detail" });
 
 let bodyPixModule: Awaited<typeof import("@tensorflow-models/body-pix")> | null = null;
 

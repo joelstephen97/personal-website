@@ -68,7 +68,7 @@ export function useSeo(options: SeoOptions) {
     { property: "og:image:alt", content: ogImageAlt },
   ];
 
-  const scripts: { type: string; children: string }[] = [];
+  const scripts: { type: string; innerHTML: string }[] = [];
 
   if (options.breadcrumbTitle && path.startsWith("/project/")) {
     const breadcrumbSchema = {
@@ -92,7 +92,7 @@ export function useSeo(options: SeoOptions) {
     };
     scripts.push({
       type: "application/ld+json",
-      children: JSON.stringify(breadcrumbSchema),
+      innerHTML: JSON.stringify(breadcrumbSchema),
     });
   }
 
@@ -114,7 +114,7 @@ export function useSeo(options: SeoOptions) {
     };
     scripts.push({
       type: "application/ld+json",
-      children: JSON.stringify(softwareSchema),
+      innerHTML: JSON.stringify(softwareSchema),
     });
   }
 

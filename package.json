@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@dnd-kit/vue": "^0.3.2",
+    "@emailjs/browser": "^4.4.1",
     "@huggingface/transformers": "^3.8.1",
     "@nuxt/image": "^2.0.0",
     "@nuxtjs/color-mode": "^3.5.2",
@@ -29,6 +30,7 @@
     "@vercel/speed-insights": "^1.0.12",
     "@vite-pwa/nuxt": "^0.10.0",
     "@vueuse/core": "^11.1.0",
+    "dompurify": "^3.3.1",
     "lucide-vue-next": "^0.469.0",
     "nuxt": "^3.14.0",
     "spark-md5": "^3.0.2",
@@ -36,6 +38,7 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^0.7.0",
+    "@types/dompurify": "^3.2.0",
     "autoprefixer": "^10.4.19",
     "eslint": "^9.15.0",
     "eslint-config-prettier": "^9.1.0",

@@ -139,7 +139,7 @@ useSeo({
 import { ref, computed } from "vue";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "project-detail" });
 
 const pattern = ref("(\\w+)@(\\w+\\.\\w+)");
 const testStr = ref("Contact us at hello@example.com or support@test.org");

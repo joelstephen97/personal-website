@@ -137,7 +137,7 @@ import { ref } from "vue";
 import { useClipboard } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "project-detail" });
 
 const leftJson = ref("");
 const rightJson = ref("");

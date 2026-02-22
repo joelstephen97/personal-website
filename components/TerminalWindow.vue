@@ -17,7 +17,7 @@
         />
         <span class="w-3 h-3 rounded-full cursor-default bg-terminal-green" />
       </div>
-      <span class="flex-1 text-center text-xs text-terminal-muted font-mono">
+      <span class="flex-1 text-center text-xs text-terminal font-mono">
         {{ title }}
       </span>
     </div>

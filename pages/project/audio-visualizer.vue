@@ -122,7 +122,7 @@ import { ref, onUnmounted, watch, onMounted } from "vue";
 import { useFullscreen, useIntervalFn, useRafFn, useEventListener } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "project-detail" });
 
 const canvas = ref<HTMLCanvasElement | null>(null);
 const vizContainer = ref<HTMLElement | null>(null);

@@ -129,7 +129,7 @@ import { ref, computed, onMounted, onUnmounted, watch } from "vue";
 import { useRafFn } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "project-detail" });
 
 const gridSizes = { small: [40, 60], medium: [50, 70], large: [60, 80] } as const;
 const rows = ref(50);

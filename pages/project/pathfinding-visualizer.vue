@@ -139,7 +139,7 @@ import { ref, reactive, computed, onMounted, onUnmounted } from "vue";
 import { useResizeObserver } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "project-detail" });
 
 const gridSizes = { small: [20, 40], medium: [25, 50], large: [30, 60] } as const;
 const rows = ref(25);

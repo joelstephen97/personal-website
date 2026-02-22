@@ -84,7 +84,7 @@ import { computed } from "vue";
 import { useFileSystemAccess } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "project-detail" });
 
 const {
   isSupported,

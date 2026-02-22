@@ -95,7 +95,7 @@ import { ref, computed, onUnmounted } from "vue";
 import { useClipboard } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "project-detail" });
 
 const fileInput = ref<HTMLInputElement | null>(null);
 const audioUrl = ref<string | null>(null);

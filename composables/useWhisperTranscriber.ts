@@ -1,3 +1,5 @@
+import { getTransformers } from "./useTransformersClient";
+
 let transcriberFn: ((url: string) => Promise<{ text: string }>) | null = null;
 const loadError = ref("");
 const isReady = ref(false);
@@ -5,7 +7,7 @@ const isReady = ref(false);
 async function initPipeline() {
   if (transcriberFn) return;
   try {
-    const { pipeline } = await import("@huggingface/transformers");
+    const { pipeline } = await getTransformers();
     transcriberFn = await pipeline(
       "automatic-speech-recognition",
       "Xenova/whisper-tiny.en"

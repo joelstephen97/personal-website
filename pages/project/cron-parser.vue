@@ -100,7 +100,7 @@ import { ref, computed } from "vue";
 import { useClipboard } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "project-detail" });
 
 const expression = ref("0 9 * * 1-5");
 const fieldLabels = ["Minute", "Hour", "Day", "Month", "Weekday"];

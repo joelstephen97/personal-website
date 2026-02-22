@@ -185,12 +185,7 @@ useSeo({
 
 import { reactive, ref, onMounted } from "vue";
 import Icon from "~/components/ui/Icon.vue";
-
-declare global {
-  interface Window {
-    emailjs: unknown;
-  }
-}
+import emailjs from "@emailjs/browser";
 
 const contactInfo = [
   {
@@ -248,27 +243,17 @@ const error = ref<string | null>(null);
 const emailjsReady = ref(false);
 
 onMounted(() => {
-  if (document.getElementById("emailjs")) {
-    emailjsReady.value = true;
-    return;
-  }
-  const s = document.createElement("script");
-  s.id = "emailjs";
-  s.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js";
-  s.onload = () => {
-    window.emailjs.init({ publicKey: "HZeS1ehR96UvqjMx_" });
-    emailjsReady.value = true;
-  };
-  document.body.appendChild(s);
+  emailjs.init({ publicKey: "HZeS1ehR96UvqjMx_" });
+  emailjsReady.value = true;
 });
 
 async function submit() {
   if (form.captcha !== captcha.a) return;
-  if (!emailjsReady.value || !window.emailjs) return;
+  if (!emailjsReady.value) return;
   sending.value = true;
   error.value = null;
   try {
-    await window.emailjs.send("service_psja64o", "template_bkiydiu", {
+    await emailjs.send("service_psja64o", "template_bkiydiu", {
       from_name: form.name,
       from_email: form.email,
       message: form.message,

@@ -72,9 +72,10 @@ useSeo({
 
 import { ref, computed } from "vue";
 import { useClipboard, useStorage } from "@vueuse/core";
+import DOMPurify from "dompurify";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: "default" });
+definePageMeta({ layout: "project-detail" });
 
 const STORAGE_KEY = "markdown-previewer-content";
 const DEFAULT_CONTENT = `# Hello World
@@ -196,8 +197,8 @@ function parseInline(text: string): string {
   result = result.replace(/__([^_]+)__/g, "<strong>$1</strong>");
   result = result.replace(/\*([^*]+)\*/g, "<em>$1</em>");
   result = result.replace(/_([^_]+)_/g, "<em>$1</em>");
-  result = result.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => `<img src="${sanitizeUrl(src)}" alt="${alt}" style="max-width:100%;border-radius:8px" />`);
-  result = result.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, url) => `<a href="${sanitizeUrl(url)}" target="_blank" rel="noopener">${text}</a>`);
+  result = result.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => `<img src="${sanitizeUrl(src)}" alt="${escapeHtml(alt)}" style="max-width:100%;border-radius:8px" />`);
+  result = result.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, url) => `<a href="${escapeHtml(sanitizeUrl(url))}" target="_blank" rel="noopener noreferrer">${text}</a>`);
   return result;
 }
 
@@ -302,7 +303,8 @@ const rendered = computed(() => {
     html.push(`<pre><code>${escapeHtml(codeContent.join("\n"))}</code></pre>`);
   }
 
-  return html.join("\n");
+  const raw = html.join("\n");
+  return import.meta.client ? DOMPurify.sanitize(raw, { ALLOWED_TAGS: ["p", "h1", "h2", "h3", "h4", "h5", "h6", "strong", "em", "del", "code", "pre", "a", "img", "ul", "ol", "li", "blockquote", "hr", "table", "thead", "tbody", "tr", "th", "td", "br"], ALLOWED_ATTR: ["href", "src", "alt", "target", "rel", "style"] }) : raw;
 });
 
 async function copyHtml() {

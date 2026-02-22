@@ -38,22 +38,29 @@
     </section>
 
     <!-- CTAs -->
-    <div class="flex flex-wrap justify-center gap-3">
+    <div
+      class="flex flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-3"
+    >
       <button
         type="button"
-        class="btn-primary flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold"
+        class="btn-primary flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold w-full sm:w-auto"
         @click="toggleChat"
       >
         <Icon name="MessageCircle" :size="18" />
         AI Chat — Ask about Joel
       </button>
-      <UiButton variant="primary" to="/contact">
+      <UiButton
+        variant="primary"
+        to="/contact"
+        class="w-full sm:w-auto justify-center"
+      >
         Contact
       </UiButton>
       <UiButton
         variant="tertiary"
         href="https://github.com/joelstephen97"
         aria-label="View source on GitHub"
+        class="self-center sm:self-auto shrink-0"
       >
         <Icon name="Github" :size="18" />
       </UiButton>
@@ -62,6 +69,8 @@
 </template>
 
 <script setup lang="ts">
+import Icon from "~/components/ui/Icon.vue";
+
 useSeo({
   title: "Joel Stephen | Software Engineer - Full-Stack Developer",
   description:
@@ -95,7 +104,7 @@ const personSchema = {
 };
 useHead({
   script: [
-    { type: "application/ld+json", children: JSON.stringify(personSchema) },
+    { type: "application/ld+json", innerHTML: JSON.stringify(personSchema) },
   ],
 });
 
