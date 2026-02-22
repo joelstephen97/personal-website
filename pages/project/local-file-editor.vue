@@ -69,6 +69,13 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Local File Editor | Joel Stephen - Portfolio",
+  description: "Edit text files directly on disk via File System Access API.",
+  path: "/project/local-file-editor",
+  breadcrumbTitle: "Local File Editor",
+});
+
 import { computed } from "vue";
 import { useFileSystemAccess } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";

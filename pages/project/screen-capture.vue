@@ -94,6 +94,9 @@
           <p class="text-sm font-medium text-[rgb(var(--foreground))]">Captured with annotations</p>
           <img
             :src="capturedImage"
+            width="800"
+            height="600"
+            loading="lazy"
             alt="Captured"
             class="max-w-full rounded-xl border border-[rgb(var(--border))]"
           />
@@ -127,6 +130,13 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Screen Capture & Annotation | Joel Stephen - Portfolio",
+  description: "Capture screen, draw annotations, share via Web Share API.",
+  path: "/project/screen-capture",
+  breadcrumbTitle: "Screen Capture & Annotation",
+});
+
 import { ref, computed, onUnmounted, watch } from "vue";
 import { useShare, useClipboard } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";

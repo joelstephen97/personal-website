@@ -177,6 +177,12 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Contact | Joel Stephen - Software Engineer",
+  description:
+    "Get in touch with Joel Stephen. Email, LinkedIn, WhatsApp, Calendly. Based in Abu Dhabi, UAE. Open to work globally.",
+});
+
 import { reactive, ref, onMounted } from "vue";
 import Icon from "~/components/ui/Icon.vue";
 

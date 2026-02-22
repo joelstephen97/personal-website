@@ -114,6 +114,13 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Game of Life | Joel Stephen - Portfolio",
+  description: "Conway's cellular automaton with presets and canvas rendering.",
+  path: "/project/game-of-life",
+  breadcrumbTitle: "Game of Life",
+});
+
 import { ref, computed, onMounted, onUnmounted, watch } from "vue";
 import { useRafFn } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";

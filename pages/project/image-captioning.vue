@@ -40,6 +40,8 @@
             <p class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-2">Image</p>
             <img
               :src="imageSrc"
+              width="400"
+              height="256"
               alt="Uploaded"
               class="w-full rounded-lg object-contain max-h-64 bg-[rgb(var(--glass))]"
             />
@@ -87,6 +89,13 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Image Captioning | Joel Stephen - Portfolio",
+  description: "AI-powered image descriptions run entirely in the browser.",
+  path: "/project/image-captioning",
+  breadcrumbTitle: "Image Captioning",
+});
+
 import { ref, onMounted, onUnmounted } from "vue";
 import { useDropZone, useClipboard } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";

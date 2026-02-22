@@ -3,9 +3,12 @@
     <nav class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
       <!-- Logo -->
       <NuxtLink to="/" class="flex items-center gap-3 group">
-        <img
+        <NuxtImg
           src="https://avatars.githubusercontent.com/u/40371897"
           alt="Joel Stephen"
+          width="32"
+          height="32"
+          fetchpriority="high"
           class="w-8 h-8 rounded-full ring-2 ring-transparent group-hover:ring-accent/50 transition-all"
         />
         <span

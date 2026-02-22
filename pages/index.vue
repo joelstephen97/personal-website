@@ -62,6 +62,43 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Joel Stephen | Software Engineer - Full-Stack Developer",
+  description:
+    "Full-stack engineer with 5+ years of experience. Vue, React, Python, TypeScript. Building beautiful, performant web experiences. Based in Abu Dhabi, UAE.",
+});
+
+const config = useRuntimeConfig();
+const SITE_URL =
+  (config.public as { siteUrl?: string }).siteUrl ??
+  "https://joelstephen.vercel.app";
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Joel Stephen",
+  jobTitle: "Software Engineer",
+  url: SITE_URL,
+  sameAs: [
+    "https://linkedin.com/in/joelthomasstephen",
+    "https://github.com/joelstephen97",
+  ],
+  image: `${SITE_URL}/pwa-512x512.png`,
+  worksFor: { "@type": "Organization", name: "AppliedAI" },
+  knowsAbout: [
+    "Vue.js",
+    "React",
+    "Python",
+    "TypeScript",
+    "FastAPI",
+    "Machine Learning",
+  ],
+};
+useHead({
+  script: [
+    { type: "application/ld+json", children: JSON.stringify(personSchema) },
+  ],
+});
+
 const { toggleOpen: toggleChat } = useJoelAgent();
 
 const technologies =

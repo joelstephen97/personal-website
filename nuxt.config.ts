@@ -3,7 +3,13 @@ export default defineNuxtConfig({
   ssr: false,
   compatibilityDate: "2025-02-22",
   devtools: { enabled: true },
-  modules: ["@nuxtjs/color-mode", "@nuxtjs/google-fonts", "@nuxt/eslint", "@vite-pwa/nuxt"],
+  modules: [
+    "@nuxtjs/color-mode",
+    "@nuxtjs/google-fonts",
+    "@nuxt/image",
+    "@nuxt/eslint",
+    "@vite-pwa/nuxt",
+  ],
 
   pwa: {
     disable: process.env.NODE_ENV === "development",
@@ -41,6 +47,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
+      htmlAttrs: { lang: "en" },
       title: "Joel Stephen | Software Engineer",
       meta: [
         { charset: "utf-8" },
@@ -51,15 +58,34 @@ export default defineNuxtConfig({
             "Full-stack engineer with 5+ years of experience. Building beautiful, performant web experiences with modern technologies.",
         },
       ],
-      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico?v=2" }],
+      link: [
+        { rel: "icon", type: "image/x-icon", href: "/favicon.ico?v=2" },
+        {
+          rel: "preconnect",
+          href: "https://fonts.googleapis.com",
+        },
+        {
+          rel: "preconnect",
+          href: "https://fonts.gstatic.com",
+          crossorigin: "",
+        },
+      ],
     },
   },
 
   runtimeConfig: {
     groqApiKey: process.env.GROQ_API_KEY ?? "",
-    public: {},
+    public: {
+      siteUrl:
+        process.env.NUXT_PUBLIC_SITE_URL ?? "https://joelstephen.vercel.app",
+    },
   },
 
+  nitro: {
+    prerender: {
+      routes: ["/", "/experience", "/project", "/contact"],
+    },
+  },
   $production: {
     nitro: {
       preset: "vercel",
@@ -74,18 +100,20 @@ export default defineNuxtConfig({
   },
   css: ["~/assets/css/main.css"],
   colorMode: {
-    preference: "system",
-    fallback: "light",
+    preference: "dark",
+    fallback: "dark",
     classSuffix: "",
     storageKey: "color-mode",
   },
   googleFonts: {
     families: {
-      Geist: [400, 500, 600, 700],
+      Geist: [400, 500, 600],
       "Geist Mono": [400, 500, 600],
-      Inter: [400, 500, 600, 700],
     },
     display: "swap",
+  },
+  image: {
+    domains: ["avatars.githubusercontent.com", "r6operators.marcopixel.eu"],
   },
 
   vite: {

@@ -59,6 +59,13 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Markdown Previewer | Joel Stephen - Portfolio",
+  description: "Split-pane editor with live preview powered by a hand-rolled parser.",
+  path: "/project/markdown-previewer",
+  breadcrumbTitle: "Markdown Previewer",
+});
+
 import { ref, computed } from "vue";
 import { useClipboard, useStorage } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";

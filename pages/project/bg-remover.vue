@@ -43,11 +43,15 @@
         >
           <img
             :src="result"
+            width="576"
+            height="288"
             class="absolute inset-0 w-full h-full object-contain bg-[rgb(var(--glass))]"
             alt="Result"
           />
           <img
             :src="original"
+            width="576"
+            height="288"
             class="absolute inset-0 w-full h-full object-contain"
             :style="{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }"
             alt="Original"
@@ -70,7 +74,15 @@
       <div v-else class="grid md:grid-cols-2 gap-6 mb-8">
         <div class="glass-solid rounded-2xl p-6 text-center">
           <p class="text-sm font-medium text-[rgb(var(--foreground-muted))] mb-4">Original</p>
-          <img v-if="original" :src="original" class="max-h-64 mx-auto rounded-xl" />
+          <img
+            v-if="original"
+            :src="original"
+            width="400"
+            height="256"
+            loading="lazy"
+            class="max-h-64 mx-auto rounded-xl"
+            alt="Original"
+          />
           <p v-else class="text-[rgb(var(--foreground-muted))] py-12">No image</p>
         </div>
         <div class="glass-solid rounded-2xl p-6 text-center">
@@ -79,7 +91,15 @@
             <div class="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" />
             <span class="text-accent text-sm">Processing...</span>
           </div>
-          <img v-else-if="result" :src="result" class="max-h-64 mx-auto rounded-xl" />
+          <img
+            v-else-if="result"
+            :src="result"
+            width="400"
+            height="256"
+            loading="lazy"
+            class="max-h-64 mx-auto rounded-xl"
+            alt="Result"
+          />
           <p v-else class="text-[rgb(var(--foreground-muted))] py-12">No result</p>
         </div>
       </div>
@@ -169,6 +189,13 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Background Remover | Joel Stephen - Portfolio",
+  description: "AI-powered tool to remove image backgrounds instantly. Browser-based, no uploads.",
+  path: "/project/bg-remover",
+  breadcrumbTitle: "Background Remover",
+});
+
 import { ref, onUnmounted } from "vue";
 import Icon from "~/components/ui/Icon.vue";
 

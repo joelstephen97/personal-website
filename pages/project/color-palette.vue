@@ -148,6 +148,13 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Color Palette | Joel Stephen - Portfolio",
+  description: "Generate harmonious palettes with color theory and contrast checking.",
+  path: "/project/color-palette",
+  breadcrumbTitle: "Color Palette",
+});
+
 import { ref, computed } from "vue";
 import { useClipboard, refAutoReset } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";

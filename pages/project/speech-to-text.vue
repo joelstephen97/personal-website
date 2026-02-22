@@ -80,6 +80,13 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Speech to Text | Joel Stephen - Portfolio",
+  description: "Transcribe audio with Whisper AI—runs entirely in your browser.",
+  path: "/project/speech-to-text",
+  breadcrumbTitle: "Speech to Text",
+});
+
 import { ref, computed, onUnmounted } from "vue";
 import { useClipboard } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";

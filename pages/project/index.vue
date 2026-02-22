@@ -148,6 +148,12 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Projects | Joel Stephen - Portfolio",
+  description:
+    "Professional work and side projects: Opus, Flower Meister, RIOT, R6 Randomizer, Background Remover, Aim Trainer, and 15+ more tools.",
+});
+
 import { DragDropProvider } from "@dnd-kit/vue";
 import { isSortable } from "@dnd-kit/vue/sortable";
 import { useStorage, useVibrate } from "@vueuse/core";

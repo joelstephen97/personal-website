@@ -124,6 +124,13 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Pathfinding Visualizer | Joel Stephen - Portfolio",
+  description: "A*, Dijkstra, and BFS on an interactive grid with walls.",
+  path: "/project/pathfinding-visualizer",
+  breadcrumbTitle: "Pathfinding Visualizer",
+});
+
 import { ref, reactive, computed, onMounted, onUnmounted } from "vue";
 import { useResizeObserver } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";

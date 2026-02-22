@@ -127,6 +127,13 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Hash Generator | Joel Stephen - Portfolio",
+  description: "SHA-1/256/384/512 hashing for text and files via Web Crypto API.",
+  path: "/project/hash-generator",
+  breadcrumbTitle: "Hash Generator",
+});
+
 import { ref, watch, computed } from "vue";
 import { useClipboard, useDropZone } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";

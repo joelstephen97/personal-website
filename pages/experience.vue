@@ -90,6 +90,12 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Experience | Joel Stephen - Software Engineer",
+  description:
+    "Career timeline: Frontend Engineer at AppliedAI, Senior Software Engineer at Otani, Software Engineer at RIOT. 5+ years in Vue, React, Python, FastAPI.",
+});
+
 import Icon from "~/components/ui/Icon.vue";
 
 const totalYears = 5;

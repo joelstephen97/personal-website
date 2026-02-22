@@ -35,9 +35,43 @@
 </template>
 
 <script setup lang="ts">
+const config = useRuntimeConfig();
+const SITE_URL =
+  (config.public as { siteUrl?: string }).siteUrl ??
+  "https://joelstephen.vercel.app";
+
 const route = useRoute();
 const projectSlug = computed(() => {
   const match = route.path.match(/\/project\/([^/]+)/);
   return match ? match[1] : null;
+});
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Joel Stephen | Software Engineer",
+  url: SITE_URL,
+  description:
+    "Full-stack engineer with 5+ years of experience. Building beautiful, performant web experiences with modern technologies.",
+  author: {
+    "@type": "Person",
+    name: "Joel Stephen",
+    jobTitle: "Software Engineer",
+    url: SITE_URL,
+    sameAs: [
+      "https://linkedin.com/in/joelthomasstephen",
+      "https://github.com/joelstephen97",
+    ],
+    image: `${SITE_URL}/pwa-512x512.png`,
+  },
+};
+
+useHead({
+  script: [
+    {
+      type: "application/ld+json",
+      children: JSON.stringify(websiteSchema),
+    },
+  ],
 });
 </script>

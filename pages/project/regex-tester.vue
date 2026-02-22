@@ -125,6 +125,13 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Regex Tester | Joel Stephen - Portfolio",
+  description: "Real-time regex matching with highlighted results and capture groups.",
+  path: "/project/regex-tester",
+  breadcrumbTitle: "Regex Tester",
+});
+
 import { ref, computed } from "vue";
 import Icon from "~/components/ui/Icon.vue";
 

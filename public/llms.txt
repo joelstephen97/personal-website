@@ -1,0 +1,64 @@
+# Joel Stephen
+
+> Results-driven Software Engineer with 5+ years of experience in full-stack development. Proficient in Python (FastAPI, Django), JavaScript, and modern front-end frameworks (Vue.js, React.js). Frontend Engineer at AppliedAI building the Opus platform. Based in Abu Dhabi, UAE. Open to work globally.
+
+## Contact
+
+- **Email:** joel.stephen.work@gmail.com
+- **Phone:** +971 56 809 8085
+- **LinkedIn:** https://linkedin.com/in/joelthomasstephen
+- **GitHub:** https://github.com/joelstephen97
+
+## Key Links
+
+- [Portfolio](https://joelstephen.vercel.app): Main site
+- [About](https://joelstephen.vercel.app): Overview and intro
+- [Experience](https://joelstephen.vercel.app/experience): Career timeline
+- [Projects](https://joelstephen.vercel.app/project): Work and side projects
+- [Contact](https://joelstephen.vercel.app/contact): Get in touch
+
+## What I Do
+
+**Full-stack web development**
+- Vue.js and React.js: Reusable component libraries, complex multi-step workflow UIs, state management
+- Python: FastAPI, Django, Pydantic for API development and data validation
+- TypeScript, Node.js for backend and tooling
+
+**Enterprise AI and workflow automation**
+- Building production features for Opus (AppliedAI): visual workflow Builder, human-in-the-loop interfaces, task configuration, job execution views
+- Agentic automation UIs: Agent tasks, Human tasks, Review tasks, Data tasks
+- Integration configuration and connectivity UI for 3,500+ marketplace integrations
+
+**API development and integration**
+- REST APIs, GraphQL (Strawberry, URQL), Pydantic
+- Payment gateways, third-party services (Google Ads, Analytics, LDAP)
+- DynamoDB, PostgreSQL, MySQL, SQLite
+
+**Machine learning and computer vision**
+- TensorFlow, YOLO v5 for custom model training
+- OpenCV for object detection and tracking
+- Browser-based AI: image captioning, background removal, speech-to-text (Whisper)
+
+**DevOps, testing, and agile**
+- Docker, Kubernetes for containerization and orchestration
+- Pytest, Cypress, Selenium for backend and E2E testing
+- Git, JIRA, Confluence for version control and sprint planning
+
+**UI/UX design**
+- Figma for prototyping and collaboration
+- Design systems: shadcn UI, Radix UI, RadixVue
+- Tailwind CSS, accessible component design
+
+**Databases**
+- PostgreSQL (schema design, migrations, query optimization)
+- SQLAlchemy, Peewee ORM, DynamoDB with GraphQL
+
+## What I Do Not Do
+
+- **Unpaid consulting or speculative work:** I do not provide free consulting, unpaid trials, or work on spec
+- **Legal, financial, or medical advice:** I am a software engineer, not a licensed professional in those fields
+- **Guarantees on outcomes:** I deliver quality work but do not guarantee specific business results, rankings, or conversion rates
+- **Work outside my expertise:** I do not take on projects requiring skills I do not have (e.g., mobile native apps, blockchain/Web3, game engine development)
+- **Rush jobs without proper scope:** I require clear requirements and reasonable timelines; I do not accept last-minute emergency projects without prior agreement
+- **Exclusive or non-compete arrangements:** Unless explicitly negotiated, I may work with other clients and on personal projects
+- **Providing source code or IP without contract:** All deliverables require a signed agreement defining ownership and usage rights

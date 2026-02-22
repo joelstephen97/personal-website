@@ -85,6 +85,13 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Cron Parser | Joel Stephen - Portfolio",
+  description: "Parse cron expressions into human-readable schedules with next runs.",
+  path: "/project/cron-parser",
+  breadcrumbTitle: "Cron Parser",
+});
+
 import { ref, computed } from "vue";
 import { useClipboard } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";

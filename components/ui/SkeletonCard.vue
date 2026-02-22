@@ -1,5 +1,5 @@
 <template>
-  <article class="glass-solid rounded-xl p-3.5 animate-pulse">
+  <article class="glass-solid rounded-xl p-3.5 min-h-[72px] animate-pulse">
     <div class="w-9 h-9 rounded-lg bg-[rgb(var(--border))]/50 mb-2" />
     <div class="h-3.5 w-3/4 rounded bg-[rgb(var(--border))]/50 mb-1" />
     <div class="space-y-1">

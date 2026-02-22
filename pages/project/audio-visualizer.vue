@@ -107,6 +107,13 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Audio Visualizer | Joel Stephen - Portfolio",
+  description: "Real-time waveform and frequency visualization via Web Audio API.",
+  path: "/project/audio-visualizer",
+  breadcrumbTitle: "Audio Visualizer",
+});
+
 import { ref, onUnmounted, watch, onMounted } from "vue";
 import { useFullscreen, useIntervalFn, useRafFn, useEventListener } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";

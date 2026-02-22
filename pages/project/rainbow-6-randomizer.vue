@@ -117,7 +117,14 @@
                   :key="`${a.op}-${i}`"
                   class="glass-solid rounded-lg p-2 text-center group hover:border-accent/30 transition min-w-[72px]"
                 >
-                  <img :src="opImg(a.op)" :alt="a.op" class="w-12 h-12 mx-auto mb-1 rounded-lg" />
+                  <NuxtImg
+                    :src="opImg(a.op)"
+                    :alt="a.op"
+                    width="48"
+                    height="48"
+                    loading="lazy"
+                    class="w-12 h-12 mx-auto mb-1 rounded-lg"
+                  />
                   <p class="font-semibold text-[rgb(var(--foreground))] text-xs truncate">{{ a.op }}</p>
                   <p class="text-[10px] text-[rgb(var(--foreground-muted))] truncate">{{ a.name }}</p>
                   <button class="mt-1 text-[10px] text-accent font-medium" @click="reroll('atk', i)">Re-roll</button>
@@ -139,7 +146,14 @@
                   :key="`${d.op}-${i}`"
                   class="glass-solid rounded-lg p-2 text-center group hover:border-accent/30 transition min-w-[72px]"
                 >
-                  <img :src="opImg(d.op)" :alt="d.op" class="w-12 h-12 mx-auto mb-1 rounded-lg" />
+                  <NuxtImg
+                    :src="opImg(d.op)"
+                    :alt="d.op"
+                    width="48"
+                    height="48"
+                    loading="lazy"
+                    class="w-12 h-12 mx-auto mb-1 rounded-lg"
+                  />
                   <p class="font-semibold text-[rgb(var(--foreground))] text-xs truncate">{{ d.op }}</p>
                   <p class="text-[10px] text-[rgb(var(--foreground-muted))] truncate">{{ d.name }}</p>
                   <button class="mt-1 text-[10px] text-accent font-medium" @click="reroll('def', i)">Re-roll</button>
@@ -154,6 +168,13 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "R6 Siege Randomizer | Joel Stephen - Portfolio",
+  description: "Random operator selection for Rainbow Six Siege matches. Pick attackers and defenders.",
+  path: "/project/rainbow-6-randomizer",
+  breadcrumbTitle: "R6 Siege Randomizer",
+});
+
 import { ref, computed, onMounted } from "vue";
 import { useStorage } from "@vueuse/core";
 import { useClipboard } from "@vueuse/core";

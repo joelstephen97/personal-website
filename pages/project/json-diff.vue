@@ -122,6 +122,13 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "JSON Diff | Joel Stephen - Portfolio",
+  description: "Deep recursive comparison of two JSON objects with color-coded output.",
+  path: "/project/json-diff",
+  breadcrumbTitle: "JSON Diff",
+});
+
 import { ref } from "vue";
 import { useClipboard } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";

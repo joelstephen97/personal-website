@@ -80,6 +80,13 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Sorting Visualizer | Joel Stephen - Portfolio",
+  description: "Watch bubble, merge, quick, and heap sort race in real-time.",
+  path: "/project/sorting-visualizer",
+  breadcrumbTitle: "Sorting Visualizer",
+});
+
 import { ref, computed, watch, onUnmounted } from "vue";
 import { useIntervalFn } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";

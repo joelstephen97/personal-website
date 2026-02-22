@@ -18,8 +18,10 @@
   "dependencies": {
     "@dnd-kit/vue": "^0.3.2",
     "@huggingface/transformers": "^3.8.1",
+    "@nuxt/image": "^2.0.0",
     "@nuxtjs/color-mode": "^3.5.2",
     "@nuxtjs/google-fonts": "^3.2.0",
+    "@nuxtjs/sitemap": "7.6.0",
     "@tensorflow-models/body-pix": "^2.2.1",
     "@tensorflow/tfjs-backend-webgl": "^4.22.0",
     "@tensorflow/tfjs-core": "^4.22.0",

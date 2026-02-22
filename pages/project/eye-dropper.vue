@@ -89,6 +89,13 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Eye Dropper | Joel Stephen - Portfolio",
+  description: "Pick colors from anywhere on screen via the native EyeDropper API.",
+  path: "/project/eye-dropper",
+  breadcrumbTitle: "Eye Dropper",
+});
+
 import { ref, computed } from "vue";
 import { useEyeDropper, useClipboard, useStorage } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";

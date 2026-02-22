@@ -180,6 +180,13 @@
 </template>
 
 <script setup lang="ts">
+useSeo({
+  title: "Aim Trainer | Joel Stephen - Portfolio",
+  description: "Improve your FPS aim with this reaction time trainer. Flick, Gridshot, Tracking, Precision modes.",
+  path: "/project/aim-trainer",
+  breadcrumbTitle: "Aim Trainer",
+});
+
 import type { AimMode } from "~/composables/useAimTrainer";
 import { useEventListener, usePointerLock } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
