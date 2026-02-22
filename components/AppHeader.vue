@@ -4,13 +4,12 @@
       <!-- Logo -->
       <NuxtLink to="/" class="flex items-center gap-3 group">
         <NuxtImg
-          src="https://avatars.githubusercontent.com/u/40371897"
+          src="https://avatars.githubusercontent.com/u/40371897?s=128"
           alt=""
+          preset="avatar"
           width="32"
           height="32"
           sizes="32px"
-          format="webp"
-          quality="80"
           fetchpriority="high"
           class="w-8 h-8 rounded-full ring-2 ring-transparent group-hover:ring-accent/50 transition-all"
         />

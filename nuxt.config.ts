@@ -119,15 +119,6 @@ export default defineNuxtConfig({
       ],
       link: [
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico?v=2" },
-        {
-          rel: "preconnect",
-          href: "https://fonts.googleapis.com",
-        },
-        {
-          rel: "preconnect",
-          href: "https://fonts.gstatic.com",
-          crossorigin: "",
-        },
         { rel: "dns-prefetch", href: "https://va.vercel-insights.com" },
       ],
     },
@@ -156,8 +147,8 @@ export default defineNuxtConfig({
         "Content-Security-Policy":
           "default-src 'self'; " +
           "script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' blob: https://va.vercel-insights.com https://va.vercel-scripts.com https://cdn.jsdelivr.net; " +
-          "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
-          "font-src 'self' https://fonts.gstatic.com data:; " +
+          "style-src 'self' 'unsafe-inline'; " +
+          "font-src 'self' data:; " +
           "img-src 'self' data: blob: https:; " +
           "media-src 'self' blob:; " +
           "connect-src 'self' blob: https://va.vercel-insights.com https://api.groq.com https://*.huggingface.co https://huggingface.co https://cdn.jsdelivr.net; " +
@@ -224,9 +215,27 @@ export default defineNuxtConfig({
       "Geist Mono": [400, 500, 600],
     },
     display: "swap",
+    preconnect: false,
+    prefetch: false,
   },
   image: {
     domains: ["avatars.githubusercontent.com", "r6operators.marcopixel.eu"],
+    screens: {
+      avatar: 32,
+      avatar2x: 64,
+      operator: 48,
+      operator2x: 96,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      "2xl": 1536,
+    },
+    presets: {
+      avatar: {
+        modifiers: { width: 32, height: 32, format: "webp", quality: 80 },
+      },
+    },
   },
 
   vite: {
