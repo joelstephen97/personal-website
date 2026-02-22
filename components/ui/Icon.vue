@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Component } from "vue";
-import { Circle } from "lucide-vue-next";
+import { Circle, Fingerprint } from "lucide-vue-next";
 import { computed, defineAsyncComponent } from "vue";
 
 const iconLoaders = import.meta.glob<{ default: Component }>(
@@ -126,6 +126,9 @@ const iconComponent = computed((): Component => {
 
   if (!kebab || kebab === "circle") {
     return Circle;
+  }
+  if (kebab === "fingerprint") {
+    return Fingerprint;
   }
 
   const iconFile = `${kebab}.js`;
