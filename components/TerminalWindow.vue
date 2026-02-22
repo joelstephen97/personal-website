@@ -33,7 +33,7 @@
             <span class="text-terminal-prompt">➜</span>
             <span class="text-terminal-path">~</span> {{ command }}
           </p>
-          <div class="mt-3 text-terminal/80">
+          <div class="mt-3 text-terminal">
             <slot />
           </div>
           <p class="mt-3 flex items-center gap-2">
