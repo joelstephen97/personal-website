@@ -1,9 +1,18 @@
 <template>
   <footer class="fixed bottom-0 inset-x-0 z-40 glass">
     <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-      <p class="text-sm text-[rgb(var(--foreground-secondary))]">
-        © {{ new Date().getFullYear() }} Joel Stephen
-      </p>
+      <div class="flex items-center gap-4">
+        <p class="text-sm text-[rgb(var(--foreground-secondary))]">
+          © {{ new Date().getFullYear() }} Joel Stephen
+        </p>
+        <span
+          v-if="lastUpdated"
+          :title="`Updated ${lastUpdated}. Refreshes when PWA checks for updates.`"
+          class="inline-flex items-center p-1.5 rounded-lg text-muted hover:text-foreground"
+        >
+          <Icon name="Calendar" :size="14" />
+        </span>
+      </div>
       <div class="flex items-center gap-1">
         <a
           v-for="s in socials"
@@ -23,6 +32,14 @@
 
 <script setup lang="ts">
 import Icon from "~/components/ui/Icon.vue";
+
+const lastUpdated = ref<string | null>(null);
+onMounted(() => {
+  lastUpdated.value = new Date().toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+  });
+});
 
 const socials = [
   {

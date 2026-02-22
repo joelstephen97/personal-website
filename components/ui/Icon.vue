@@ -1,6 +1,27 @@
 <script setup lang="ts">
+import {
+  Bot,
+  Circle,
+  Loader2,
+  Menu,
+  MessageCircle,
+  Send,
+  Trash2,
+  X,
+} from "lucide-vue-next";
 import * as icons from "lucide-vue-next";
 import { computed } from "vue";
+
+const explicitIcons: Record<string, unknown> = {
+  Bot,
+  Circle,
+  Loader2,
+  Menu,
+  MessageCircle,
+  Send,
+  Trash2,
+  X,
+};
 
 const props = withDefaults(
   defineProps<{
@@ -15,13 +36,12 @@ const props = withDefaults(
 );
 
 const iconComponent = computed(() => {
-  // Convert kebab-case or icon names to PascalCase
   const name = props.name
     .replace(/^i-/, "")
     .replace(/-./g, (x) => x[1].toUpperCase())
     .replace(/^./, (x) => x.toUpperCase());
 
-  return (icons as Record<string, unknown>)[name] || icons.Circle;
+  return explicitIcons[name] ?? (icons as Record<string, unknown>)[name] ?? Circle;
 });
 </script>
 

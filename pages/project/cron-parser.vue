@@ -1,14 +1,9 @@
 <template>
   <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
     <div class="max-w-3xl mx-auto">
-      <div class="flex items-center justify-between mb-8">
-        <div class="flex items-center gap-3">
-          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-accent/50 transition-colors">
-            <Icon name="ArrowLeft" :size="16" class="text-[rgb(var(--foreground-secondary))]" />
-          </NuxtLink>
-          <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Cron Parser</h1>
-        </div>
-        <DarkModeToggle />
+      <div class="flex items-center gap-3 mb-8">
+        <BackToProjects />
+        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Cron Parser</h1>
       </div>
 
       <div class="glass-solid rounded-2xl p-6 mb-6">
@@ -33,6 +28,25 @@
         <p v-else-if="description" class="text-[rgb(var(--foreground-secondary))] mt-4 text-center text-lg">
           {{ description }}
         </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-4 mb-6">
+        <div>
+          <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1">Timezone</label>
+          <select v-model="timezone" class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-sm">
+            <option v-for="tz in timezones" :key="tz" :value="tz">{{ tz }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div v-if="parsed && fieldBreakdown.length" class="glass-solid rounded-2xl p-4 mb-6">
+        <h3 class="text-xs font-semibold text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-2">Field Breakdown</h3>
+        <div class="space-y-1 text-sm">
+          <div v-for="(f, i) in fieldBreakdown" :key="i" class="flex gap-3">
+            <span class="font-mono text-accent w-24">{{ f.field }}</span>
+            <span class="text-[rgb(var(--foreground-secondary))]">{{ f.explanation }}</span>
+          </div>
+        </div>
       </div>
 
       <div class="flex flex-wrap gap-2 mb-6">
@@ -72,15 +86,29 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
+import { useClipboard } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: false });
+definePageMeta({ layout: "default" });
 
 const expression = ref("0 9 * * 1-5");
 const fieldLabels = ["Minute", "Hour", "Day", "Month", "Weekday"];
-const copied = ref(false);
+const { copy, copied } = useClipboard({ source: expression, copiedDuring: 2000 });
 
-const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+const timezones = [
+  "UTC",
+  "America/New_York",
+  "America/Los_Angeles",
+  "America/Chicago",
+  "Europe/London",
+  "Europe/Paris",
+  "Asia/Tokyo",
+  "Asia/Shanghai",
+  "Australia/Sydney",
+  Intl.DateTimeFormat().resolvedOptions().timeZone,
+].filter((v, i, a) => a.indexOf(v) === i);
+
+const timezone = ref(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
 const presets = [
   { label: "Every minute", expr: "* * * * *" },
@@ -89,8 +117,10 @@ const presets = [
   { label: "Weekdays 9am", expr: "0 9 * * 1-5" },
   { label: "Weekly Monday", expr: "0 0 * * 1" },
   { label: "Monthly 1st", expr: "0 0 1 * *" },
+  { label: "Monthly 15th", expr: "0 0 15 * *" },
   { label: "Every 15 min", expr: "*/15 * * * *" },
   { label: "Twice daily", expr: "0 9,17 * * *" },
+  { label: "First Mon", expr: "0 0 1-7 * 1" },
 ];
 
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -137,6 +167,23 @@ const error = computed(() => {
   if (!expression.value.trim()) return "";
   if (!parsed.value) return "Invalid cron expression";
   return "";
+});
+
+const fieldBreakdown = computed(() => {
+  if (!parsed.value) return [];
+  const parts = expression.value.trim().split(/\s+/);
+  const { minutes, hours, days, months, weekdays } = parsed.value;
+  const labels = ["Minute", "Hour", "Day", "Month", "Weekday"];
+  const data = [minutes, hours, days, months, weekdays];
+  return parts.map((p, i) => {
+    let exp = "";
+    if (p === "*") exp = "every " + labels[i].toLowerCase();
+    else if (p.includes("/")) exp = `every ${p.split("/")[1]} ${labels[i].toLowerCase()}s`;
+    else if (p.includes("-")) exp = `${labels[i]}s ${p}`;
+    else if (p.includes(",")) exp = `${labels[i]}s ${p}`;
+    else exp = `at ${labels[i].toLowerCase()} ${p}`;
+    return { field: parts[i], explanation: exp };
+  });
 });
 
 function pad(n: number): string { return n.toString().padStart(2, "0"); }
@@ -228,6 +275,7 @@ const nextRuns = computed(() => {
       formatted: snapshot.toLocaleString("en-US", {
         weekday: "short", year: "numeric", month: "short", day: "numeric",
         hour: "2-digit", minute: "2-digit", hour12: false,
+        timeZone: timezone.value,
       }),
       relative: relativeTime(snapshot),
     });
@@ -237,8 +285,6 @@ const nextRuns = computed(() => {
 });
 
 async function copyExpr() {
-  await navigator.clipboard.writeText(expression.value);
-  copied.value = true;
-  setTimeout(() => (copied.value = false), 2000);
+  await copy();
 }
 </script>

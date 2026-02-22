@@ -1,14 +1,9 @@
 <template>
   <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
     <div class="max-w-4xl mx-auto">
-      <div class="flex items-center justify-between mb-8">
-        <div class="flex items-center gap-3">
-          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-accent/50 transition-colors">
-            <Icon name="ArrowLeft" :size="16" class="text-[rgb(var(--foreground-secondary))]" />
-          </NuxtLink>
-          <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Game of Life</h1>
-        </div>
-        <DarkModeToggle />
+      <div class="flex items-center gap-3 mb-8">
+        <BackToProjects />
+        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Game of Life</h1>
       </div>
 
       <div class="glass-solid rounded-2xl p-6 mb-6">
@@ -17,14 +12,46 @@
             <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1">Preset</label>
             <select v-model="preset" @change="loadPreset">
               <option value="">Empty</option>
+              <option value="block">Block</option>
+              <option value="beehive">Beehive</option>
+              <option value="blinker">Blinker</option>
+              <option value="beacon">Beacon</option>
+              <option value="toad">Toad</option>
               <option value="glider">Glider</option>
               <option value="lwss">LWSS</option>
               <option value="pulsar">Pulsar</option>
+              <option value="pentadecathlon">Pentadecathlon</option>
+              <option value="rpentomino">R-pentomino</option>
               <option value="gosper">Gosper Glider Gun</option>
             </select>
           </div>
           <div>
-            <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1">Speed: {{ fps }} FPS</label>
+            <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1">Grid</label>
+            <select v-model="gridSize" :disabled="playing" @change="onGridSizeChange">
+              <option value="small">40×60</option>
+              <option value="medium">50×70</option>
+              <option value="large">60×80</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1">Boundary</label>
+            <select v-model="boundary" :disabled="playing">
+              <option value="toroidal">Toroidal (wrap)</option>
+              <option value="bounded">Bounded</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1">Speed</label>
+            <select v-model="fpsPreset" @change="applyFpsPreset">
+              <option value="1">1x</option>
+              <option value="2">2x</option>
+              <option value="5">5x</option>
+              <option value="max">Max</option>
+              <option value="custom">Custom</option>
+            </select>
+          </div>
+          <div v-if="fpsPreset === 'custom'">
+            <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1">FPS: {{ fps }}</label>
             <input v-model.number="fps" type="range" min="1" max="60" class="w-32" />
           </div>
           <button
@@ -64,7 +91,7 @@
         <canvas
           ref="canvas"
           class="cursor-crosshair rounded-xl"
-          :style="{ width: COLS * CELL + 'px', height: ROWS * CELL + 'px' }"
+          :style="{ width: cols * CELL + 'px', height: rows * CELL + 'px' }"
           @pointerdown.prevent="onCanvasClick"
           @pointermove="onCanvasDrag"
           @pointerup="isDragging = false"
@@ -88,23 +115,27 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, watch } from "vue";
+import { useRafFn } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: false });
+definePageMeta({ layout: "default" });
 
-const ROWS = 50;
-const COLS = 70;
+const gridSizes = { small: [40, 60], medium: [50, 70], large: [60, 80] } as const;
+const rows = ref(50);
+const cols = ref(70);
 const CELL = 10;
 
 const canvas = ref<HTMLCanvasElement | null>(null);
 const playing = ref(false);
 const fps = ref(10);
+const fpsPreset = ref("1");
 const generation = ref(0);
 const preset = ref("");
+const gridSize = ref<keyof typeof gridSizes>("medium");
+const boundary = ref<"toroidal" | "bounded">("toroidal");
 const isDragging = ref(false);
 const currentAlive = ref(0);
 const popHistory = ref<number[]>([]);
-let animFrame: number | null = null;
 let lastTick = 0;
 
 let grid = createGrid();
@@ -113,15 +144,44 @@ let buffer = createGrid();
 const maxPop = computed(() => Math.max(...popHistory.value, 1));
 
 function createGrid() {
-  return Array.from({ length: ROWS }, () => new Uint8Array(COLS));
+  return Array.from({ length: rows.value }, () => new Uint8Array(cols.value));
 }
 
 function countAlive(): number {
   let count = 0;
-  for (let r = 0; r < ROWS; r++)
-    for (let c = 0; c < COLS; c++)
+  for (let r = 0; r < rows.value; r++)
+    for (let c = 0; c < cols.value; c++)
       if (grid[r][c]) count++;
   return count;
+}
+
+function applyFpsPreset() {
+  if (fpsPreset.value === "1") fps.value = 5;
+  else if (fpsPreset.value === "2") fps.value = 10;
+  else if (fpsPreset.value === "5") fps.value = 25;
+  else if (fpsPreset.value === "max") fps.value = 60;
+}
+
+function onGridSizeChange() {
+  const [r, c] = gridSizes[gridSize.value];
+  rows.value = r;
+  cols.value = c;
+  grid = createGrid();
+  buffer = createGrid();
+  popHistory.value = [];
+  updateAlive();
+  draw();
+}
+
+function getNeighbor(r: number, c: number, dr: number, dc: number): number {
+  let nr = r + dr, nc = c + dc;
+  if (boundary.value === "toroidal") {
+    nr = (nr + rows.value) % rows.value;
+    nc = (nc + cols.value) % cols.value;
+    return grid[nr][nc];
+  }
+  if (nr < 0 || nr >= rows.value || nc < 0 || nc >= cols.value) return 0;
+  return grid[nr][nc];
 }
 
 function updateAlive() {
@@ -134,38 +194,38 @@ function draw() {
   const cvs = canvas.value;
   if (!cvs) return;
   const dpr = window.devicePixelRatio || 1;
-  const w = COLS * CELL;
-  const h = ROWS * CELL;
+  const w = cols.value * CELL;
+  const h = rows.value * CELL;
   cvs.width = w * dpr;
   cvs.height = h * dpr;
   const ctx = cvs.getContext("2d")!;
   ctx.scale(dpr, dpr);
 
-  const isDark = document.documentElement.classList.contains("dark");
-  ctx.fillStyle = isDark ? "#0a0a0a" : "#fafafa";
+  const { bg, accent } = useThemeColors();
+  ctx.fillStyle = bg();
   ctx.fillRect(0, 0, w, h);
 
-  ctx.fillStyle = "#ef4444";
-  for (let r = 0; r < ROWS; r++)
-    for (let c = 0; c < COLS; c++)
+  ctx.fillStyle = accent();
+  for (let r = 0; r < rows.value; r++)
+    for (let c = 0; c < cols.value; c++)
       if (grid[r][c]) ctx.fillRect(c * CELL + 1, r * CELL + 1, CELL - 2, CELL - 2);
 
-  ctx.strokeStyle = isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.06)";
+  ctx.strokeStyle = document.documentElement.classList.contains("dark")
+    ? "rgba(255,255,255,0.05)"
+    : "rgba(0,0,0,0.06)";
   ctx.lineWidth = 0.5;
-  for (let r = 0; r <= ROWS; r++) { ctx.beginPath(); ctx.moveTo(0, r * CELL); ctx.lineTo(w, r * CELL); ctx.stroke(); }
-  for (let c = 0; c <= COLS; c++) { ctx.beginPath(); ctx.moveTo(c * CELL, 0); ctx.lineTo(c * CELL, h); ctx.stroke(); }
+  for (let r = 0; r <= rows.value; r++) { ctx.beginPath(); ctx.moveTo(0, r * CELL); ctx.lineTo(w, r * CELL); ctx.stroke(); }
+  for (let c = 0; c <= cols.value; c++) { ctx.beginPath(); ctx.moveTo(c * CELL, 0); ctx.lineTo(c * CELL, h); ctx.stroke(); }
 }
 
 function step() {
-  for (let r = 0; r < ROWS; r++) {
-    for (let c = 0; c < COLS; c++) {
+  for (let r = 0; r < rows.value; r++) {
+    for (let c = 0; c < cols.value; c++) {
       let n = 0;
       for (let dr = -1; dr <= 1; dr++)
         for (let dc = -1; dc <= 1; dc++) {
           if (dr === 0 && dc === 0) continue;
-          const nr = (r + dr + ROWS) % ROWS;
-          const nc = (c + dc + COLS) % COLS;
-          n += grid[nr][nc];
+          n += getNeighbor(r, c, dr, dc);
         }
       buffer[r][c] = grid[r][c] ? (n === 2 || n === 3 ? 1 : 0) : (n === 3 ? 1 : 0);
     }
@@ -180,12 +240,13 @@ function loop(ts: number) {
   if (!playing.value) return;
   const interval = 1000 / fps.value;
   if (ts - lastTick >= interval) { step(); lastTick = ts; }
-  animFrame = requestAnimationFrame(loop);
 }
+
+const { pause: pauseRaf, resume: resumeRaf } = useRafFn(loop, { immediate: false });
 
 function toggle() {
   playing.value = !playing.value;
-  if (playing.value) { lastTick = performance.now(); animFrame = requestAnimationFrame(loop); }
+  if (playing.value) { lastTick = performance.now(); resumeRaf(); }
 }
 
 function clear() {
@@ -201,8 +262,8 @@ function randomize() {
   playing.value = false;
   generation.value = 0;
   popHistory.value = [];
-  for (let r = 0; r < ROWS; r++)
-    for (let c = 0; c < COLS; c++)
+  for (let r = 0; r < rows.value; r++)
+    for (let c = 0; c < cols.value; c++)
       grid[r][c] = Math.random() < 0.25 ? 1 : 0;
   updateAlive();
   draw();
@@ -210,11 +271,11 @@ function randomize() {
 
 function cellFromEvent(e: PointerEvent): [number, number] | null {
   const rect = canvas.value!.getBoundingClientRect();
-  const scaleX = (COLS * CELL) / rect.width;
-  const scaleY = (ROWS * CELL) / rect.height;
+  const scaleX = (cols.value * CELL) / rect.width;
+  const scaleY = (rows.value * CELL) / rect.height;
   const c = Math.floor((e.clientX - rect.left) * scaleX / CELL);
   const r = Math.floor((e.clientY - rect.top) * scaleY / CELL);
-  if (r >= 0 && r < ROWS && c >= 0 && c < COLS) return [r, c];
+  if (r >= 0 && r < rows.value && c >= 0 && c < cols.value) return [r, c];
   return null;
 }
 
@@ -231,8 +292,15 @@ function onCanvasDrag(e: PointerEvent) {
 }
 
 const PRESETS: Record<string, [number, number][]> = {
+  block: [[0,0],[0,1],[1,0],[1,1]],
+  beehive: [[0,1],[0,2],[1,0],[1,3],[2,1],[2,2]],
+  blinker: [[0,0],[0,1],[0,2]],
+  beacon: [[0,0],[0,1],[1,0],[2,3],[3,2],[3,3]],
+  toad: [[0,1],[0,2],[0,3],[1,2],[1,3],[1,4]],
   glider: [[0,1],[1,2],[2,0],[2,1],[2,2]],
   lwss: [[0,1],[0,4],[1,0],[2,0],[2,4],[3,0],[3,1],[3,2],[3,3]],
+  pentadecathlon: [[0,1],[1,1],[2,0],[2,1],[2,2],[3,1],[4,1],[5,1],[6,1],[7,0],[7,1],[7,2],[8,1],[9,1]],
+  rpentomino: [[0,1],[0,2],[1,0],[1,1],[2,1]],
   pulsar: (() => {
     const cells: [number, number][] = [];
     const offsets = [[2,1],[3,1],[4,1],[2,6],[3,6],[4,6],[1,2],[1,3],[1,4],[6,2],[6,3],[6,4]];
@@ -250,20 +318,20 @@ function loadPreset() {
   clear();
   const cells = PRESETS[preset.value];
   if (!cells) return;
-  const offR = Math.floor(ROWS / 2) - 6;
-  const offC = Math.floor(COLS / 2) - 6;
+  const offR = Math.floor(rows.value / 2) - 6;
+  const offC = Math.floor(cols.value / 2) - 6;
   for (const [r, c] of cells) {
     const nr = r + offR, nc = c + offC;
-    if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS) grid[nr][nc] = 1;
+    if (nr >= 0 && nr < rows.value && nc >= 0 && nc < cols.value) grid[nr][nc] = 1;
   }
   updateAlive();
   draw();
 }
 
 watch(playing, (v) => {
-  if (!v && animFrame) { cancelAnimationFrame(animFrame); animFrame = null; }
+  if (!v) pauseRaf();
 });
 
-onMounted(() => { updateAlive(); draw(); });
-onUnmounted(() => { if (animFrame) cancelAnimationFrame(animFrame); });
+onMounted(() => { applyFpsPreset(); updateAlive(); draw(); });
+onUnmounted(() => pauseRaf());
 </script>

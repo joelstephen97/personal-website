@@ -1,14 +1,9 @@
 <template>
   <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
     <div class="max-w-4xl mx-auto">
-      <div class="flex items-center justify-between mb-8">
-        <div class="flex items-center gap-3">
-          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-accent/50 transition-colors">
-            <Icon name="ArrowLeft" :size="16" class="text-[rgb(var(--foreground-secondary))]" />
-          </NuxtLink>
-          <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Audio Visualizer</h1>
-        </div>
-        <DarkModeToggle />
+      <div class="flex items-center gap-3 mb-8">
+        <BackToProjects />
+        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Audio Visualizer</h1>
       </div>
 
       <div class="glass-solid rounded-2xl p-6 mb-6">
@@ -48,6 +43,17 @@
               <option value="bars">Frequency Bars</option>
               <option value="waveform">Waveform</option>
               <option value="circular">Circular</option>
+              <option value="spectrogram">Spectrogram</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1">FFT Size</label>
+            <select v-model="fftSize" @change="applyFftSize">
+              <option :value="256">256</option>
+              <option :value="512">512</option>
+              <option :value="1024">1024</option>
+              <option :value="2048">2048</option>
+              <option :value="4096">4096</option>
             </select>
           </div>
 
@@ -101,15 +107,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from "vue";
+import { ref, onUnmounted, watch, onMounted } from "vue";
+import { useFullscreen, useIntervalFn, useRafFn, useEventListener } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: false });
+definePageMeta({ layout: "default" });
 
 const canvas = ref<HTMLCanvasElement | null>(null);
 const vizContainer = ref<HTMLElement | null>(null);
 const fileInput = ref<HTMLInputElement | null>(null);
 const vizMode = ref("bars");
+const fftSize = ref(512);
+const spectrogramData = ref<number[][]>([]);
 const fileName = ref("");
 const isPlaying = ref(false);
 const micActive = ref(false);
@@ -118,21 +127,33 @@ const gain = ref(0.8);
 const smoothing = ref(0.8);
 const currentTime = ref(0);
 const duration = ref(0);
-const isFullscreen = ref(false);
+
+const { isFullscreen, toggle: toggleFullscreen } = useFullscreen(vizContainer);
 
 let audioCtx: AudioContext | null = null;
 let analyser: AnalyserNode | null = null;
 let gainNode: GainNode | null = null;
 let sourceNode: AudioNode | null = null;
-let audioEl: HTMLAudioElement | null = null;
+const audioEl = ref<HTMLAudioElement | null>(null);
 let micStream: MediaStream | null = null;
-let animFrame: number | null = null;
 let prevObjUrl: string | null = null;
 let canvasW = 0;
 let canvasH = 0;
 
 const progressPct = ref(0);
-let timeUpdateInterval: ReturnType<typeof setInterval> | null = null;
+
+const { pause: pauseTimeUpdate, resume: resumeTimeUpdate } = useIntervalFn(
+  () => {
+    if (audioEl.value) {
+      currentTime.value = audioEl.value.currentTime;
+      progressPct.value = duration.value > 0 ? (audioEl.value.currentTime / duration.value) * 100 : 0;
+    }
+  },
+  100,
+  { immediate: false }
+);
+
+const { pause: pauseRaf, resume: resumeRaf } = useRafFn(draw, { immediate: false });
 
 function formatTime(s: number): string {
   const m = Math.floor(s / 60);
@@ -144,11 +165,18 @@ function initAudioContext() {
   if (!audioCtx) {
     audioCtx = new AudioContext();
     analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 512;
+    analyser.fftSize = fftSize.value;
     analyser.smoothingTimeConstant = smoothing.value;
     gainNode = audioCtx.createGain();
     gainNode.gain.value = gain.value;
     gainNode.connect(audioCtx.destination);
+  }
+}
+
+function applyFftSize() {
+  if (analyser) {
+    analyser.fftSize = fftSize.value;
+    if (vizMode.value === "spectrogram") spectrogramData.value = [];
   }
 }
 
@@ -168,34 +196,29 @@ function onFileSelect(e: Event) {
 
 function setupAudioElement() {
   initAudioContext();
-  if (audioEl) { audioEl.pause(); audioEl.remove(); }
+  if (audioEl.value) { audioEl.value.pause(); audioEl.value.remove(); }
   if (sourceNode) { sourceNode.disconnect(); sourceNode = null; }
 
-  audioEl = new Audio(audioSrc.value);
-  audioEl.crossOrigin = "anonymous";
-  sourceNode = audioCtx!.createMediaElementSource(audioEl);
+  const el = new Audio(audioSrc.value);
+  el.crossOrigin = "anonymous";
+  audioEl.value = el;
+  sourceNode = audioCtx!.createMediaElementSource(el);
   sourceNode.connect(analyser!);
   analyser!.connect(gainNode!);
 
-  audioEl.addEventListener("loadedmetadata", () => { duration.value = audioEl!.duration; });
-  audioEl.addEventListener("ended", () => {
+  useEventListener(el, "loadedmetadata", () => { duration.value = el.duration; });
+  useEventListener(el, "ended", () => {
     isPlaying.value = false;
-    stopTimeUpdate();
+    pauseTimeUpdate();
   });
 }
 
 function startTimeUpdate() {
-  stopTimeUpdate();
-  timeUpdateInterval = setInterval(() => {
-    if (audioEl) {
-      currentTime.value = audioEl.currentTime;
-      progressPct.value = duration.value > 0 ? (audioEl.currentTime / duration.value) * 100 : 0;
-    }
-  }, 100);
+  resumeTimeUpdate();
 }
 
 function stopTimeUpdate() {
-  if (timeUpdateInterval) { clearInterval(timeUpdateInterval); timeUpdateInterval = null; }
+  pauseTimeUpdate();
 }
 
 function togglePlay() {
@@ -214,18 +237,18 @@ function togglePlay() {
 }
 
 function seek(e: MouseEvent) {
-  if (!audioEl || !duration.value) return;
+  if (!audioEl.value || !duration.value) return;
   const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
   const pct = (e.clientX - rect.left) / rect.width;
-  audioEl.currentTime = pct * duration.value;
-  currentTime.value = audioEl.currentTime;
+  audioEl.value.currentTime = pct * duration.value;
+  currentTime.value = audioEl.value.currentTime;
   progressPct.value = pct * 100;
 }
 
 async function toggleMic() {
   if (micActive.value) { stopMic(); return; }
   initAudioContext();
-  if (audioEl) { audioEl.pause(); isPlaying.value = false; stopTimeUpdate(); }
+  if (audioEl.value) { audioEl.value.pause(); isPlaying.value = false; stopTimeUpdate(); }
   if (sourceNode) { sourceNode.disconnect(); sourceNode = null; }
 
   try {
@@ -252,8 +275,7 @@ function stopMic() {
 }
 
 function startVisualization() {
-  if (animFrame) cancelAnimationFrame(animFrame);
-  draw();
+  resumeRaf();
 }
 
 function updateCanvasSize() {
@@ -275,8 +297,8 @@ function draw() {
   const w = canvasW;
   const h = canvasH;
 
-  const isDark = document.documentElement.classList.contains("dark");
-  ctx.fillStyle = isDark ? "#0a0a0a" : "#fafafa";
+  const { bg, accent, accentHover } = useThemeColors();
+  ctx.fillStyle = bg();
   ctx.fillRect(0, 0, w, h);
 
   const bufferLength = analyser.frequencyBinCount;
@@ -291,8 +313,8 @@ function draw() {
       const barH = (data[i] / 255) * h * 0.9;
       const x = i * barW;
       const gradient = ctx.createLinearGradient(0, h, 0, h - barH);
-      gradient.addColorStop(0, "#ef4444");
-      gradient.addColorStop(1, "#f97316");
+      gradient.addColorStop(0, accent());
+      gradient.addColorStop(1, accentHover());
       ctx.fillStyle = gradient;
       ctx.fillRect(x, h - barH, barW - 1, barH);
     }
@@ -301,7 +323,7 @@ function draw() {
     analyser.getByteTimeDomainData(data);
 
     ctx.lineWidth = 2;
-    ctx.strokeStyle = "#ef4444";
+    ctx.strokeStyle = accent();
     ctx.beginPath();
     const sliceW = w / bufferLength;
     for (let i = 0; i < bufferLength; i++) {
@@ -311,7 +333,9 @@ function draw() {
     }
     ctx.stroke();
 
-    ctx.strokeStyle = isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.05)";
+    ctx.strokeStyle = document.documentElement.classList.contains("dark")
+      ? "rgba(255,255,255,0.1)"
+      : "rgba(0,0,0,0.05)";
     ctx.lineWidth = 1;
     ctx.setLineDash([4, 4]);
     ctx.beginPath();
@@ -319,6 +343,27 @@ function draw() {
     ctx.lineTo(w, h / 2);
     ctx.stroke();
     ctx.setLineDash([]);
+  } else if (vizMode.value === "spectrogram") {
+    const data = new Uint8Array(bufferLength);
+    analyser.getByteFrequencyData(data);
+    const maxRows = 150;
+    const next = [...spectrogramData.value, Array.from(data)].slice(-maxRows);
+    spectrogramData.value = next;
+    const rows = spectrogramData.value.length;
+    const cols = Math.min(bufferLength, 128);
+    const cellW = w / cols;
+    const cellH = h / rows;
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const idx = Math.floor((col / cols) * bufferLength);
+        const v = spectrogramData.value[row][idx] / 255;
+        const r = Math.floor(255 * (1 - v));
+        const g = Math.floor(100 + v * 155);
+        const b = Math.floor(v * 255);
+        ctx.fillStyle = `rgb(${r},${g},${b})`;
+        ctx.fillRect(col * cellW, row * cellH, cellW + 1, cellH + 1);
+      }
+    }
   } else {
     const data = new Uint8Array(bufferLength);
     analyser.getByteFrequencyData(data);
@@ -336,58 +381,58 @@ function draw() {
       if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
     }
     ctx.closePath();
+    const { accentRgba } = useThemeColors();
     const grad = ctx.createRadialGradient(cx, cy, radius * 0.5, cx, cy, radius * 2);
-    grad.addColorStop(0, "rgba(239, 68, 68, 0.3)");
-    grad.addColorStop(1, "rgba(249, 115, 22, 0.05)");
+    grad.addColorStop(0, accentRgba(0.3));
+    grad.addColorStop(1, accentRgba(0.05));
     ctx.fillStyle = grad;
     ctx.fill();
-    ctx.strokeStyle = "#ef4444";
+    ctx.strokeStyle = accent();
     ctx.lineWidth = 2;
     ctx.stroke();
 
     ctx.beginPath();
     ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-    ctx.strokeStyle = "rgba(239, 68, 68, 0.2)";
+    ctx.strokeStyle = accentRgba(0.2);
     ctx.lineWidth = 1;
     ctx.stroke();
 
     ctx.save();
-    ctx.shadowColor = "rgba(239, 68, 68, 0.5)";
+    ctx.shadowColor = accentRgba(0.5);
     ctx.shadowBlur = 15;
     ctx.beginPath();
     ctx.arc(cx, cy, 4, 0, Math.PI * 2);
-    ctx.fillStyle = "#ef4444";
+    ctx.fillStyle = accent();
     ctx.fill();
     ctx.restore();
   }
 
-  if (isPlaying.value || micActive.value) {
-    animFrame = requestAnimationFrame(draw);
-  }
+  if (!isPlaying.value && !micActive.value) pauseRaf();
 }
 
-function toggleFullscreen() {
-  if (!vizContainer.value) return;
-  if (document.fullscreenElement) {
-    document.exitFullscreen();
-    isFullscreen.value = false;
-  } else {
-    vizContainer.value.requestFullscreen();
-    isFullscreen.value = true;
-  }
-}
-
-watch(vizMode, () => { if (isPlaying.value || micActive.value) startVisualization(); });
+watch(vizMode, () => {
+  if (vizMode.value === "spectrogram") spectrogramData.value = [];
+  if (isPlaying.value || micActive.value) startVisualization();
+});
+watch([isPlaying, micActive], () => {
+  if (!isPlaying.value && !micActive.value) pauseRaf();
+});
 
 onMounted(() => {
-  document.addEventListener("fullscreenchange", () => { isFullscreen.value = !!document.fullscreenElement; });
+  useEventListener(document, "keydown", (e) => {
+    const tag = (e.target as HTMLElement)?.tagName;
+    if (e.code === "Space" && !["INPUT", "TEXTAREA"].includes(tag) && audioSrc.value) {
+      e.preventDefault();
+      togglePlay();
+    }
+  });
 });
 
 onUnmounted(() => {
-  if (animFrame) cancelAnimationFrame(animFrame);
-  stopTimeUpdate();
+  pauseRaf();
+  pauseTimeUpdate();
   stopMic();
-  if (audioEl) { audioEl.pause(); audioEl.remove(); }
+  if (audioEl.value) { audioEl.value.pause(); audioEl.value.remove(); }
   if (audioCtx) audioCtx.close();
   if (prevObjUrl) URL.revokeObjectURL(prevObjUrl);
 });

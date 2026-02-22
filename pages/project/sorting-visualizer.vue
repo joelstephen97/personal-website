@@ -1,14 +1,9 @@
 <template>
   <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
     <div class="max-w-4xl mx-auto">
-      <div class="flex items-center justify-between mb-8">
-        <div class="flex items-center gap-3">
-          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-accent/50 transition-colors">
-            <Icon name="ArrowLeft" :size="16" class="text-[rgb(var(--foreground-secondary))]" />
-          </NuxtLink>
-          <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Sorting Visualizer</h1>
-        </div>
-        <DarkModeToggle />
+      <div class="flex items-center gap-3 mb-8">
+        <BackToProjects />
+        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Sorting Visualizer</h1>
       </div>
 
       <div class="glass-solid rounded-2xl p-6 mb-6">
@@ -17,6 +12,12 @@
             <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1">Algorithm</label>
             <select v-model="algorithm" :disabled="running" class="w-44">
               <option v-for="a in algorithms" :key="a.key" :value="a.key">{{ a.label }}</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1">Preset</label>
+            <select v-model="preset" :disabled="running" class="w-36">
+              <option v-for="p in presets" :key="p.key" :value="p.key">{{ p.label }}</option>
             </select>
           </div>
           <div>
@@ -80,20 +81,33 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, onUnmounted } from "vue";
+import { useIntervalFn } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: false });
+definePageMeta({ layout: "default" });
 
 const algorithms = [
   { key: "bubble", label: "Bubble Sort", complexity: "O(n²)" },
   { key: "selection", label: "Selection Sort", complexity: "O(n²)" },
   { key: "insertion", label: "Insertion Sort", complexity: "O(n²)" },
+  { key: "shell", label: "Shell Sort", complexity: "O(n^1.3)" },
+  { key: "cocktail", label: "Cocktail Sort", complexity: "O(n²)" },
   { key: "merge", label: "Merge Sort", complexity: "O(n log n)" },
   { key: "quick", label: "Quick Sort", complexity: "O(n log n)" },
   { key: "heap", label: "Heap Sort", complexity: "O(n log n)" },
+  { key: "counting", label: "Counting Sort", complexity: "O(n+k)" },
+  { key: "radix", label: "Radix Sort", complexity: "O(nk)" },
+];
+
+const presets = [
+  { key: "random", label: "Random" },
+  { key: "nearly", label: "Nearly Sorted" },
+  { key: "reverse", label: "Reverse Sorted" },
+  { key: "few", label: "Few Unique" },
 ];
 
 const algorithm = ref("merge");
+const preset = ref("random");
 const size = ref(50);
 const speed = ref(50);
 const running = ref(false);
@@ -106,7 +120,12 @@ const soundEnabled = ref(false);
 const elapsed = ref(0);
 let cancelled = false;
 let startTime = 0;
-let elapsedTimer: ReturnType<typeof setInterval> | null = null;
+
+const { pause: pauseElapsedTimer, resume: resumeElapsedTimer } = useIntervalFn(
+  () => { elapsed.value = performance.now() - startTime; },
+  100,
+  { immediate: false }
+);
 
 let audioCtx: AudioContext | null = null;
 
@@ -138,7 +157,22 @@ function playTone(freq: number) {
 }
 
 function generateArray() {
-  arr.value = Array.from({ length: size.value }, () => Math.floor(Math.random() * 200) + 5);
+  const n = size.value;
+  if (preset.value === "random") {
+    arr.value = Array.from({ length: n }, () => Math.floor(Math.random() * 200) + 5);
+  } else if (preset.value === "nearly") {
+    arr.value = Array.from({ length: n }, (_, i) => i * 3 + Math.floor(Math.random() * 5));
+    for (let i = 0; i < n / 10; i++) {
+      const a = Math.floor(Math.random() * n);
+      const b = Math.floor(Math.random() * n);
+      [arr.value[a], arr.value[b]] = [arr.value[b], arr.value[a]];
+    }
+  } else if (preset.value === "reverse") {
+    arr.value = Array.from({ length: n }, (_, i) => (n - i) * 3 + Math.floor(Math.random() * 3));
+  } else {
+    const vals = [10, 50, 100, 150, 200];
+    arr.value = Array.from({ length: n }, () => vals[Math.floor(Math.random() * vals.length)]);
+  }
 }
 
 function shuffle() {
@@ -152,7 +186,7 @@ function shuffle() {
 
 shuffle();
 
-watch(size, () => { if (!running.value) shuffle(); });
+watch([size, preset], () => { if (!running.value) shuffle(); });
 
 function delay() {
   return new Promise((r) => setTimeout(r, Math.max(1, 101 - speed.value)));
@@ -212,6 +246,38 @@ async function insertionSort() {
   if (!cancelled) sorted.value = new Set(Array.from({ length: n }, (_, i) => i));
 }
 
+async function shellSort() {
+  const n = arr.value.length;
+  for (let gap = Math.floor(n / 2); gap > 0 && !cancelled; gap = Math.floor(gap / 2)) {
+    for (let i = gap; i < n && !cancelled; i++) {
+      let j = i;
+      while (j >= gap && !cancelled) {
+        if (await compare(j - gap, j)) { await swap(j - gap, j); j -= gap; }
+        else break;
+      }
+    }
+  }
+  if (!cancelled) sorted.value = new Set(Array.from({ length: n }, (_, i) => i));
+}
+
+async function cocktailSort() {
+  const n = arr.value.length;
+  let start = 0, end = n - 1;
+  while (start < end && !cancelled) {
+    for (let i = start; i < end && !cancelled; i++) {
+      if (await compare(i, i + 1)) await swap(i, i + 1);
+    }
+    sorted.value.add(end);
+    end--;
+    for (let i = end; i > start && !cancelled; i--) {
+      if (await compare(i - 1, i)) await swap(i - 1, i);
+    }
+    sorted.value.add(start);
+    start++;
+  }
+  if (!cancelled && start === end) sorted.value.add(start);
+}
+
 async function mergeSort() {
   async function merge(l: number, m: number, r: number) {
     const left = arr.value.slice(l, m + 1);
@@ -264,15 +330,15 @@ async function quickSort() {
 
 async function heapSort() {
   const n = arr.value.length;
-  async function heapify(size: number, root: number) {
+  async function heapify(sz: number, root: number) {
     let largest = root;
     const left = 2 * root + 1;
     const right = 2 * root + 2;
-    if (left < size) { if (await compare(left, largest)) largest = left; }
-    if (right < size) { if (await compare(right, largest)) largest = right; }
+    if (left < sz) { if (await compare(left, largest)) largest = left; }
+    if (right < sz) { if (await compare(right, largest)) largest = right; }
     if (largest !== root && !cancelled) {
       await swap(root, largest);
-      await heapify(size, largest);
+      await heapify(sz, largest);
     }
   }
   for (let i = Math.floor(n / 2) - 1; i >= 0 && !cancelled; i--) await heapify(n, i);
@@ -282,6 +348,52 @@ async function heapSort() {
     await heapify(i, 0);
   }
   if (!cancelled) sorted.value.add(0);
+}
+
+async function countingSort() {
+  const n = arr.value.length;
+  const max = Math.max(...arr.value);
+  const count = new Array(max + 1).fill(0);
+  for (let i = 0; i < n && !cancelled; i++) {
+    count[arr.value[i]]++;
+    active.value = new Set([i]);
+    await delay();
+  }
+  let idx = 0;
+  for (let v = 0; v <= max && !cancelled; v++) {
+    for (let c = 0; c < count[v]; c++) {
+      arr.value[idx] = v;
+      swaps.value++;
+      active.value = new Set([idx]);
+      sorted.value.add(idx);
+      await delay();
+      idx++;
+    }
+  }
+}
+
+async function radixSort() {
+  const n = arr.value.length;
+  const maxVal = Math.max(...arr.value);
+  let exp = 1;
+  while (Math.floor(maxVal / exp) > 0 && !cancelled) {
+    const output = [...arr.value];
+    const count = new Array(10).fill(0);
+    for (let i = 0; i < n; i++) count[Math.floor(arr.value[i] / exp) % 10]++;
+    for (let i = 1; i < 10; i++) count[i] += count[i - 1];
+    for (let i = n - 1; i >= 0; i--) {
+      const d = Math.floor(arr.value[i] / exp) % 10;
+      output[count[d] - 1] = arr.value[i];
+      count[d]--;
+    }
+    for (let i = 0; i < n && !cancelled; i++) {
+      arr.value[i] = output[i];
+      active.value = new Set([i]);
+      await delay();
+    }
+    exp *= 10;
+  }
+  if (!cancelled) sorted.value = new Set(Array.from({ length: n }, (_, i) => i));
 }
 
 function stop() {
@@ -296,15 +408,17 @@ async function run() {
   elapsed.value = 0;
   sorted.value = new Set();
   startTime = performance.now();
-  elapsedTimer = setInterval(() => { elapsed.value = performance.now() - startTime; }, 100);
+  resumeElapsedTimer();
 
   const sorters: Record<string, () => Promise<void>> = {
     bubble: bubbleSort, selection: selectionSort, insertion: insertionSort,
-    merge: mergeSort, quick: quickSort, heap: heapSort,
+    shell: shellSort, cocktail: cocktailSort, merge: mergeSort, quick: quickSort,
+    heap: heapSort, counting: countingSort, radix: radixSort,
   };
-  await sorters[algorithm.value]();
+  const fn = sorters[algorithm.value];
+  if (fn) await fn();
 
-  if (elapsedTimer) clearInterval(elapsedTimer);
+  pauseElapsedTimer();
   elapsed.value = performance.now() - startTime;
   active.value = new Set();
   running.value = false;
@@ -312,7 +426,7 @@ async function run() {
 
 onUnmounted(() => {
   cancelled = true;
-  if (elapsedTimer) clearInterval(elapsedTimer);
+  pauseElapsedTimer();
   if (audioCtx) audioCtx.close();
 });
 </script>

@@ -1,0 +1,33 @@
+let transcriberFn: ((url: string) => Promise<{ text: string }>) | null = null;
+const loadError = ref("");
+const isReady = ref(false);
+
+async function initPipeline() {
+  if (transcriberFn) return;
+  try {
+    const { pipeline } = await import("@huggingface/transformers");
+    transcriberFn = await pipeline(
+      "automatic-speech-recognition",
+      "Xenova/whisper-tiny.en"
+    );
+    isReady.value = true;
+  } catch (e) {
+    loadError.value =
+      e instanceof Error ? e.message : "Failed to load Whisper model";
+  }
+}
+
+export function useWhisperTranscriber() {
+  return {
+    get transcriber() {
+      return transcriberFn;
+    },
+    loadError,
+    isReady,
+    initPipeline,
+  };
+}
+
+export function preloadWhisperModel() {
+  initPipeline();
+}

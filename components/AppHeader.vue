@@ -32,19 +32,39 @@
           {{ link.label }}
         </NuxtLink>
         <div class="w-px h-5 bg-border mx-2" />
-        <UiButton variant="primary" to="/contact" class="!px-4 !py-2 text-sm">
-          Get in Touch
-        </UiButton>
+        <button
+          type="button"
+          :class="[
+            'flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all btn-primary',
+            isChatOpen && 'ring-2 ring-accent ring-offset-2 ring-offset-[rgb(var(--bg))]',
+          ]"
+          aria-label="Open AI chat to ask about Joel"
+          @click="toggleChat"
+        >
+          <Icon name="MessageCircle" :size="18" />
+          AI Chat — Ask about Joel
+        </button>
         <DarkModeToggle />
       </div>
 
       <!-- Mobile -->
       <div class="md:hidden flex items-center gap-2">
+        <button
+          type="button"
+          :class="[
+            'p-2.5 rounded-xl transition-colors',
+            isChatOpen ? 'bg-accent/15 text-accent' : 'text-muted hover:text-foreground hover:bg-[rgb(var(--glass))]',
+          ]"
+          aria-label="Open AI chat to ask about Joel"
+          @click="toggleChat"
+        >
+          <Icon name="MessageCircle" :size="22" />
+        </button>
         <DarkModeToggle />
         <button
           aria-label="Toggle menu"
           class="p-2 rounded-xl hover:bg-[rgb(var(--glass))] transition-colors"
-          @click="open = !open"
+          @click="toggleOpen()"
         >
           <Icon :name="open ? 'X' : 'Menu'" :size="22" />
         </button>
@@ -59,6 +79,14 @@
       leave-to-class="opacity-0 -translate-y-2"
     >
       <div v-if="open" class="md:hidden px-6 pb-4 space-y-1">
+        <button
+          type="button"
+          class="flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-semibold w-full btn-primary"
+          @click="toggleOpen(false); toggleChat()"
+        >
+          <Icon name="MessageCircle" :size="20" />
+          AI Chat — Ask about Joel
+        </button>
         <NuxtLink
           v-for="link in links"
           :key="link.to"
@@ -69,18 +97,10 @@
               ? 'text-accent bg-accent/10'
               : 'text-foreground hover:bg-[rgb(var(--glass))]',
           ]"
-          @click="open = false"
+          @click="toggleOpen(false)"
         >
           <Icon :name="link.icon" :size="18" />
           {{ link.label }}
-        </NuxtLink>
-        <NuxtLink
-          to="/contact"
-          class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium btn-primary"
-          @click="open = false"
-        >
-          <Icon name="Mail" :size="18" />
-          Get in Touch
         </NuxtLink>
       </div>
     </Transition>
@@ -89,10 +109,12 @@
 
 <script setup lang="ts">
 import { useRoute } from "vue-router";
+import { useToggle } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
 const route = useRoute();
-const open = ref(false);
+const [open, toggleOpen] = useToggle(false);
+const { isOpen: isChatOpen, toggleOpen: toggleChat, openChat } = useJoelAgent();
 
 const links = [
   { to: "/", label: "About", icon: "User" },

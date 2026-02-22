@@ -1,44 +1,49 @@
 <template>
-  <div class="max-w-5xl mx-auto px-6 py-20">
-    <div class="grid lg:grid-cols-2 gap-16">
-      <!-- Left -->
-      <section aria-labelledby="contact-heading">
-        <p
-          class="text-sm font-medium text-accent tracking-wide uppercase mb-4"
-        >
-          Get in Touch
-        </p>
-        <h1
-          id="contact-heading"
-          class="text-h1 font-bold text-foreground mb-4"
-        >
-          Contact
-        </h1>
-        <p class="text-lg text-muted mb-8">
-          Have a project in mind? Let's talk.
-        </p>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+    <!-- Header -->
+    <header class="text-center mb-8" aria-labelledby="contact-heading">
+      <p class="text-xs font-medium text-accent tracking-wide uppercase mb-2">
+        Get in touch
+      </p>
+      <h1
+        id="contact-heading"
+        class="text-h2 font-bold text-foreground mb-1"
+      >
+        Contact
+      </h1>
+      <p class="text-sm text-muted max-w-md mx-auto">
+        Let's talk.
+      </p>
+    </header>
 
-        <div class="space-y-4">
-          <a
+    <div class="grid lg:grid-cols-2 gap-8 items-stretch">
+      <!-- Left: Contact info -->
+      <section
+        class="glass-solid rounded-2xl p-5 flex flex-col"
+        aria-label="Contact details"
+      >
+        <h2 class="flex items-center gap-2 text-lg font-semibold text-accent mb-3">
+          <Icon name="Mail" :size="18" />
+          Reach out
+        </h2>
+        <div class="space-y-2 flex-1">
+          <component
             v-for="info in contactInfo"
             :key="info.label"
-            :href="info.href"
+            :is="info.href ? 'a' : 'div'"
+            :href="info.href || undefined"
             :target="info.external ? '_blank' : undefined"
-            class="flex items-center gap-4 p-4 rounded-xl glass-solid hover:border-accent/30 transition-all group"
+            class="flex items-center gap-3 p-3 rounded-lg glass-solid hover:border-accent/30 transition-all group"
           >
             <div
-              class="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center"
+              class="w-9 h-9 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0"
             >
-              <Icon :name="info.icon" :size="20" class="text-accent" />
+              <Icon :name="info.icon" :size="18" class="text-accent" />
             </div>
             <div class="flex-1 min-w-0">
               <p
-                class="text-xs font-medium text-muted-foreground uppercase tracking-wide"
-              >
-                {{ info.label }}
-              </p>
-              <p
-                class="text-sm font-medium text-foreground group-hover:text-accent transition-colors truncate"
+                class="text-xs font-medium text-foreground group-hover:text-accent transition-colors truncate"
+                :title="info.label"
               >
                 {{ info.value }}
               </p>
@@ -49,67 +54,70 @@
               :size="18"
               class="text-muted-foreground group-hover:text-accent"
             />
-          </a>
+          </component>
         </div>
       </section>
 
-      <!-- Right: Form -->
-      <section class="glass-solid rounded-2xl p-8" aria-labelledby="form-heading">
-        <h2 id="form-heading" class="text-h3 font-semibold text-accent mb-6">Send a Message</h2>
+      <!-- Right: Message form -->
+      <section class="glass-solid rounded-2xl p-5" aria-labelledby="form-heading">
+        <h2 id="form-heading" class="flex items-center gap-2 text-lg font-semibold text-accent mb-3">
+          <Icon name="Send" :size="18" />
+          Message
+        </h2>
 
-        <form class="space-y-5" @submit.prevent="submit">
+        <form class="space-y-2" @submit.prevent="submit">
           <div>
             <label
-              class="block text-sm font-medium text-foreground mb-2"
+              class="block text-xs font-medium text-foreground mb-0.5"
               >Name</label
             >
             <input
               v-model="form.name"
               type="text"
               placeholder="Your name"
-              class="w-full px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition"
+              class="w-full px-3 py-1.5 text-sm rounded-lg bg-[rgb(var(--glass))] border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition"
             />
           </div>
           <div>
             <label
-              class="block text-sm font-medium text-foreground mb-2"
+              class="block text-xs font-medium text-foreground mb-0.5"
               >Email</label
             >
             <input
               v-model="form.email"
               type="email"
               placeholder="you@example.com"
-              class="w-full px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition"
+              class="w-full px-3 py-1.5 text-sm rounded-lg bg-[rgb(var(--glass))] border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition"
             />
           </div>
           <div>
             <label
-              class="block text-sm font-medium text-foreground mb-2"
+              class="block text-xs font-medium text-foreground mb-0.5"
               >Message</label
             >
             <textarea
               v-model="form.message"
-              rows="4"
+              rows="2"
               placeholder="Your message..."
-              class="w-full px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition resize-none"
+              class="w-full px-3 py-1.5 text-sm rounded-lg bg-[rgb(var(--glass))] border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition resize-none"
             />
           </div>
           <div>
             <label
-              class="block text-sm font-medium text-foreground mb-2"
+              class="block text-xs font-medium text-foreground mb-0.5"
               >{{ captcha.q }}</label
             >
             <input
               v-model="form.captcha"
               type="text"
               placeholder="Answer"
-              class="w-full px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition"
+              class="w-full px-3 py-1.5 text-sm rounded-lg bg-[rgb(var(--glass))] border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition"
             />
           </div>
           <button
             type="submit"
             :disabled="sending || !emailjsReady"
-            class="w-full btn-primary disabled:opacity-50 flex items-center justify-center gap-2"
+            class="w-full btn-primary disabled:opacity-50 flex items-center justify-center gap-2 py-2 text-sm"
           >
             <Icon name="Send" :size="18" />
             {{
@@ -128,7 +136,7 @@
         >
           <div
             v-if="success"
-            class="mt-4 p-4 rounded-xl bg-success/10 border border-success/20 flex items-center gap-2 text-success"
+            class="mt-2 p-2 rounded-lg bg-success/10 border border-success/20 flex items-center gap-2 text-success text-xs"
           >
             <Icon name="CheckCircle" :size="18" />
             <span class="text-sm font-medium">Message sent successfully!</span>
@@ -140,12 +148,29 @@
         >
           <div
             v-if="error"
-            class="mt-4 p-4 rounded-xl bg-error/10 border border-error/20 flex items-center gap-2 text-error"
+            class="mt-2 p-2 rounded-lg bg-error/10 border border-error/20 flex items-center gap-2 text-error text-xs"
           >
             <Icon name="CircleAlert" :size="18" />
             <span class="text-sm font-medium">{{ error }}</span>
           </div>
         </Transition>
+
+        <div class="mt-3 pt-3 border-t border-border">
+          <p class="text-xs text-muted-foreground mb-2">Demo: WebAuthn</p>
+          <button
+            v-if="webauthnSupported"
+            type="button"
+            class="btn-secondary text-sm py-2 px-4 flex items-center gap-2"
+            :disabled="webauthnLoading"
+            @click="tryWebAuthn"
+          >
+            <Icon name="Fingerprint" :size="16" />
+            {{ webauthnLoading ? "Checking..." : webauthnSuccess ? "Authenticated" : "Try biometric login" }}
+          </button>
+          <p v-else class="text-xs text-muted">
+            WebAuthn not supported in this browser.
+          </p>
+        </div>
       </section>
     </div>
   </div>
@@ -169,6 +194,13 @@ const contactInfo = [
     href: "mailto:joel.stephen.work@gmail.com",
   },
   {
+    label: "LinkedIn",
+    value: "Connect",
+    icon: "Linkedin",
+    href: "https://linkedin.com/in/joelthomasstephen",
+    external: true,
+  },
+  {
     label: "WhatsApp",
     value: "Message me",
     icon: "MessageCircle",
@@ -176,11 +208,23 @@ const contactInfo = [
     external: true,
   },
   {
+    label: "Calendly",
+    value: "Book a call",
+    icon: "Calendar",
+    href: "https://calendly.com/joel-stephen-work/30min",
+    external: true,
+  },
+  {
     label: "Location",
-    value: "Abu Dhabi, UAE",
+    value: "Abu Dhabi, UAE · GST (UTC+4)",
     icon: "MapPin",
     href: "https://maps.google.com/?q=Abu+Dhabi",
     external: true,
+  },
+  {
+    label: "Response time",
+    value: "Usually within 24 hours",
+    icon: "Timer",
   },
 ];
 
@@ -231,6 +275,33 @@ async function submit() {
     if (import.meta.dev) console.error("EmailJS error:", err);
   } finally {
     sending.value = false;
+  }
+}
+
+const webauthnSupported =
+  typeof window !== "undefined" &&
+  window.PublicKeyCredential !== undefined;
+const webauthnLoading = ref(false);
+const webauthnSuccess = ref(false);
+
+async function tryWebAuthn() {
+  if (!webauthnSupported) return;
+  webauthnLoading.value = true;
+  webauthnSuccess.value = false;
+  try {
+    const credential = await navigator.credentials.get({
+      publicKey: {
+        challenge: crypto.getRandomValues(new Uint8Array(32)),
+        rpId: window.location.hostname || "localhost",
+        userVerification: "preferred",
+        timeout: 60000,
+      },
+    });
+    webauthnSuccess.value = !!credential;
+  } catch {
+    webauthnSuccess.value = false;
+  } finally {
+    webauthnLoading.value = false;
   }
 }
 </script>

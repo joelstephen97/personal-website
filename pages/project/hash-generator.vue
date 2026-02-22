@@ -1,14 +1,9 @@
 <template>
   <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
     <div class="max-w-3xl mx-auto">
-      <div class="flex items-center justify-between mb-8">
-        <div class="flex items-center gap-3">
-          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-accent/50 transition-colors">
-            <Icon name="ArrowLeft" :size="16" class="text-[rgb(var(--foreground-secondary))]" />
-          </NuxtLink>
-          <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Hash Generator</h1>
-        </div>
-        <DarkModeToggle />
+      <div class="flex items-center gap-3 mb-8">
+        <BackToProjects />
+        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Hash Generator</h1>
       </div>
 
       <div class="glass-solid rounded-2xl p-6 mb-6">
@@ -37,13 +32,10 @@
         </div>
         <div v-else>
           <div
+            ref="dropZoneRef"
             class="border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors"
-            :class="dragActive ? 'border-accent bg-accent/5' : 'border-[rgb(var(--border))] hover:border-accent/50'"
+            :class="isOverDropZone ? 'border-accent bg-accent/5' : 'border-[rgb(var(--border))] hover:border-accent/50'"
             @click="fileInput?.click()"
-            @dragover.prevent="dragActive = true"
-            @dragenter.prevent="dragActive = true"
-            @dragleave.prevent="dragActive = false"
-            @drop.prevent="onDrop"
           >
             <Icon name="Upload" :size="32" class="text-[rgb(var(--foreground-muted))] mx-auto mb-2" />
             <p class="text-sm text-[rgb(var(--foreground-secondary))]">
@@ -76,7 +68,6 @@
         <div class="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-3" />
         <p class="text-sm text-accent">Hashing...</p>
       </div>
-
       <div v-else-if="selected === 'All' && allHashes.length" class="glass-solid rounded-2xl p-6 mb-6 space-y-4">
         <div v-for="h in allHashes" :key="h.algo">
           <div class="flex items-center justify-between mb-1">
@@ -107,6 +98,10 @@
         </p>
       </div>
 
+      <p class="text-xs text-[rgb(var(--foreground-muted))] mb-4">
+        SHA-256 is recommended for file integrity. MD5/SHA-1 are weak—use only for legacy checksums.
+      </p>
+
       <div class="glass-solid rounded-2xl p-6">
         <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-2">Compare Hash</label>
         <input
@@ -133,24 +128,30 @@
 
 <script setup lang="ts">
 import { ref, watch, computed } from "vue";
+import { useClipboard, useDropZone } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
+import SparkMD5 from "spark-md5";
 
-definePageMeta({ layout: false });
+definePageMeta({ layout: "default" });
 
 const algorithms = ["SHA-1", "SHA-256", "SHA-384", "SHA-512"];
-const algorithmOptions = ["All", ...algorithms];
+const algorithmOptions = ["All", "MD5", ...algorithms];
 const selected = ref("SHA-256");
 const mode = ref<"text" | "file">("text");
 const text = ref("");
 const hash = ref("");
 const hashing = ref(false);
-const copied = ref(false);
+const { copy, copied } = useClipboard({ copiedDuring: 2000 });
 const compareHash = ref("");
 const fileName = ref("");
 const fileSize = ref("");
 const uppercase = ref(false);
-const dragActive = ref(false);
+const dropZoneRef = ref<HTMLElement | null>(null);
 const fileInput = ref<HTMLInputElement | null>(null);
+
+const { isOverDropZone } = useDropZone(dropZoneRef, {
+  onDrop: (files) => { if (files[0]) loadFile(files[0]); },
+});
 let fileBuffer: ArrayBuffer | null = null;
 
 interface HashResult { algo: string; hash: string; }
@@ -174,6 +175,9 @@ const isMatch = computed(() => {
 });
 
 async function digestData(algo: string, data: ArrayBuffer): Promise<string> {
+  if (algo === "MD5") {
+    return SparkMD5.ArrayBuffer.hash(data);
+  }
   const hashBuffer = await crypto.subtle.digest(algo, data);
   return Array.from(new Uint8Array(hashBuffer)).map((b) => b.toString(16).padStart(2, "0")).join("");
 }
@@ -193,7 +197,8 @@ async function computeHash() {
     }
 
     if (selected.value === "All") {
-      const results = await Promise.all(algorithms.map(async (algo) => ({
+      const algos = ["MD5", ...algorithms];
+      const results = await Promise.all(algos.map(async (algo) => ({
         algo,
         hash: await digestData(algo, data),
       })));
@@ -221,12 +226,6 @@ function onFileSelect(e: Event) {
   if (file) loadFile(file);
 }
 
-function onDrop(e: DragEvent) {
-  dragActive.value = false;
-  const file = e.dataTransfer?.files?.[0];
-  if (file) loadFile(file);
-}
-
 function loadFile(file: File) {
   fileName.value = file.name;
   fileSize.value = formatSize(file.size);
@@ -236,8 +235,6 @@ function loadFile(file: File) {
 }
 
 async function copyText(t: string) {
-  await navigator.clipboard.writeText(formatHash(t));
-  copied.value = true;
-  setTimeout(() => (copied.value = false), 2000);
+  await copy(formatHash(t));
 }
 </script>

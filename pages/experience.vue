@@ -1,23 +1,22 @@
 <template>
-  <div class="max-w-5xl mx-auto px-6 py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
     <!-- Header -->
-    <header class="text-center mb-16" aria-labelledby="experience-heading">
-      <p class="text-sm font-medium text-accent tracking-wide uppercase mb-4">
+    <header class="text-center mb-8" aria-labelledby="experience-heading">
+      <p class="text-xs font-medium text-accent tracking-wide uppercase mb-2">
         Career
       </p>
       <h1
         id="experience-heading"
-        class="text-h1 font-bold text-foreground mb-4"
+        class="text-h2 font-bold text-foreground mb-1"
       >
         Experience
       </h1>
       <div
         class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-solid"
+        :title="`${totalYears}+ years of professional experience`"
       >
         <Icon name="Briefcase" :size="18" class="text-accent" />
-        <span class="text-sm font-medium text-foreground"
-          >{{ totalYears }}+ years of professional experience</span
-        >
+        <span class="text-sm font-medium text-foreground">{{ totalYears }}+ yrs</span>
       </div>
     </header>
 
@@ -98,27 +97,30 @@ const totalYears = 5;
 const jobs = [
   {
     title: "Frontend Engineer",
-    company: "Applied AI",
+    company: "AppliedAI",
     location: "Abu Dhabi, UAE",
     duration: "Jun 2025 - Present",
     tasks: [
-      "Core development of low-code Workflow Builder",
-      "Building reusable UI components with Vue.js and React",
-      "Cross-functional collaboration on AI-driven interfaces",
+      "Opus AI workflow product. Vue/React production features.",
+      "Reusable UI components for complex multi-step workflows.",
+      "Collaboration with backend, product, and design.",
+      "Performance, maintainability, and UX improvements.",
+      "Code reviews, sprint planning, iterative delivery.",
     ],
-    skills: ["Vue.js", "React", "TypeScript", "Tailwind"],
+    skills: ["Vue.js", "React", "TypeScript", "AI Workflows"],
   },
   {
     title: "Senior Software Engineer",
     company: "Otani Trading FZCO",
     location: "Dubai, UAE",
-    duration: "Jun 2024 - Feb 2025",
+    duration: "Jul 2024 - Feb 2025",
     tasks: [
-      "Leading frontend development and mentoring juniors",
-      "Architecture decisions and UI/UX design with Figma",
-      "Building with Nuxt, Radix UI, and shadcn",
+      "Led frontend on PWA; trained juniors, managed team.",
+      "Project direction, requirements, DevOps.",
+      "UI/UX with Figma, shadcn, Nuxt, Vue, Radix.",
+      "GraphQL (URQL, Strawberry); OpenCV, YOLO for ML.",
     ],
-    skills: ["Nuxt.js", "GraphQL", "Radix UI"],
+    skills: ["Nuxt.js", "Vue.js", "GraphQL", "OpenCV", "YOLO", "Figma"],
   },
   {
     title: "Software Engineer",
@@ -126,21 +128,38 @@ const jobs = [
     location: "Dubai, UAE",
     duration: "Sep 2023 - Jul 2024",
     tasks: [
-      "Full-stack development with Vue.js and FastAPI",
-      "Test-driven development with Pytest and Cypress",
+      "Full-stack Vue, TypeScript, FastAPI, Python.",
+      "Project FMI: B2B app, 7 major features, FastAPI/Peewee.",
+      "Project Valit: PWA, GraphQL, Strawberry, DynamoDB.",
+      "ShadCN, RadixVue, Pytest, Cypress.",
+      "Led features, mentored, agile sprints.",
     ],
-    skills: ["FastAPI", "Python", "PostgreSQL"],
+    skills: ["Vue.js", "FastAPI", "Python", "GraphQL", "DynamoDB", "Pytest", "Cypress"],
   },
   {
     title: "Junior Software Engineer",
-    company: "RIOT",
+    company: "RIOT by Preowned Collective Portal FZ LLC",
     location: "Dubai, UAE",
-    duration: "May 2020 - Feb 2023",
+    duration: "Sep 2019 - Feb 2023",
     tasks: [
-      "E-commerce platform development and payment integrations",
-      "API development and technical documentation",
+      "3 payment gateways, 3rd-party integrations.",
+      "Node.js/React site launch; data migration.",
+      "Google Ads, Analytics; Python automation.",
+      "JIRA, Figma for requirements and prototyping.",
     ],
-    skills: ["PHP", "React", "Next.js", "REST APIs"],
+    skills: ["Node.js", "React", "Python", "JIRA", "Figma"],
+  },
+  {
+    title: "SDE Intern",
+    company: "Alucor Limited",
+    location: "Dubai, UAE",
+    duration: "Jan 2019 - Jul 2019",
+    tasks: [
+      "Web app replacing MS Excel; Django, SQLAlchemy.",
+      "REST APIs, LDAP auth, event-driven UI.",
+      "PEP8, documentation.",
+    ],
+    skills: ["Django", "Python", "SQLAlchemy", "REST APIs", "LDAP"],
   },
 ];
 </script>

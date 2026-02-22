@@ -4,41 +4,55 @@
 
 @layer base {
   :root {
-    /* Light Mode - Zinc/Stone hybrid */
-    --bg: 250 250 250;
-    --bg-secondary: 244 244 245;
-    --foreground: 9 9 11;
-    --foreground-secondary: 82 82 91;
-    --foreground-muted: 113 113 122;
-    --accent: 185 28 28;
-    --accent-hover: 220 38 38;
-    --border: 228 228 231;
-    --glass: 250 250 250 / 0.72;
-    --glass-solid: 250 250 250 / 0.92;
-    --success: 16 185 129;
-    --error: 239 68 68;
-    --terminal-bg: 30 41 59;
-    --terminal-text: 248 250 252;
-    --terminal-muted: 148 163 184;
+    /* Tahoe Liquid Glass Light */
+    --bg: 250 250 252;
+    --bg-secondary: 245 245 247;
+    --foreground: 28 28 30;
+    --foreground-secondary: 60 60 67;
+    --foreground-muted: 99 99 102;
+    --accent: 234 53 53;
+    --accent-hover: 255 71 71;
+    --border: 229 229 234;
+    --glass: 255 255 255 / 0.65;
+    --glass-solid: 255 255 255 / 0.85;
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --glass-highlight: rgba(255, 255, 255, 0.15);
+    --success: 52 199 89;
+    --error: 255 59 48;
+    --terminal-bg: 28 28 30;
+    --terminal-text: 142 142 147;
+    --terminal-muted: 99 99 102;
+    --terminal-red: 255 95 87;
+    --terminal-yellow: 255 189 46;
+    --terminal-green: 40 202 65;
+    --terminal-prompt: 0 122 255;
+    --terminal-path: 0 199 190;
   }
 
   .dark {
-    /* Dark Mode - Neutral black */
-    --bg: 3 3 3;
-    --bg-secondary: 10 10 10;
-    --foreground: 250 250 250;
-    --foreground-secondary: 161 161 170;
-    --foreground-muted: 113 113 122;
-    --accent: 220 38 38;
-    --accent-hover: 248 113 113;
-    --border: 23 23 23;
-    --glass: 10 10 10 / 0.72;
-    --glass-solid: 23 23 23 / 0.92;
-    --success: 52 211 153;
-    --error: 248 113 113;
-    --terminal-bg: 30 41 59;
-    --terminal-text: 248 250 252;
-    --terminal-muted: 148 163 184;
+    /* Tahoe Liquid Glass Dark */
+    --bg: 28 28 30;
+    --bg-secondary: 22 22 24;
+    --foreground: 242 242 247;
+    --foreground-secondary: 142 142 147;
+    --foreground-muted: 99 99 102;
+    --accent: 239 68 68;
+    --accent-hover: 255 90 90;
+    --border: 58 58 60;
+    --glass: 44 44 46 / 0.6;
+    --glass-solid: 44 44 46 / 0.88;
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-highlight: rgba(255, 255, 255, 0.05);
+    --success: 48 209 88;
+    --error: 255 69 58;
+    --terminal-bg: 22 22 24;
+    --terminal-text: 142 142 147;
+    --terminal-muted: 99 99 102;
+    --terminal-red: 255 95 87;
+    --terminal-yellow: 255 189 46;
+    --terminal-green: 40 202 65;
+    --terminal-prompt: 10 132 255;
+    --terminal-path: 64 200 224;
   }
 
   html {
@@ -69,32 +83,43 @@
 
 @layer components {
   .glass {
-    @apply bg-[rgb(var(--glass))] backdrop-blur-xl border border-[rgb(var(--border))];
+    @apply bg-[rgb(var(--glass))] border;
+    border-color: var(--glass-border);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    box-shadow: inset 0 1px 0 var(--glass-highlight);
   }
 
   .glass-solid {
-    @apply bg-[rgb(var(--glass-solid))] backdrop-blur-2xl border border-[rgb(var(--border))];
+    @apply bg-[rgb(var(--glass-solid))] border;
+    border-color: var(--glass-border);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    box-shadow: inset 0 1px 0 var(--glass-highlight);
   }
 
   .btn-primary {
-    @apply px-5 py-3 rounded-xl font-semibold text-white shadow-lg transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--bg))];
+    @apply px-5 py-3 rounded-2xl font-semibold text-white transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--bg))];
     background: linear-gradient(
       to right,
       rgb(var(--accent)),
       rgb(var(--accent-hover))
     );
-    box-shadow: 0 10px 15px -3px rgb(var(--accent) / 0.25);
+    box-shadow: 0 4px 14px rgb(var(--accent) / 0.2);
   }
 
   .btn-primary:hover:not(:disabled) {
-    box-shadow: 0 10px 15px -3px rgb(var(--accent) / 0.4);
+    box-shadow: 0 6px 20px rgb(var(--accent) / 0.3);
   }
 
   .btn-secondary {
-    @apply px-5 py-3 rounded-xl font-semibold border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--bg))];
+    @apply px-5 py-3 rounded-2xl font-semibold border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--bg))];
     background: rgb(var(--glass));
-    border-color: rgb(var(--border));
+    border-color: var(--glass-border);
     color: rgb(var(--foreground));
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    box-shadow: inset 0 1px 0 var(--glass-highlight);
   }
 
   .btn-secondary:hover:not(:disabled) {
@@ -115,10 +140,13 @@
   }
 }
 
-/* Native form elements */
+/* Native form elements - Liquid Glass style */
 input[type="checkbox"],
 input[type="radio"] {
-  @apply appearance-none w-5 h-5 rounded-md bg-[rgb(var(--glass))] border-2 border-[rgb(var(--border))] cursor-pointer transition-all;
+  @apply appearance-none w-5 h-5 rounded-lg bg-[rgb(var(--glass))] border-2 cursor-pointer transition-all;
+  border-color: var(--glass-border);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
 }
 
 input[type="checkbox"]:checked {
@@ -151,7 +179,10 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 select {
-  @apply appearance-none w-full px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] cursor-pointer pr-10;
+  @apply appearance-none w-full px-4 py-3 rounded-2xl bg-[rgb(var(--glass))] border text-[rgb(var(--foreground))] cursor-pointer pr-10;
+  border-color: var(--glass-border);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2386868b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
@@ -168,9 +199,9 @@ select:focus {
 .page-enter-active,
 .page-leave-active {
   transition:
-    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-    filter 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    filter 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .page-enter-from,
 .page-leave-to {
@@ -188,10 +219,17 @@ select:focus {
   animation: none;
 }
 ::view-transition-old(page-content) {
-  animation: view-transition-fade-blur-out 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: view-transition-fade-blur-out 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 ::view-transition-new(page-content) {
-  animation: view-transition-fade-blur-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: view-transition-fade-blur-in 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Project card shared-element transition - smooth expand/collapse */
+::view-transition-old(project-detail),
+::view-transition-new(project-detail) {
+  animation-duration: 0.35s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 @keyframes view-transition-fade-blur-out {
   from {
@@ -214,11 +252,32 @@ select:focus {
   }
 }
 
+/* Container queries for project grid - content-density layout */
+.project-grid {
+  container-type: inline-size;
+  container-name: project-grid;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass,
+  .glass-solid,
+  .btn-secondary {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .glass {
+    background: rgb(var(--bg-secondary));
+  }
+  .glass-solid {
+    background: rgb(var(--bg-secondary) / 0.98);
   }
 }

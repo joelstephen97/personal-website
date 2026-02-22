@@ -51,6 +51,11 @@ export default {
           bg: "rgb(var(--terminal-bg) / <alpha-value>)",
           DEFAULT: "rgb(var(--terminal-text) / <alpha-value>)",
           muted: "rgb(var(--terminal-muted) / <alpha-value>)",
+          red: "rgb(var(--terminal-red) / <alpha-value>)",
+          yellow: "rgb(var(--terminal-yellow) / <alpha-value>)",
+          green: "rgb(var(--terminal-green) / <alpha-value>)",
+          prompt: "rgb(var(--terminal-prompt) / <alpha-value>)",
+          path: "rgb(var(--terminal-path) / <alpha-value>)",
         },
       },
       animation: {

@@ -1,33 +1,36 @@
 <template>
   <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
     <div class="max-w-6xl mx-auto">
-      <div class="flex items-center justify-between mb-8">
+      <div class="flex items-center justify-between mb-8 no-print">
         <div class="flex items-center gap-3">
-          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-accent/50 transition-colors">
-            <Icon name="ArrowLeft" :size="16" class="text-[rgb(var(--foreground-secondary))]" />
-          </NuxtLink>
+          <BackToProjects />
           <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Markdown Previewer</h1>
         </div>
         <div class="flex items-center gap-2">
+          <label class="flex items-center gap-1.5 text-xs text-[rgb(var(--foreground-secondary))] cursor-pointer">
+            <input v-model="autoSave" type="checkbox" /> Auto-save
+          </label>
           <button class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-xs font-medium text-[rgb(var(--foreground-secondary))] hover:border-accent/50 transition-colors flex items-center gap-1" @click="copyHtml">
             <Icon :name="copied ? 'Check' : 'Copy'" :size="14" /> {{ copied ? 'Copied' : 'Copy HTML' }}
           </button>
           <button class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-xs font-medium text-[rgb(var(--foreground-secondary))] hover:border-accent/50 transition-colors flex items-center gap-1" @click="downloadMd">
             <Icon name="Download" :size="14" /> .md
           </button>
-          <DarkModeToggle />
+          <button class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-xs font-medium text-[rgb(var(--foreground-secondary))] hover:border-accent/50 transition-colors flex items-center gap-1" @click="exportPdf">
+            <Icon name="FileDown" :size="14" /> PDF
+          </button>
         </div>
       </div>
 
       <!-- Toolbar -->
-      <div class="glass-solid rounded-2xl px-4 py-2 mb-4 flex flex-wrap gap-1">
+      <div class="glass-solid rounded-2xl px-4 py-2 mb-4 flex flex-wrap gap-1 no-print">
         <button v-for="tool in toolbar" :key="tool.label" class="w-8 h-8 rounded-lg hover:bg-[rgb(var(--glass))] flex items-center justify-center text-[rgb(var(--foreground-secondary))] hover:text-accent transition-colors" :title="tool.label" @click="tool.action">
           <Icon :name="tool.icon" :size="16" />
         </button>
       </div>
 
       <div class="grid md:grid-cols-2 gap-6">
-        <div class="glass-solid rounded-2xl p-6 flex flex-col">
+        <div class="glass-solid rounded-2xl p-6 flex flex-col no-print">
           <div class="flex items-center justify-between mb-3">
             <label class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide">Editor</label>
             <span class="text-xs text-[rgb(var(--foreground-muted))]">
@@ -57,14 +60,13 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
+import { useClipboard, useStorage } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: false });
+definePageMeta({ layout: "default" });
 
-const editor = ref<HTMLTextAreaElement | null>(null);
-const copied = ref(false);
-
-const source = ref(`# Hello World
+const STORAGE_KEY = "markdown-previewer-content";
+const DEFAULT_CONTENT = `# Hello World
 
 This is a **markdown** previewer built with a _hand-rolled_ parser.
 
@@ -108,7 +110,16 @@ function greet(name) {
 
 ---
 
-Built with zero dependencies.`);
+Built with zero dependencies.`;
+
+const editor = ref<HTMLTextAreaElement | null>(null);
+const { copy, copied } = useClipboard({ copiedDuring: 2000 });
+const autoSave = useStorage("markdown-autosave", true);
+const source = useStorage(STORAGE_KEY, DEFAULT_CONTENT);
+
+function exportPdf() {
+  window.print();
+}
 
 const lineCount = computed(() => source.value.split("\n").length);
 const wordCount = computed(() => { const t = source.value.trim(); return t ? t.split(/\s+/).length : 0; });
@@ -284,9 +295,7 @@ const rendered = computed(() => {
 });
 
 async function copyHtml() {
-  await navigator.clipboard.writeText(rendered.value);
-  copied.value = true;
-  setTimeout(() => (copied.value = false), 2000);
+  await copy(rendered.value);
 }
 
 function downloadMd() {
@@ -311,11 +320,11 @@ function nextTick(fn: () => void) { setTimeout(fn, 0); }
 .prose-preview :deep(strong) { color: rgb(var(--foreground)); font-weight: 600; }
 .prose-preview :deep(em) { font-style: italic; }
 .prose-preview :deep(del) { text-decoration: line-through; opacity: 0.6; }
-.prose-preview :deep(a) { color: #ef4444; text-decoration: underline; }
+.prose-preview :deep(a) { color: rgb(var(--accent)); text-decoration: underline; }
 .prose-preview :deep(code) { background: rgb(var(--glass)); padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.85em; font-family: 'SF Mono', monospace; }
 .prose-preview :deep(pre) { background: rgb(var(--glass)); padding: 1em; border-radius: 0.75rem; overflow-x: auto; margin: 1em 0; }
 .prose-preview :deep(pre code) { background: none; padding: 0; font-size: 0.85em; }
-.prose-preview :deep(blockquote) { border-left: 3px solid #ef4444; padding-left: 1em; margin: 1em 0; color: rgb(var(--foreground-secondary)); }
+.prose-preview :deep(blockquote) { border-left: 3px solid rgb(var(--accent)); padding-left: 1em; margin: 1em 0; color: rgb(var(--foreground-secondary)); }
 .prose-preview :deep(ul), .prose-preview :deep(ol) { padding-left: 1.5em; margin: 0.5em 0; color: rgb(var(--foreground-secondary)); }
 .prose-preview :deep(li) { margin: 0.25em 0; }
 .prose-preview :deep(hr) { border: none; border-top: 1px solid rgb(var(--border)); margin: 1.5em 0; }
@@ -326,4 +335,8 @@ function nextTick(fn: () => void) { setTimeout(fn, 0); }
 .prose-preview :deep(th) { background: rgb(var(--glass)); font-weight: 600; color: rgb(var(--foreground)); }
 .prose-preview :deep(td) { color: rgb(var(--foreground-secondary)); }
 .prose-preview :deep(img) { max-width: 100%; border-radius: 8px; margin: 0.5em 0; }
+
+@media print {
+  .no-print { display: none !important; }
+}
 </style>

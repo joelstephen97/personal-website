@@ -1,14 +1,9 @@
 <template>
   <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
     <div class="max-w-3xl mx-auto">
-      <div class="flex items-center justify-between mb-8">
-        <div class="flex items-center gap-3">
-          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-accent/50 transition-colors">
-            <Icon name="ArrowLeft" :size="16" class="text-[rgb(var(--foreground-secondary))]" />
-          </NuxtLink>
-          <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Color Palette</h1>
-        </div>
-        <DarkModeToggle />
+      <div class="flex items-center gap-3 mb-8">
+        <BackToProjects />
+        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Color Palette</h1>
       </div>
 
       <div class="glass-solid rounded-2xl p-6 mb-6">
@@ -84,6 +79,21 @@
         </div>
       </div>
 
+      <div class="glass-solid rounded-2xl p-4 mb-6">
+        <h3 class="text-xs font-semibold text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-2">Suggested Text Color</h3>
+        <div class="flex items-center gap-3">
+          <div
+            class="w-16 h-16 rounded-xl flex items-center justify-center text-lg font-bold"
+            :style="{ backgroundColor: hex, color: suggestedTextColor }"
+          >
+            Aa
+          </div>
+          <p class="text-sm text-[rgb(var(--foreground-secondary))]">
+            Use <strong>{{ suggestedTextColor }}</strong> text on this background for best contrast.
+          </p>
+        </div>
+      </div>
+
       <div class="grid sm:grid-cols-2 gap-6 mb-6">
         <div class="glass-solid rounded-2xl p-6">
           <h3 class="text-sm font-semibold text-[rgb(var(--foreground))] mb-3">Contrast on White</h3>
@@ -111,18 +121,25 @@
         </div>
       </div>
 
-      <!-- CSS Export -->
+      <!-- Export -->
       <details class="glass-solid rounded-2xl p-6">
         <summary class="text-sm font-semibold text-[rgb(var(--foreground))] cursor-pointer select-none flex items-center gap-2">
-          <Icon name="Code" :size="16" /> CSS Export
+          <Icon name="Code" :size="16" /> Export
         </summary>
-        <div class="mt-4 space-y-3">
+        <div class="mt-4 space-y-4">
           <div>
-            <p class="text-xs text-[rgb(var(--foreground-muted))] mb-1">CSS Custom Properties</p>
-            <pre class="text-xs font-mono bg-[rgb(var(--glass))] rounded-lg p-3 border border-[rgb(var(--border))] text-[rgb(var(--foreground-secondary))] overflow-auto">{{ cssVars }}</pre>
+            <p class="text-xs text-[rgb(var(--foreground-muted))] mb-1">Format</p>
+            <select v-model="exportFormat" class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-sm mb-2">
+              <option value="css">CSS Variables</option>
+              <option value="tailwind">Tailwind</option>
+              <option value="json">JSON</option>
+            </select>
           </div>
-          <button class="text-xs text-accent font-medium flex items-center gap-1 hover:opacity-80" @click="copyColor(cssVars)">
-            <Icon name="Copy" :size="12" /> Copy CSS
+          <div>
+            <pre class="text-xs font-mono bg-[rgb(var(--glass))] rounded-lg p-3 border border-[rgb(var(--border))] text-[rgb(var(--foreground-secondary))] overflow-auto">{{ exportContent }}</pre>
+          </div>
+          <button class="text-xs text-accent font-medium flex items-center gap-1 hover:opacity-80" @click="copyColor(exportContent)">
+            <Icon name="Copy" :size="12" /> Copy
           </button>
         </div>
       </details>
@@ -132,13 +149,15 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
+import { useClipboard, refAutoReset } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: false });
+definePageMeta({ layout: "default" });
 
-const hex = ref("#ef4444");
+const hex = ref("#007AFF");
 const harmony = ref("complementary");
-const copiedColor = ref("");
+const { copy } = useClipboard({ copiedDuring: 2000 });
+const copiedColor = refAutoReset("", 2000);
 
 const hasEyeDropper = typeof window !== "undefined" && "EyeDropper" in window;
 
@@ -234,7 +253,21 @@ const tintsAndShades = computed(() => {
 const contrastWhite = computed(() => contrastRatio(relativeLuminance(...hexToRgb(hex.value)), 1));
 const contrastBlack = computed(() => contrastRatio(relativeLuminance(...hexToRgb(hex.value)), 0));
 
-const cssVars = computed(() => {
+const suggestedTextColor = computed(() => {
+  const l = relativeLuminance(...hexToRgb(hex.value));
+  return contrastRatio(l, 0) > contrastRatio(l, 1) ? "white" : "black";
+});
+
+const exportFormat = ref<"css" | "tailwind" | "json">("css");
+
+const exportContent = computed(() => {
+  const colors = palette.value.map((c) => c.hex);
+  if (exportFormat.value === "tailwind") {
+    return `colors: {\n  ${colors.map((c, i) => `'${i + 1}': '${c}'`).join(",\n  ")},\n}`;
+  }
+  if (exportFormat.value === "json") {
+    return JSON.stringify({ palette: colors }, null, 2);
+  }
   return palette.value.map((c, i) => `--color-${i + 1}: ${c.hex};`).join("\n");
 });
 
@@ -251,8 +284,7 @@ async function pickFromScreen() {
 }
 
 async function copyColor(c: string) {
-  await navigator.clipboard.writeText(c);
+  await copy(c);
   copiedColor.value = c;
-  setTimeout(() => (copiedColor.value = ""), 2000);
 }
 </script>

@@ -1,14 +1,9 @@
 <template>
   <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
     <div class="max-w-3xl mx-auto">
-      <div class="flex items-center justify-between mb-8">
-        <div class="flex items-center gap-3">
-          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-accent/50 transition-colors">
-            <Icon name="ArrowLeft" :size="16" class="text-[rgb(var(--foreground-secondary))]" />
-          </NuxtLink>
-          <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Regex Tester</h1>
-        </div>
-        <DarkModeToggle />
+      <div class="flex items-center gap-3 mb-8">
+        <BackToProjects />
+        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">Regex Tester</h1>
       </div>
 
       <div class="glass-solid rounded-2xl p-6 mb-6">
@@ -68,6 +63,23 @@
         </div>
       </div>
 
+      <div class="flex flex-wrap gap-2 mb-4">
+        <span class="text-xs text-[rgb(var(--foreground-muted))]">Common:</span>
+        <button
+          v-for="p in commonPatterns"
+          :key="p.label"
+          class="px-2 py-1 rounded-lg text-xs font-medium bg-[rgb(var(--glass))] border border-[rgb(var(--border))] hover:border-accent/50"
+          @click="pattern = p.pattern; testStr = p.sample"
+        >
+          {{ p.label }}
+        </button>
+      </div>
+
+      <div v-if="patternExplanation" class="glass-solid rounded-2xl p-4 mb-6">
+        <h3 class="text-xs font-semibold text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-2">Pattern Explanation</h3>
+        <p class="text-sm text-[rgb(var(--foreground-secondary))]">{{ patternExplanation }}</p>
+      </div>
+
       <div class="grid sm:grid-cols-2 gap-6 mb-6">
         <div class="glass-solid rounded-2xl p-6">
           <h3 class="text-sm font-semibold text-[rgb(var(--foreground))] mb-3">Match Info</h3>
@@ -77,6 +89,11 @@
             <p v-if="matches.length">
               Full match: <code class="px-1.5 py-0.5 rounded bg-[rgb(var(--glass))] text-[rgb(var(--foreground))] font-mono text-xs">{{ matches[0]?.[0] }}</code>
             </p>
+            <div v-if="matchPositions.length" class="mt-2 space-y-1">
+              <p class="text-xs" v-for="(pos, i) in matchPositions" :key="i">
+                Match {{ i + 1 }}: index {{ pos.start }}–{{ pos.end }}
+              </p>
+            </div>
           </div>
         </div>
         <div class="glass-solid rounded-2xl p-6">
@@ -111,13 +128,28 @@
 import { ref, computed } from "vue";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: false });
+definePageMeta({ layout: "default" });
 
 const pattern = ref("(\\w+)@(\\w+\\.\\w+)");
 const testStr = ref("Contact us at hello@example.com or support@test.org");
 const flags = ref("g");
 const replacePattern = ref("");
 const flagOptions = ["g", "i", "m", "s", "u"];
+
+const commonPatterns = [
+  { label: "Email", pattern: "(\\w+)@(\\w+\\.\\w+)", sample: "Contact hello@example.com or support@test.org" },
+  { label: "URL", pattern: "https?://[^\\s]+", sample: "Visit https://example.com for more" },
+  { label: "Phone", pattern: "\\d{3}[-.]?\\d{3}[-.]?\\d{4}", sample: "Call 555-123-4567 or 555.123.4567" },
+  { label: "Date", pattern: "\\d{4}-\\d{2}-\\d{2}", sample: "Event on 2024-03-15" },
+  { label: "IPv4", pattern: "\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b", sample: "Server 192.168.1.1" },
+];
+
+const EXPLAIN_MAP: Record<string, string> = {
+  ".": "any character", "\\d": "digit [0-9]", "\\D": "non-digit", "\\w": "word char",
+  "\\W": "non-word", "\\s": "whitespace", "\\S": "non-whitespace", "\\b": "word boundary",
+  "^": "start", "$": "end", "*": "0 or more", "+": "1 or more", "?": "0 or 1",
+  "\\n": "newline", "\\t": "tab", "\\r": "carriage return",
+};
 
 const matchColors = [
   "bg-accent/20 text-accent-hover dark:text-accent rounded px-0.5",
@@ -238,5 +270,43 @@ const replaceResult = computed(() => {
   } catch {
     return null;
   }
+});
+
+const matchPositions = computed(() => {
+  if (!matches.value.length) return [];
+  return matches.value.map((m) => ({ start: m.index, end: (m.index ?? 0) + m[0].length }));
+});
+
+const patternExplanation = computed(() => {
+  const p = pattern.value;
+  if (!p) return "";
+  const parts: string[] = [];
+  let i = 0;
+  while (i < p.length) {
+    if (p[i] === "\\" && p[i + 1]) {
+      const seq = p[i] + p[i + 1];
+      if (EXPLAIN_MAP[seq]) parts.push(EXPLAIN_MAP[seq]);
+      else parts.push(`literal ${JSON.stringify(p[i + 1])}`);
+      i += 2;
+    } else if (["*", "+", "?"].includes(p[i])) {
+      const prev = parts.pop() || "char";
+      parts.push(prev + " (" + (p[i] === "*" ? "0 or more" : p[i] === "+" ? "1 or more" : "0 or 1") + ")");
+      i++;
+    } else if (p[i] === "[") {
+      const end = p.indexOf("]", i);
+      parts.push("character class " + (end > i ? p.slice(i, end + 1) : ""));
+      i = end > i ? end + 1 : i + 1;
+    } else if (p[i] === "(" && p[i + 1] !== "?") {
+      parts.push("capture group");
+      i++;
+    } else if (p[i] === "(" && p[i + 1] === "?") {
+      parts.push("non-capture group");
+      i += 2;
+    } else {
+      parts.push(EXPLAIN_MAP[p[i]] || `literal ${JSON.stringify(p[i])}`);
+      i++;
+    }
+  }
+  return parts.length ? parts.join(" → ") : "";
 });
 </script>

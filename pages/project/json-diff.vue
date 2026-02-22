@@ -1,14 +1,9 @@
 <template>
   <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
     <div class="max-w-5xl mx-auto">
-      <div class="flex items-center justify-between mb-8">
-        <div class="flex items-center gap-3">
-          <NuxtLink to="/project" class="w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] flex items-center justify-center hover:border-accent/50 transition-colors">
-            <Icon name="ArrowLeft" :size="16" class="text-[rgb(var(--foreground-secondary))]" />
-          </NuxtLink>
-          <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">JSON Diff</h1>
-        </div>
-        <DarkModeToggle />
+      <div class="flex items-center gap-3 mb-8">
+        <BackToProjects />
+        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">JSON Diff</h1>
       </div>
 
       <div class="grid md:grid-cols-2 gap-6 mb-6">
@@ -42,7 +37,18 @@
         </div>
       </div>
 
-      <div class="flex flex-wrap gap-3 mb-6">
+      <div class="flex flex-wrap items-center gap-3 mb-6">
+        <div class="flex items-center gap-2">
+          <label class="flex items-center gap-1.5 text-sm cursor-pointer">
+            <input v-model="diffOptions.sortKeys" type="checkbox" /> Sort keys
+          </label>
+          <label class="flex items-center gap-1.5 text-sm cursor-pointer">
+            <input v-model="diffOptions.ignoreNull" type="checkbox" /> Ignore null
+          </label>
+          <label class="flex items-center gap-1.5 text-sm cursor-pointer">
+            <input v-model="diffOptions.ignoreArrayOrder" type="checkbox" /> Ignore array order
+          </label>
+        </div>
         <button
           class="px-5 py-3 rounded-xl bg-gradient-to-r from-accent to-accent-hover text-white font-semibold shadow-lg shadow-accent/25 flex items-center gap-2"
           @click="computeDiff"
@@ -67,6 +73,13 @@
           @click="copyDiff"
         >
           <Icon :name="copied ? 'Check' : 'Copy'" :size="18" /> {{ copied ? "Copied" : "Copy Diff" }}
+        </button>
+        <button
+          v-if="diffLines.length"
+          class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2"
+          @click="copyJsonPatch"
+        >
+          <Icon :name="patchCopied ? 'Check' : 'Code'" :size="18" /> {{ patchCopied ? "Copied" : "JSON Patch" }}
         </button>
       </div>
 
@@ -110,18 +123,21 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { useClipboard } from "@vueuse/core";
 import Icon from "~/components/ui/Icon.vue";
 
-definePageMeta({ layout: false });
+definePageMeta({ layout: "default" });
 
 const leftJson = ref("");
 const rightJson = ref("");
 const leftError = ref("");
 const rightError = ref("");
 const compared = ref(false);
-const copied = ref(false);
+const diffOptions = ref({ sortKeys: false, ignoreNull: false, ignoreArrayOrder: false });
+const { copy, copied } = useClipboard({ copiedDuring: 2000 });
+const patchCopied = ref(false);
 
-interface DiffLine { type: "added" | "removed" | "modified" | "unchanged"; text: string; prefix: string; depth: number; }
+interface DiffLine { type: "added" | "removed" | "modified" | "unchanged"; text: string; prefix: string; depth: number; path?: string; value?: unknown; }
 const diffLines = ref<DiffLine[]>([]);
 const stats = ref({ added: 0, removed: 0, modified: 0 });
 
@@ -164,8 +180,54 @@ function computeDiff() {
   try { left = JSON.parse(leftJson.value || "{}"); } catch { leftError.value = "Invalid JSON"; return; }
   try { right = JSON.parse(rightJson.value || "{}"); } catch { rightError.value = "Invalid JSON"; return; }
 
+  if (diffOptions.value.ignoreNull) {
+    left = filterNull(left);
+    right = filterNull(right);
+  }
+  if (diffOptions.value.sortKeys) {
+    left = sortKeys(left);
+    right = sortKeys(right);
+  }
+
   compared.value = true;
+  jsonPatchOps.value = [];
   diff(left, right, "", 0);
+}
+
+function filterNull(obj: any): any {
+  if (obj === null || obj === undefined) return undefined;
+  if (Array.isArray(obj)) return obj.map(filterNull).filter((x) => x !== undefined);
+  if (typeof obj === "object") {
+    const r: any = {};
+    for (const [k, v] of Object.entries(obj))
+      if (v != null) { const f = filterNull(v); if (f !== undefined) r[k] = f; }
+    return r;
+  }
+  return obj;
+}
+
+function sortKeys(obj: any): any {
+  if (obj === null || typeof obj !== "object") return obj;
+  if (Array.isArray(obj)) return obj.map(sortKeys);
+  return Object.keys(obj).sort().reduce((r: any, k) => { r[k] = sortKeys(obj[k]); return r; }, {});
+}
+
+const jsonPatchOps = ref<{ op: string; path: string; value?: unknown }[]>([]);
+
+function toJsonPath(path: string): string {
+  if (!path) return "";
+  return "/" + path.replace(/\./g, "/").replace(/\[(\d+)\]/g, "/$1");
+}
+
+async function copyJsonPatch() {
+  const ops = jsonPatchOps.value.map((o) => {
+    const r: any = { op: o.op, path: toJsonPath(o.path) };
+    if (o.value !== undefined) r.value = o.value;
+    return r;
+  });
+  await copy(JSON.stringify(ops, null, 2));
+  patchCopied.value = true;
+  setTimeout(() => { patchCopied.value = false; }, 2000);
 }
 
 function typeLabel(v: any): string {
@@ -190,13 +252,16 @@ function diff(a: any, b: any, path: string, depth: number) {
 
   if (aIsObj && bIsObj) {
     const allKeys = new Set([...Object.keys(a), ...Object.keys(b)]);
-    for (const key of [...allKeys].sort()) {
+    const keys = diffOptions.value.sortKeys ? [...allKeys].sort() : [...allKeys];
+    for (const key of keys) {
       const p = path ? `${path}.${key}` : key;
       if (!(key in a)) {
         diffLines.value.push({ type: "added", text: `${p}: ${JSON.stringify(b[key])}`, prefix: "+", depth });
+        jsonPatchOps.value.push({ op: "add", path: p, value: b[key] });
         stats.value.added++;
       } else if (!(key in b)) {
         diffLines.value.push({ type: "removed", text: `${p}: ${JSON.stringify(a[key])}`, prefix: "-", depth });
+        jsonPatchOps.value.push({ op: "remove", path: p });
         stats.value.removed++;
       } else {
         diff(a[key], b[key], p, depth + 1);
@@ -208,9 +273,11 @@ function diff(a: any, b: any, path: string, depth: number) {
       const p = `${path}[${i}]`;
       if (i >= a.length) {
         diffLines.value.push({ type: "added", text: `${p}: ${JSON.stringify(b[i])}`, prefix: "+", depth });
+        jsonPatchOps.value.push({ op: "add", path: p, value: b[i] });
         stats.value.added++;
       } else if (i >= b.length) {
         diffLines.value.push({ type: "removed", text: `${p}: ${JSON.stringify(a[i])}`, prefix: "-", depth });
+        jsonPatchOps.value.push({ op: "remove", path: p });
         stats.value.removed++;
       } else {
         diff(a[i], b[i], p, depth + 1);
@@ -218,6 +285,7 @@ function diff(a: any, b: any, path: string, depth: number) {
     }
   } else if (a !== b) {
     diffLines.value.push({ type: "modified", text: `${path}: ${JSON.stringify(a)} → ${JSON.stringify(b)}`, prefix: "~", depth });
+    jsonPatchOps.value.push({ op: "replace", path, value: b });
     stats.value.modified++;
   } else {
     diffLines.value.push({ type: "unchanged", text: `${path}: ${JSON.stringify(a)}`, prefix: " ", depth });
@@ -226,8 +294,6 @@ function diff(a: any, b: any, path: string, depth: number) {
 
 async function copyDiff() {
   const text = diffLines.value.map((l) => `${l.prefix} ${l.text}`).join("\n");
-  await navigator.clipboard.writeText(text);
-  copied.value = true;
-  setTimeout(() => (copied.value = false), 2000);
+  await copy(text);
 }
 </script>
