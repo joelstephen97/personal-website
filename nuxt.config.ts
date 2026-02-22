@@ -87,4 +87,15 @@ export default defineNuxtConfig({
     },
     display: "swap",
   },
+
+  vite: {
+    optimizeDeps: {
+      exclude: [
+        "@tensorflow/tfjs-core",
+        "@tensorflow/tfjs-backend-webgl",
+        "@tensorflow-models/body-pix",
+        "@huggingface/transformers",
+      ],
+    },
+  },
 });

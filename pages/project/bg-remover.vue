@@ -169,15 +169,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onUnmounted } from "vue";
 import Icon from "~/components/ui/Icon.vue";
-import * as tf from "@tensorflow/tfjs-core";
-import "@tensorflow/tfjs-backend-webgl";
-import * as bodyPix from "@tensorflow-models/body-pix";
 
 definePageMeta({ layout: "default" });
 
-onMounted(() => tf.setBackend("webgl"));
+let bodyPixModule: Awaited<typeof import("@tensorflow-models/body-pix")> | null = null;
+
+async function initBodyPix() {
+  if (bodyPixModule) return bodyPixModule;
+  const [tf, bodyPix] = await Promise.all([
+    import("@tensorflow/tfjs-core"),
+    import("@tensorflow-models/body-pix"),
+    import("@tensorflow/tfjs-backend-webgl"),
+  ]);
+  await tf.default.setBackend("webgl");
+  bodyPixModule = bodyPix;
+  return bodyPix;
+}
 
 const fileInput = ref<HTMLInputElement | null>(null);
 const bgImageInput = ref<HTMLInputElement | null>(null);
@@ -255,6 +264,7 @@ async function process() {
   const ctx = canvas.getContext("2d")!;
   ctx.drawImage(img, 0, 0);
 
+  const bodyPix = await initBodyPix();
   const net = await bodyPix.load();
   const seg = await net.segmentPerson(img, {
     segmentationThreshold: tolerance.value / 100,
