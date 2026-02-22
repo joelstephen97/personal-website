@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://joelstephen.vercel.app/sitemap.xml
+
+# AI crawlers: structured info at /llms.txt

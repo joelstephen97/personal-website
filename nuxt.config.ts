@@ -18,6 +18,7 @@ export default defineNuxtConfig({
 
   sitemap: {
     strictNuxtContentPaths: true,
+    zeroRuntime: true,
     urls: async () => {
       const siteUrl =
         process.env.NUXT_PUBLIC_SITE_URL ?? "https://joelstephen.vercel.app";
