@@ -1,9 +1,9 @@
 <template>
-  <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
+  <div class="min-h-screen bg-background px-6 py-12">
     <div class="max-w-5xl mx-auto">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
-        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+        <h1 class="text-3xl font-bold text-foreground">
           Pathfinding Visualizer
         </h1>
       </div>
@@ -12,7 +12,7 @@
         <div class="flex flex-wrap gap-4 items-end">
           <div>
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
               >Algorithm</label
             >
             <select v-model="algorithm" :disabled="running">
@@ -25,7 +25,7 @@
           </div>
           <div>
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
               >Heuristic</label
             >
             <select v-model="heuristicType" :disabled="running">
@@ -36,7 +36,7 @@
           </div>
           <div>
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
               >Maze</label
             >
             <select v-model="mazeType" :disabled="running">
@@ -47,7 +47,7 @@
           </div>
           <div>
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
               >Grid</label
             >
             <select
@@ -62,7 +62,7 @@
           </div>
           <div>
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
               >Draw</label
             >
             <select v-model="drawMode" :disabled="running">
@@ -73,7 +73,7 @@
           </div>
           <div>
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
               >Speed</label
             >
             <input
@@ -85,7 +85,7 @@
             />
           </div>
           <label
-            class="flex items-center gap-2 text-sm text-[rgb(var(--foreground-secondary))] cursor-pointer select-none"
+            class="flex items-center gap-2 text-sm text-muted cursor-pointer select-none"
           >
             <input
               v-model="allowDiagonal"
@@ -109,27 +109,27 @@
             <Icon name="Square" :size="18" /> Stop
           </button>
           <button
-            class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2 disabled:opacity-50"
+            class="px-5 py-3 rounded-xl bg-glass border border-border text-foreground font-semibold flex items-center gap-2 disabled:opacity-50"
             :disabled="running"
             @click="clearPath"
           >
             <Icon name="Eraser" :size="18" /> Clear Path
           </button>
           <button
-            class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2 disabled:opacity-50"
+            class="px-5 py-3 rounded-xl bg-glass border border-border text-foreground font-semibold flex items-center gap-2 disabled:opacity-50"
             :disabled="running"
             @click="clearBoard"
           >
             <Icon name="Trash2" :size="18" /> Clear All
           </button>
           <button
-            class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2 disabled:opacity-50"
+            class="px-5 py-3 rounded-xl bg-glass border border-border text-foreground font-semibold flex items-center gap-2 disabled:opacity-50"
             :disabled="running"
             @click="generateMaze"
           >
             <Icon name="LayoutGrid" :size="18" /> Maze
           </button>
-          <div class="ml-auto text-sm text-[rgb(var(--foreground-secondary))]">
+          <div class="ml-auto text-sm text-muted">
             Visited:
             <strong class="text-accent">{{ visitedCount }}</strong> &middot;
             Path: <strong class="text-accent">{{ pathLength }}</strong>
@@ -152,7 +152,7 @@
             <div
               v-for="col in cols"
               :key="col"
-              class="border border-[rgb(var(--border))] cursor-pointer transition-colors duration-100"
+              class="border border-border cursor-pointer transition-colors duration-100"
               :style="{ width: cellPx + 'px', height: cellPx + 'px' }"
               :class="cellClass(row - 1, col - 1)"
               @pointerdown.prevent="onPointerDown(row - 1, col - 1)"
@@ -161,7 +161,7 @@
             />
           </div>
         </div>
-        <p class="text-xs text-[rgb(var(--foreground-muted))] mt-3">
+        <p class="text-xs text-muted-foreground mt-3">
           Click/drag to draw. Green=start, Blue=end. Draw mode: Wall, Weight
           (cost 2), or Erase.
         </p>

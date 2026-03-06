@@ -39,12 +39,17 @@ export default {
       },
       colors: {
         background: "rgb(var(--bg) / <alpha-value>)",
+        "bg-secondary": "rgb(var(--bg-secondary) / <alpha-value>)",
         foreground: "rgb(var(--foreground) / <alpha-value>)",
+        "foreground-secondary": "rgb(var(--foreground-secondary) / <alpha-value>)",
+        "foreground-muted": "rgb(var(--foreground-muted) / <alpha-value>)",
         muted: "rgb(var(--foreground-secondary) / <alpha-value>)",
         "muted-foreground": "rgb(var(--foreground-muted) / <alpha-value>)",
         border: "rgb(var(--border) / <alpha-value>)",
         accent: "rgb(var(--accent) / <alpha-value>)",
         "accent-hover": "rgb(var(--accent-hover) / <alpha-value>)",
+        glass: "rgb(var(--glass) / <alpha-value>)",
+        "glass-solid": "rgb(var(--glass-solid) / <alpha-value>)",
         success: "rgb(var(--success) / <alpha-value>)",
         error: "rgb(var(--error) / <alpha-value>)",
         terminal: {
@@ -61,6 +66,11 @@ export default {
       animation: {
         "fade-in": "fadeIn 0.6s ease-out forwards",
         "slide-up": "slideUp 0.6s ease-out forwards",
+        float: "float 8s ease-in-out infinite",
+        "float-slow": "float 12s ease-in-out infinite",
+        "orb-1": "orb-drift-1 30s ease-in-out infinite",
+        "orb-2": "orb-drift-2 25s ease-in-out infinite",
+        "orb-3": "orb-drift-1 35s ease-in-out infinite reverse",
       },
       keyframes: {
         fadeIn: {
@@ -70,6 +80,20 @@ export default {
         slideUp: {
           "0%": { opacity: "0", transform: "translateY(20px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0) rotate(0deg)" },
+          "50%": { transform: "translateY(-16px) rotate(2deg)" },
+        },
+        "orb-drift-1": {
+          "0%, 100%": { transform: "translate(0, 0)" },
+          "33%": { transform: "translate(40px, -25px)" },
+          "66%": { transform: "translate(-30px, 20px)" },
+        },
+        "orb-drift-2": {
+          "0%, 100%": { transform: "translate(0, 0)" },
+          "33%": { transform: "translate(-35px, 15px)" },
+          "66%": { transform: "translate(25px, -20px)" },
         },
       },
     },

@@ -1,19 +1,15 @@
 <template>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-    <!-- Header -->
-    <header class="text-center mb-8" aria-labelledby="projects-heading">
-      <p class="text-xs font-medium text-accent tracking-wide uppercase mb-2">
-        Portfolio
-      </p>
-      <h1 id="projects-heading" class="text-h2 font-bold text-foreground mb-1">
-        Projects
-      </h1>
-      <p class="text-sm text-muted">Work and side projects.</p>
-    </header>
+    <PageHeader
+      id="projects-heading"
+      title="Projects"
+      eyebrow="Portfolio"
+      subtitle="Work and side projects."
+    />
 
     <DragDropProvider @drag-end="onDragEnd">
       <!-- Work (priority, full width first) -->
-      <section class="mb-8" aria-labelledby="professional-heading">
+      <section v-reveal="{ delay: 150 }" class="mb-8" aria-labelledby="professional-heading">
         <div class="flex items-center gap-2 mb-4">
           <div
             class="w-6 h-6 rounded-md bg-accent flex items-center justify-center"
@@ -37,9 +33,10 @@
       </section>
 
       <!-- Bookmarked + Side Projects -->
-      <div class="grid lg:grid-cols-2 gap-6 mb-8">
-        <!-- Bookmarked Side Projects -->
+      <div :class="stashedProjects.length ? 'grid lg:grid-cols-2 gap-6 mb-8' : 'mb-8'">
+        <!-- Bookmarked Side Projects (only when bookmarks exist) -->
         <ProjectsDragDropContent
+          v-if="stashedProjects.length"
           :stashed-projects="stashedProjects"
           :stashed-ids="stashedIds"
           :on-stash="toggleStash"
@@ -47,7 +44,7 @@
           :on-expand-project="toggleExpandProject"
         />
 
-        <!-- All other side projects (right column on lg, full width below) -->
+        <!-- All other side projects -->
         <section
           aria-labelledby="side-projects-heading"
           class="overflow-visible"
@@ -55,7 +52,7 @@
           <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
             <div class="flex items-center gap-2">
               <div
-                class="w-6 h-6 rounded-md bg-[rgb(var(--foreground-muted))] flex items-center justify-center shrink-0"
+                class="w-6 h-6 rounded-md bg-foreground-muted flex items-center justify-center shrink-0"
               >
                 <Icon name="Sparkles" :size="14" class="text-white" />
               </div>
@@ -91,7 +88,7 @@
                   v-model="searchQuery"
                   type="text"
                   placeholder="Search..."
-                  class="w-40 sm:w-48 pl-9 pr-9 py-2 rounded-lg text-sm bg-[rgb(var(--glass))] border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
+                  class="w-40 sm:w-48 pl-9 pr-9 py-2 rounded-lg text-sm bg-glass border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
                 />
                 <button
                   v-if="isModelReady"
@@ -205,6 +202,7 @@ const hobbiesData = [
     cta: "Remove backgrounds",
     icon: "ImageMinus",
     tech: ["AI", "Image"],
+    featured: true,
   },
   {
     id: 3,
@@ -215,6 +213,7 @@ const hobbiesData = [
     cta: "Train now",
     icon: "Target",
     tech: ["Game"],
+    featured: true,
   },
   {
     id: 4,
@@ -225,6 +224,7 @@ const hobbiesData = [
     cta: "Visualize",
     icon: "BarChart3",
     tech: ["Algorithms"],
+    featured: true,
   },
   {
     id: 5,
@@ -235,6 +235,7 @@ const hobbiesData = [
     cta: "Find paths",
     icon: "Route",
     tech: ["Algorithms"],
+    featured: true,
   },
   {
     id: 6,
@@ -569,6 +570,7 @@ const professional = [
     company: "APPLIED AI INNOVATION RESEARCH - SOLE PROPRIETORSHIP L.L.C.",
     url: "https://app.opus.com/",
     icon: "Workflow",
+    badge: "AI Workflow Platform",
     description:
       "Low-code/no-code AI workflow builder. Built core features for creating and deploying AI-driven automation processes.",
     tech: ["Vue.js", "React", "TypeScript", "Node.js"],
@@ -578,6 +580,7 @@ const professional = [
     company: "Otani Trading FZCO",
     url: "https://flowermeister.com/",
     icon: "Flower2",
+    badge: "B2B · Global",
     description:
       "B2B platform connecting flower growers and exporters with importers worldwide. Led frontend development and UI/UX design.",
     tech: ["Nuxt.js", "Vue.js", "GraphQL", "Python"],
@@ -587,6 +590,7 @@ const professional = [
     company: "Preowned Collective Portal (Acquired)",
     url: "https://wayback-classic.net/cgi-bin/history.cgi?q=riothere.com&utf8=%E2%9C%93",
     icon: "ShoppingBag",
+    badge: "Acquired",
     description:
       "Luxury consignment e-commerce platform. Built payment integrations, APIs, and managed live website operations.",
     tech: ["PHP", "React", "Next.js", "REST APIs"],

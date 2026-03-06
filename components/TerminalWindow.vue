@@ -50,16 +50,9 @@
 </template>
 
 <script setup lang="ts">
-import { useMediaQuery, useToggle } from "@vueuse/core";
+import { useToggle } from "@vueuse/core";
 
-const isMobile = useMediaQuery("(max-width: 639px)");
 const [minimized, toggleMinimized] = useToggle(false);
-
-onMounted(() => {
-  if (isMobile.value) {
-    toggleMinimized(true);
-  }
-});
 
 withDefaults(
   defineProps<{

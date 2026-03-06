@@ -230,7 +230,7 @@ export default defineNuxtConfig({
       "Geist Mono": [400, 500, 600],
     },
     display: "swap",
-    preconnect: false,
+    preconnect: true,
     prefetch: false,
   },
   image: {
@@ -303,7 +303,7 @@ export default defineNuxtConfig({
   },
   vite: {
     build: {
-      sourcemap: true,
+      sourcemap: false,
     },
     optimizeDeps: {
       exclude: [

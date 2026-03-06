@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs -I {} bash -c 'echo \"\"=== {} ===\"\" && head -20 {}')",
+      "Bash(wc -l components/**/*.vue pages/**/*.vue composables/*.ts)",
+      "Bash(npx nuxi typecheck)",
+      "Bash(pnpm build)",
+      "Bash(timeout 20 pnpm dev)"
+    ]
+  }
+}

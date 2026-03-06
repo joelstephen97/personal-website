@@ -1,9 +1,9 @@
 <template>
-  <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
+  <div class="min-h-screen bg-background px-6 py-12">
     <div class="max-w-4xl mx-auto">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
-        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+        <h1 class="text-3xl font-bold text-foreground">
           Sorting Visualizer
         </h1>
       </div>
@@ -12,7 +12,7 @@
         <div class="flex flex-wrap gap-4 items-end mb-6">
           <div>
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
               >Algorithm</label
             >
             <select v-model="algorithm" :disabled="running" class="w-44">
@@ -23,7 +23,7 @@
           </div>
           <div>
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
               >Preset</label
             >
             <select v-model="preset" :disabled="running" class="w-36">
@@ -34,7 +34,7 @@
           </div>
           <div>
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
               >Size: {{ size }}</label
             >
             <input
@@ -48,7 +48,7 @@
           </div>
           <div>
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
               >Speed</label
             >
             <input
@@ -75,7 +75,7 @@
               <Icon name="Square" :size="18" /> Stop
             </button>
             <button
-              class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2 disabled:opacity-50"
+              class="px-5 py-3 rounded-xl bg-glass border border-border text-foreground font-semibold flex items-center gap-2 disabled:opacity-50"
               :disabled="running"
               @click="shuffle"
             >
@@ -83,14 +83,14 @@
             </button>
           </div>
           <label
-            class="flex items-center gap-2 text-sm text-[rgb(var(--foreground-secondary))] cursor-pointer select-none ml-auto"
+            class="flex items-center gap-2 text-sm text-muted cursor-pointer select-none ml-auto"
           >
             <input v-model="soundEnabled" type="checkbox" /> Sound
           </label>
         </div>
 
         <div
-          class="flex items-center gap-4 text-sm text-[rgb(var(--foreground-secondary))] flex-wrap"
+          class="flex items-center gap-4 text-sm text-muted flex-wrap"
         >
           <span
             >Comparisons:
@@ -200,7 +200,7 @@ const elapsedDisplay = computed(() => {
 function barClass(i: number) {
   if (sorted.value.has(i)) return "bg-emerald-500";
   if (active.value.has(i)) return "bg-accent";
-  return "bg-[rgb(var(--foreground-muted))]";
+  return "bg-foreground-muted";
 }
 
 function playTone(freq: number) {

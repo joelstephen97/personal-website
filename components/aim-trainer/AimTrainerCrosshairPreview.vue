@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative w-14 h-14 rounded-lg bg-[rgb(var(--bg))] border border-[rgb(var(--border))] flex items-center justify-center overflow-hidden"
+    class="relative w-14 h-14 rounded-lg bg-background border border-border flex items-center justify-center overflow-hidden"
     :style="{ color: preview.color }"
   >
     <template v-if="preview.style === 'cross' || preview.style === 'cross-dot'">

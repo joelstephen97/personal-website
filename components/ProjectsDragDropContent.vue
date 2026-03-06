@@ -6,13 +6,13 @@
       'min-w-0 rounded-xl border-2 border-dashed transition-colors',
       isStashDropTarget
         ? 'border-accent bg-accent/5'
-        : 'border-border bg-[rgb(var(--glass))]',
+        : 'border-border bg-glass',
     ]"
   >
     <h3 id="bookmarked-heading" class="sr-only">Bookmarked projects</h3>
     <div class="flex items-center gap-2 p-3 pb-0">
       <div
-        class="w-6 h-6 rounded-md bg-[rgb(var(--foreground-muted))] flex items-center justify-center shrink-0"
+        class="w-6 h-6 rounded-md bg-foreground-muted flex items-center justify-center shrink-0"
       >
         <Icon name="Bookmark" :size="14" class="text-white" />
       </div>

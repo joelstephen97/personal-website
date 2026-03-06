@@ -11,7 +11,7 @@
         class="fixed z-50 flex flex-col rounded-2xl glass-solid shadow-xl border border-border overflow-hidden inset-x-4 bottom-[5.5rem] w-auto max-w-[400px] h-[min(520px,calc(100dvh-8rem))] sm:inset-x-auto sm:left-auto sm:right-6 sm:bottom-[5.5rem] sm:w-[380px] sm:h-[min(560px,calc(100dvh-10rem))]"
       >
         <div
-          class="flex items-center justify-between gap-2 px-3 py-2.5 border-b border-border bg-[rgb(var(--glass))] shrink-0"
+          class="flex items-center justify-between gap-2 px-3 py-2.5 border-b border-border bg-glass shrink-0"
         >
           <div class="flex items-center gap-2 min-w-0">
             <div
@@ -21,7 +21,7 @@
             </div>
             <select
               v-model="personality"
-              class="min-w-0 max-w-[140px] text-sm font-medium text-foreground bg-transparent border-0 cursor-pointer focus:outline-none focus:ring-0 [&>option]:bg-[rgb(var(--bg))]"
+              class="min-w-0 max-w-[140px] text-sm font-medium text-foreground bg-transparent border-0 cursor-pointer focus:outline-none focus:ring-0 [&>option]:bg-background"
               aria-label="Select chat personality"
             >
               <option v-for="p in CHAT_PERSONALITIES" :key="p.id" :value="p.id">
@@ -86,7 +86,7 @@
                 'max-w-[85%] rounded-xl px-3 py-2 text-sm leading-relaxed break-words shadow-sm',
                 msg.role === 'user'
                   ? 'bg-accent text-white rounded-br-md'
-                  : 'bg-[rgb(var(--glass))] border border-border text-foreground rounded-bl-md',
+                  : 'bg-glass border border-border text-foreground rounded-bl-md',
               ]"
             >
               {{ displayContent(msg, i) }}
@@ -103,7 +103,7 @@
           </div>
           <div v-if="isLoading" class="flex justify-start">
             <div
-              class="rounded-xl rounded-bl-md px-3 py-2 bg-[rgb(var(--glass))] border border-border flex items-center gap-2"
+              class="rounded-xl rounded-bl-md px-3 py-2 bg-glass border border-border flex items-center gap-2"
             >
               <span class="text-muted-foreground text-sm">typing</span>
               <span class="flex gap-0.5">
@@ -140,7 +140,7 @@
               v-model="input"
               type="text"
               placeholder="Ask about Joel..."
-              class="w-full px-3 py-2.5 pr-11 rounded-lg bg-[rgb(var(--glass))] border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent text-sm"
+              class="w-full px-3 py-2.5 pr-11 rounded-lg bg-glass border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent text-sm"
               :disabled="isLoading"
             />
             <button

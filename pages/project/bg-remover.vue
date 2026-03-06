@@ -1,16 +1,16 @@
 <template>
-  <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
+  <div class="min-h-screen bg-background px-6 py-12">
     <div class="max-w-4xl mx-auto">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
-        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+        <h1 class="text-3xl font-bold text-foreground">
           Background Remover
         </h1>
       </div>
 
       <div class="flex flex-wrap gap-4 mb-8">
         <button
-          class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] font-medium flex items-center gap-2 hover:border-accent/50 transition"
+          class="px-5 py-3 rounded-xl bg-glass border border-border font-medium flex items-center gap-2 hover:border-accent/50 transition"
           @click="fileInput?.click()"
         >
           <Icon name="Upload" :size="18" /> Select Image
@@ -36,7 +36,7 @@
         v-if="original && result && !processing"
         class="glass-solid rounded-2xl p-6 mb-8"
       >
-        <p class="text-sm font-medium text-[rgb(var(--foreground-muted))] mb-4">
+        <p class="text-sm font-medium text-muted-foreground mb-4">
           Before / After
         </p>
         <div
@@ -48,7 +48,7 @@
             :src="result"
             width="576"
             height="288"
-            class="absolute inset-0 w-full h-full object-contain bg-[rgb(var(--glass))]"
+            class="absolute inset-0 w-full h-full object-contain bg-glass"
             alt="Result"
           />
           <img
@@ -69,7 +69,7 @@
               <Icon
                 name="GripVertical"
                 :size="12"
-                class="text-[rgb(var(--foreground))]"
+                class="text-foreground"
               />
             </div>
           </div>
@@ -85,7 +85,7 @@
       <div v-else class="grid md:grid-cols-2 gap-6 mb-8">
         <div class="glass-solid rounded-2xl p-6 text-center">
           <p
-            class="text-sm font-medium text-[rgb(var(--foreground-muted))] mb-4"
+            class="text-sm font-medium text-muted-foreground mb-4"
           >
             Original
           </p>
@@ -98,13 +98,13 @@
             class="max-h-64 mx-auto rounded-xl"
             alt="Original"
           />
-          <p v-else class="text-[rgb(var(--foreground-muted))] py-12">
+          <p v-else class="text-muted-foreground py-12">
             No image
           </p>
         </div>
         <div class="glass-solid rounded-2xl p-6 text-center">
           <p
-            class="text-sm font-medium text-[rgb(var(--foreground-muted))] mb-4"
+            class="text-sm font-medium text-muted-foreground mb-4"
           >
             Result
           </p>
@@ -123,17 +123,17 @@
             class="max-h-64 mx-auto rounded-xl"
             alt="Result"
           />
-          <p v-else class="text-[rgb(var(--foreground-muted))] py-12">
+          <p v-else class="text-muted-foreground py-12">
             No result
           </p>
         </div>
       </div>
 
       <div class="glass-solid rounded-2xl p-6 space-y-6">
-        <h3 class="font-semibold text-[rgb(var(--foreground))]">Options</h3>
+        <h3 class="font-semibold text-foreground">Options</h3>
         <div>
           <div class="flex justify-between text-sm mb-2">
-            <span class="text-[rgb(var(--foreground))]">Tolerance</span>
+            <span class="text-foreground">Tolerance</span>
             <span class="text-accent font-medium">{{ tolerance }}</span>
           </div>
           <input
@@ -146,7 +146,7 @@
         </div>
         <div>
           <div class="flex justify-between text-sm mb-2">
-            <span class="text-[rgb(var(--foreground))]">Edge Feather</span>
+            <span class="text-foreground">Edge Feather</span>
             <span class="text-accent font-medium">{{ feather }}px</span>
           </div>
           <input
@@ -160,7 +160,7 @@
 
         <div>
           <label
-            class="text-sm font-medium text-[rgb(var(--foreground))] block mb-2"
+            class="text-sm font-medium text-foreground block mb-2"
             >Replace Background</label
           >
           <div class="flex flex-wrap gap-2">
@@ -171,7 +171,7 @@
               :class="
                 replaceBg === opt.value
                   ? 'bg-accent text-white'
-                  : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-secondary))] hover:border-accent/50'
+                  : 'bg-glass border border-border text-muted hover:border-accent/50'
               "
               @click="replaceBg = opt.value"
             >
@@ -190,7 +190,7 @@
             <input
               v-model="replaceColor"
               type="text"
-              class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] font-mono text-sm w-24"
+              class="px-3 py-2 rounded-lg bg-glass border border-border font-mono text-sm w-24"
             />
           </div>
           <input
@@ -203,7 +203,7 @@
           />
           <button
             v-if="replaceBg === 'image'"
-            class="mt-2 px-3 py-2 rounded-lg text-sm bg-[rgb(var(--glass))] border border-[rgb(var(--border))] hover:border-accent/50"
+            class="mt-2 px-3 py-2 rounded-lg text-sm bg-glass border border-border hover:border-accent/50"
             @click="bgImageInput?.click()"
           >
             {{ bgImageSrc ? "Change" : "Upload" }} background image
@@ -212,7 +212,7 @@
 
         <div>
           <label
-            class="text-sm font-medium text-[rgb(var(--foreground))] block mb-2"
+            class="text-sm font-medium text-foreground block mb-2"
             >Export Format</label
           >
           <div class="flex gap-2">
@@ -223,7 +223,7 @@
               :class="
                 exportFormat === fmt.value
                   ? 'bg-accent text-white'
-                  : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-secondary))] hover:border-accent/50'
+                  : 'bg-glass border border-border text-muted hover:border-accent/50'
               "
               @click="exportFormat = fmt.value"
             >

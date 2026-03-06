@@ -1,9 +1,9 @@
 <template>
-  <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
+  <div class="min-h-screen bg-background px-6 py-12">
     <div class="max-w-4xl mx-auto">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
-        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+        <h1 class="text-3xl font-bold text-foreground">
           Game of Life
         </h1>
       </div>
@@ -12,7 +12,7 @@
         <div class="flex flex-wrap gap-4 items-end">
           <div>
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
               >Preset</label
             >
             <select v-model="preset" @change="loadPreset">
@@ -32,7 +32,7 @@
           </div>
           <div>
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
               >Grid</label
             >
             <select
@@ -47,7 +47,7 @@
           </div>
           <div>
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
               >Boundary</label
             >
             <select v-model="boundary" :disabled="playing">
@@ -57,7 +57,7 @@
           </div>
           <div>
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
               >Speed</label
             >
             <select v-model="fpsPreset" @change="applyFpsPreset">
@@ -70,7 +70,7 @@
           </div>
           <div v-if="fpsPreset === 'custom'">
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
               >FPS: {{ fps }}</label
             >
             <input
@@ -90,24 +90,24 @@
           </button>
           <button
             v-if="!playing"
-            class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2"
+            class="px-5 py-3 rounded-xl bg-glass border border-border text-foreground font-semibold flex items-center gap-2"
             @click="step"
           >
             <Icon name="SkipForward" :size="18" /> Step
           </button>
           <button
-            class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2"
+            class="px-5 py-3 rounded-xl bg-glass border border-border text-foreground font-semibold flex items-center gap-2"
             @click="randomize"
           >
             <Icon name="Shuffle" :size="18" /> Random
           </button>
           <button
-            class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2"
+            class="px-5 py-3 rounded-xl bg-glass border border-border text-foreground font-semibold flex items-center gap-2"
             @click="clear"
           >
             <Icon name="Trash2" :size="18" /> Clear
           </button>
-          <div class="ml-auto text-sm text-[rgb(var(--foreground-secondary))]">
+          <div class="ml-auto text-sm text-muted">
             Gen: <strong class="text-accent">{{ generation }}</strong> &middot;
             Alive: <strong class="text-accent">{{ currentAlive }}</strong>
           </div>
@@ -125,7 +125,7 @@
           @pointerleave="isDragging = false"
         />
         <div v-if="popHistory.length > 1" class="w-full max-w-md">
-          <p class="text-xs text-[rgb(var(--foreground-muted))] mb-1">
+          <p class="text-xs text-muted-foreground mb-1">
             Population History
           </p>
           <div class="flex items-end gap-[1px] h-12">

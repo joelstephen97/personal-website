@@ -6,7 +6,7 @@
       @click="expanded = !expanded"
     >
       <p
-        class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide"
+        class="text-xs text-muted-foreground uppercase tracking-wide"
       >
         Crosshair
       </p>
@@ -18,19 +18,19 @@
         <Icon
           :name="expanded ? 'ChevronUp' : 'ChevronDown'"
           :size="18"
-          class="text-[rgb(var(--foreground-muted))]"
+          class="text-muted-foreground"
         />
       </div>
     </button>
     <Transition name="expand">
       <div v-show="expanded" class="grid grid-cols-2 gap-3 overflow-hidden">
         <div>
-          <label class="text-xs text-[rgb(var(--foreground-muted))] block mb-1"
+          <label class="text-xs text-muted-foreground block mb-1"
             >Style</label
           >
           <select
             v-model="settings.style"
-            class="w-full px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-sm text-[rgb(var(--foreground))]"
+            class="w-full px-3 py-2 rounded-lg bg-glass border border-border text-sm text-foreground"
           >
             <option value="cross">Cross</option>
             <option value="dot">Dot</option>
@@ -39,7 +39,7 @@
           </select>
         </div>
         <div>
-          <label class="text-xs text-[rgb(var(--foreground-muted))] block mb-1"
+          <label class="text-xs text-muted-foreground block mb-1"
             >Size</label
           >
           <input
@@ -49,12 +49,12 @@
             max="32"
             class="w-full"
           />
-          <span class="text-xs text-[rgb(var(--foreground-muted))]"
+          <span class="text-xs text-muted-foreground"
             >{{ settings.size }}px</span
           >
         </div>
         <div>
-          <label class="text-xs text-[rgb(var(--foreground-muted))] block mb-1"
+          <label class="text-xs text-muted-foreground block mb-1"
             >Thickness</label
           >
           <input
@@ -64,12 +64,12 @@
             max="4"
             class="w-full"
           />
-          <span class="text-xs text-[rgb(var(--foreground-muted))]"
+          <span class="text-xs text-muted-foreground"
             >{{ settings.thickness }}px</span
           >
         </div>
         <div>
-          <label class="text-xs text-[rgb(var(--foreground-muted))] block mb-1"
+          <label class="text-xs text-muted-foreground block mb-1"
             >Gap</label
           >
           <input
@@ -79,12 +79,12 @@
             max="8"
             class="w-full"
           />
-          <span class="text-xs text-[rgb(var(--foreground-muted))]"
+          <span class="text-xs text-muted-foreground"
             >{{ settings.gap }}px</span
           >
         </div>
         <div>
-          <label class="text-xs text-[rgb(var(--foreground-muted))] block mb-1"
+          <label class="text-xs text-muted-foreground block mb-1"
             >Color</label
           >
           <input
@@ -102,7 +102,7 @@
           />
           <label
             for="crosshair-outline"
-            class="text-sm text-[rgb(var(--foreground))]"
+            class="text-sm text-foreground"
             >Outline</label
           >
         </div>

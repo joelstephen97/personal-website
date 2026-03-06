@@ -1,9 +1,9 @@
 <template>
-  <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
+  <div class="min-h-screen bg-background px-6 py-12">
     <div class="max-w-4xl mx-auto">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
-        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+        <h1 class="text-3xl font-bold text-foreground">
           Audio Visualizer
         </h1>
       </div>
@@ -11,7 +11,7 @@
       <div class="glass-solid rounded-2xl p-6 mb-6">
         <div class="flex flex-wrap gap-4 items-end">
           <button
-            class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2 hover:border-accent/50 transition"
+            class="px-5 py-3 rounded-xl bg-glass border border-border text-foreground font-semibold flex items-center gap-2 hover:border-accent/50 transition"
             @click="fileInput?.click()"
           >
             <Icon name="Upload" :size="18" /> Upload Audio
@@ -29,7 +29,7 @@
             :class="
               micActive
                 ? 'bg-accent text-white shadow-lg shadow-accent/25'
-                : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] hover:border-accent/50'
+                : 'bg-glass border border-border text-foreground hover:border-accent/50'
             "
             @click="toggleMic"
           >
@@ -49,7 +49,7 @@
 
           <div>
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
               >Mode</label
             >
             <select v-model="vizMode">
@@ -61,7 +61,7 @@
           </div>
           <div>
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
               >FFT Size</label
             >
             <select v-model="fftSize" @change="applyFftSize">
@@ -74,7 +74,7 @@
           </div>
 
           <button
-            class="px-3 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-secondary))] hover:border-accent/50 transition"
+            class="px-3 py-3 rounded-xl bg-glass border border-border text-muted hover:border-accent/50 transition"
             title="Fullscreen"
             @click="toggleFullscreen"
           >
@@ -84,7 +84,7 @@
 
         <p
           v-if="fileName"
-          class="text-sm text-[rgb(var(--foreground-secondary))] mt-3"
+          class="text-sm text-muted mt-3"
         >
           {{ fileName }}
         </p>
@@ -92,7 +92,7 @@
         <!-- Progress bar -->
         <div v-if="audioSrc && duration > 0" class="mt-4">
           <div
-            class="h-1.5 rounded-full bg-[rgb(var(--border))] cursor-pointer relative"
+            class="h-1.5 rounded-full bg-border cursor-pointer relative"
             @click="seek"
           >
             <div
@@ -101,7 +101,7 @@
             />
           </div>
           <div
-            class="flex justify-between text-xs text-[rgb(var(--foreground-muted))] mt-1 font-mono"
+            class="flex justify-between text-xs text-muted-foreground mt-1 font-mono"
           >
             <span>{{ formatTime(currentTime) }}</span>
             <span>{{ formatTime(duration) }}</span>
@@ -112,7 +112,7 @@
         <div class="flex flex-wrap gap-6 mt-4 items-end">
           <div class="flex-1 min-w-[120px]">
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
               >Volume: {{ Math.round(gain * 100) }}%</label
             >
             <input
@@ -126,7 +126,7 @@
           </div>
           <div class="flex-1 min-w-[120px]">
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
               >Smoothing: {{ smoothing.toFixed(2) }}</label
             >
             <input

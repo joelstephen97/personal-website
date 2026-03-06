@@ -1,9 +1,9 @@
 <template>
-  <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
+  <div class="min-h-screen bg-background px-6 py-12">
     <div class="max-w-5xl mx-auto">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
-        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+        <h1 class="text-3xl font-bold text-foreground">
           JSON Diff
         </h1>
       </div>
@@ -12,7 +12,7 @@
         <div class="glass-solid rounded-2xl p-6">
           <div class="flex items-center justify-between mb-2">
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide"
+              class="text-xs text-muted-foreground uppercase tracking-wide"
               >Original</label
             >
             <button
@@ -25,7 +25,7 @@
           <textarea
             v-model="leftJson"
             rows="12"
-            class="w-full px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-mono text-sm resize-none"
+            class="w-full px-4 py-3 rounded-xl bg-glass border border-border text-foreground font-mono text-sm resize-none"
             spellcheck="false"
             placeholder='{"key": "value"}'
           />
@@ -36,7 +36,7 @@
         <div class="glass-solid rounded-2xl p-6">
           <div class="flex items-center justify-between mb-2">
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide"
+              class="text-xs text-muted-foreground uppercase tracking-wide"
               >Modified</label
             >
             <button
@@ -49,7 +49,7 @@
           <textarea
             v-model="rightJson"
             rows="12"
-            class="w-full px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-mono text-sm resize-none"
+            class="w-full px-4 py-3 rounded-xl bg-glass border border-border text-foreground font-mono text-sm resize-none"
             spellcheck="false"
             placeholder='{"key": "new_value"}'
           />
@@ -80,20 +80,20 @@
           <Icon name="GitCompareArrows" :size="18" /> Compare
         </button>
         <button
-          class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2"
+          class="px-5 py-3 rounded-xl bg-glass border border-border text-foreground font-semibold flex items-center gap-2"
           @click="swapSides"
         >
           <Icon name="ArrowLeftRight" :size="18" /> Swap
         </button>
         <button
-          class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2"
+          class="px-5 py-3 rounded-xl bg-glass border border-border text-foreground font-semibold flex items-center gap-2"
           @click="loadSample"
         >
           <Icon name="FileJson" :size="18" /> Sample
         </button>
         <button
           v-if="diffLines.length"
-          class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2"
+          class="px-5 py-3 rounded-xl bg-glass border border-border text-foreground font-semibold flex items-center gap-2"
           @click="copyDiff"
         >
           <Icon :name="copied ? 'Check' : 'Copy'" :size="18" />
@@ -101,7 +101,7 @@
         </button>
         <button
           v-if="diffLines.length"
-          class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2"
+          class="px-5 py-3 rounded-xl bg-glass border border-border text-foreground font-semibold flex items-center gap-2"
           @click="copyJsonPatch"
         >
           <Icon :name="patchCopied ? 'Check' : 'Code'" :size="18" />
@@ -111,7 +111,7 @@
 
       <div v-if="diffLines.length" class="glass-solid rounded-2xl p-6">
         <div
-          class="flex items-center gap-4 mb-4 text-sm text-[rgb(var(--foreground-secondary))]"
+          class="flex items-center gap-4 mb-4 text-sm text-muted"
         >
           <span class="flex items-center gap-1.5">
             <span class="w-3 h-3 rounded bg-emerald-500/30" /> Added:
@@ -138,7 +138,7 @@
                 line.type === 'removed',
               'bg-amber-500/10 text-amber-600 dark:text-amber-400':
                 line.type === 'modified',
-              'text-[rgb(var(--foreground-secondary))]':
+              'text-muted':
                 line.type === 'unchanged',
             }"
           >
@@ -155,7 +155,7 @@
         class="glass-solid rounded-2xl p-12 text-center"
       >
         <Icon name="Check" :size="48" class="text-emerald-500 mx-auto mb-3" />
-        <p class="text-[rgb(var(--foreground-secondary))]">
+        <p class="text-muted">
           Objects are identical
         </p>
       </div>

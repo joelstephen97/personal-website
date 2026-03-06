@@ -1,9 +1,9 @@
 <template>
-  <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
+  <div class="min-h-screen bg-background px-6 py-12">
     <div class="max-w-3xl mx-auto">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
-        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+        <h1 class="text-3xl font-bold text-foreground">
           Color Palette
         </h1>
       </div>
@@ -12,7 +12,7 @@
         <div class="flex flex-wrap items-end gap-4">
           <div>
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-2"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-2"
               >Base Color</label
             >
             <div class="flex items-center gap-3">
@@ -24,14 +24,14 @@
               <input
                 v-model="hex"
                 type="text"
-                class="w-28 px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-mono text-sm"
+                class="w-28 px-3 py-2 rounded-lg bg-glass border border-border text-foreground font-mono text-sm"
                 spellcheck="false"
               />
             </div>
           </div>
           <div>
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-2"
+              class="text-xs text-muted-foreground uppercase tracking-wide block mb-2"
               >Harmony</label
             >
             <select v-model="harmony">
@@ -41,14 +41,14 @@
             </select>
           </div>
           <button
-            class="px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2 hover:border-accent/50 transition-colors"
+            class="px-4 py-3 rounded-xl bg-glass border border-border text-foreground font-semibold flex items-center gap-2 hover:border-accent/50 transition-colors"
             @click="randomColor"
           >
             <Icon name="Shuffle" :size="16" /> Random
           </button>
           <button
             v-if="hasEyeDropper"
-            class="px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2 hover:border-accent/50 transition-colors"
+            class="px-4 py-3 rounded-xl bg-glass border border-border text-foreground font-semibold flex items-center gap-2 hover:border-accent/50 transition-colors"
             @click="pickFromScreen"
           >
             <Icon name="Pipette" :size="16" /> Pick
@@ -57,7 +57,7 @@
       </div>
 
       <div class="glass-solid rounded-2xl p-6 mb-6">
-        <h3 class="text-sm font-semibold text-[rgb(var(--foreground))] mb-4">
+        <h3 class="text-sm font-semibold text-foreground mb-4">
           Generated Palette
         </h3>
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
@@ -72,17 +72,17 @@
               :style="{ backgroundColor: color.hex }"
             />
             <p
-              class="text-xs font-mono text-[rgb(var(--foreground))] text-center"
+              class="text-xs font-mono text-foreground text-center"
             >
               {{ color.hex }}
             </p>
             <p
-              class="text-[10px] text-[rgb(var(--foreground-muted))] text-center"
+              class="text-[10px] text-muted-foreground text-center"
             >
               {{ color.rgb }}
             </p>
             <p
-              class="text-[10px] text-[rgb(var(--foreground-muted))] text-center"
+              class="text-[10px] text-muted-foreground text-center"
             >
               {{ color.hslLabel }}
             </p>
@@ -94,7 +94,7 @@
       </div>
 
       <div class="glass-solid rounded-2xl p-6 mb-6">
-        <h3 class="text-sm font-semibold text-[rgb(var(--foreground))] mb-4">
+        <h3 class="text-sm font-semibold text-foreground mb-4">
           Tints &amp; Shades
         </h3>
         <div class="flex gap-1 rounded-xl overflow-hidden">
@@ -116,7 +116,7 @@
 
       <div class="glass-solid rounded-2xl p-4 mb-6">
         <h3
-          class="text-xs font-semibold text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-2"
+          class="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2"
         >
           Suggested Text Color
         </h3>
@@ -127,7 +127,7 @@
           >
             Aa
           </div>
-          <p class="text-sm text-[rgb(var(--foreground-secondary))]">
+          <p class="text-sm text-muted">
             Use <strong>{{ suggestedTextColor }}</strong> text on this
             background for best contrast.
           </p>
@@ -136,7 +136,7 @@
 
       <div class="grid sm:grid-cols-2 gap-6 mb-6">
         <div class="glass-solid rounded-2xl p-6">
-          <h3 class="text-sm font-semibold text-[rgb(var(--foreground))] mb-3">
+          <h3 class="text-sm font-semibold text-foreground mb-3">
             Contrast on White
           </h3>
           <div class="flex items-center gap-3">
@@ -147,7 +147,7 @@
               Aa
             </div>
             <div>
-              <p class="text-2xl font-bold text-[rgb(var(--foreground))]">
+              <p class="text-2xl font-bold text-foreground">
                 {{ contrastWhite.toFixed(2) }}:1
               </p>
               <p
@@ -170,7 +170,7 @@
           </div>
         </div>
         <div class="glass-solid rounded-2xl p-6">
-          <h3 class="text-sm font-semibold text-[rgb(var(--foreground))] mb-3">
+          <h3 class="text-sm font-semibold text-foreground mb-3">
             Contrast on Black
           </h3>
           <div class="flex items-center gap-3">
@@ -181,7 +181,7 @@
               Aa
             </div>
             <div>
-              <p class="text-2xl font-bold text-[rgb(var(--foreground))]">
+              <p class="text-2xl font-bold text-foreground">
                 {{ contrastBlack.toFixed(2) }}:1
               </p>
               <p
@@ -208,18 +208,18 @@
       <!-- Export -->
       <details class="glass-solid rounded-2xl p-6">
         <summary
-          class="text-sm font-semibold text-[rgb(var(--foreground))] cursor-pointer select-none flex items-center gap-2"
+          class="text-sm font-semibold text-foreground cursor-pointer select-none flex items-center gap-2"
         >
           <Icon name="Code" :size="16" /> Export
         </summary>
         <div class="mt-4 space-y-4">
           <div>
-            <p class="text-xs text-[rgb(var(--foreground-muted))] mb-1">
+            <p class="text-xs text-muted-foreground mb-1">
               Format
             </p>
             <select
               v-model="exportFormat"
-              class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-sm mb-2"
+              class="px-3 py-2 rounded-lg bg-glass border border-border text-sm mb-2"
             >
               <option value="css">CSS Variables</option>
               <option value="tailwind">Tailwind</option>
@@ -228,7 +228,7 @@
           </div>
           <div>
             <pre
-              class="text-xs font-mono bg-[rgb(var(--glass))] rounded-lg p-3 border border-[rgb(var(--border))] text-[rgb(var(--foreground-secondary))] overflow-auto"
+              class="text-xs font-mono bg-glass rounded-lg p-3 border border-border text-muted overflow-auto"
               >{{ exportContent }}</pre
             >
           </div>

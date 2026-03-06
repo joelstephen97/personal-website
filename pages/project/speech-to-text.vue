@@ -1,14 +1,14 @@
 <template>
-  <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
+  <div class="min-h-screen bg-background px-6 py-12">
     <div class="max-w-4xl mx-auto">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
-        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+        <h1 class="text-3xl font-bold text-foreground">
           Speech to Text
         </h1>
       </div>
 
-      <p class="text-[rgb(var(--foreground-muted))] mb-8">
+      <p class="text-muted-foreground mb-8">
         Transcribe audio with Whisper AI—runs entirely in your browser. Upload a
         file or record from your microphone.
       </p>
@@ -16,7 +16,7 @@
       <div class="glass-solid rounded-2xl p-6 mb-6">
         <div class="flex flex-wrap gap-4 mb-6">
           <button
-            class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] font-medium flex items-center gap-2 hover:border-accent/50 transition"
+            class="px-5 py-3 rounded-xl bg-glass border border-border font-medium flex items-center gap-2 hover:border-accent/50 transition"
             :disabled="processing"
             @click="fileInput?.click()"
           >
@@ -34,7 +34,7 @@
             :class="
               recording
                 ? 'bg-red-900 text-white'
-                : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] hover:border-accent/50'
+                : 'bg-glass border border-border hover:border-accent/50'
             "
             :disabled="processing"
             @click="toggleRecord"
@@ -46,7 +46,7 @@
 
         <div v-if="audioUrl" class="mb-6">
           <p
-            class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-2"
+            class="text-xs text-muted-foreground uppercase tracking-wide mb-2"
           >
             Audio
           </p>
@@ -63,7 +63,7 @@
         <div v-else-if="transcript" class="space-y-2">
           <div class="flex items-center justify-between">
             <p
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide"
+              class="text-xs text-muted-foreground uppercase tracking-wide"
             >
               Transcript
             </p>
@@ -75,7 +75,7 @@
             </button>
           </div>
           <p
-            class="text-[rgb(var(--foreground))] leading-relaxed whitespace-pre-wrap"
+            class="text-foreground leading-relaxed whitespace-pre-wrap"
           >
             {{ transcript }}
           </p>

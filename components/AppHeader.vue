@@ -1,5 +1,5 @@
 <template>
-  <header class="fixed top-0 inset-x-0 z-50 glass">
+  <header class="fixed top-0 inset-x-0 z-50 glass-deep">
     <nav class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
       <!-- Logo -->
       <NuxtLink to="/" class="flex items-center gap-3 group">
@@ -27,10 +27,10 @@
           :key="link.to"
           :to="link.to"
           :class="[
-            'flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all',
+            'nav-link flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all',
             route.path === link.to
               ? 'text-foreground bg-accent/10'
-              : 'text-muted hover:text-foreground hover:bg-[rgb(var(--glass))]',
+              : 'text-muted hover:text-foreground hover:bg-glass',
           ]"
         >
           <Icon :name="link.icon" :size="16" />
@@ -42,7 +42,7 @@
           :class="[
             'flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all btn-primary',
             isChatOpen &&
-              'ring-2 ring-accent ring-offset-2 ring-offset-[rgb(var(--bg))]',
+              'ring-2 ring-accent ring-offset-2 ring-offset-background',
           ]"
           aria-label="AI Chat — Ask about Joel"
           @click="toggleChat"
@@ -61,7 +61,7 @@
             'p-2.5 rounded-xl transition-colors',
             isChatOpen
               ? 'bg-accent/15 text-accent'
-              : 'text-muted hover:text-foreground hover:bg-[rgb(var(--glass))]',
+              : 'text-muted hover:text-foreground hover:bg-glass',
           ]"
           aria-label="AI Chat — Ask about Joel"
           @click="toggleChat"
@@ -71,7 +71,7 @@
         <DarkModeToggle />
         <button
           aria-label="Toggle menu"
-          class="p-2 rounded-xl hover:bg-[rgb(var(--glass))] transition-colors"
+          class="p-2 rounded-xl hover:bg-glass transition-colors"
           @click="toggleOpen()"
         >
           <Icon :name="open ? 'X' : 'Menu'" :size="22" />
@@ -106,7 +106,7 @@
             'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all',
             route.path === link.to
               ? 'text-foreground bg-accent/10'
-              : 'text-foreground hover:bg-[rgb(var(--glass))]',
+              : 'text-foreground hover:bg-glass',
           ]"
           @click="toggleOpen(false)"
         >

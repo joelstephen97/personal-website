@@ -1,16 +1,16 @@
 <template>
-  <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
+  <div class="min-h-screen bg-background px-6 py-12">
     <div class="max-w-3xl mx-auto">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
-        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+        <h1 class="text-3xl font-bold text-foreground">
           Regex Tester
         </h1>
       </div>
 
       <div class="glass-solid rounded-2xl p-6 mb-6">
         <label
-          class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-2"
+          class="text-xs text-muted-foreground uppercase tracking-wide block mb-2"
           >Pattern</label
         >
         <div class="flex gap-2 items-center mb-4">
@@ -18,7 +18,7 @@
           <input
             v-model="pattern"
             type="text"
-            class="flex-1 px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-mono"
+            class="flex-1 px-3 py-2 rounded-lg bg-glass border border-border text-foreground font-mono"
             placeholder="Enter regex..."
             spellcheck="false"
           />
@@ -31,7 +31,7 @@
               :class="
                 flags.includes(f)
                   ? 'bg-accent text-white'
-                  : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-muted))]'
+                  : 'bg-glass border border-border text-muted-foreground'
               "
               @click="toggleFlag(f)"
             >
@@ -44,11 +44,11 @@
         </p>
 
         <label
-          class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-2"
+          class="text-xs text-muted-foreground uppercase tracking-wide block mb-2"
           >Test String</label
         >
         <div
-          class="min-h-[120px] px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] font-mono text-sm leading-relaxed whitespace-pre-wrap break-all"
+          class="min-h-[120px] px-4 py-3 rounded-xl bg-glass border border-border font-mono text-sm leading-relaxed whitespace-pre-wrap break-all"
         >
           <span
             v-for="(seg, i) in segments"
@@ -60,14 +60,14 @@
           >
           <span
             v-if="!segments.length"
-            class="text-[rgb(var(--foreground-muted))]"
+            class="text-muted-foreground"
             >Enter test string below...</span
           >
         </div>
         <textarea
           v-model="testStr"
           rows="4"
-          class="w-full mt-4 px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-mono text-sm resize-none"
+          class="w-full mt-4 px-4 py-3 rounded-xl bg-glass border border-border text-foreground font-mono text-sm resize-none"
           placeholder="Type or paste your test string..."
           spellcheck="false"
         />
@@ -76,30 +76,30 @@
       <!-- Replace section -->
       <div class="glass-solid rounded-2xl p-6 mb-6">
         <label
-          class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-2"
+          class="text-xs text-muted-foreground uppercase tracking-wide block mb-2"
           >Replace With</label
         >
         <input
           v-model="replacePattern"
           type="text"
-          class="w-full px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-mono text-sm mb-3"
+          class="w-full px-3 py-2 rounded-lg bg-glass border border-border text-foreground font-mono text-sm mb-3"
           placeholder="Replacement pattern (e.g. $1@newdomain.com)"
           spellcheck="false"
         />
         <div
           v-if="replaceResult !== null"
-          class="px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] font-mono text-sm whitespace-pre-wrap break-all text-[rgb(var(--foreground-secondary))]"
+          class="px-4 py-3 rounded-xl bg-glass border border-border font-mono text-sm whitespace-pre-wrap break-all text-muted"
         >
           {{ replaceResult }}
         </div>
       </div>
 
       <div class="flex flex-wrap gap-2 mb-4">
-        <span class="text-xs text-[rgb(var(--foreground-muted))]">Common:</span>
+        <span class="text-xs text-muted-foreground">Common:</span>
         <button
           v-for="p in commonPatterns"
           :key="p.label"
-          class="px-2 py-1 rounded-lg text-xs font-medium bg-[rgb(var(--glass))] border border-[rgb(var(--border))] hover:border-accent/50"
+          class="px-2 py-1 rounded-lg text-xs font-medium bg-glass border border-border hover:border-accent/50"
           @click="
             pattern = p.pattern;
             testStr = p.sample;
@@ -111,22 +111,22 @@
 
       <div v-if="patternExplanation" class="glass-solid rounded-2xl p-4 mb-6">
         <h3
-          class="text-xs font-semibold text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-2"
+          class="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2"
         >
           Pattern Explanation
         </h3>
-        <p class="text-sm text-[rgb(var(--foreground-secondary))]">
+        <p class="text-sm text-muted">
           {{ patternExplanation }}
         </p>
       </div>
 
       <div class="grid sm:grid-cols-2 gap-6 mb-6">
         <div class="glass-solid rounded-2xl p-6">
-          <h3 class="text-sm font-semibold text-[rgb(var(--foreground))] mb-3">
+          <h3 class="text-sm font-semibold text-foreground mb-3">
             Match Info
           </h3>
           <div
-            class="space-y-2 text-sm text-[rgb(var(--foreground-secondary))]"
+            class="space-y-2 text-sm text-muted"
           >
             <p>
               Matches: <strong class="text-accent">{{ matches.length }}</strong>
@@ -138,7 +138,7 @@
             <p v-if="matches.length">
               Full match:
               <code
-                class="px-1.5 py-0.5 rounded bg-[rgb(var(--glass))] text-[rgb(var(--foreground))] font-mono text-xs"
+                class="px-1.5 py-0.5 rounded bg-glass text-foreground font-mono text-xs"
                 >{{ matches[0]?.[0] }}</code
               >
             </p>
@@ -150,7 +150,7 @@
           </div>
         </div>
         <div class="glass-solid rounded-2xl p-6">
-          <h3 class="text-sm font-semibold text-[rgb(var(--foreground))] mb-3">
+          <h3 class="text-sm font-semibold text-foreground mb-3">
             Capture Groups
           </h3>
           <div v-if="groups.length" class="space-y-1.5">
@@ -160,16 +160,16 @@
               class="flex items-center gap-2 text-sm"
             >
               <span
-                class="text-[rgb(var(--foreground-muted))] font-mono text-xs w-6"
+                class="text-muted-foreground font-mono text-xs w-6"
                 >{{ g.name || i + 1 }}</span
               >
               <code
-                class="px-1.5 py-0.5 rounded bg-[rgb(var(--glass))] text-[rgb(var(--foreground))] font-mono text-xs"
+                class="px-1.5 py-0.5 rounded bg-glass text-foreground font-mono text-xs"
                 >{{ g.value ?? "undefined" }}</code
               >
             </div>
           </div>
-          <p v-else class="text-sm text-[rgb(var(--foreground-muted))]">
+          <p v-else class="text-sm text-muted-foreground">
             No groups
           </p>
         </div>
@@ -178,7 +178,7 @@
       <!-- Cheatsheet -->
       <details class="glass-solid rounded-2xl p-6">
         <summary
-          class="text-sm font-semibold text-[rgb(var(--foreground))] cursor-pointer select-none flex items-center gap-2"
+          class="text-sm font-semibold text-foreground cursor-pointer select-none flex items-center gap-2"
         >
           <Icon name="BookOpen" :size="16" /> Quick Reference
         </summary>
@@ -187,7 +187,7 @@
             <code class="text-accent font-mono font-bold whitespace-nowrap">{{
               item.token
             }}</code>
-            <span class="text-[rgb(var(--foreground-secondary))]">{{
+            <span class="text-muted">{{
               item.desc
             }}</span>
           </div>

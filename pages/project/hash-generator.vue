@@ -1,9 +1,9 @@
 <template>
-  <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
+  <div class="min-h-screen bg-background px-6 py-12">
     <div class="max-w-3xl mx-auto">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
-        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+        <h1 class="text-3xl font-bold text-foreground">
           Hash Generator
         </h1>
       </div>
@@ -12,18 +12,18 @@
         <div class="flex flex-wrap gap-6 mb-6 items-center">
           <div class="flex gap-4">
             <label
-              class="flex items-center gap-2 text-sm text-[rgb(var(--foreground))] cursor-pointer"
+              class="flex items-center gap-2 text-sm text-foreground cursor-pointer"
             >
               <input v-model="mode" type="radio" value="text" /> Text
             </label>
             <label
-              class="flex items-center gap-2 text-sm text-[rgb(var(--foreground))] cursor-pointer"
+              class="flex items-center gap-2 text-sm text-foreground cursor-pointer"
             >
               <input v-model="mode" type="radio" value="file" /> File
             </label>
           </div>
           <label
-            class="flex items-center gap-2 text-sm text-[rgb(var(--foreground-secondary))] cursor-pointer select-none ml-auto"
+            class="flex items-center gap-2 text-sm text-muted cursor-pointer select-none ml-auto"
           >
             <input v-model="uppercase" type="checkbox" /> Uppercase
           </label>
@@ -33,7 +33,7 @@
           <textarea
             v-model="text"
             rows="4"
-            class="w-full px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-mono text-sm resize-none"
+            class="w-full px-4 py-3 rounded-xl bg-glass border border-border text-foreground font-mono text-sm resize-none"
             placeholder="Enter text to hash..."
             spellcheck="false"
           />
@@ -45,21 +45,21 @@
             :class="
               isOverDropZone
                 ? 'border-accent bg-accent/5'
-                : 'border-[rgb(var(--border))] hover:border-accent/50'
+                : 'border-border hover:border-accent/50'
             "
             @click="fileInput?.click()"
           >
             <Icon
               name="Upload"
               :size="32"
-              class="text-[rgb(var(--foreground-muted))] mx-auto mb-2"
+              class="text-muted-foreground mx-auto mb-2"
             />
-            <p class="text-sm text-[rgb(var(--foreground-secondary))]">
+            <p class="text-sm text-muted">
               {{ fileName || "Drop a file or click to select" }}
             </p>
             <p
               v-if="fileSize"
-              class="text-xs text-[rgb(var(--foreground-muted))] mt-1"
+              class="text-xs text-muted-foreground mt-1"
             >
               {{ fileSize }}
             </p>
@@ -74,7 +74,7 @@
 
         <div class="mt-6">
           <label
-            class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-2"
+            class="text-xs text-muted-foreground uppercase tracking-wide block mb-2"
             >Algorithm</label
           >
           <div class="flex flex-wrap gap-2">
@@ -85,7 +85,7 @@
               :class="
                 selected === algo
                   ? 'bg-accent text-white'
-                  : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-secondary))] hover:border-accent/50'
+                  : 'bg-glass border border-border text-muted hover:border-accent/50'
               "
               @click="selected = algo"
             >
@@ -108,7 +108,7 @@
         <div v-for="h in allHashes" :key="h.algo">
           <div class="flex items-center justify-between mb-1">
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide"
+              class="text-xs text-muted-foreground uppercase tracking-wide"
               >{{ h.algo }}</label
             >
             <button
@@ -119,7 +119,7 @@
             </button>
           </div>
           <p
-            class="font-mono text-xs text-[rgb(var(--foreground))] break-all leading-relaxed bg-[rgb(var(--glass))] rounded-lg px-3 py-2 border border-[rgb(var(--border))]"
+            class="font-mono text-xs text-foreground break-all leading-relaxed bg-glass rounded-lg px-3 py-2 border border-border"
           >
             {{ formatHash(h.hash) }}
           </p>
@@ -129,7 +129,7 @@
       <div v-else-if="hash" class="glass-solid rounded-2xl p-6 mb-6">
         <div class="flex items-center justify-between mb-2">
           <label
-            class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide"
+            class="text-xs text-muted-foreground uppercase tracking-wide"
             >{{ selected }} Hash</label
           >
           <button
@@ -141,26 +141,26 @@
           </button>
         </div>
         <p
-          class="font-mono text-sm text-[rgb(var(--foreground))] break-all leading-relaxed bg-[rgb(var(--glass))] rounded-xl px-4 py-3 border border-[rgb(var(--border))]"
+          class="font-mono text-sm text-foreground break-all leading-relaxed bg-glass rounded-xl px-4 py-3 border border-border"
         >
           {{ formatHash(hash) }}
         </p>
       </div>
 
-      <p class="text-xs text-[rgb(var(--foreground-muted))] mb-4">
+      <p class="text-xs text-muted-foreground mb-4">
         SHA-256 is recommended for file integrity. MD5/SHA-1 are weak—use only
         for legacy checksums.
       </p>
 
       <div class="glass-solid rounded-2xl p-6">
         <label
-          class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-2"
+          class="text-xs text-muted-foreground uppercase tracking-wide block mb-2"
           >Compare Hash</label
         >
         <input
           v-model="compareHash"
           type="text"
-          class="w-full px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-mono text-sm"
+          class="w-full px-4 py-3 rounded-xl bg-glass border border-border text-foreground font-mono text-sm"
           placeholder="Paste a hash to compare..."
           spellcheck="false"
         />

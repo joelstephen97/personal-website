@@ -1,14 +1,14 @@
 <template>
-  <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
+  <div class="min-h-screen bg-background px-6 py-12">
     <div class="max-w-4xl mx-auto">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
-        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+        <h1 class="text-3xl font-bold text-foreground">
           Local File Editor
         </h1>
       </div>
 
-      <p class="text-[rgb(var(--foreground-muted))] mb-8">
+      <p class="text-muted-foreground mb-8">
         Edit text files directly on your disk. Uses the File System Access
         API—no uploads, files stay local.
       </p>
@@ -23,13 +23,13 @@
         <div class="glass-solid rounded-2xl p-6 mb-6">
           <div class="flex flex-wrap gap-3 mb-4">
             <button
-              class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] font-medium flex items-center gap-2 hover:border-accent/50 transition"
+              class="px-5 py-3 rounded-xl bg-glass border border-border font-medium flex items-center gap-2 hover:border-accent/50 transition"
               @click="openFile"
             >
               <Icon name="FolderOpen" :size="18" /> Open
             </button>
             <button
-              class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] font-medium flex items-center gap-2 hover:border-accent/50 transition"
+              class="px-5 py-3 rounded-xl bg-glass border border-border font-medium flex items-center gap-2 hover:border-accent/50 transition"
               @click="createFile"
             >
               <Icon name="FilePlus" :size="18" /> New
@@ -40,7 +40,7 @@
               :class="
                 hasFile
                   ? 'bg-gradient-to-r from-accent to-accent-hover text-white shadow-lg shadow-accent/25'
-                  : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))]'
+                  : 'bg-glass border border-border'
               "
               @click="saveFile"
             >
@@ -48,7 +48,7 @@
             </button>
             <button
               v-if="hasFile"
-              class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] font-medium flex items-center gap-2 hover:border-accent/50 transition"
+              class="px-5 py-3 rounded-xl bg-glass border border-border font-medium flex items-center gap-2 hover:border-accent/50 transition"
               @click="saveFileAs"
             >
               <Icon name="FileDown" :size="18" /> Save As
@@ -57,14 +57,14 @@
 
           <p
             v-if="fileName"
-            class="text-sm text-[rgb(var(--foreground-muted))] mb-2"
+            class="text-sm text-muted-foreground mb-2"
           >
             {{ fileName }}
           </p>
 
           <textarea
             v-model="editContent"
-            class="w-full h-96 px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
+            class="w-full h-96 px-4 py-3 rounded-xl bg-glass border border-border text-foreground font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
             placeholder="Open a file or create a new one..."
             spellcheck="false"
           />

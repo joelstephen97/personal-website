@@ -1,14 +1,14 @@
 <template>
-  <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
+  <div class="min-h-screen bg-background px-6 py-12">
     <div class="max-w-5xl mx-auto">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
-        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+        <h1 class="text-3xl font-bold text-foreground">
           Screen Capture & Annotation
         </h1>
       </div>
 
-      <p class="text-[rgb(var(--foreground-muted))] mb-8">
+      <p class="text-muted-foreground mb-8">
         Capture your screen, window, or tab. Draw annotations and share via Web
         Share API or copy to clipboard.
       </p>
@@ -26,13 +26,13 @@
           </button>
           <template v-else>
             <button
-              class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] font-medium flex items-center gap-2 hover:border-accent/50 transition"
+              class="px-5 py-3 rounded-xl bg-glass border border-border font-medium flex items-center gap-2 hover:border-accent/50 transition"
               @click="stopCapture"
             >
               <Icon name="Square" :size="18" /> Stop
             </button>
             <button
-              class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] font-medium flex items-center gap-2 hover:border-accent/50 transition"
+              class="px-5 py-3 rounded-xl bg-glass border border-border font-medium flex items-center gap-2 hover:border-accent/50 transition"
               @click="captureFrame"
             >
               <Icon name="Camera" :size="18" /> Capture Frame
@@ -47,7 +47,7 @@
 
         <div v-if="stream" class="space-y-4">
           <div class="flex flex-wrap gap-2 items-center">
-            <span class="text-xs text-[rgb(var(--foreground-muted))] uppercase"
+            <span class="text-xs text-muted-foreground uppercase"
               >Tools</span
             >
             <button
@@ -57,7 +57,7 @@
               :class="
                 tool === t.id
                   ? 'bg-accent text-white'
-                  : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] hover:border-accent/50'
+                  : 'bg-glass border border-border hover:border-accent/50'
               "
               @click="tool = t.id"
             >
@@ -71,7 +71,7 @@
               title="Stroke color"
             />
             <button
-              class="px-3 py-2 rounded-lg text-sm bg-[rgb(var(--glass))] border border-[rgb(var(--border))] hover:border-accent/50"
+              class="px-3 py-2 rounded-lg text-sm bg-glass border border-border hover:border-accent/50"
               @click="undo"
             >
               <Icon name="Undo2" :size="14" /> Undo
@@ -109,7 +109,7 @@
         </div>
 
         <div v-if="capturedImage" class="mt-6 space-y-4">
-          <p class="text-sm font-medium text-[rgb(var(--foreground))]">
+          <p class="text-sm font-medium text-foreground">
             Captured with annotations
           </p>
           <img
@@ -118,7 +118,7 @@
             height="600"
             loading="lazy"
             alt="Captured"
-            class="max-w-full rounded-xl border border-[rgb(var(--border))]"
+            class="max-w-full rounded-xl border border-border"
           />
           <div class="flex gap-3">
             <button
@@ -128,13 +128,13 @@
               <Icon name="Share2" :size="18" /> Share
             </button>
             <button
-              class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] font-medium flex items-center gap-2 hover:border-accent/50"
+              class="px-5 py-3 rounded-xl bg-glass border border-border font-medium flex items-center gap-2 hover:border-accent/50"
               @click="copyToClipboard"
             >
               <Icon name="Copy" :size="18" /> Copy
             </button>
             <button
-              class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] font-medium flex items-center gap-2 hover:border-accent/50"
+              class="px-5 py-3 rounded-xl bg-glass border border-border font-medium flex items-center gap-2 hover:border-accent/50"
               @click="downloadImage"
             >
               <Icon name="Download" :size="18" /> Download

@@ -1,14 +1,14 @@
 <template>
-  <div class="min-h-screen bg-[rgb(var(--bg))]">
+  <div class="min-h-screen bg-background">
     <!-- Pre-game -->
     <div v-if="!playing" class="max-w-6xl mx-auto px-6 py-8">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
         <div>
-          <h1 class="text-2xl font-bold text-[rgb(var(--foreground))]">
+          <h1 class="text-2xl font-bold text-foreground">
             Aim Trainer
           </h1>
-          <p class="text-sm text-[rgb(var(--foreground-secondary))]">
+          <p class="text-sm text-muted">
             CS2-style aim training: Flick, Gridshot, Tracking, Precision
           </p>
         </div>
@@ -22,7 +22,7 @@
           <!-- Mode selector -->
           <div class="mb-6">
             <p
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-3"
+              class="text-xs text-muted-foreground uppercase tracking-wide mb-3"
             >
               Mode
             </p>
@@ -34,12 +34,12 @@
                 :class="
                   mode === m.id
                     ? 'border-accent bg-accent/10 text-accent'
-                    : 'border-[rgb(var(--border))] bg-[rgb(var(--glass))] text-[rgb(var(--foreground))] hover:border-[rgb(var(--foreground-muted))]'
+                    : 'border-border bg-glass text-foreground hover:border-foreground-muted'
                 "
                 @click="mode = m.id"
               >
                 <span class="font-semibold block">{{ m.name }}</span>
-                <span class="text-xs text-[rgb(var(--foreground-muted))]">{{
+                <span class="text-xs text-muted-foreground">{{
                   m.desc
                 }}</span>
               </button>
@@ -49,12 +49,12 @@
           <!-- Settings -->
           <div class="flex flex-wrap items-center gap-6 mb-6">
             <div class="flex items-center gap-3">
-              <label class="text-sm text-[rgb(var(--foreground))]"
+              <label class="text-sm text-foreground"
                 >Duration:</label
               >
               <select
                 v-model.number="duration"
-                class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))]"
+                class="px-3 py-2 rounded-lg bg-glass border border-border text-foreground"
               >
                 <option :value="15">15s</option>
                 <option :value="30">30s</option>
@@ -62,12 +62,12 @@
               </select>
             </div>
             <div v-if="mode !== 'precision'" class="flex items-center gap-3">
-              <label class="text-sm text-[rgb(var(--foreground))]"
+              <label class="text-sm text-foreground"
                 >Target:</label
               >
               <select
                 v-model="targetSize"
-                class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))]"
+                class="px-3 py-2 rounded-lg bg-glass border border-border text-foreground"
               >
                 <option value="sm">Small</option>
                 <option value="md">Medium</option>
@@ -83,7 +83,7 @@
               />
               <label
                 for="raw-input"
-                class="text-sm text-[rgb(var(--foreground))]"
+                class="text-sm text-foreground"
               >
                 Raw input (pointer lock)
               </label>
@@ -92,7 +92,7 @@
 
           <div class="mb-6">
             <AimTrainerCrosshairSettings />
-            <p class="text-xs text-[rgb(var(--foreground-muted))] mt-2">
+            <p class="text-xs text-muted-foreground mt-2">
               For pure aim: disable "Enhance pointer precision" in Windows mouse
               settings.
             </p>
@@ -106,7 +106,7 @@
               <Icon name="Play" :size="18" /> Start
             </button>
             <button
-              class="px-6 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-semibold flex items-center gap-2"
+              class="px-6 py-3 rounded-xl bg-glass border border-border text-foreground font-semibold flex items-center gap-2"
               @click="reset"
             >
               <Icon name="RotateCcw" :size="18" /> Reset
@@ -128,8 +128,8 @@
     <div
       v-else
       ref="area"
-      class="fixed inset-0 z-[60] bg-[rgb(var(--bg))] select-none transition-colors duration-75"
-      :class="[{ 'bg-[rgb(var(--error)/0.15)]': missFlash }, 'cursor-none']"
+      class="fixed inset-0 z-[60] bg-background select-none transition-colors duration-75"
+      :class="[{ 'bg-error/15': missFlash }, 'cursor-none']"
       @click="handleClick"
       @mousemove="handleMouseMove"
       @mousedown="handlePointerDown"

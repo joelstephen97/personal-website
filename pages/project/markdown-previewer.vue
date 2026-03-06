@@ -1,34 +1,34 @@
 <template>
-  <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
+  <div class="min-h-screen bg-background px-6 py-12">
     <div class="max-w-6xl mx-auto">
       <div class="flex items-center justify-between mb-8 no-print">
         <div class="flex items-center gap-3">
           <BackToProjects />
-          <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+          <h1 class="text-3xl font-bold text-foreground">
             Markdown Previewer
           </h1>
         </div>
         <div class="flex items-center gap-2">
           <label
-            class="flex items-center gap-1.5 text-xs text-[rgb(var(--foreground-secondary))] cursor-pointer"
+            class="flex items-center gap-1.5 text-xs text-muted cursor-pointer"
           >
             <input v-model="autoSave" type="checkbox" /> Auto-save
           </label>
           <button
-            class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-xs font-medium text-[rgb(var(--foreground-secondary))] hover:border-accent/50 transition-colors flex items-center gap-1"
+            class="px-3 py-2 rounded-lg bg-glass border border-border text-xs font-medium text-muted hover:border-accent/50 transition-colors flex items-center gap-1"
             @click="copyHtml"
           >
             <Icon :name="copied ? 'Check' : 'Copy'" :size="14" />
             {{ copied ? "Copied" : "Copy HTML" }}
           </button>
           <button
-            class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-xs font-medium text-[rgb(var(--foreground-secondary))] hover:border-accent/50 transition-colors flex items-center gap-1"
+            class="px-3 py-2 rounded-lg bg-glass border border-border text-xs font-medium text-muted hover:border-accent/50 transition-colors flex items-center gap-1"
             @click="downloadMd"
           >
             <Icon name="Download" :size="14" /> .md
           </button>
           <button
-            class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-xs font-medium text-[rgb(var(--foreground-secondary))] hover:border-accent/50 transition-colors flex items-center gap-1"
+            class="px-3 py-2 rounded-lg bg-glass border border-border text-xs font-medium text-muted hover:border-accent/50 transition-colors flex items-center gap-1"
             @click="exportPdf"
           >
             <Icon name="FileDown" :size="14" /> PDF
@@ -43,7 +43,7 @@
         <button
           v-for="tool in toolbar"
           :key="tool.label"
-          class="w-8 h-8 rounded-lg hover:bg-[rgb(var(--glass))] flex items-center justify-center text-[rgb(var(--foreground-secondary))] hover:text-accent transition-colors"
+          class="w-8 h-8 rounded-lg hover:bg-glass flex items-center justify-center text-muted hover:text-accent transition-colors"
           :title="tool.label"
           @click="tool.action"
         >
@@ -55,10 +55,10 @@
         <div class="glass-solid rounded-2xl p-6 flex flex-col no-print">
           <div class="flex items-center justify-between mb-3">
             <label
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide"
+              class="text-xs text-muted-foreground uppercase tracking-wide"
               >Editor</label
             >
-            <span class="text-xs text-[rgb(var(--foreground-muted))]">
+            <span class="text-xs text-muted-foreground">
               {{ lineCount }} lines &middot; {{ wordCount }} words &middot;
               {{ charCount }} chars
             </span>
@@ -66,7 +66,7 @@
           <textarea
             ref="editor"
             v-model="source"
-            class="flex-1 min-h-[500px] px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-mono text-sm resize-none leading-relaxed"
+            class="flex-1 min-h-[500px] px-4 py-3 rounded-xl bg-glass border border-border text-foreground font-mono text-sm resize-none leading-relaxed"
             spellcheck="false"
             @keydown="onKeydown"
           />
@@ -74,12 +74,12 @@
 
         <div class="glass-solid rounded-2xl p-6 flex flex-col">
           <label
-            class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-3"
+            class="text-xs text-muted-foreground uppercase tracking-wide mb-3"
             >Preview</label
           >
           <!-- eslint-disable vue/no-v-html -- content sanitized via DOMPurify -->
           <div
-            class="flex-1 min-h-[500px] px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] overflow-auto prose-preview"
+            class="flex-1 min-h-[500px] px-4 py-3 rounded-xl bg-glass border border-border overflow-auto prose-preview"
             v-html="rendered"
           />
           <!-- eslint-enable vue/no-v-html -->

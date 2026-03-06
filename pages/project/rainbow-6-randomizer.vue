@@ -12,20 +12,20 @@
           <div class="flex items-center gap-2">
             <BackToProjects />
             <h1
-              class="text-xl sm:text-2xl font-bold text-[rgb(var(--foreground))]"
+              class="text-xl sm:text-2xl font-bold text-foreground"
             >
               R6 Siege Randomizer
             </h1>
           </div>
           <div class="flex items-center gap-2">
             <label
-              class="flex items-center gap-1.5 text-xs text-[rgb(var(--foreground-secondary))] cursor-pointer select-none"
+              class="flex items-center gap-1.5 text-xs text-muted cursor-pointer select-none"
             >
               <input v-model="soundEnabled" type="checkbox" class="rounded" />
               Sound
             </label>
             <button
-              class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] hover:border-accent/50 transition flex items-center gap-1.5"
+              class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-glass border border-border text-foreground hover:border-accent/50 transition flex items-center gap-1.5"
               @click="copyShareLink"
             >
               <Icon :name="shareCopied ? 'Check' : 'Share2'" :size="14" />
@@ -38,12 +38,12 @@
         <div class="glass-solid rounded-xl p-4 mb-4">
           <div class="flex flex-wrap items-center gap-4">
             <div class="flex items-center gap-2">
-              <label class="text-sm font-medium text-[rgb(var(--foreground))]"
+              <label class="text-sm font-medium text-foreground"
                 >Players</label
               >
               <select
                 v-model.number="count"
-                class="px-3 py-1.5 rounded-lg text-sm bg-[rgb(var(--glass))] border border-[rgb(var(--border))]"
+                class="px-3 py-1.5 rounded-lg text-sm bg-glass border border-border"
               >
                 <option v-for="n in 5" :key="n" :value="n">{{ n }}</option>
               </select>
@@ -54,7 +54,7 @@
                 :key="i"
                 v-model="names[i - 1]"
                 :placeholder="`P${i}`"
-                class="px-2 py-1.5 rounded-lg text-sm bg-[rgb(var(--glass))] border border-[rgb(var(--border))] placeholder:text-[rgb(var(--foreground-muted))]"
+                class="px-2 py-1.5 rounded-lg text-sm bg-glass border border-border placeholder:text-muted-foreground"
               />
             </div>
           </div>
@@ -63,16 +63,16 @@
         <!-- Operator Toggles (collapsed by default) -->
         <details class="glass-solid rounded-xl p-3 mb-4">
           <summary
-            class="text-xs font-semibold text-[rgb(var(--foreground))] cursor-pointer select-none flex items-center gap-1.5"
+            class="text-xs font-semibold text-foreground cursor-pointer select-none flex items-center gap-1.5"
           >
             <Icon name="Settings" :size="14" /> Operator Toggles
           </summary>
           <div
-            class="grid sm:grid-cols-2 gap-4 mt-3 pt-3 border-t border-[rgb(var(--border))]"
+            class="grid sm:grid-cols-2 gap-4 mt-3 pt-3 border-t border-border"
           >
             <div>
               <p
-                class="text-[10px] text-[rgb(var(--foreground-muted))] uppercase mb-1.5"
+                class="text-[10px] text-muted-foreground uppercase mb-1.5"
               >
                 Attackers
               </p>
@@ -84,7 +84,7 @@
                   :class="
                     enabledAtk.has(op)
                       ? 'bg-accent/20 text-accent border border-accent/50'
-                      : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-muted))] opacity-60'
+                      : 'bg-glass border border-border text-muted-foreground opacity-60'
                   "
                   @click="toggleOp('atk', op)"
                 >
@@ -94,7 +94,7 @@
             </div>
             <div>
               <p
-                class="text-[10px] text-[rgb(var(--foreground-muted))] uppercase mb-1.5"
+                class="text-[10px] text-muted-foreground uppercase mb-1.5"
               >
                 Defenders
               </p>
@@ -106,7 +106,7 @@
                   :class="
                     enabledDef.has(op)
                       ? 'bg-accent/20 text-accent border border-accent/50'
-                      : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-muted))] opacity-60'
+                      : 'bg-glass border border-border text-muted-foreground opacity-60'
                   "
                   @click="toggleOp('def', op)"
                 >
@@ -123,7 +123,7 @@
           class="glass-solid rounded-xl p-2 mb-4"
         >
           <summary
-            class="text-[10px] text-[rgb(var(--foreground-muted))] uppercase cursor-pointer px-2 py-1"
+            class="text-[10px] text-muted-foreground uppercase cursor-pointer px-2 py-1"
           >
             Last Picks
           </summary>
@@ -131,7 +131,7 @@
             <span
               v-for="(p, i) in pickHistory"
               :key="i"
-              class="px-1.5 py-0.5 rounded text-[10px] bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-secondary))]"
+              class="px-1.5 py-0.5 rounded text-[10px] bg-glass border border-border text-muted"
             >
               {{ p }}
             </span>
@@ -166,12 +166,12 @@
                     class="w-12 h-12 mx-auto mb-1 rounded-lg"
                   />
                   <p
-                    class="font-semibold text-[rgb(var(--foreground))] text-xs truncate"
+                    class="font-semibold text-foreground text-xs truncate"
                   >
                     {{ a.op }}
                   </p>
                   <p
-                    class="text-[10px] text-[rgb(var(--foreground-muted))] truncate"
+                    class="text-[10px] text-muted-foreground truncate"
                   >
                     {{ a.name }}
                   </p>
@@ -211,12 +211,12 @@
                     class="w-12 h-12 mx-auto mb-1 rounded-lg"
                   />
                   <p
-                    class="font-semibold text-[rgb(var(--foreground))] text-xs truncate"
+                    class="font-semibold text-foreground text-xs truncate"
                   >
                     {{ d.op }}
                   </p>
                   <p
-                    class="text-[10px] text-[rgb(var(--foreground-muted))] truncate"
+                    class="text-[10px] text-muted-foreground truncate"
                   >
                     {{ d.name }}
                   </p>

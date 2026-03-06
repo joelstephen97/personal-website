@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="playing"
-    class="absolute border-2 border-dashed border-[rgb(var(--border))] rounded-xl pointer-events-none"
+    class="absolute border-2 border-dashed border-border rounded-xl pointer-events-none"
     :style="zoneStyle"
   />
   <AimTrainerTarget

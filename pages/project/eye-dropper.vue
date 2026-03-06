@@ -1,14 +1,14 @@
 <template>
-  <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
+  <div class="min-h-screen bg-background px-6 py-12">
     <div class="max-w-3xl mx-auto">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
-        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+        <h1 class="text-3xl font-bold text-foreground">
           Eye Dropper
         </h1>
       </div>
 
-      <p class="text-[rgb(var(--foreground-muted))] mb-8">
+      <p class="text-muted-foreground mb-8">
         Pick colors from anywhere on your screen—browser, desktop, or other
         apps. Uses the native EyeDropper API.
       </p>
@@ -36,13 +36,13 @@
 
         <div v-if="sRGBHex" class="glass-solid rounded-2xl p-6 mb-6">
           <p
-            class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-3"
+            class="text-xs text-muted-foreground uppercase tracking-wide mb-3"
           >
             Current Color
           </p>
           <div class="flex flex-wrap items-center gap-4">
             <div
-              class="w-24 h-24 rounded-xl border-2 border-[rgb(var(--border))] shadow-lg"
+              class="w-24 h-24 rounded-xl border-2 border-border shadow-lg"
               :style="{ backgroundColor: sRGBHex }"
             />
             <div class="space-y-2">
@@ -50,7 +50,7 @@
                 <input
                   :value="sRGBHex"
                   type="text"
-                  class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] font-mono text-sm w-28"
+                  class="px-3 py-2 rounded-lg bg-glass border border-border font-mono text-sm w-28"
                   readonly
                 />
                 <button
@@ -60,10 +60,10 @@
                   <Icon name="Copy" :size="14" /> Copy
                 </button>
               </div>
-              <p class="text-xs text-[rgb(var(--foreground-muted))] font-mono">
+              <p class="text-xs text-muted-foreground font-mono">
                 RGB {{ rgbString }}
               </p>
-              <p class="text-xs text-[rgb(var(--foreground-muted))] font-mono">
+              <p class="text-xs text-muted-foreground font-mono">
                 HSL {{ hslString }}
               </p>
             </div>
@@ -72,7 +72,7 @@
 
         <div v-if="history.length" class="glass-solid rounded-2xl p-6">
           <div class="flex items-center justify-between mb-4">
-            <p class="text-sm font-semibold text-[rgb(var(--foreground))]">
+            <p class="text-sm font-semibold text-foreground">
               Color History
             </p>
             <button
@@ -86,7 +86,7 @@
             <button
               v-for="(color, i) in history"
               :key="`${color}-${i}`"
-              class="w-10 h-10 rounded-lg border-2 border-[rgb(var(--border))] hover:scale-110 transition-transform"
+              class="w-10 h-10 rounded-lg border-2 border-border hover:scale-110 transition-transform"
               :style="{ backgroundColor: color }"
               :title="color"
               @click="selectFromHistory(color)"

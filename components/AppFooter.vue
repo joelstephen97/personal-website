@@ -1,10 +1,10 @@
 <template>
-  <footer class="fixed bottom-0 inset-x-0 z-40 glass">
+  <footer class="z-40 glass">
     <div
       class="max-w-5xl mx-auto px-4 sm:px-6 py-2 sm:py-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-between sm:gap-0"
     >
       <div class="flex items-center gap-2 sm:gap-4">
-        <p class="text-xs sm:text-sm text-[rgb(var(--foreground-secondary))]">
+        <p class="text-xs sm:text-sm text-muted">
           © {{ new Date().getFullYear() }} Joel Stephen
         </p>
         <span

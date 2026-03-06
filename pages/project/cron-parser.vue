@@ -1,9 +1,9 @@
 <template>
-  <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
+  <div class="min-h-screen bg-background px-6 py-12">
     <div class="max-w-3xl mx-auto">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
-        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+        <h1 class="text-3xl font-bold text-foreground">
           Cron Parser
         </h1>
       </div>
@@ -11,7 +11,7 @@
       <div class="glass-solid rounded-2xl p-6 mb-6">
         <div class="flex items-center justify-between mb-2">
           <label
-            class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide"
+            class="text-xs text-muted-foreground uppercase tracking-wide"
             >Expression</label
           >
           <button
@@ -25,7 +25,7 @@
         <input
           v-model="expression"
           type="text"
-          class="w-full px-4 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground))] font-mono text-lg text-center tracking-widest"
+          class="w-full px-4 py-3 rounded-xl bg-glass border border-border text-foreground font-mono text-lg text-center tracking-widest"
           placeholder="* * * * *"
           spellcheck="false"
         />
@@ -33,7 +33,7 @@
           <span
             v-for="label in fieldLabels"
             :key="label"
-            class="text-[10px] text-[rgb(var(--foreground-muted))] text-center flex-1"
+            class="text-[10px] text-muted-foreground text-center flex-1"
             >{{ label }}</span
           >
         </div>
@@ -41,7 +41,7 @@
         <p v-if="error" class="text-accent text-sm mt-4">{{ error }}</p>
         <p
           v-else-if="description"
-          class="text-[rgb(var(--foreground-secondary))] mt-4 text-center text-lg"
+          class="text-muted mt-4 text-center text-lg"
         >
           {{ description }}
         </p>
@@ -50,12 +50,12 @@
       <div class="flex flex-wrap items-center gap-4 mb-6">
         <div>
           <label
-            class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide block mb-1"
+            class="text-xs text-muted-foreground uppercase tracking-wide block mb-1"
             >Timezone</label
           >
           <select
             v-model="timezone"
-            class="px-3 py-2 rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-sm"
+            class="px-3 py-2 rounded-lg bg-glass border border-border text-sm"
           >
             <option v-for="tz in timezones" :key="tz" :value="tz">
               {{ tz }}
@@ -69,14 +69,14 @@
         class="glass-solid rounded-2xl p-4 mb-6"
       >
         <h3
-          class="text-xs font-semibold text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-2"
+          class="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2"
         >
           Field Breakdown
         </h3>
         <div class="space-y-1 text-sm">
           <div v-for="(f, i) in fieldBreakdown" :key="i" class="flex gap-3">
             <span class="font-mono text-accent w-24">{{ f.field }}</span>
-            <span class="text-[rgb(var(--foreground-secondary))]">{{
+            <span class="text-muted">{{
               f.explanation
             }}</span>
           </div>
@@ -91,7 +91,7 @@
           :class="
             expression === p.expr
               ? 'bg-accent text-white'
-              : 'bg-[rgb(var(--glass))] border border-[rgb(var(--border))] text-[rgb(var(--foreground-secondary))] hover:border-accent/50'
+              : 'bg-glass border border-border text-muted hover:border-accent/50'
           "
           @click="expression = p.expr"
         >
@@ -101,10 +101,10 @@
 
       <div v-if="nextRuns.length" class="glass-solid rounded-2xl p-6">
         <div class="flex items-center justify-between mb-4">
-          <h3 class="text-sm font-semibold text-[rgb(var(--foreground))]">
+          <h3 class="text-sm font-semibold text-foreground">
             Next 10 Executions
           </h3>
-          <span class="text-xs text-[rgb(var(--foreground-muted))]">{{
+          <span class="text-xs text-muted-foreground">{{
             timezone
           }}</span>
         </div>
@@ -118,10 +118,10 @@
               class="w-6 h-6 rounded-lg bg-accent/10 text-accent flex items-center justify-center text-xs font-bold shrink-0"
               >{{ i + 1 }}</span
             >
-            <span class="text-[rgb(var(--foreground))] font-mono flex-1">{{
+            <span class="text-foreground font-mono flex-1">{{
               run.formatted
             }}</span>
-            <span class="text-xs text-[rgb(var(--foreground-muted))]">{{
+            <span class="text-xs text-muted-foreground">{{
               run.relative
             }}</span>
           </div>

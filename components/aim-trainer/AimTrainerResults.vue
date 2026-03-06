@@ -1,17 +1,17 @@
 <template>
   <div v-if="displayRuns.length" class="glass-solid rounded-2xl p-6">
     <div class="flex items-center justify-between mb-4">
-      <h3 class="font-semibold text-[rgb(var(--foreground))]">
+      <h3 class="font-semibold text-foreground">
         Run History
         <span
-          class="text-sm font-normal text-[rgb(var(--foreground-muted))] ml-2"
+          class="text-sm font-normal text-muted-foreground ml-2"
         >
           (stored locally)
         </span>
       </h3>
       <button
         v-if="storedRuns.length > 0"
-        class="text-sm text-[rgb(var(--foreground-muted))] hover:text-[rgb(var(--error))] transition-colors"
+        class="text-sm text-muted-foreground hover:text-error transition-colors"
         @click="handleClear"
       >
         Clear all
@@ -22,10 +22,10 @@
       <div
         v-for="(run, i) in displayRuns"
         :key="`${run.timestamp}-${run.mode}-${i}`"
-        class="rounded-xl border border-[rgb(var(--border))] overflow-hidden"
+        class="rounded-xl border border-border overflow-hidden"
       >
         <button
-          class="w-full flex items-center justify-between gap-4 py-3 px-4 bg-[rgb(var(--glass))] hover:bg-[rgb(var(--border))]/30 transition-colors text-left"
+          class="w-full flex items-center justify-between gap-4 py-3 px-4 bg-glass hover:bg-border/30 transition-colors text-left"
           @click="toggleExpand(run, i)"
         >
           <div class="flex items-center gap-3">
@@ -38,35 +38,35 @@
               {{ getPerformanceRating(run).grade }}
             </span>
             <span
-              class="text-xs font-medium uppercase tracking-wide px-2 py-0.5 rounded bg-[rgb(var(--border))] text-[rgb(var(--foreground-muted))]"
+              class="text-xs font-medium uppercase tracking-wide px-2 py-0.5 rounded bg-border text-muted-foreground"
             >
               {{ run.mode }}
             </span>
-            <span class="text-sm text-[rgb(var(--foreground))]">
+            <span class="text-sm text-foreground">
               {{ run.score }} pts · {{ run.accuracy.toFixed(0) }}% ·
               {{ run.kps.toFixed(1) }} KPS
             </span>
             <span
               v-if="run.avgReactionMs != null"
-              class="text-sm text-[rgb(var(--foreground-secondary))]"
+              class="text-sm text-muted"
             >
               {{ run.avgReactionMs }}ms avg
             </span>
           </div>
-          <span class="text-xs text-[rgb(var(--foreground-muted))]">
+          <span class="text-xs text-muted-foreground">
             {{ formatDate(run.timestamp) }}
           </span>
           <Icon
             :name="expandedId === runId(run, i) ? 'ChevronUp' : 'ChevronDown'"
             :size="18"
-            class="text-[rgb(var(--foreground-muted))]"
+            class="text-muted-foreground"
           />
         </button>
 
         <Transition name="expand">
           <div
             v-if="expandedId === runId(run, i)"
-            class="p-4 border-t border-[rgb(var(--border))] bg-[rgb(var(--bg))]/50"
+            class="p-4 border-t border-border bg-background/50"
           >
             <AimTrainerRunDetail :run="run" />
           </div>

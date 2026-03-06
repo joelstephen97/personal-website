@@ -8,14 +8,16 @@
       isDragging && { opacity: 0.5, zIndex: 50 },
     ]"
     :class="[
-      'group glass-solid rounded-xl hover:border-accent/30 transition-colors relative',
+      'group glass-solid rounded-xl hover:border-accent/30 transition-colors relative border-l-[3px]',
       expanded ? 'col-span-full p-5' : 'p-3.5 min-h-[72px]',
+      categoryBorderColor,
+      project.featured && !expanded && 'ring-1 ring-accent/20',
     ]"
   >
     <button
       ref="handleRef"
       type="button"
-      class="absolute top-2 right-2 p-1 rounded-md text-muted hover:text-accent hover:bg-accent/10 cursor-grab active:cursor-grabbing touch-none z-10"
+      class="absolute top-2 right-2 p-1 rounded-md text-muted hover:text-accent hover:bg-accent/10 cursor-grab active:cursor-grabbing touch-none z-10 opacity-0 group-hover:opacity-100 transition-opacity"
       aria-label="Drag to reorder"
     >
       <Icon name="GripVertical" :size="16" />
@@ -54,7 +56,7 @@
       v-if="!expanded"
       :href="project.link"
       :class="[
-        'block focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--bg))] focus-visible:rounded-xl',
+        'block focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:rounded-xl',
         showStash ? 'pr-20' : 'pr-14',
       ]"
       @mouseenter="preloadRoute"
@@ -66,7 +68,7 @@
         {{ project.title }}
       </h3>
       <div
-        class="mt-2 w-8 h-8 rounded-lg bg-[rgb(var(--glass))] border border-border flex items-center justify-center shrink-0 group-hover:border-accent/50 transition-colors"
+        class="mt-2 w-8 h-8 rounded-lg bg-glass border border-border flex items-center justify-center shrink-0 group-hover:border-accent/50 transition-colors"
       >
         <Icon
           :name="project.icon"
@@ -80,12 +82,12 @@
     <div v-else class="pr-12">
       <a
         :href="project.link"
-        class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--bg))] focus-visible:rounded-xl"
+        class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:rounded-xl"
         @mouseenter="preloadRoute"
         @click.prevent="handleProjectClick"
       >
         <div
-          class="w-9 h-9 rounded-lg bg-[rgb(var(--glass))] border border-border flex items-center justify-center mb-2 group-hover:border-accent/50 transition-colors"
+          class="w-9 h-9 rounded-lg bg-glass border border-border flex items-center justify-center mb-2 group-hover:border-accent/50 transition-colors"
         >
           <Icon
             :name="project.icon"
@@ -106,7 +108,7 @@
             <span
               v-for="t in project.tech"
               :key="t"
-              class="px-1.5 py-0.5 rounded text-xs bg-[rgb(var(--glass))] text-muted-foreground border border-border"
+              class="px-1.5 py-0.5 rounded text-xs bg-glass text-muted-foreground border border-border"
             >
               {{ t }}
             </span>
@@ -142,6 +144,7 @@ const props = withDefaults(
       cta: string;
       icon: string;
       tech?: string[];
+      featured?: boolean;
     };
     index: number;
     stashedIds?: number[];
@@ -158,6 +161,24 @@ const props = withDefaults(
     onExpand: undefined,
   },
 );
+
+const categoryColorMap: Record<string, string> = {
+  Game: "border-l-amber-500",
+  AI: "border-l-rose-500",
+  Image: "border-l-rose-500",
+  Algorithms: "border-l-emerald-500",
+  Simulation: "border-l-emerald-500",
+  "Dev Tools": "border-l-blue-500",
+  Crypto: "border-l-blue-500",
+  "Web API": "border-l-violet-500",
+  Design: "border-l-pink-500",
+  Visualization: "border-l-cyan-500",
+};
+
+const categoryBorderColor = computed(() => {
+  const tech = props.project.tech?.[0];
+  return tech ? (categoryColorMap[tech] ?? "border-l-border") : "border-l-border";
+});
 
 const { activeTransitionSlug, setActiveTransitionSlug } =
   useProjectTransition();

@@ -1,14 +1,14 @@
 <template>
-  <div class="min-h-screen bg-[rgb(var(--bg))] px-6 py-12">
+  <div class="min-h-screen bg-background px-6 py-12">
     <div class="max-w-4xl mx-auto">
       <div class="flex items-center gap-3 mb-8">
         <BackToProjects />
-        <h1 class="text-3xl font-bold text-[rgb(var(--foreground))]">
+        <h1 class="text-3xl font-bold text-foreground">
           Image Captioning
         </h1>
       </div>
 
-      <p class="text-[rgb(var(--foreground-muted))] mb-8">
+      <p class="text-muted-foreground mb-8">
         AI-powered image descriptions run entirely in your browser. No server,
         no uploads—privacy-first.
       </p>
@@ -20,7 +20,7 @@
           :class="
             isOverDropZone
               ? 'border-accent bg-accent/5'
-              : 'border-[rgb(var(--border))] hover:border-accent/50'
+              : 'border-border hover:border-accent/50'
           "
           @click="fileInput?.click()"
         >
@@ -34,16 +34,16 @@
           <Icon
             name="Image"
             :size="48"
-            class="text-[rgb(var(--foreground-muted))] mx-auto mb-4"
+            class="text-muted-foreground mx-auto mb-4"
           />
-          <p class="text-[rgb(var(--foreground))] font-medium mb-1">
+          <p class="text-foreground font-medium mb-1">
             {{
               imageSrc
                 ? "Drop another image or click to replace"
                 : "Drop an image or click to select"
             }}
           </p>
-          <p class="text-sm text-[rgb(var(--foreground-muted))]">
+          <p class="text-sm text-muted-foreground">
             JPG, PNG, WebP supported
           </p>
         </div>
@@ -51,7 +51,7 @@
         <div v-if="imageSrc" class="mt-6 grid md:grid-cols-2 gap-6">
           <div class="glass-solid rounded-xl p-4">
             <p
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-2"
+              class="text-xs text-muted-foreground uppercase tracking-wide mb-2"
             >
               Image
             </p>
@@ -60,12 +60,12 @@
               width="400"
               height="256"
               alt="Uploaded"
-              class="w-full rounded-lg object-contain max-h-64 bg-[rgb(var(--glass))]"
+              class="w-full rounded-lg object-contain max-h-64 bg-glass"
             />
           </div>
           <div class="glass-solid rounded-xl p-4">
             <p
-              class="text-xs text-[rgb(var(--foreground-muted))] uppercase tracking-wide mb-2"
+              class="text-xs text-muted-foreground uppercase tracking-wide mb-2"
             >
               Caption
             </p>
@@ -76,7 +76,7 @@
               <span class="text-accent text-sm">Generating caption...</span>
             </div>
             <div v-else-if="caption" class="space-y-2">
-              <p class="text-[rgb(var(--foreground))] leading-relaxed">
+              <p class="text-foreground leading-relaxed">
                 {{ caption }}
               </p>
               <button
@@ -86,7 +86,7 @@
                 <Icon name="Copy" :size="14" /> Copy
               </button>
             </div>
-            <p v-else class="text-[rgb(var(--foreground-muted))] py-8">
+            <p v-else class="text-muted-foreground py-8">
               Caption will appear here
             </p>
           </div>
@@ -100,7 +100,7 @@
             <Icon name="Sparkles" :size="18" /> Generate Caption
           </button>
           <button
-            class="px-5 py-3 rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] font-medium flex items-center gap-2 hover:border-accent/50 transition"
+            class="px-5 py-3 rounded-xl bg-glass border border-border font-medium flex items-center gap-2 hover:border-accent/50 transition"
             @click="clear"
           >
             <Icon name="Trash2" :size="18" /> Clear

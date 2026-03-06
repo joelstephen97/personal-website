@@ -1,7 +1,8 @@
 <template>
   <button
     aria-label="Toggle dark mode"
-    class="p-2 rounded-xl hover:bg-[rgb(var(--glass))] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--bg))]"
+    title="Toggle dark mode"
+    class="p-2 rounded-xl hover:bg-glass transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     @click="
       $colorMode.preference = $colorMode.value === 'dark' ? 'light' : 'dark'
     "

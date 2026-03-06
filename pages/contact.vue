@@ -1,19 +1,16 @@
 <template>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-    <!-- Header -->
-    <header class="text-center mb-8" aria-labelledby="contact-heading">
-      <p class="text-xs font-medium text-accent tracking-wide uppercase mb-2">
-        Get in touch
-      </p>
-      <h1 id="contact-heading" class="text-h2 font-bold text-foreground mb-1">
-        Contact
-      </h1>
-      <p class="text-sm text-muted max-w-md mx-auto">Let's talk.</p>
-    </header>
+    <PageHeader
+      id="contact-heading"
+      title="Contact"
+      eyebrow="Get in touch"
+      subtitle="Let's talk."
+    />
 
-    <div class="grid lg:grid-cols-2 gap-8 items-stretch">
+    <div class="grid lg:grid-cols-2 gap-8 items-start">
       <!-- Left: Contact info -->
       <section
+        v-reveal="{ delay: 100 }"
         class="glass-solid rounded-2xl p-5 flex flex-col"
         aria-label="Contact details"
       >
@@ -57,6 +54,7 @@
 
       <!-- Right: Message form -->
       <section
+        v-reveal="{ delay: 200 }"
         class="glass-solid rounded-2xl p-5"
         aria-labelledby="form-heading"
       >
@@ -77,7 +75,7 @@
               v-model="form.name"
               type="text"
               placeholder="Your name"
-              class="w-full px-3 py-1.5 text-sm rounded-lg bg-[rgb(var(--glass))] border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition"
+              class="form-input"
             />
           </div>
           <div>
@@ -88,7 +86,7 @@
               v-model="form.email"
               type="email"
               placeholder="you@example.com"
-              class="w-full px-3 py-1.5 text-sm rounded-lg bg-[rgb(var(--glass))] border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition"
+              class="form-input"
             />
           </div>
           <div>
@@ -99,7 +97,7 @@
               v-model="form.message"
               rows="2"
               placeholder="Your message..."
-              class="w-full px-3 py-1.5 text-sm rounded-lg bg-[rgb(var(--glass))] border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition resize-none"
+              class="form-input resize-none"
             />
           </div>
           <div>
@@ -110,7 +108,7 @@
               v-model="form.captcha"
               type="text"
               placeholder="Answer"
-              class="w-full px-3 py-1.5 text-sm rounded-lg bg-[rgb(var(--glass))] border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition"
+              class="form-input"
             />
           </div>
           <button
@@ -154,28 +152,32 @@
           </div>
         </Transition>
 
-        <div class="mt-3 pt-3 border-t border-border">
-          <p class="text-xs text-muted-foreground mb-2">Demo: WebAuthn</p>
-          <button
-            v-if="webauthnSupported"
-            type="button"
-            class="btn-secondary text-sm py-2 px-4 flex items-center gap-2"
-            :disabled="webauthnLoading"
-            @click="tryWebAuthn"
-          >
-            <Icon name="Fingerprint" :size="16" />
-            {{
-              webauthnLoading
-                ? "Checking..."
-                : webauthnSuccess
-                  ? "Authenticated"
-                  : "Try biometric login"
-            }}
-          </button>
-          <p v-else class="text-xs text-muted">
-            WebAuthn not supported in this browser.
-          </p>
-        </div>
+        <details class="mt-3 pt-3 border-t border-border">
+          <summary class="text-xs text-muted-foreground cursor-pointer hover:text-foreground transition-colors select-none">
+            Web API demo: Biometric authentication
+          </summary>
+          <div class="mt-2">
+            <button
+              v-if="webauthnSupported"
+              type="button"
+              class="btn-secondary text-sm py-2 px-4 flex items-center gap-2"
+              :disabled="webauthnLoading"
+              @click="tryWebAuthn"
+            >
+              <Icon name="Fingerprint" :size="16" />
+              {{
+                webauthnLoading
+                  ? "Checking..."
+                  : webauthnSuccess
+                    ? "Authenticated"
+                    : "Try biometric login"
+              }}
+            </button>
+            <p v-else class="text-xs text-muted">
+              WebAuthn not supported in this browser.
+            </p>
+          </div>
+        </details>
       </section>
     </div>
   </div>
@@ -201,21 +203,21 @@ const contactInfo = [
   },
   {
     label: "LinkedIn",
-    value: "Connect",
+    value: "LinkedIn",
     icon: "Linkedin",
     href: "https://linkedin.com/in/joelthomasstephen",
     external: true,
   },
   {
     label: "WhatsApp",
-    value: "Message me",
+    value: "WhatsApp",
     icon: "MessageCircle",
     href: "https://wa.me/+971568098085",
     external: true,
   },
   {
     label: "Calendly",
-    value: "Book a call",
+    value: "Calendly",
     icon: "Calendar",
     href: "https://calendly.com/joel-stephen-work/30min",
     external: true,

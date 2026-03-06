@@ -8,7 +8,7 @@
       >
         {{ getPerformanceRating(run).grade }}
       </span>
-      <span class="text-sm text-[rgb(var(--foreground-secondary))]">
+      <span class="text-sm text-muted">
         {{ getPerformanceRating(run).label }}
       </span>
     </div>
@@ -16,34 +16,34 @@
     <!-- Primary stats -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
       <div
-        class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3"
+        class="rounded-lg bg-glass border border-border p-3"
       >
-        <p class="text-xs text-[rgb(var(--foreground-muted))]">Score</p>
-        <p class="font-semibold text-[rgb(var(--foreground))]">
+        <p class="text-xs text-muted-foreground">Score</p>
+        <p class="font-semibold text-foreground">
           {{ run.score }}
         </p>
       </div>
       <div
-        class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3"
+        class="rounded-lg bg-glass border border-border p-3"
       >
-        <p class="text-xs text-[rgb(var(--foreground-muted))]">Accuracy</p>
-        <p class="font-semibold text-[rgb(var(--foreground))]">
+        <p class="text-xs text-muted-foreground">Accuracy</p>
+        <p class="font-semibold text-foreground">
           {{ run.accuracy.toFixed(1) }}%
         </p>
       </div>
       <div
-        class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3"
+        class="rounded-lg bg-glass border border-border p-3"
       >
-        <p class="text-xs text-[rgb(var(--foreground-muted))]">KPS</p>
-        <p class="font-semibold text-[rgb(var(--foreground))]">
+        <p class="text-xs text-muted-foreground">KPS</p>
+        <p class="font-semibold text-foreground">
           {{ run.kps.toFixed(2) }}
         </p>
       </div>
       <div
-        class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3"
+        class="rounded-lg bg-glass border border-border p-3"
       >
-        <p class="text-xs text-[rgb(var(--foreground-muted))]">Duration</p>
-        <p class="font-semibold text-[rgb(var(--foreground))]">
+        <p class="text-xs text-muted-foreground">Duration</p>
+        <p class="font-semibold text-foreground">
           {{ run.duration.toFixed(1) }}s
         </p>
       </div>
@@ -59,36 +59,36 @@
       class="grid grid-cols-2 sm:grid-cols-4 gap-3"
     >
       <div
-        class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3"
+        class="rounded-lg bg-glass border border-border p-3"
       >
-        <p class="text-xs text-[rgb(var(--foreground-muted))]">Hits</p>
-        <p class="font-semibold text-[rgb(var(--foreground))]">
+        <p class="text-xs text-muted-foreground">Hits</p>
+        <p class="font-semibold text-foreground">
           {{ run.hits }}
         </p>
       </div>
       <div
-        class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3"
+        class="rounded-lg bg-glass border border-border p-3"
       >
-        <p class="text-xs text-[rgb(var(--foreground-muted))]">Misses</p>
-        <p class="font-semibold text-[rgb(var(--foreground))]">
+        <p class="text-xs text-muted-foreground">Misses</p>
+        <p class="font-semibold text-foreground">
           {{ run.misses }}
         </p>
       </div>
       <div
         v-if="run.totalMouseDistancePx"
-        class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3"
+        class="rounded-lg bg-glass border border-border p-3"
       >
-        <p class="text-xs text-[rgb(var(--foreground-muted))]">Mouse dist</p>
-        <p class="font-semibold text-[rgb(var(--foreground))]">
+        <p class="text-xs text-muted-foreground">Mouse dist</p>
+        <p class="font-semibold text-foreground">
           {{ (run.totalMouseDistancePx / 1000).toFixed(1) }}k px
         </p>
       </div>
       <div
         v-if="run.avgFlickDistancePx != null"
-        class="rounded-lg bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-3"
+        class="rounded-lg bg-glass border border-border p-3"
       >
-        <p class="text-xs text-[rgb(var(--foreground-muted))]">Avg flick</p>
-        <p class="font-semibold text-[rgb(var(--foreground))]">
+        <p class="text-xs text-muted-foreground">Avg flick</p>
+        <p class="font-semibold text-foreground">
           {{ run.avgFlickDistancePx }}px
         </p>
       </div>
@@ -97,32 +97,32 @@
     <!-- Reaction time (Avg, Median, P95 prominent; Min/Max secondary) -->
     <div
       v-if="run.reactionTimeStats"
-      class="rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-4"
+      class="rounded-xl bg-glass border border-border p-4"
     >
-      <h4 class="font-semibold text-[rgb(var(--foreground))] mb-3">
+      <h4 class="font-semibold text-foreground mb-3">
         Reaction Time
       </h4>
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm mb-3">
         <div>
-          <span class="text-[rgb(var(--foreground-muted))]">Avg</span>
-          <p class="font-medium text-[rgb(var(--foreground))]">
+          <span class="text-muted-foreground">Avg</span>
+          <p class="font-medium text-foreground">
             {{ run.reactionTimeStats.avg }}ms
           </p>
         </div>
         <div>
-          <span class="text-[rgb(var(--foreground-muted))]">Median</span>
-          <p class="font-medium text-[rgb(var(--foreground))]">
+          <span class="text-muted-foreground">Median</span>
+          <p class="font-medium text-foreground">
             {{ run.reactionTimeStats.median }}ms
           </p>
         </div>
         <div>
-          <span class="text-[rgb(var(--foreground-muted))]">P95</span>
-          <p class="font-medium text-[rgb(var(--foreground))]">
+          <span class="text-muted-foreground">P95</span>
+          <p class="font-medium text-foreground">
             {{ run.reactionTimeStats.p95 }}ms
           </p>
         </div>
       </div>
-      <p class="text-xs text-[rgb(var(--foreground-muted))]">
+      <p class="text-xs text-muted-foreground">
         Min {{ run.reactionTimeStats.min }}ms · Max
         {{ run.reactionTimeStats.max }}ms
       </p>
@@ -131,13 +131,13 @@
     <!-- Mouse path visualization -->
     <div
       v-if="(run.mousePath?.length ?? 0) > 1"
-      class="rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-4"
+      class="rounded-xl bg-glass border border-border p-4"
     >
-      <h4 class="font-semibold text-[rgb(var(--foreground))] mb-3">
+      <h4 class="font-semibold text-foreground mb-3">
         Mouse Path
       </h4>
       <div
-        class="relative aspect-video bg-[rgb(var(--bg))] rounded-lg overflow-hidden"
+        class="relative aspect-video bg-background rounded-lg overflow-hidden"
       >
         <svg
           class="absolute inset-0 w-full h-full"
@@ -169,7 +169,7 @@
           />
         </svg>
       </div>
-      <p class="text-xs text-[rgb(var(--foreground-muted))] mt-2">
+      <p class="text-xs text-muted-foreground mt-2">
         Green = hits, Red = misses. Path sampled every 5ms.
       </p>
     </div>
@@ -182,27 +182,27 @@
           (h) => h.reactionMs != null || h.flickDistancePx != null,
         )
       "
-      class="rounded-xl bg-[rgb(var(--glass))] border border-[rgb(var(--border))] p-4"
+      class="rounded-xl bg-glass border border-border p-4"
     >
-      <h4 class="font-semibold text-[rgb(var(--foreground))] mb-3">
+      <h4 class="font-semibold text-foreground mb-3">
         Hit Breakdown
       </h4>
       <div class="max-h-48 overflow-y-auto space-y-1 text-sm">
         <div
           v-for="(h, i) in run.hitData ?? []"
           :key="i"
-          class="flex justify-between gap-4 py-1 border-b border-[rgb(var(--border))] last:border-0"
+          class="flex justify-between gap-4 py-1 border-b border-border last:border-0"
         >
-          <span class="text-[rgb(var(--foreground-muted))]">#{{ i + 1 }}</span>
+          <span class="text-muted-foreground">#{{ i + 1 }}</span>
           <span
             v-if="h.reactionMs != null"
-            class="text-[rgb(var(--foreground))]"
+            class="text-foreground"
           >
             {{ h.reactionMs }}ms
           </span>
           <span
             v-if="h.flickDistancePx != null"
-            class="text-[rgb(var(--foreground))]"
+            class="text-foreground"
           >
             {{ Math.round(h.flickDistancePx) }}px flick
           </span>
