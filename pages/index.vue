@@ -179,8 +179,8 @@ const techList = [
   "TypeScript",
   "FastAPI",
   "PostgreSQL",
-  "Docker",
-  "Kubernetes",
+  "Yjs",
+  "Anthropic",
 ];
 
 const featuredProjects = [
