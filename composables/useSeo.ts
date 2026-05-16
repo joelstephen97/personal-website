@@ -28,7 +28,7 @@ export function useSeo(options: SeoOptions) {
   const route = useRoute();
   const path = options.path ?? route.path;
   const url = path === "/" ? siteUrl : `${siteUrl}${path}`;
-  const ogImage = options.ogImage ?? `${siteUrl}/og-image.png`;
+  const ogImage = options.ogImage ?? `${siteUrl}/og-image.jpg`;
   const ogImageAlt = options.ogImageAlt ?? OG_IMAGE_ALT;
 
   const publicConfig = config.public as {

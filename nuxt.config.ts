@@ -101,7 +101,7 @@ export default defineNuxtConfig({
     },
     workbox: {
       globPatterns: ["**/*.{js,css,html,png,svg,ico,woff2}"],
-      globIgnores: ["**/og-image.png"],
+      globIgnores: ["**/og-image.png", "**/og-image-original.png"],
     },
     client: {
       installPrompt: true,

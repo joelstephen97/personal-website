@@ -191,6 +191,40 @@
         </details>
       </section>
     </div>
+
+    <!-- FAQ -->
+    <section
+      v-reveal="{ delay: 300 }"
+      class="mt-10"
+      aria-labelledby="faq-heading"
+    >
+      <h2
+        id="faq-heading"
+        class="flex items-center gap-2 text-lg font-semibold text-foreground mb-4"
+      >
+        <Icon name="HelpCircle" :size="20" class="text-accent" />
+        Hiring manager FAQ
+      </h2>
+      <div class="grid md:grid-cols-2 gap-3">
+        <details
+          v-for="(item, i) in faqItems"
+          :key="i"
+          class="glass-solid rounded-2xl p-5 group"
+        >
+          <summary
+            class="font-medium text-foreground cursor-pointer flex items-center justify-between gap-3"
+          >
+            <span>{{ item.q }}</span>
+            <Icon
+              name="ChevronDown"
+              :size="16"
+              class="text-accent group-open:rotate-180 transition-transform shrink-0"
+            />
+          </summary>
+          <p class="text-sm text-muted mt-3 leading-relaxed">{{ item.a }}</p>
+        </details>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -200,10 +234,84 @@ import Icon from "~/components/ui/Icon.vue";
 import emailjs from "@emailjs/browser";
 
 useSeo({
-  title: "Contact | Joel Stephen - Software Engineer",
+  title:
+    "Contact | Joel Stephen — Open to Senior / Staff roles (GCC · SEA · EEA)",
   description:
-    "Get in touch with Joel Stephen. Email, LinkedIn, WhatsApp, Calendly. Based in Abu Dhabi, UAE. Open to work globally.",
+    "Get in touch with Joel Stephen. Email, LinkedIn, WhatsApp, Calendly. Based in Abu Dhabi, UAE. Open to Senior / Staff Frontend, Full-Stack, Forward Deployed, or Applied AI roles across the GCC, Southeast Asia, and the European Economic Area.",
 });
+
+// FAQPage schema — pre-answers the most common recruiter questions so they
+// surface in Google's rich results AND give visiting hiring managers
+// straight answers before they ever hit the form.
+const config = useRuntimeConfig();
+const SITE_URL =
+  (config.public as { siteUrl?: string }).siteUrl ??
+  "https://joelstephen.vercel.app";
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What kind of roles are you looking for?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Senior, Staff, Lead, or Principal-level Frontend, Full-Stack, Forward Deployed, or Applied AI Engineer roles. Strongest fit on AI workflow surfaces, real-time collaborative UI, node-graph editors, applied ML, and customer-embedded product engineering.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Which regions are you open to?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The GCC (UAE, Saudi Arabia, Qatar, Kuwait, Bahrain, Oman), Southeast Asia (Singapore, Malaysia, Thailand, Vietnam, Indonesia, Philippines), and the European Economic Area (EU plus Norway, Iceland, Liechtenstein). Open to fully remote roles with regional time-zone overlap.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do you need visa sponsorship?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Currently resident in the UAE on a work permit via AppliedAI, so no sponsorship is needed inside the GCC. Sponsorship is required for SEA and EEA roles.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What's your notice period and earliest start date?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Notice at AppliedAI is one month. Earliest realistic start after accepting an offer is roughly five weeks (one month plus a one-week handoff).",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What salary band are you targeting?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Approximately USD 9,000 – 15,000 per month for fully remote arrangements, with appropriate local-currency conversion for on-site or hybrid roles. Pay flexes with mode (remote vs. on-site) and total compensation structure.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How quickly do you reply to messages?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Usually within 24 hours, often sooner. Every message gets read.",
+      },
+    },
+  ],
+};
+useHead({
+  script: [
+    { type: "application/ld+json", innerHTML: JSON.stringify(faqSchema) },
+  ],
+});
+void SITE_URL;
+
+const faqItems = faqSchema.mainEntity.map((m) => ({
+  q: m.name,
+  a: m.acceptedAnswer.text,
+}));
 
 const contactInfo = [
   {

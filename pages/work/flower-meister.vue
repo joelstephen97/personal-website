@@ -240,7 +240,7 @@ const articleSchema = {
     "How I shipped a PWA for the international flower trade with YOLO v5 + OpenCV computer vision for lifecycle and defect detection.",
   author: { "@type": "Person", name: "Joel Stephen", url: SITE_URL },
   datePublished: "2026-05-16",
-  image: `${SITE_URL}/og-image.png`,
+  image: `${SITE_URL}/og-image.jpg`,
   url: `${SITE_URL}/work/flower-meister`,
 };
 const breadcrumbSchema = {

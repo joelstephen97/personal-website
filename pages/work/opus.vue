@@ -456,7 +456,7 @@ const articleSchema = {
     "Three production surfaces (Process Discovery, Opus Technical Canvas, Opus-CX) on AppliedAI's AI workflow platform.",
   author: { "@type": "Person", name: "Joel Stephen", url: SITE_URL },
   datePublished: "2026-05-16",
-  image: `${SITE_URL}/og-image.png`,
+  image: `${SITE_URL}/og-image.jpg`,
   url: `${SITE_URL}/work/opus`,
 };
 const breadcrumbSchema = {
