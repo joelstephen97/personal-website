@@ -1,64 +1,98 @@
 # Joel Stephen
 
-> Results-driven Software Engineer with 5+ years of experience in full-stack development. Proficient in Python (FastAPI, Django), JavaScript, and modern front-end frameworks (Vue.js, React.js). Frontend Engineer at AppliedAI building the Opus platform. Based in Abu Dhabi, UAE. Open to work globally.
+> Frontend Engineer at AppliedAI shipping AI workflow surfaces — Process Discovery (Yjs/CRDT multiplayer canvas), Opus Technical Canvas (n8n fork), and Opus-CX. 5+ years across Vue, React, TypeScript, Python, and FastAPI, with production experience in real-time collaborative editing, large-graph rendering, applied ML (YOLO v5, OpenCV), and LLM integration (Anthropic, OpenAI). Based in Abu Dhabi, UAE. Open to Senior / Staff Frontend, Full-Stack, Forward Deployed, or Applied AI roles in Singapore, Malaysia, Thailand, Vietnam, or remote with regional time-zone overlap.
 
 ## Contact
 
 - **Email:** joel.stephen.work@gmail.com
 - **Phone:** +971 56 809 8085
+- **Location:** Abu Dhabi, UAE
 - **LinkedIn:** https://linkedin.com/in/joelthomasstephen
 - **GitHub:** https://github.com/joelstephen97
+- **Personal site:** https://joelstephen.vercel.app
+
+## Open to work
+
+- **Levels:** Senior, Staff, Lead, Principal, Forward Deployed Engineer, Applied AI Engineer
+- **Regions:** Singapore, Malaysia, Thailand, Vietnam, Remote (UAE / SEA-friendly)
+- **Sponsorship:** Required in SG / MY / TH / VN
+- **Notice period at AppliedAI:** 1 month
+- **Salary band (remote, USD/month):** USD 9,000 – 15,000 (open to local-currency conversion)
+- **Mobility:** 25–75% regional travel; open to relocation
+- **Work mode:** Remote / hybrid / onsite — pay-dependent. Fast adapter.
 
 ## Key Links
 
 - [Portfolio](https://joelstephen.vercel.app): Main site
-- [About](https://joelstephen.vercel.app): Overview and intro
-- [Experience](https://joelstephen.vercel.app/experience): Career timeline
-- [Projects](https://joelstephen.vercel.app/project): Work and side projects
+- [Experience](https://joelstephen.vercel.app/experience): Career timeline + education + certifications
+- [Projects](https://joelstephen.vercel.app/project): Work case studies + interactive side projects
 - [Contact](https://joelstephen.vercel.app/contact): Get in touch
+- [Resume PDF](https://joelstephen.vercel.app/joel-stephen-resume.pdf): Downloadable resume
 
-## What I Do
+## Current role — Frontend Engineer · AppliedAI · Abu Dhabi (Jun 2025 – Present)
 
-**Full-stack web development**
-- Vue.js and React.js: Reusable component libraries, complex multi-step workflow UIs, state management
-- Python: FastAPI, Django, Pydantic for API development and data validation
-- TypeScript, Node.js for backend and tooling
+Shipping production frontend on **Opus**, AppliedAI's AI workflow platform for enterprise customers in finance, telecom, healthcare, and AI / cloud infrastructure.
 
-**Enterprise AI and workflow automation**
-- Building production features for Opus (AppliedAI): visual workflow Builder, human-in-the-loop interfaces, task configuration, job execution views
-- Agentic automation UIs: Agent tasks, Human tasks, Review tasks, Data tasks
-- Integration configuration and connectivity UI for 3,500+ marketplace integrations
+- **Process Discovery** — Brought this product to life. Real-time multiplayer canvas (React + Yjs/CRDT) where customers co-edit deep descriptions of their processes. Output feeds Opus's workflow generation. Stack: React, Yjs, FastAPI, Anthropic and OpenAI models, custom situation-based AI pipelines.
+- **Opus Technical Canvas** — Spearheaded a fork of n8n rewritten as Opus's node-graph surface. Vue + TypeScript, custom expressions engine, large-graph rendering, undo/redo correctness, virtualised lists.
+- **Opus-CX** — Enterprise-facing surface wrapping Opus's capabilities into a clean, usable product. React + Zustand.
+- **Mentoring** — Coaches junior and mid-level engineers; partners with internal CX, presales, and solutions teams.
 
-**API development and integration**
-- REST APIs, GraphQL (Strawberry, URQL), Pydantic
-- Payment gateways, third-party services (Google Ads, Analytics, LDAP)
-- DynamoDB, PostgreSQL, MySQL, SQLite
+## Earlier roles
 
-**Machine learning and computer vision**
-- TensorFlow, YOLO v5 for custom model training
-- OpenCV for object detection and tracking
-- Browser-based AI: image captioning, background removal, speech-to-text (Whisper)
+- **Otani Trading FZCO — Senior Software Engineer** (Jul 2024 – Feb 2025, Dubai). Led project direction and frontend delivery on a B2C PWA for the international flower trade. Trained YOLO v5 + OpenCV to detect flower lifecycle (dying flowers, falling leaves, vase health) and physical defects — enabled bulk purchase deals shipped internationally. Owned hosting, CI/CD, and monitoring end-to-end. URQL/GraphQL on the client, Strawberry + Python on the backend.
+- **Otani Trading FZCO — Software Engineer (Project FMI)** (Sep 2023 – Jul 2024, Dubai). Embedded with vendor, merchant, and admin user groups on a large-scale B2B platform. Shipped 7 major features driven by direct user requirements. Backend in FastAPI + Pydantic + Peewee; GraphQL with Strawberry + DynamoDB on Project Valit. UI in VueJS + RadixVue + shadcn. E2E tests in Pytest and Cypress.
+- **RIOT by Preowned Collective Portal FZ LLC — Junior Software Engineer** (Sep 2019 – Feb 2023, Dubai). Led cross-functional feature delivery on a customer-facing Node.js + React.js platform. Integrated 3 payment gateways and multiple third-party services. Migrated data from a legacy platform. Automated operational tasks in Python.
+- **Alucor Limited — SDE Intern** (Jan 2019 – Jul 2019, Dubai). Designed and shipped a Django web app to replace a critical Excel-based workflow. REST APIs, LDAP authentication, SQLAlchemy data layer.
 
-**DevOps, testing, and agile**
-- Docker, Kubernetes for containerization and orchestration
-- Pytest, Cypress, Selenium for backend and E2E testing
-- Git, JIRA, Confluence for version control and sprint planning
+## Education
 
-**UI/UX design**
-- Figma for prototyping and collaboration
-- Design systems: shadcn UI, Radix UI, RadixVue
-- Tailwind CSS, accessible component design
+- **B.E. Computer Science Engineering (Honours)** — BITS Pilani, Dubai Campus (Aug 2015 – Aug 2019).
+- Coursework: OOP, Data Structures, Artificial Intelligence, Database Design.
+- Capstone: TensorFlow / Python stock-price prediction.
 
-**Databases**
-- PostgreSQL (schema design, migrations, query optimization)
-- SQLAlchemy, Peewee ORM, DynamoDB with GraphQL
+## Side projects
 
-## What I Do Not Do
+- **Cursor for Product Managers** — Built and pitched to YC X26; reached top 10% of applications.
+- **Food-discovery app** — Recommends food spots by taste profile rather than location relevance. Originated during travel in Malaysia. MVP done, heading to Google Play Store. Built with Claude Code.
 
-- **Unpaid consulting or speculative work:** I do not provide free consulting, unpaid trials, or work on spec
-- **Legal, financial, or medical advice:** I am a software engineer, not a licensed professional in those fields
-- **Guarantees on outcomes:** I deliver quality work but do not guarantee specific business results, rankings, or conversion rates
-- **Work outside my expertise:** I do not take on projects requiring skills I do not have (e.g., mobile native apps, blockchain/Web3, game engine development)
-- **Rush jobs without proper scope:** I require clear requirements and reasonable timelines; I do not accept last-minute emergency projects without prior agreement
-- **Exclusive or non-compete arrangements:** Unless explicitly negotiated, I may work with other clients and on personal projects
-- **Providing source code or IP without contract:** All deliverables require a signed agreement defining ownership and usage rights
+## Skills
+
+**Frontend (primary).** Vue 3, React, TypeScript, JavaScript (ES6+), NuxtJS, RadixVue, shadcn, Zustand, HTML5, CSS3, responsive design; Vite, Webpack.
+
+**Real-time and collaborative systems.** Yjs (CRDT), WebSocket, Server-Sent Events (SSE); shipped multiplayer canvas surfaces with versioning.
+
+**Advanced UI and performance.** Large-graph rendering, canvas performance, virtualised lists, undo/redo correctness, node-graph editors, expression engines.
+
+**LLM and AI engineering.** Anthropic API, OpenAI API in production; custom situation-based AI pipelines; RAG patterns; prompt engineering; agent-style workflow orchestration; n8n (forked + extended).
+
+**Backend and APIs.** Python (FastAPI, Django, Pydantic, Peewee, SQLAlchemy); GraphQL (Strawberry, URQL); REST APIs; microservice-style integrations.
+
+**Data.** SQL (PostgreSQL, MySQL, SQLite); limited DynamoDB; schema design, idempotent operations.
+
+**Applied ML and CV.** YOLO v5 (training, production), OpenCV (object detection + tracking); TensorFlow (academic capstone).
+
+**Testing.** Pytest, Cypress, Selenium.
+
+**DevOps and delivery.** Hosting, CI/CD, monitoring ownership at project scale. Git, GitLab, GitHub, Bitbucket. JIRA, Confluence, Postman. Kanban / Agile sprints.
+
+**Languages (spoken).** English (fluent), Hindi (conversational), Malayalam (native, conversational).
+
+**Certifications.** 16 listed on LinkedIn. AWS Cloud Practitioner — in progress.
+
+## What I do not claim
+
+- Production Kubernetes, Docker Swarm, Terraform, Pulumi, or CloudFormation — touched, not shipped at production scale.
+- Production native mobile (Swift, Kotlin, React Native, Flutter) — only experimental React Native.
+- Rust, Go, C++, Scala, Elixir, Haskell — no professional experience.
+- Data engineering at scale (Spark, Airflow, Kafka, dbt) — no.
+- Engineering Manager title — has mentored juniors and mid-level engineers; has not held a formal management title.
+- Master's or PhD — Bachelor's only.
+
+## Hot take
+
+A frontend engineer is only good if they can think like a user. Mechanically implementing designs without understanding the user story and the PRD doesn't count as frontend work.
+
+## Why SEA, in his own words
+
+> "I love living in South East Asia — the climate, the people, food, and culture appeals to me a lot. I feel at home."
