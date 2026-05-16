@@ -1,6 +1,6 @@
 # Joel Stephen
 
-> Frontend Engineer at AppliedAI shipping AI workflow surfaces — Process Discovery (Yjs/CRDT multiplayer canvas), Opus Technical Canvas (n8n fork), and Opus-CX. 5+ years across Vue, React, TypeScript, Python, and FastAPI, with production experience in real-time collaborative editing, large-graph rendering, applied ML (YOLO v5, OpenCV), and LLM integration (Anthropic, OpenAI). Based in Abu Dhabi, UAE. Open to Senior / Staff Frontend, Full-Stack, Forward Deployed, or Applied AI roles in Singapore, Malaysia, Thailand, Vietnam, or remote with regional time-zone overlap.
+> Frontend Engineer at AppliedAI shipping AI workflow surfaces — Process Discovery (Yjs/CRDT multiplayer canvas), Opus Technical Canvas (n8n fork), and Opus-CX. 5+ years across Vue, React, TypeScript, Python, and FastAPI, with production experience in real-time collaborative editing, large-graph rendering, applied ML (YOLO v5, OpenCV), and LLM integration (Anthropic, OpenAI). Based in Abu Dhabi, UAE. Open to Senior / Staff Frontend, Full-Stack, Forward Deployed, or Applied AI roles across the GCC (Gulf Cooperation Council), Southeast Asia (SEA), and the European Economic Area (EEA).
 
 ## Contact
 
@@ -14,8 +14,8 @@
 ## Open to work
 
 - **Levels:** Senior, Staff, Lead, Principal, Forward Deployed Engineer, Applied AI Engineer
-- **Regions:** Singapore, Malaysia, Thailand, Vietnam, Remote (UAE / SEA-friendly)
-- **Sponsorship:** Required in SG / MY / TH / VN
+- **Regions:** GCC (UAE, Saudi Arabia, Qatar, Kuwait, Bahrain, Oman), Southeast Asia (Singapore, Malaysia, Thailand, Vietnam, Indonesia, Philippines), and the EEA (EU plus Norway, Iceland, Liechtenstein). Open to fully remote roles with regional time-zone overlap.
+- **Sponsorship:** Required outside the GCC (where Joel is currently resident on a UAE work permit via AppliedAI).
 - **Notice period at AppliedAI:** 1 month
 - **Salary band (remote, USD/month):** USD 9,000 – 15,000 (open to local-currency conversion)
 - **Mobility:** 25–75% regional travel; open to relocation
@@ -93,6 +93,8 @@ Shipping production frontend on **Opus**, AppliedAI's AI workflow platform for e
 
 A frontend engineer is only good if they can think like a user. Mechanically implementing designs without understanding the user story and the PRD doesn't count as frontend work.
 
-## Why SEA, in his own words
+## Personal note
+
+Joel currently lives in Abu Dhabi (GCC) and is open to staying or relocating to SEA or the EEA. On Southeast Asia in his own words:
 
 > "I love living in South East Asia — the climate, the people, food, and culture appeals to me a lot. I feel at home."

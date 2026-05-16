@@ -45,7 +45,7 @@
           <span
             class="text-xs sm:text-sm font-medium text-accent group-hover:text-accent-hover"
           >
-            Open to Senior / Staff roles · SG · MY · TH · VN · Remote
+            Open to Senior / Staff roles · GCC · SEA · EEA
           </span>
         </a>
         <div
@@ -193,7 +193,7 @@ useSeo({
   title:
     "Joel Stephen | Frontend Engineer · AI Workflows · Vue · React · Python",
   description:
-    "Frontend Engineer at AppliedAI shipping AI workflow surfaces — Process Discovery (Yjs/CRDT), Opus Technical Canvas (n8n fork), Opus-CX. 5+ yrs across Vue, React, TypeScript, Python, FastAPI. Open to Senior/Staff roles in Singapore, Malaysia, Thailand, Vietnam. Based in Abu Dhabi, UAE.",
+    "Frontend Engineer at AppliedAI shipping AI workflow surfaces — Process Discovery (Yjs/CRDT), Opus Technical Canvas (n8n fork), Opus-CX. 5+ yrs across Vue, React, TypeScript, Python, FastAPI. Open to Senior/Staff roles across the GCC (Gulf), Southeast Asia, and EEA (Europe). Based in Abu Dhabi, UAE.",
 });
 
 const config = useRuntimeConfig();
@@ -260,10 +260,34 @@ const personSchema = {
     "@type": "Demand",
     name: "Senior / Staff Frontend, Full-Stack, Forward Deployed, or Applied AI Engineer roles",
     areaServed: [
-      { "@type": "Country", name: "Singapore" },
-      { "@type": "Country", name: "Malaysia" },
-      { "@type": "Country", name: "Thailand" },
-      { "@type": "Country", name: "Vietnam" },
+      {
+        "@type": "Place",
+        name: "Gulf Cooperation Council (GCC)",
+        containsPlace: [
+          { "@type": "Country", name: "United Arab Emirates" },
+          { "@type": "Country", name: "Saudi Arabia" },
+          { "@type": "Country", name: "Qatar" },
+          { "@type": "Country", name: "Kuwait" },
+          { "@type": "Country", name: "Bahrain" },
+          { "@type": "Country", name: "Oman" },
+        ],
+      },
+      {
+        "@type": "Place",
+        name: "Southeast Asia (SEA)",
+        containsPlace: [
+          { "@type": "Country", name: "Singapore" },
+          { "@type": "Country", name: "Malaysia" },
+          { "@type": "Country", name: "Thailand" },
+          { "@type": "Country", name: "Vietnam" },
+          { "@type": "Country", name: "Indonesia" },
+          { "@type": "Country", name: "Philippines" },
+        ],
+      },
+      {
+        "@type": "Place",
+        name: "European Economic Area (EEA)",
+      },
     ],
   },
 };

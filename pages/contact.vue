@@ -4,7 +4,7 @@
       id="contact-heading"
       title="Contact"
       eyebrow="Get in touch"
-      subtitle="Open to Senior / Staff Frontend, Full-Stack, Forward Deployed, or Applied AI roles — Singapore, Malaysia, Thailand, Vietnam, or remote. I read every message and usually reply within a day."
+      subtitle="Open to Senior / Staff Frontend, Full-Stack, Forward Deployed, or Applied AI roles across the GCC (Gulf), Southeast Asia, and the EEA (Europe). I read every message and usually reply within a day."
     >
       <a
         href="/joel-stephen-resume.pdf"

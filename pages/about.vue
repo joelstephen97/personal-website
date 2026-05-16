@@ -4,7 +4,7 @@
       id="about-heading"
       title="About Joel"
       eyebrow="Get to know"
-      subtitle="Frontend Engineer at AppliedAI. 5+ years across 4 companies. Based in Abu Dhabi, wanting to be in Southeast Asia."
+      subtitle="Frontend Engineer at AppliedAI. 5+ years across 4 companies. Based in Abu Dhabi — open to roles across the GCC, Southeast Asia, and the EEA."
     />
 
     <!-- Quick facts -->
@@ -35,7 +35,7 @@
           <div>
             <h2 class="font-semibold text-foreground">Based in Abu Dhabi</h2>
             <p class="text-sm text-muted">
-              UAE. Open to relocation across Southeast Asia.
+              UAE. Open to roles across the GCC, Southeast Asia, and the EEA.
             </p>
           </div>
         </div>
@@ -154,26 +154,59 @@
       </div>
     </section>
 
-    <!-- Why SEA -->
-    <section v-reveal class="mb-10" aria-labelledby="sea-heading">
+    <!-- Where I want to work -->
+    <section v-reveal class="mb-10" aria-labelledby="regions-heading">
       <h2
-        id="sea-heading"
+        id="regions-heading"
         class="flex items-center gap-2 text-lg font-semibold text-foreground mb-4"
       >
-        <Icon name="Plane" :size="20" class="text-accent" />
-        Why Southeast Asia
+        <Icon name="Globe" :size="20" class="text-accent" />
+        Where I want to work
       </h2>
+      <div class="grid md:grid-cols-3 gap-4 mb-4">
+        <div class="glass-solid rounded-2xl p-5 space-y-2">
+          <h3 class="font-semibold text-foreground flex items-center gap-2">
+            <Icon name="Sun" :size="16" class="text-accent" />
+            GCC
+          </h3>
+          <p class="text-sm text-muted">
+            Already home — UAE, Saudi Arabia, Qatar, Kuwait, Bahrain, Oman. I
+            know the region, the customers, and the operating tempo. Zero
+            relocation friction.
+          </p>
+        </div>
+        <div class="glass-solid rounded-2xl p-5 space-y-2">
+          <h3 class="font-semibold text-foreground flex items-center gap-2">
+            <Icon name="Palmtree" :size="16" class="text-accent" />
+            Southeast Asia
+          </h3>
+          <p class="text-sm text-muted">
+            Singapore, Malaysia, Thailand, Vietnam, Indonesia, Philippines. A
+            region I love living in. Open to relocation with sponsorship.
+          </p>
+        </div>
+        <div class="glass-solid rounded-2xl p-5 space-y-2">
+          <h3 class="font-semibold text-foreground flex items-center gap-2">
+            <Icon name="Building2" :size="16" class="text-accent" />
+            EEA
+          </h3>
+          <p class="text-sm text-muted">
+            European Economic Area — open to roles across the EU plus Norway,
+            Iceland, Liechtenstein, with sponsorship. Strong overlap on AI
+            product engineering and clean engineering culture.
+          </p>
+        </div>
+      </div>
       <div class="glass-solid rounded-2xl p-6 space-y-3">
         <p class="text-foreground italic">
           "I love living in South East Asia — the climate, the people, food, and
           culture appeals to me a lot. I feel at home."
         </p>
         <p class="text-sm text-muted">
-          I'm open to Senior / Staff / Lead Frontend, Full-Stack, Forward
-          Deployed, or Applied AI roles in Singapore, Malaysia, Thailand,
-          Vietnam, or remote with regional time-zone overlap. Sponsorship
-          required in SG / MY / TH / VN. Notice at AppliedAI is one month,
-          earliest realistic start is roughly five weeks after an offer.
+          Open to Senior / Staff / Lead Frontend, Full-Stack, Forward Deployed,
+          or Applied AI roles. Notice at AppliedAI is one month, earliest
+          realistic start is roughly five weeks after an offer. Sponsorship
+          needed outside the GCC.
         </p>
       </div>
     </section>

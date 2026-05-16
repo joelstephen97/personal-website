@@ -405,13 +405,13 @@
     <section v-reveal class="text-center" aria-label="Next">
       <div class="glass-solid rounded-2xl p-8 space-y-4">
         <h2 class="text-h3 font-semibold text-foreground">
-          Open to Senior / Staff roles in SEA
+          Open to Senior / Staff roles · GCC · SEA · EEA
         </h2>
         <p class="text-sm text-muted max-w-2xl mx-auto">
           The work I want to do next looks a lot like the work above — building
           AI-driven product surfaces that real users operate, with a tight
-          customer feedback loop. Open in Singapore, Malaysia, Thailand,
-          Vietnam, or remote.
+          customer feedback loop. Open across the Gulf (GCC), Southeast Asia,
+          and the European Economic Area.
         </p>
         <div class="flex flex-wrap justify-center gap-3">
           <UiButton variant="primary" href="/joel-stephen-resume.pdf">
