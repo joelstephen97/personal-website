@@ -370,7 +370,12 @@ const stack = [
     title: "Real-time & Collaborative",
     icon: "Activity",
     note: "Shipped multiplayer canvas surfaces in production.",
-    items: ["Yjs (CRDT)", "WebSocket", "Server-Sent Events", "Versioned canvases"],
+    items: [
+      "Yjs (CRDT)",
+      "WebSocket",
+      "Server-Sent Events",
+      "Versioned canvases",
+    ],
   },
   {
     title: "Advanced UI",
@@ -425,7 +430,11 @@ const stack = [
     title: "Applied ML & CV",
     icon: "Eye",
     note: "Production at Otani on flower-trade decisions.",
-    items: ["YOLO v5 (training, production)", "OpenCV", "TensorFlow (academic)"],
+    items: [
+      "YOLO v5 (training, production)",
+      "OpenCV",
+      "TensorFlow (academic)",
+    ],
   },
   {
     title: "Testing & Quality",

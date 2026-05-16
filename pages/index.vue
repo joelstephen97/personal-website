@@ -1,36 +1,55 @@
 <template>
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-    <!-- Hero with gradient mesh + neural dots -->
-    <div class="relative">
-      <HeroGradientMesh />
-      <NeuralDots />
+  <div
+    class="relative max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6 flex items-center min-h-[calc(100vh-9rem)]"
+  >
+    <HeroGradientMesh />
+    <NeuralDots />
 
-      <!-- Floating glass decorative elements -->
-      <div
-        class="absolute top-8 -left-8 w-20 h-20 rounded-2xl glass opacity-40 dark:opacity-60 animate-float hidden sm:block"
-        aria-hidden="true"
-      />
-      <div
-        class="absolute bottom-16 -right-6 w-14 h-14 rounded-full glass opacity-30 dark:opacity-50 animate-float-slow hidden sm:block"
-        style="animation-delay: -3s"
-        aria-hidden="true"
-      />
-      <div
-        class="absolute top-1/2 right-12 w-10 h-10 rounded-lg glass opacity-20 dark:opacity-40 animate-float hidden lg:block"
-        style="animation-delay: -6s"
-        aria-hidden="true"
-      />
+    <!-- Floating glass decorative elements -->
+    <div
+      class="absolute top-8 -left-8 w-20 h-20 rounded-2xl glass opacity-30 dark:opacity-50 animate-float hidden sm:block"
+      aria-hidden="true"
+    />
+    <div
+      class="absolute bottom-12 -right-6 w-14 h-14 rounded-full glass opacity-25 dark:opacity-40 animate-float-slow hidden sm:block"
+      style="animation-delay: -3s"
+      aria-hidden="true"
+    />
 
-      <PageHeader
-        id="hero-heading"
-        title="Joel Stephen"
-        eyebrow="Frontend Engineer · AppliedAI"
-        subtitle="I build AI workflow surfaces that real users operate."
-        subtitle-class="mb-4"
-        animate
-        :style="heroParallaxStyle"
-      >
-        <div class="flex flex-wrap items-center justify-center gap-2 mb-2">
+    <div
+      class="grid lg:grid-cols-[1fr_1.05fr] gap-10 lg:gap-12 items-center w-full"
+    >
+      <!-- LEFT: identity + CTAs -->
+      <div class="text-center lg:text-left">
+        <p
+          v-reveal="{ delay: 0 }"
+          class="text-xs font-medium text-accent tracking-wide uppercase mb-2"
+        >
+          Frontend Engineer · AppliedAI
+        </p>
+        <h1
+          id="hero-heading"
+          class="text-h2 font-bold text-foreground mb-2"
+          :style="heroParallaxStyle"
+        >
+          <span
+            v-for="(char, i) in titleChars"
+            :key="i"
+            :class="char === ' ' ? '' : 'char-reveal'"
+            :style="char !== ' ' ? ({ '--i': charIndex(i) } as any) : undefined"
+            >{{ char === " " ? "\u00A0" : char }}</span
+          >
+        </h1>
+        <p
+          v-reveal="{ delay: 300 }"
+          class="text-base text-muted max-w-md mx-auto lg:mx-0 mb-4"
+        >
+          I build AI workflow surfaces that real users operate.
+        </p>
+
+        <div
+          class="flex flex-wrap items-center justify-center lg:justify-start gap-2 mb-5"
+        >
           <a
             v-reveal="{ delay: 350 }"
             href="#open-to-work"
@@ -60,20 +79,54 @@
             <span class="text-sm font-medium text-foreground">5+ yrs</span>
           </div>
         </div>
-      </PageHeader>
 
-      <!-- Terminal — single info surface -->
-      <section
-        v-reveal="{ delay: 200 }"
-        class="mb-8"
-        aria-labelledby="about-heading"
-        :style="terminalParallaxStyle"
-      >
-        <h2 id="about-heading" class="sr-only">About</h2>
+        <div
+          id="open-to-work"
+          v-reveal="{ delay: 450 }"
+          class="flex flex-wrap items-center justify-center lg:justify-start gap-2"
+        >
+          <UiButton
+            variant="primary"
+            href="/joel-stephen-resume.pdf"
+            class="justify-center"
+          >
+            <Icon name="Download" :size="16" />
+            Resume
+          </UiButton>
+          <UiButton variant="secondary" to="/work" class="justify-center">
+            <Icon name="Briefcase" :size="16" />
+            Case studies
+          </UiButton>
+          <UiButton variant="secondary" to="/contact" class="justify-center">
+            <Icon name="Mail" :size="16" />
+            Contact
+          </UiButton>
+          <button
+            type="button"
+            class="btn-secondary flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold"
+            @click="toggleChat"
+          >
+            <Icon name="MessageCircle" :size="16" />
+            AI Chat
+          </button>
+          <a
+            href="https://github.com/joelstephen97"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center justify-center w-10 h-10 rounded-full glass-solid hover:border-accent/30 text-muted hover:text-accent transition-colors"
+            aria-label="GitHub"
+          >
+            <Icon name="Github" :size="18" />
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT: terminal (single info surface) -->
+      <div :style="terminalParallaxStyle">
         <TerminalWindow
           title="about.sh"
           command="cat profile.txt"
-          class="max-w-xl mx-auto"
+          class="mx-auto lg:ml-0 max-w-xl"
         >
           <div class="space-y-1">
             <p>
@@ -89,66 +142,20 @@
               TypeScript · Python · FastAPI
             </p>
             <p>
+              <span class="text-muted-foreground">Real-time </span> Yjs / CRDT ·
+              WebSocket · SSE
+            </p>
+            <p>
+              <span class="text-muted-foreground">AI </span> Anthropic · OpenAI
+              · RAG · agentic workflows
+            </p>
+            <p>
               <span class="text-muted-foreground">Location </span> Abu Dhabi,
               UAE
             </p>
           </div>
         </TerminalWindow>
-      </section>
-
-      <!-- CTAs -->
-      <section
-        id="open-to-work"
-        v-reveal="{ delay: 350 }"
-        aria-labelledby="connect-heading"
-      >
-        <h2 id="connect-heading" class="sr-only">Connect</h2>
-        <div
-          class="flex flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-3"
-        >
-          <UiButton
-            variant="primary"
-            href="/joel-stephen-resume.pdf"
-            class="w-full sm:w-auto justify-center"
-          >
-            <Icon name="Download" :size="18" />
-            Download Resume
-          </UiButton>
-          <UiButton
-            variant="secondary"
-            to="/project"
-            class="w-full sm:w-auto justify-center"
-          >
-            <Icon name="FolderOpen" :size="18" />
-            View Projects
-          </UiButton>
-          <UiButton
-            variant="secondary"
-            to="/contact"
-            class="w-full sm:w-auto justify-center"
-          >
-            <Icon name="Mail" :size="18" />
-            Contact
-          </UiButton>
-          <button
-            type="button"
-            class="btn-secondary flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold w-full sm:w-auto"
-            @click="toggleChat"
-          >
-            <Icon name="MessageCircle" :size="18" />
-            AI Chat
-          </button>
-          <UiButton
-            variant="tertiary"
-            href="https://github.com/joelstephen97"
-            class="self-center sm:self-auto shrink-0"
-          >
-            <Icon name="Github" :size="18" />
-            GitHub
-          </UiButton>
-        </div>
-      </section>
-
+      </div>
     </div>
   </div>
 </template>
@@ -156,6 +163,17 @@
 <script setup lang="ts">
 import Icon from "~/components/ui/Icon.vue";
 import { useWindowScroll } from "@vueuse/core";
+
+// Per-character reveal for the H1 (matches PageHeader animation)
+const heroTitle = "Joel Stephen";
+const titleChars = computed(() => heroTitle.split(""));
+function charIndex(i: number): string {
+  let count = 0;
+  for (let j = 0; j < i; j++) {
+    if (heroTitle[j] !== " ") count++;
+  }
+  return String(count);
+}
 
 useSeo({
   title:
