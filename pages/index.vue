@@ -25,14 +25,12 @@
         id="hero-heading"
         title="Joel Stephen"
         eyebrow="Frontend Engineer · AppliedAI"
-        subtitle="Building AI workflow surfaces — Process Discovery (Yjs/CRDT multiplayer canvas), Opus Technical Canvas (n8n fork), Opus-CX. 5+ years across 4 companies. Based in Abu Dhabi."
+        subtitle="I build AI workflow surfaces that real users operate."
         subtitle-class="mb-4"
         animate
         :style="heroParallaxStyle"
       >
-        <div
-          class="flex flex-wrap items-center justify-center gap-2 mb-3"
-        >
+        <div class="flex flex-wrap items-center justify-center gap-2 mb-2">
           <a
             v-reveal="{ delay: 350 }"
             href="#open-to-work"
@@ -50,7 +48,7 @@
             <span
               class="text-xs sm:text-sm font-medium text-accent group-hover:text-accent-hover"
             >
-              Open to Senior / Staff roles · GCC · SEA · EEA
+              Open · GCC · SEA · EEA
             </span>
           </a>
           <div
@@ -62,21 +60,9 @@
             <span class="text-sm font-medium text-foreground">5+ yrs</span>
           </div>
         </div>
-        <div
-          v-reveal="{ delay: 500 }"
-          class="flex flex-wrap justify-center gap-1.5"
-        >
-          <span
-            v-for="tech in techList"
-            :key="tech"
-            class="inline-flex px-2.5 py-0.5 rounded-full glass text-xs text-muted-foreground"
-          >
-            {{ tech }}
-          </span>
-        </div>
       </PageHeader>
 
-      <!-- Terminal -->
+      <!-- Terminal — single info surface -->
       <section
         v-reveal="{ delay: 200 }"
         class="mb-8"
@@ -90,18 +76,17 @@
           class="max-w-xl mx-auto"
         >
           <div class="space-y-1">
-            <p><span class="text-muted-foreground">Name </span> Joel Stephen</p>
             <p>
               <span class="text-muted-foreground">Role </span> Frontend Engineer
               @ AppliedAI
             </p>
             <p>
-              <span class="text-muted-foreground">Stack </span> Vue · React ·
-              TypeScript · Python · FastAPI
+              <span class="text-muted-foreground">Now </span> Opus — Process
+              Discovery, Technical Canvas, CX
             </p>
             <p>
-              <span class="text-muted-foreground">Experience </span> 5+ years ·
-              4 companies
+              <span class="text-muted-foreground">Stack </span> Vue · React ·
+              TypeScript · Python · FastAPI
             </p>
             <p>
               <span class="text-muted-foreground">Location </span> Abu Dhabi,
@@ -109,42 +94,6 @@
             </p>
           </div>
         </TerminalWindow>
-      </section>
-
-      <!-- Now / Currently shipping -->
-      <section
-        v-reveal="{ delay: 250 }"
-        class="mb-8 max-w-xl mx-auto"
-        aria-label="Currently working on"
-      >
-        <div
-          class="glass-solid rounded-2xl p-4 flex items-start gap-3 hover:border-accent/30 transition-colors"
-        >
-          <div
-            class="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center shrink-0"
-          >
-            <span class="relative inline-flex h-2.5 w-2.5" aria-hidden="true">
-              <span
-                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"
-              />
-              <span
-                class="relative inline-flex h-2.5 w-2.5 rounded-full bg-accent"
-              />
-            </span>
-          </div>
-          <div class="flex-1 min-w-0">
-            <p
-              class="text-xs uppercase tracking-wide text-accent font-semibold"
-            >
-              Now
-            </p>
-            <p class="text-sm text-foreground">
-              Shipping on Opus at AppliedAI — three production surfaces
-              (Process Discovery, Opus Technical Canvas, Opus-CX). Evenings: a
-              taste-profile food-discovery app heading to the Play Store.
-            </p>
-          </div>
-        </div>
       </section>
 
       <!-- CTAs -->
@@ -200,29 +149,6 @@
         </div>
       </section>
 
-      <!-- Featured Projects -->
-      <section
-        v-reveal="{ delay: 500 }"
-        class="mt-8"
-        aria-label="Featured projects"
-      >
-        <p
-          class="text-xs text-muted-foreground text-center mb-3 uppercase tracking-wide"
-        >
-          Featured
-        </p>
-        <div class="flex flex-wrap justify-center gap-2">
-          <NuxtLink
-            v-for="fp in featuredProjects"
-            :key="fp.slug"
-            :to="fp.link"
-            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-solid text-sm text-foreground hover:text-accent hover:border-accent/30 border border-transparent transition-colors"
-          >
-            <Icon :name="fp.icon" :size="14" />
-            {{ fp.title }}
-          </NuxtLink>
-        </div>
-      </section>
     </div>
   </div>
 </template>
@@ -352,38 +278,6 @@ useHead({
 });
 
 const { toggleOpen: toggleChat } = useJoelAgent();
-
-const techList = [
-  "Vue",
-  "React",
-  "Python",
-  "TypeScript",
-  "FastAPI",
-  "PostgreSQL",
-  "Yjs",
-  "Anthropic",
-];
-
-const featuredProjects = [
-  {
-    slug: "bg-remover",
-    title: "Background Remover (in-browser ML)",
-    icon: "ImageMinus",
-    link: "/project/bg-remover",
-  },
-  {
-    slug: "image-captioning",
-    title: "Image Captioning (transformers.js)",
-    icon: "ScanText",
-    link: "/project/image-captioning",
-  },
-  {
-    slug: "pathfinding-visualizer",
-    title: "Pathfinding Visualizer",
-    icon: "Route",
-    link: "/project/pathfinding-visualizer",
-  },
-];
 
 // Parallax on scroll
 const { y: scrollY } = useWindowScroll();
