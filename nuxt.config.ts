@@ -27,7 +27,11 @@ export default defineNuxtConfig({
         process.env.NUXT_PUBLIC_SITE_URL ?? "https://joelstephen.vercel.app";
       const routes = [
         "/",
+        "/about",
         "/experience",
+        "/work",
+        "/work/opus",
+        "/work/flower-meister",
         "/project",
         "/contact",
         "/project/bg-remover",
@@ -53,7 +57,17 @@ export default defineNuxtConfig({
         loc: path === "/" ? siteUrl : `${siteUrl}${path}`,
         lastmod: new Date().toISOString(),
         changefreq: "weekly" as const,
-        priority: path === "/" ? 1 : path === "/project" ? 0.9 : 0.8,
+        priority:
+          path === "/"
+            ? 1
+            : path === "/about" ||
+                path === "/work" ||
+                path === "/experience" ||
+                path === "/project"
+              ? 0.95
+              : path.startsWith("/work/")
+                ? 0.9
+                : 0.8,
       }));
     },
   },

@@ -128,8 +128,10 @@ const [open, toggleOpen] = useToggle(false);
 const { isOpen: isChatOpen, toggleOpen: toggleChat } = useJoelAgent();
 
 const links = [
-  { to: "/", label: "About", icon: "User" },
-  { to: "/experience", label: "Experience", icon: "Briefcase" },
+  { to: "/", label: "Home", icon: "Home" },
+  { to: "/about", label: "About", icon: "User" },
+  { to: "/work", label: "Work", icon: "Briefcase" },
+  { to: "/experience", label: "Experience", icon: "GitBranch" },
   { to: "/project", label: "Projects", icon: "FolderOpen" },
   { to: "/contact", label: "Contact", icon: "Mail" },
 ];

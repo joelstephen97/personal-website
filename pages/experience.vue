@@ -248,8 +248,7 @@
 import Icon from "~/components/ui/Icon.vue";
 
 useSeo({
-  title:
-    "Experience | Joel Stephen — Frontend Engineer · AppliedAI · 5+ yrs",
+  title: "Experience | Joel Stephen — Frontend Engineer · AppliedAI · 5+ yrs",
   description:
     "Career timeline: Frontend Engineer at AppliedAI (Process Discovery, Opus Technical Canvas, Opus-CX); Senior SWE at Otani Trading (flower-trade PWA, YOLO v5 + OpenCV); SWE at Otani (Project FMI embedded with vendor/merchant/admin); Junior SWE at RIOT; SDE Intern at Alucor. BITS Pilani CS Hons.",
 });
@@ -265,14 +264,30 @@ const testimonials: {
   company: string;
 }[] = [];
 
-const frontendSkills = new Set(["Vue.js", "React", "Nuxt.js", "TypeScript", "AI Workflows"]);
-const backendSkills = new Set(["FastAPI", "Python", "Django", "Node.js", "SQLAlchemy", "REST APIs", "LDAP"]);
+const frontendSkills = new Set([
+  "Vue.js",
+  "React",
+  "Nuxt.js",
+  "TypeScript",
+  "AI Workflows",
+]);
+const backendSkills = new Set([
+  "FastAPI",
+  "Python",
+  "Django",
+  "Node.js",
+  "SQLAlchemy",
+  "REST APIs",
+  "LDAP",
+]);
 const dataSkills = new Set(["GraphQL", "OpenCV", "YOLO", "DynamoDB"]);
 
 function skillColor(skill: string): string {
   if (frontendSkills.has(skill)) return "bg-accent/10 text-accent";
-  if (backendSkills.has(skill)) return "bg-blue-500/10 text-blue-500 dark:text-blue-400";
-  if (dataSkills.has(skill)) return "bg-emerald-500/10 text-emerald-500 dark:text-emerald-400";
+  if (backendSkills.has(skill))
+    return "bg-blue-500/10 text-blue-500 dark:text-blue-400";
+  if (dataSkills.has(skill))
+    return "bg-emerald-500/10 text-emerald-500 dark:text-emerald-400";
   return "bg-amber-500/10 text-amber-500 dark:text-amber-400";
 }
 
