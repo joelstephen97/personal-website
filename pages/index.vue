@@ -105,6 +105,42 @@
         </TerminalWindow>
       </section>
 
+      <!-- Now / Currently shipping -->
+      <section
+        v-reveal="{ delay: 250 }"
+        class="mb-8 max-w-xl mx-auto"
+        aria-label="Currently working on"
+      >
+        <div
+          class="glass-solid rounded-2xl p-4 flex items-start gap-3 hover:border-accent/30 transition-colors"
+        >
+          <div
+            class="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center shrink-0"
+          >
+            <span class="relative inline-flex h-2.5 w-2.5" aria-hidden="true">
+              <span
+                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"
+              />
+              <span
+                class="relative inline-flex h-2.5 w-2.5 rounded-full bg-accent"
+              />
+            </span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p
+              class="text-xs uppercase tracking-wide text-accent font-semibold"
+            >
+              Now
+            </p>
+            <p class="text-sm text-foreground">
+              Shipping on Opus at AppliedAI — three production surfaces
+              (Process Discovery, Opus Technical Canvas, Opus-CX). Evenings: a
+              taste-profile food-discovery app heading to the Play Store.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <!-- CTAs -->
       <section
         id="open-to-work"

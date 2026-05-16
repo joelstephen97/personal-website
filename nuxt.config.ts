@@ -76,10 +76,10 @@ export default defineNuxtConfig({
     disable: process.env.NODE_ENV === "development",
     registerType: "autoUpdate",
     manifest: {
-      name: "Joel Stephen | Software Engineer",
+      name: "Joel Stephen — Frontend Engineer · AppliedAI",
       short_name: "Joel Stephen",
       description:
-        "Full-stack engineer with 5+ years of experience. Building beautiful, performant web experiences.",
+        "Frontend Engineer at AppliedAI building AI workflow surfaces (Process Discovery, Opus Technical Canvas, Opus-CX). 5+ years across Vue, React, TypeScript, Python. Open to Senior / Staff roles across GCC, SEA, and the EEA.",
       theme_color: "#007AFF",
       background_color: "#fafafc",
       icons: [
@@ -128,7 +128,8 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: { lang: "en" },
-      title: "Joel Stephen | Software Engineer",
+      title:
+        "Joel Stephen | Frontend Engineer · AI Workflows · Vue · React · Python",
       meta: [
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
@@ -136,7 +137,13 @@ export default defineNuxtConfig({
         {
           name: "description",
           content:
-            "Full-stack engineer with 5+ years of experience. Building beautiful, performant web experiences with modern technologies.",
+            "Frontend Engineer at AppliedAI building AI workflow surfaces — Process Discovery (Yjs/CRDT), Opus Technical Canvas (n8n fork), Opus-CX. 5+ yrs Vue, React, TypeScript, Python, FastAPI. Open to Senior / Staff roles across GCC, SEA, and EEA.",
+        },
+        { name: "author", content: "Joel Stephen" },
+        {
+          name: "keywords",
+          content:
+            "Joel Stephen, Frontend Engineer, AppliedAI, Opus, AI workflow, Yjs CRDT, n8n fork, Vue, React, TypeScript, Python, FastAPI, Anthropic, OpenAI, Forward Deployed Engineer, Applied AI Engineer, Singapore, Malaysia, Thailand, Vietnam, UAE, Abu Dhabi, GCC, SEA, EEA",
         },
         {
           name: "google-site-verification",

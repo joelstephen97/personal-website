@@ -136,6 +136,38 @@
       </div>
     </section>
 
+    <!-- Stack I work with -->
+    <section v-reveal class="mb-10" aria-labelledby="stack-heading">
+      <h2
+        id="stack-heading"
+        class="flex items-center gap-2 text-lg font-semibold text-foreground mb-4"
+      >
+        <Icon name="Wrench" :size="20" class="text-accent" />
+        Stack I work with
+      </h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div
+          v-for="cat in stack"
+          :key="cat.title"
+          class="glass-solid rounded-2xl p-5 space-y-2"
+        >
+          <h3 class="font-semibold text-foreground flex items-center gap-2">
+            <Icon :name="cat.icon" :size="16" class="text-accent" />
+            {{ cat.title }}
+          </h3>
+          <p class="text-xs text-muted">{{ cat.note }}</p>
+          <div class="flex flex-wrap gap-1.5 pt-1">
+            <span
+              v-for="t in cat.items"
+              :key="t"
+              class="px-2 py-0.5 rounded-md glass text-xs text-muted-foreground"
+              >{{ t }}</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Hot take -->
     <section v-reveal class="mb-10" aria-labelledby="hot-take-heading">
       <h2
@@ -312,6 +344,117 @@ import Icon from "~/components/ui/Icon.vue";
 useSeo({
   title: "About | Joel Stephen — Frontend Engineer at AppliedAI",
   description:
-    "Joel Stephen is a Frontend Engineer at AppliedAI building AI workflow surfaces (Process Discovery, Opus Technical Canvas, Opus-CX). 5+ yrs across Vue, React, TypeScript, Python. Hot take: a frontend engineer is only good if they can think like a user. Open to Senior/Staff roles in SG/MY/TH/VN.",
+    "Joel Stephen is a Frontend Engineer at AppliedAI building AI workflow surfaces (Process Discovery, Opus Technical Canvas, Opus-CX). 5+ yrs across Vue, React, TypeScript, Python. Hot take: a frontend engineer is only good if they can think like a user. Open to Senior/Staff roles across GCC, SEA, and the EEA.",
 });
+
+const stack = [
+  {
+    title: "Frontend",
+    icon: "Layout",
+    note: "Daily — production at AppliedAI and Otani.",
+    items: [
+      "React",
+      "Vue 3",
+      "TypeScript",
+      "Nuxt.js",
+      "RadixVue",
+      "shadcn",
+      "Zustand",
+      "Tailwind",
+      "Vite",
+      "HTML5",
+      "CSS3",
+    ],
+  },
+  {
+    title: "Real-time & Collaborative",
+    icon: "Activity",
+    note: "Shipped multiplayer canvas surfaces in production.",
+    items: ["Yjs (CRDT)", "WebSocket", "Server-Sent Events", "Versioned canvases"],
+  },
+  {
+    title: "Advanced UI",
+    icon: "Sparkles",
+    note: "Forking n8n means living inside this stack.",
+    items: [
+      "Large-graph rendering",
+      "Virtualised lists",
+      "Canvas performance",
+      "Undo / redo correctness",
+      "Node-graph editors",
+      "Expressions engine",
+    ],
+  },
+  {
+    title: "AI / LLM Engineering",
+    icon: "Brain",
+    note: "Production at AppliedAI on real customer workloads.",
+    items: [
+      "Anthropic API",
+      "OpenAI API",
+      "Custom situation-based pipelines",
+      "RAG patterns",
+      "Prompt engineering",
+      "Tool / function calling",
+      "Agent-style orchestration",
+    ],
+  },
+  {
+    title: "Backend & APIs",
+    icon: "Server",
+    note: "Daily Python; comfortable on Node side too.",
+    items: [
+      "Python",
+      "FastAPI",
+      "Django",
+      "Pydantic",
+      "Peewee",
+      "SQLAlchemy",
+      "GraphQL (Strawberry, URQL)",
+      "REST",
+      "Node.js",
+    ],
+  },
+  {
+    title: "Data",
+    icon: "Database",
+    note: "SQL first; comfortable picking the storage shape.",
+    items: ["PostgreSQL", "MySQL", "SQLite", "DynamoDB (limited)"],
+  },
+  {
+    title: "Applied ML & CV",
+    icon: "Eye",
+    note: "Production at Otani on flower-trade decisions.",
+    items: ["YOLO v5 (training, production)", "OpenCV", "TensorFlow (academic)"],
+  },
+  {
+    title: "Testing & Quality",
+    icon: "ShieldCheck",
+    note: "End-to-end coverage on critical user workflows.",
+    items: ["Pytest", "Cypress", "Selenium", "Code review"],
+  },
+  {
+    title: "DevOps & Delivery",
+    icon: "Cog",
+    note: "Owned hosting + CI/CD + monitoring at project scale.",
+    items: [
+      "Hosting / CI-CD / monitoring ownership",
+      "Git, GitLab, GitHub, Bitbucket",
+      "JIRA, Confluence, Postman",
+      "Kanban / Agile",
+      "AWS Cloud Practitioner (in progress)",
+    ],
+  },
+  {
+    title: "Design & Product",
+    icon: "Figma",
+    note: "I push back on UI choices that don't carry UX weight.",
+    items: [
+      "Figma (UI/UX prototyping)",
+      "Design-system thinking",
+      "Customer feedback loops",
+      "Mentoring junior & mid engineers",
+    ],
+  },
+];
 </script>
