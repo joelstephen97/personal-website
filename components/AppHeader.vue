@@ -40,15 +40,15 @@
         <button
           type="button"
           :class="[
-            'flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all btn-primary',
+            'flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all btn-primary whitespace-nowrap',
             isChatOpen &&
               'ring-2 ring-accent ring-offset-2 ring-offset-background',
           ]"
-          aria-label="AI Chat — Ask about Joel"
+          aria-label="Ask about Joel via AI chat"
           @click="toggleChat"
         >
-          <Icon name="MessageCircle" :size="18" />
-          AI Chat — Ask about Joel
+          <Icon name="MessageCircle" :size="16" />
+          AI Chat
         </button>
         <DarkModeToggle />
       </div>

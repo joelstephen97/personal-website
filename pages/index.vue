@@ -30,31 +30,37 @@
         animate
         :style="heroParallaxStyle"
       >
-        <a
-          v-reveal="{ delay: 350 }"
-          href="#open-to-work"
-          class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/30 mb-3 hover:bg-accent/15 transition-colors group"
-          title="Open to new opportunities"
-        >
-          <span class="relative inline-flex h-2 w-2" aria-hidden="true">
-            <span
-              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"
-            />
-            <span class="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-          </span>
-          <span
-            class="text-xs sm:text-sm font-medium text-accent group-hover:text-accent-hover"
-          >
-            Open to Senior / Staff roles · GCC · SEA · EEA
-          </span>
-        </a>
         <div
-          v-reveal="{ delay: 400 }"
-          class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-solid mb-2"
-          title="5+ years of professional experience"
+          class="flex flex-wrap items-center justify-center gap-2 mb-3"
         >
-          <Icon name="Briefcase" :size="18" class="text-accent" />
-          <span class="text-sm font-medium text-foreground">5+ yrs</span>
+          <a
+            v-reveal="{ delay: 350 }"
+            href="#open-to-work"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/30 hover:bg-accent/15 transition-colors group"
+            title="Open to new opportunities"
+          >
+            <span class="relative inline-flex h-2 w-2" aria-hidden="true">
+              <span
+                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"
+              />
+              <span
+                class="relative inline-flex h-2 w-2 rounded-full bg-accent"
+              />
+            </span>
+            <span
+              class="text-xs sm:text-sm font-medium text-accent group-hover:text-accent-hover"
+            >
+              Open to Senior / Staff roles · GCC · SEA · EEA
+            </span>
+          </a>
+          <div
+            v-reveal="{ delay: 400 }"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-solid"
+            title="5+ years of professional experience"
+          >
+            <Icon name="Briefcase" :size="16" class="text-accent" />
+            <span class="text-sm font-medium text-foreground">5+ yrs</span>
+          </div>
         </div>
         <div
           v-reveal="{ delay: 500 }"
