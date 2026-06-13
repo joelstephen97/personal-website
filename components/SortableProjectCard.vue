@@ -6,7 +6,8 @@
       }
     "
     as="article"
-    :while-hover="isDragging ? undefined : { y: -2 }"
+    :while-hover="isDragging ? undefined : { y: -4, scale: 1.01 }"
+    :while-press="isDragging ? undefined : { scale: 0.99 }"
     :transition="SPRING.soft"
     :style="[isDragging && { opacity: 0.5, zIndex: 50 }]"
     :class="[

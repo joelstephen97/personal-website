@@ -22,11 +22,13 @@ export default defineNuxtPlugin((nuxtApp) => {
         "(prefers-reduced-motion: reduce)",
       ).matches;
 
+      // A whisper of scale gives every reveal a premium sense of "settling"
+      // into place rather than just sliding. Explicit scale:true is stronger.
+      const fromScale = scale ? "scale(0.96)" : "scale(0.985)";
+
       // Hidden start state set inline so there is no flash before reveal.
       el.style.opacity = "0";
-      el.style.transform = scale
-        ? "translateY(24px) scale(0.97)"
-        : "translateY(24px)";
+      el.style.transform = `translateY(18px) ${fromScale}`;
       el.style.willChange = "opacity, transform";
 
       if (reduce) {
@@ -42,18 +44,13 @@ export default defineNuxtPlugin((nuxtApp) => {
         () => {
           animate(
             el,
-            scale
-              ? {
-                  opacity: [0, 1],
-                  transform: [
-                    "translateY(24px) scale(0.97)",
-                    "translateY(0px) scale(1)",
-                  ],
-                }
-              : {
-                  opacity: [0, 1],
-                  transform: ["translateY(24px)", "translateY(0px)"],
-                },
+            {
+              opacity: [0, 1],
+              transform: [
+                `translateY(18px) ${fromScale}`,
+                "translateY(0px) scale(1)",
+              ],
+            },
             {
               duration: DURATION.slow,
               delay: delay / 1000,
