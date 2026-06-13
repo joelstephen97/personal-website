@@ -1,7 +1,9 @@
 <template>
   <div class="min-h-screen bg-background transition-colors duration-300">
     <!-- Tahoe-style ambient gradient orbs (animated drift) -->
-    <div class="fixed inset-0 -z-10 pointer-events-none transition-colors duration-700">
+    <div
+      class="fixed inset-0 -z-10 pointer-events-none transition-colors duration-700"
+    >
       <div
         :class="[
           'absolute top-0 right-0 w-[600px] h-[600px] rounded-full blur-3xl animate-orb-1 transition-colors duration-700',
@@ -23,18 +25,18 @@
     <AppHeader />
     <main class="pt-16 pb-8 min-h-screen">
       <div class="page-content">
-        <Transition name="page" mode="out-in">
-          <div
-            v-if="projectSlug"
-            :key="`project-${projectSlug}`"
-            class="project-detail-content"
+        <AnimatePresence mode="wait">
+          <Motion
+            :key="route.path"
+            as="div"
+            :variants="pageVariants"
+            initial="initial"
+            animate="animate"
+            exit="exit"
           >
             <slot />
-          </div>
-          <div v-else key="default">
-            <slot />
-          </div>
-        </Transition>
+          </Motion>
+        </AnimatePresence>
       </div>
     </main>
     <AppFooter />
@@ -52,7 +54,19 @@
         aria-label="Scroll to top"
         @click="scrollToTop"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m18 15-6-6-6 6" />
+        </svg>
       </button>
     </Transition>
     <ClientOnly>
@@ -72,6 +86,7 @@
 
 <script setup lang="ts">
 import { useWindowScroll } from "@vueuse/core";
+import { pageVariants } from "~/constants/motion";
 
 const { y: scrollY } = useWindowScroll();
 const showScrollTop = computed(() => scrollY.value > 400);
@@ -100,21 +115,27 @@ const SITE_URL =
   "https://joelstephen.vercel.app";
 
 const route = useRoute();
-const projectSlug = computed(() => {
+const _projectSlug = computed(() => {
   const match = route.path.match(/\/project\/([^/]+)/);
   return match ? match[1] : null;
 });
 
 const orbGradient1 = computed(() => {
-  if (route.path.startsWith("/experience")) return "bg-gradient-to-br from-blue-500/[0.04] to-transparent";
-  if (route.path.startsWith("/project")) return "bg-gradient-to-br from-purple-500/[0.04] to-transparent";
-  if (route.path.startsWith("/contact")) return "bg-gradient-to-br from-emerald-500/[0.04] to-transparent";
+  if (route.path.startsWith("/experience"))
+    return "bg-gradient-to-br from-blue-500/[0.04] to-transparent";
+  if (route.path.startsWith("/project"))
+    return "bg-gradient-to-br from-purple-500/[0.04] to-transparent";
+  if (route.path.startsWith("/contact"))
+    return "bg-gradient-to-br from-emerald-500/[0.04] to-transparent";
   return "bg-gradient-to-br from-accent/[0.04] to-transparent";
 });
 const orbGradient2 = computed(() => {
-  if (route.path.startsWith("/experience")) return "bg-gradient-to-tr from-blue-500/[0.02] to-transparent";
-  if (route.path.startsWith("/project")) return "bg-gradient-to-tr from-purple-500/[0.02] to-transparent";
-  if (route.path.startsWith("/contact")) return "bg-gradient-to-tr from-emerald-500/[0.02] to-transparent";
+  if (route.path.startsWith("/experience"))
+    return "bg-gradient-to-tr from-blue-500/[0.02] to-transparent";
+  if (route.path.startsWith("/project"))
+    return "bg-gradient-to-tr from-purple-500/[0.02] to-transparent";
+  if (route.path.startsWith("/contact"))
+    return "bg-gradient-to-tr from-emerald-500/[0.02] to-transparent";
   return "bg-gradient-to-tr from-accent/[0.02] to-transparent";
 });
 
