@@ -6,13 +6,18 @@
     <NeuralDots />
 
     <!-- Floating glass decorative elements -->
-    <div
-      class="absolute top-8 -left-8 w-20 h-20 rounded-2xl glass opacity-30 dark:opacity-50 animate-float hidden sm:block"
+    <Motion
+      as="div"
+      class="absolute top-8 -left-8 w-20 h-20 rounded-2xl glass opacity-30 dark:opacity-50 hidden sm:block"
+      :animate="{ y: [0, -16, 0], rotate: [0, 2, 0] }"
+      :transition="{ duration: 8, repeat: Infinity, ease: 'easeInOut' }"
       aria-hidden="true"
     />
-    <div
-      class="absolute bottom-12 -right-6 w-14 h-14 rounded-full glass opacity-25 dark:opacity-40 animate-float-slow hidden sm:block"
-      style="animation-delay: -3s"
+    <Motion
+      as="div"
+      class="absolute bottom-12 -right-6 w-14 h-14 rounded-full glass opacity-25 dark:opacity-40 hidden sm:block"
+      :animate="{ y: [0, -16, 0], rotate: [0, 2, 0] }"
+      :transition="{ duration: 12, repeat: Infinity, ease: 'easeInOut' }"
       aria-hidden="true"
     />
 

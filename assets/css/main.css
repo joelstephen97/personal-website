@@ -212,17 +212,6 @@ select:focus {
   inherits: false;
 }
 
-/* ── Floating glass elements ── */
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-16px) rotate(2deg);
-  }
-}
-
 /* ── Animated gradient border on hover ── */
 @keyframes rotate-border {
   to {
