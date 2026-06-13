@@ -12,7 +12,12 @@ export function useCardTilt(options?: { maxTilt?: number }) {
   const rotateX = useSpring(rotateXRaw, SPRING.soft);
   const rotateY = useSpring(rotateYRaw, SPRING.soft);
 
+  const reduce =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   function onMouseMove(e: MouseEvent) {
+    if (reduce) return;
     const el = cardRef.value;
     if (!el) return;
     const rect = el.getBoundingClientRect();
