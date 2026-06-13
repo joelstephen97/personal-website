@@ -268,26 +268,6 @@ select:focus {
   }
 }
 
-/* ── Character reveal for hero text ── */
-@keyframes char-reveal {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-    filter: blur(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
-.char-reveal {
-  display: inline-block;
-  opacity: 0;
-  animation: char-reveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: calc(var(--i, 0) * 35ms);
-}
-
 /* ── Animated gradient border on hover ── */
 @keyframes rotate-border {
   to {
