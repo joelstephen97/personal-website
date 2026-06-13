@@ -24,3 +24,6 @@ screenshots
 .env
 .env.*
 !.env.example
+
+# Superpowers planning docs (local only — never commit)
+docs/superpowers/
