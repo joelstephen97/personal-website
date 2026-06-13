@@ -1,9 +1,14 @@
 <template>
-  <article
-    :ref="(el: any) => { cardRef = el as HTMLElement | null }"
+  <Motion
+    :ref="
+      (el: any) => {
+        cardRef = el?.$el ?? el;
+      }
+    "
+    as="article"
     :style="tiltStyle"
     class="group glass-solid rounded-xl hover:border-accent/30 transition-colors relative p-4 sm:p-5"
-    @mouseenter="onMouseEnter"
+    @mousemove="onMouseMove"
     @mouseleave="onMouseLeave"
   >
     <a
@@ -31,7 +36,11 @@
       </h3>
       <p class="text-sm text-accent font-medium mb-1.5">
         {{ project.company }}
-        <span v-if="project.badge" class="ml-1.5 text-xs text-muted-foreground font-normal">· {{ project.badge }}</span>
+        <span
+          v-if="project.badge"
+          class="ml-1.5 text-xs text-muted-foreground font-normal"
+          >· {{ project.badge }}</span
+        >
       </p>
       <p class="text-sm text-muted leading-relaxed">
         {{ project.description }}
@@ -46,7 +55,7 @@
         </span>
       </div>
     </a>
-  </article>
+  </Motion>
 </template>
 
 <script setup lang="ts">
@@ -65,5 +74,5 @@ defineProps<{
   };
 }>();
 
-const { cardRef, tiltStyle, onMouseEnter, onMouseLeave } = useCardTilt();
+const { cardRef, tiltStyle, onMouseMove, onMouseLeave } = useCardTilt();
 </script>

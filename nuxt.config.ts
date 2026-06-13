@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-02-22",
   devtools: { enabled: false },
   modules: [
+    "motion-v/nuxt",
     "@nuxtjs/color-mode",
     "@nuxtjs/google-fonts",
     "@nuxtjs/critters",
@@ -14,6 +15,12 @@ export default defineNuxtConfig({
     "@vite-pwa/nuxt",
     "@nuxtjs/sitemap",
   ],
+
+  motionV: {
+    components: true,
+    utilities: true,
+    directives: false,
+  },
 
   site: {
     url: process.env.NUXT_PUBLIC_SITE_URL ?? "https://joelstephen.vercel.app",
@@ -114,7 +121,7 @@ export default defineNuxtConfig({
   pages: true,
 
   experimental: {
-    viewTransition: true,
+    viewTransition: false,
     appManifest: false,
     renderJsonPayloads: false,
     payloadExtraction: false,

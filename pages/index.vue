@@ -6,13 +6,18 @@
     <NeuralDots />
 
     <!-- Floating glass decorative elements -->
-    <div
-      class="absolute top-8 -left-8 w-20 h-20 rounded-2xl glass opacity-30 dark:opacity-50 animate-float hidden sm:block"
+    <Motion
+      as="div"
+      class="absolute top-8 -left-8 w-20 h-20 rounded-2xl glass opacity-30 dark:opacity-50 hidden sm:block"
+      :animate="{ y: [0, -16, 0], rotate: [0, 2, 0] }"
+      :transition="{ duration: 8, repeat: Infinity, ease: 'easeInOut' }"
       aria-hidden="true"
     />
-    <div
-      class="absolute bottom-12 -right-6 w-14 h-14 rounded-full glass opacity-25 dark:opacity-40 animate-float-slow hidden sm:block"
-      style="animation-delay: -3s"
+    <Motion
+      as="div"
+      class="absolute bottom-12 -right-6 w-14 h-14 rounded-full glass opacity-25 dark:opacity-40 hidden sm:block"
+      :animate="{ y: [0, -16, 0], rotate: [0, 2, 0] }"
+      :transition="{ duration: 12, repeat: Infinity, ease: 'easeInOut' }"
       aria-hidden="true"
     />
 
@@ -20,38 +25,43 @@
       class="grid lg:grid-cols-[1fr_1.05fr] gap-10 lg:gap-12 items-center w-full"
     >
       <!-- LEFT: identity + CTAs -->
-      <div class="text-center lg:text-left">
-        <p
-          v-reveal="{ delay: 0 }"
+      <Motion
+        as="div"
+        class="text-center lg:text-left"
+        :variants="staggerContainer"
+        initial="hidden"
+        animate="show"
+      >
+        <Motion
+          as="p"
+          :variants="fadeUp"
           class="text-xs font-medium text-accent tracking-wide uppercase mb-2"
         >
           Frontend Engineer · AppliedAI
-        </p>
-        <h1
+        </Motion>
+        <Motion
           id="hero-heading"
+          as="h1"
           class="text-h2 font-bold text-foreground mb-2"
-          :style="heroParallaxStyle"
+          :variants="fadeUp"
+          :style="{ y: heroY }"
         >
-          <span
-            v-for="(char, i) in titleChars"
-            :key="i"
-            :class="char === ' ' ? '' : 'char-reveal'"
-            :style="char !== ' ' ? ({ '--i': charIndex(i) } as any) : undefined"
-            >{{ char === " " ? "\u00A0" : char }}</span
-          >
-        </h1>
-        <p
-          v-reveal="{ delay: 300 }"
+          Joel Stephen
+        </Motion>
+        <Motion
+          as="p"
+          :variants="fadeUp"
           class="text-base text-muted max-w-md mx-auto lg:mx-0 mb-4"
         >
           I build AI workflow surfaces that real users operate.
-        </p>
+        </Motion>
 
-        <div
+        <Motion
+          as="div"
+          :variants="fadeUp"
           class="flex flex-wrap items-center justify-center lg:justify-start gap-2 mb-5"
         >
           <a
-            v-reveal="{ delay: 350 }"
             href="#open-to-work"
             class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/30 hover:bg-accent/15 transition-colors group"
             title="Open to new opportunities"
@@ -71,18 +81,18 @@
             </span>
           </a>
           <div
-            v-reveal="{ delay: 400 }"
             class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-solid"
             title="5+ years of professional experience"
           >
             <Icon name="Briefcase" :size="16" class="text-accent" />
             <span class="text-sm font-medium text-foreground">5+ yrs</span>
           </div>
-        </div>
+        </Motion>
 
-        <div
+        <Motion
           id="open-to-work"
-          v-reveal="{ delay: 450 }"
+          as="div"
+          :variants="fadeUp"
           class="flex flex-wrap items-center justify-center lg:justify-start gap-2"
         >
           <UiButton
@@ -118,11 +128,11 @@
           >
             <Icon name="Github" :size="18" />
           </a>
-        </div>
-      </div>
+        </Motion>
+      </Motion>
 
       <!-- RIGHT: terminal (single info surface) -->
-      <div :style="terminalParallaxStyle">
+      <Motion as="div" :style="{ y: terminalY }">
         <TerminalWindow
           title="about.sh"
           command="cat profile.txt"
@@ -155,25 +165,15 @@
             </p>
           </div>
         </TerminalWindow>
-      </div>
+      </Motion>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import Icon from "~/components/ui/Icon.vue";
-import { useWindowScroll } from "@vueuse/core";
-
-// Per-character reveal for the H1 (matches PageHeader animation)
-const heroTitle = "Joel Stephen";
-const titleChars = computed(() => heroTitle.split(""));
-function charIndex(i: number): string {
-  let count = 0;
-  for (let j = 0; j < i; j++) {
-    if (heroTitle[j] !== " ") count++;
-  }
-  return String(count);
-}
+import { useScroll, useTransform, useReducedMotion } from "motion-v";
+import { staggerContainer, fadeUp } from "~/constants/motion";
 
 useSeo({
   title:
@@ -297,14 +297,14 @@ useHead({
 
 const { toggleOpen: toggleChat } = useJoelAgent();
 
-// Parallax on scroll
-const { y: scrollY } = useWindowScroll();
-const heroParallaxStyle = computed(() => ({
-  transform: `translateY(${-(scrollY.value * 0.08)}px)`,
-  willChange: "transform",
-}));
-const terminalParallaxStyle = computed(() => ({
-  transform: `translateY(${-(scrollY.value * 0.04)}px)`,
-  willChange: "transform",
-}));
+// Parallax on scroll (motion-v scroll-linked values).
+// useTransform bypasses MotionConfig, so gate parallax on reduced-motion manually.
+const { scrollY } = useScroll();
+const reduceMotion = useReducedMotion();
+const heroY = useTransform(scrollY, (v) =>
+  reduceMotion.value ? 0 : -(v * 0.08),
+);
+const terminalY = useTransform(scrollY, (v) =>
+  reduceMotion.value ? 0 : -(v * 0.04),
+);
 </script>

@@ -29,44 +29,64 @@ const variantClasses = {
     "px-4 py-2 rounded-xl text-accent hover:bg-accent/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
 };
 
-const useMagnetic = computed(() => props.magnetic || props.variant === "primary");
-const { buttonRef, magneticStyle, onMouseEnter, onMouseLeave } =
+const useMagnetic = computed(
+  () => props.magnetic || props.variant === "primary",
+);
+const { buttonRef, magneticStyle, onMouseMove, onMouseLeave } =
   useMagneticButton();
 </script>
 
 <template>
   <NuxtLink
     v-if="to"
-    :ref="useMagnetic ? (el: any) => { buttonRef = el?.$el ?? el } : undefined"
+    :ref="
+      useMagnetic
+        ? (el: any) => {
+            buttonRef = el?.$el ?? el;
+          }
+        : undefined
+    "
     :to="to"
     :class="[baseClasses, variantClasses[variant], $attrs.class]"
     :style="useMagnetic ? magneticStyle : undefined"
-    @mouseenter="useMagnetic ? onMouseEnter() : undefined"
+    @mousemove="useMagnetic ? onMouseMove($event) : undefined"
     @mouseleave="useMagnetic ? onMouseLeave() : undefined"
   >
     <slot />
   </NuxtLink>
   <a
     v-else-if="href"
-    :ref="useMagnetic ? (el: any) => { buttonRef = el } : undefined"
+    :ref="
+      useMagnetic
+        ? (el: any) => {
+            buttonRef = el;
+          }
+        : undefined
+    "
     :href="href"
     target="_blank"
     rel="noopener"
     :class="[baseClasses, variantClasses[variant], $attrs.class]"
     :style="useMagnetic ? magneticStyle : undefined"
-    @mouseenter="useMagnetic ? onMouseEnter() : undefined"
+    @mousemove="useMagnetic ? onMouseMove($event) : undefined"
     @mouseleave="useMagnetic ? onMouseLeave() : undefined"
   >
     <slot />
   </a>
   <button
     v-else
-    :ref="useMagnetic ? (el: any) => { buttonRef = el } : undefined"
+    :ref="
+      useMagnetic
+        ? (el: any) => {
+            buttonRef = el;
+          }
+        : undefined
+    "
     :type="type"
     :disabled="disabled"
     :class="[baseClasses, variantClasses[variant], $attrs.class]"
     :style="useMagnetic ? magneticStyle : undefined"
-    @mouseenter="useMagnetic ? onMouseEnter() : undefined"
+    @mousemove="useMagnetic ? onMouseMove($event) : undefined"
     @mouseleave="useMagnetic ? onMouseLeave() : undefined"
   >
     <slot />

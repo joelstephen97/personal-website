@@ -1,12 +1,15 @@
 <template>
-  <article
-    ref="elementRef"
-    :style="[
-      activeTransitionSlug === project.slug && {
-        viewTransitionName: 'project-detail',
-      },
-      isDragging && { opacity: 0.5, zIndex: 50 },
-    ]"
+  <Motion
+    :ref="
+      (el: any) => {
+        elementRef = el?.$el ?? el;
+      }
+    "
+    as="article"
+    :while-hover="isDragging ? undefined : { y: -4, scale: 1.01 }"
+    :while-press="isDragging ? undefined : { scale: 0.99 }"
+    :transition="SPRING.soft"
+    :style="[isDragging && { opacity: 0.5, zIndex: 50 }]"
     :class="[
       'group glass-solid rounded-xl hover:border-accent/30 transition-colors relative border-l-[3px]',
       expanded ? 'col-span-full p-5' : 'p-3.5 min-h-[72px]',
@@ -126,12 +129,13 @@
         </div>
       </a>
     </div>
-  </article>
+  </Motion>
 </template>
 
 <script setup lang="ts">
 import { useSortable } from "@dnd-kit/vue/sortable";
 import Icon from "~/components/ui/Icon.vue";
+import { SPRING } from "~/constants/motion";
 
 const props = withDefaults(
   defineProps<{
@@ -177,11 +181,12 @@ const categoryColorMap: Record<string, string> = {
 
 const categoryBorderColor = computed(() => {
   const tech = props.project.tech?.[0];
-  return tech ? (categoryColorMap[tech] ?? "border-l-border") : "border-l-border";
+  return tech
+    ? (categoryColorMap[tech] ?? "border-l-border")
+    : "border-l-border";
 });
 
-const { activeTransitionSlug, setActiveTransitionSlug } =
-  useProjectTransition();
+const { setActiveTransitionSlug } = useProjectTransition();
 
 function preloadRoute() {
   if (import.meta.client) preloadRouteComponents(props.project.link);

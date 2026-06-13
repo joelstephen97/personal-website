@@ -8,7 +8,17 @@ const iconLoaders = import.meta.glob<{ default: Component }>(
   { eager: false },
 );
 
+// Explicit map ONLY for lucide icons whose file name differs from the
+// PascalCase name (renames/aliases). Everything else is auto-derived from the
+// name (see toKebab), so standard icons work without being listed here.
 const ICON_PATHS: Record<string, string> = {
+  AlertTriangle: "triangle-alert",
+  CheckCircle2: "circle-check",
+  Code2: "code-xml",
+  HelpCircle: "circle-help",
+  Layout: "panels-top-left",
+  LineChart: "chart-line",
+  Palmtree: "tree-palm",
   ArrowLeft: "arrow-left",
   ArrowLeftRight: "arrow-left-right",
   ArrowRight: "arrow-right",
@@ -43,11 +53,13 @@ const ICON_PATHS: Record<string, string> = {
   Fingerprint: "fingerprint",
   Flower2: "flower-2",
   FolderOpen: "folder-open",
+  GitBranch: "git-branch",
   GitCompareArrows: "git-compare-arrows",
   Github: "github",
   GripVertical: "grip-vertical",
   Grid3x3: "grid-3x3",
   Heading: "heading",
+  Home: "house",
   Image: "image",
   ImageMinus: "image-minus",
   Italic: "italic",
@@ -120,18 +132,27 @@ function normalizeName(name: string): string {
     .replace(/^./, (x) => x.toUpperCase());
 }
 
+// Convert a PascalCase icon name to lucide's kebab-case file name.
+function toKebab(name: string): string {
+  return name
+    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+    .replace(/([a-zA-Z])([0-9])/g, "$1-$2")
+    .toLowerCase();
+}
+
 const iconComponent = computed((): Component => {
   const pascalName = normalizeName(props.name);
-  const kebab = ICON_PATHS[pascalName];
+  // Explicit alias wins (lucide renames); otherwise derive the file name.
+  const kebab = ICON_PATHS[pascalName] ?? toKebab(pascalName);
 
-  if (!kebab || kebab === "circle") {
+  if (kebab === "circle") {
     return Circle;
   }
   if (kebab === "fingerprint") {
     return Fingerprint;
   }
 
-  const iconFile = `${kebab}.js`;
+  const iconFile = `/${kebab}.js`;
   const loader = Object.entries(iconLoaders).find(([p]) =>
     p.endsWith(iconFile),
   )?.[1];

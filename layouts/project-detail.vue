@@ -1,10 +1,17 @@
 <template>
   <NuxtLayout name="default">
-    <div
+    <Motion
+      as="div"
       class="project-detail-view"
-      style="view-transition-name: project-detail"
+      :initial="{ scale: 0.98 }"
+      :animate="{ scale: 1 }"
+      :transition="{ duration: DURATION.base, ease: EASE_TRANSITION }"
     >
       <slot />
-    </div>
+    </Motion>
   </NuxtLayout>
 </template>
+
+<script setup lang="ts">
+import { DURATION, EASE_TRANSITION } from "~/constants/motion";
+</script>

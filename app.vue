@@ -2,9 +2,11 @@
   <div>
     <NuxtPwaManifest />
     <NuxtRouteAnnouncer />
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
+    <MotionConfig reduced-motion="user">
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
+    </MotionConfig>
     <SpeedInsights />
   </div>
 </template>
