@@ -1,6 +1,13 @@
 <template>
-  <article
-    ref="elementRef"
+  <Motion
+    :ref="
+      (el: any) => {
+        elementRef = el?.$el ?? el;
+      }
+    "
+    as="article"
+    :while-hover="isDragging ? undefined : { y: -2 }"
+    :transition="SPRING.soft"
     :style="[
       activeTransitionSlug === project.slug && {
         viewTransitionName: 'project-detail',
@@ -126,12 +133,13 @@
         </div>
       </a>
     </div>
-  </article>
+  </Motion>
 </template>
 
 <script setup lang="ts">
 import { useSortable } from "@dnd-kit/vue/sortable";
 import Icon from "~/components/ui/Icon.vue";
+import { SPRING } from "~/constants/motion";
 
 const props = withDefaults(
   defineProps<{
@@ -177,7 +185,9 @@ const categoryColorMap: Record<string, string> = {
 
 const categoryBorderColor = computed(() => {
   const tech = props.project.tech?.[0];
-  return tech ? (categoryColorMap[tech] ?? "border-l-border") : "border-l-border";
+  return tech
+    ? (categoryColorMap[tech] ?? "border-l-border")
+    : "border-l-border";
 });
 
 const { activeTransitionSlug, setActiveTransitionSlug } =
