@@ -9,8 +9,8 @@
     </p>
     <Motion
       v-if="animate"
-      as="h1"
       :id="id"
+      as="h1"
       class="text-h2 font-bold text-foreground mb-1"
       :variants="fadeUp"
       initial="hidden"
