@@ -213,22 +213,10 @@ select:focus {
 }
 
 /* ── @property for animated CSS values ── */
-@property --gradient-angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
 @property --border-angle {
   syntax: "<angle>";
   initial-value: 0deg;
   inherits: false;
-}
-
-/* ── Hero gradient mesh ── */
-@keyframes gradient-rotate {
-  to {
-    --gradient-angle: 360deg;
-  }
 }
 
 /* ── Floating glass elements ── */
