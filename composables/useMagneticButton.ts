@@ -1,40 +1,51 @@
-import { useMouseInElement } from "@vueuse/core";
-import { computed, ref, type Ref } from "vue";
+import { reactive, ref, onUnmounted } from "vue";
+import { useMotionValue, useSpring } from "motion-v";
+import { SPRING } from "~/constants/motion";
 
 export function useMagneticButton(options?: { strength?: number }) {
   const strength = options?.strength ?? 0.3;
   const buttonRef = ref<HTMLElement | null>(null);
-  const isNear = ref(false);
 
-  const { elementX, elementY, elementWidth, elementHeight, isOutside } =
-    useMouseInElement(buttonRef as Ref<HTMLElement>);
+  const xRaw = useMotionValue(0);
+  const yRaw = useMotionValue(0);
+  const x = useSpring(xRaw, SPRING.magnetic);
+  const y = useSpring(yRaw, SPRING.magnetic);
 
-  const magneticStyle = computed(() => {
-    if (isOutside.value || !isNear.value) {
-      return {
-        transform: "translate(0, 0) scale(1)",
-        transition: "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-      };
-    }
-
-    const centerX = elementWidth.value / 2;
-    const centerY = elementHeight.value / 2;
-    const offsetX = (elementX.value - centerX) * strength;
-    const offsetY = (elementY.value - centerY) * strength;
-
-    return {
-      transform: `translate(${offsetX.toFixed(1)}px, ${offsetY.toFixed(1)}px) scale(1.03)`,
-      transition: "transform 0.15s ease-out",
-    };
+  // Colors/shadow transition via CSS; transform is owned by the spring (excluded
+  // from CSS transitions so the two systems don't fight).
+  const magneticStyle = reactive({
+    transform: "translate3d(0px, 0px, 0)",
+    transition:
+      "color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease",
   });
 
-  function onMouseEnter() {
-    isNear.value = true;
+  function sync() {
+    magneticStyle.transform = `translate3d(${x.get().toFixed(2)}px, ${y.get().toFixed(2)}px, 0)`;
+  }
+  const stopX = x.on("change", sync);
+  const stopY = y.on("change", sync);
+  onUnmounted(() => {
+    stopX();
+    stopY();
+  });
+
+  const reduce =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function onMouseMove(e: MouseEvent) {
+    if (reduce) return;
+    const el = buttonRef.value;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    xRaw.set((e.clientX - (rect.left + rect.width / 2)) * strength);
+    yRaw.set((e.clientY - (rect.top + rect.height / 2)) * strength);
   }
 
   function onMouseLeave() {
-    isNear.value = false;
+    xRaw.set(0);
+    yRaw.set(0);
   }
 
-  return { buttonRef, magneticStyle, onMouseEnter, onMouseLeave };
+  return { buttonRef, magneticStyle, onMouseMove, onMouseLeave };
 }
