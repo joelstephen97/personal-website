@@ -8,12 +8,7 @@
     as="article"
     :while-hover="isDragging ? undefined : { y: -2 }"
     :transition="SPRING.soft"
-    :style="[
-      activeTransitionSlug === project.slug && {
-        viewTransitionName: 'project-detail',
-      },
-      isDragging && { opacity: 0.5, zIndex: 50 },
-    ]"
+    :style="[isDragging && { opacity: 0.5, zIndex: 50 }]"
     :class="[
       'group glass-solid rounded-xl hover:border-accent/30 transition-colors relative border-l-[3px]',
       expanded ? 'col-span-full p-5' : 'p-3.5 min-h-[72px]',
@@ -190,8 +185,7 @@ const categoryBorderColor = computed(() => {
     : "border-l-border";
 });
 
-const { activeTransitionSlug, setActiveTransitionSlug } =
-  useProjectTransition();
+const { setActiveTransitionSlug } = useProjectTransition();
 
 function preloadRoute() {
   if (import.meta.client) preloadRouteComponents(props.project.link);

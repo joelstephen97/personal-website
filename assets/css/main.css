@@ -205,13 +205,6 @@ select:focus {
   border-color: rgb(var(--accent));
 }
 
-/* Project card shared-element transition - smooth expand/collapse */
-::view-transition-old(project-detail),
-::view-transition-new(project-detail) {
-  animation-duration: 0.35s;
-  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
 /* ── @property for animated CSS values ── */
 @property --border-angle {
   syntax: "<angle>";
