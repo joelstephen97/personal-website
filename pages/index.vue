@@ -172,7 +172,7 @@
 
 <script setup lang="ts">
 import Icon from "~/components/ui/Icon.vue";
-import { useScroll, useTransform } from "motion-v";
+import { useScroll, useTransform, useReducedMotion } from "motion-v";
 import { staggerContainer, fadeUp } from "~/constants/motion";
 
 useSeo({
@@ -297,8 +297,14 @@ useHead({
 
 const { toggleOpen: toggleChat } = useJoelAgent();
 
-// Parallax on scroll (motion-v scroll-linked values)
+// Parallax on scroll (motion-v scroll-linked values).
+// useTransform bypasses MotionConfig, so gate parallax on reduced-motion manually.
 const { scrollY } = useScroll();
-const heroY = useTransform(scrollY, (v) => -(v * 0.08));
-const terminalY = useTransform(scrollY, (v) => -(v * 0.04));
+const reduceMotion = useReducedMotion();
+const heroY = useTransform(scrollY, (v) =>
+  reduceMotion.value ? 0 : -(v * 0.08),
+);
+const terminalY = useTransform(scrollY, (v) =>
+  reduceMotion.value ? 0 : -(v * 0.04),
+);
 </script>
