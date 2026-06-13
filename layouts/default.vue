@@ -115,10 +115,6 @@ const SITE_URL =
   "https://joelstephen.vercel.app";
 
 const route = useRoute();
-const _projectSlug = computed(() => {
-  const match = route.path.match(/\/project\/([^/]+)/);
-  return match ? match[1] : null;
-});
 
 const orbGradient1 = computed(() => {
   if (route.path.startsWith("/experience"))
