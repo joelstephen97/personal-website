@@ -4,20 +4,29 @@
     <div
       class="fixed inset-0 -z-10 pointer-events-none transition-colors duration-700"
     >
-      <div
+      <Motion
+        as="div"
         :class="[
-          'absolute top-0 right-0 w-[600px] h-[600px] rounded-full blur-3xl animate-orb-1 transition-colors duration-700',
+          'absolute top-0 right-0 w-[600px] h-[600px] rounded-full blur-3xl transition-colors duration-700',
           orbGradient1,
         ]"
+        :animate="{ x: [0, 40, -30, 0], y: [0, -25, 20, 0] }"
+        :transition="{ duration: 30, repeat: Infinity, ease: 'easeInOut' }"
       />
-      <div
+      <Motion
+        as="div"
         :class="[
-          'absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full blur-3xl animate-orb-2 transition-colors duration-700',
+          'absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full blur-3xl transition-colors duration-700',
           orbGradient2,
         ]"
+        :animate="{ x: [0, -35, 25, 0], y: [0, 15, -20, 0] }"
+        :transition="{ duration: 25, repeat: Infinity, ease: 'easeInOut' }"
       />
-      <div
-        class="absolute top-1/3 left-1/4 w-[350px] h-[350px] bg-gradient-to-br from-blue-500/[0.02] to-transparent rounded-full blur-3xl animate-orb-3"
+      <Motion
+        as="div"
+        class="absolute top-1/3 left-1/4 w-[350px] h-[350px] bg-gradient-to-br from-blue-500/[0.02] to-transparent rounded-full blur-3xl"
+        :animate="{ x: [0, -30, 40, 0], y: [0, 20, -25, 0] }"
+        :transition="{ duration: 35, repeat: Infinity, ease: 'easeInOut' }"
       />
     </div>
 

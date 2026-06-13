@@ -242,32 +242,6 @@ select:focus {
   }
 }
 
-/* ── Ambient orb drift ── */
-@keyframes orb-drift-1 {
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-  33% {
-    transform: translate(40px, -25px);
-  }
-  66% {
-    transform: translate(-30px, 20px);
-  }
-}
-@keyframes orb-drift-2 {
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-  33% {
-    transform: translate(-35px, 15px);
-  }
-  66% {
-    transform: translate(25px, -20px);
-  }
-}
-
 /* ── Animated gradient border on hover ── */
 @keyframes rotate-border {
   to {

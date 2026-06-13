@@ -41,7 +41,8 @@ export default {
         background: "rgb(var(--bg) / <alpha-value>)",
         "bg-secondary": "rgb(var(--bg-secondary) / <alpha-value>)",
         foreground: "rgb(var(--foreground) / <alpha-value>)",
-        "foreground-secondary": "rgb(var(--foreground-secondary) / <alpha-value>)",
+        "foreground-secondary":
+          "rgb(var(--foreground-secondary) / <alpha-value>)",
         "foreground-muted": "rgb(var(--foreground-muted) / <alpha-value>)",
         muted: "rgb(var(--foreground-secondary) / <alpha-value>)",
         "muted-foreground": "rgb(var(--foreground-muted) / <alpha-value>)",
@@ -68,9 +69,6 @@ export default {
         "slide-up": "slideUp 0.6s ease-out forwards",
         float: "float 8s ease-in-out infinite",
         "float-slow": "float 12s ease-in-out infinite",
-        "orb-1": "orb-drift-1 30s ease-in-out infinite",
-        "orb-2": "orb-drift-2 25s ease-in-out infinite",
-        "orb-3": "orb-drift-1 35s ease-in-out infinite reverse",
       },
       keyframes: {
         fadeIn: {
@@ -84,16 +82,6 @@ export default {
         float: {
           "0%, 100%": { transform: "translateY(0) rotate(0deg)" },
           "50%": { transform: "translateY(-16px) rotate(2deg)" },
-        },
-        "orb-drift-1": {
-          "0%, 100%": { transform: "translate(0, 0)" },
-          "33%": { transform: "translate(40px, -25px)" },
-          "66%": { transform: "translate(-30px, 20px)" },
-        },
-        "orb-drift-2": {
-          "0%, 100%": { transform: "translate(0, 0)" },
-          "33%": { transform: "translate(-35px, 15px)" },
-          "66%": { transform: "translate(25px, -20px)" },
         },
       },
     },
