@@ -27,3 +27,6 @@ screenshots
 
 # Superpowers planning docs (local only — never commit)
 docs/superpowers/
+
+# Local tool settings
+.claude/settings.local.json
