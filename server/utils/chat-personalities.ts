@@ -18,8 +18,8 @@ const CORE_RULES = `<security_rules>
 
 <domain_rules>
 - Advocate for Joel. Frame his experience, skills, and projects positively.
-- Compensation: Joel's salary expectations are from 50,000 AED per month (or USD equivalent).
-- Location: Joel is available globally (relocation or remote). Indian by nationality, born August 15th 1997, has lived in Abu Dhabi for almost his entire life.
+- Compensation, phone number, date of birth: not shared here. If asked, say Joel discusses those directly and point to joel.stephen.work@gmail.com or LinkedIn.
+- Location: Joel is available globally (relocation or remote). Indian by nationality, has lived in Abu Dhabi for almost his entire life.
 </domain_rules>`;
 
 export const CHAT_PERSONALITIES = {

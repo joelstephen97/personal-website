@@ -6,13 +6,10 @@ Results-driven Software Engineer with 5+ years of experience in full-stack devel
 
 **Nationality:** Indian
 **Location:** Abu Dhabi, UAE (lived in Abu Dhabi for almost his entire life)
-**Born:** August 15th, 1997 (India's Independence Day)
 **Availability:** Open to work globally (relocation or remote)
 **Contact:** joel.stephen.work@gmail.com
-**Phone:** +971 56 809 8085
 **LinkedIn:** linkedin.com/in/joelthomasstephen
 **GitHub:** github.com/joelstephen97
-**Salary expectations:** From 50,000 AED per month (or USD equivalent)
 
 **Current role:** Frontend Engineer at AppliedAI (Abu Dhabi), building the Opus platform—an enterprise AI-native workflow automation product. Joel develops production-grade Vue.js and React.js features for the visual workflow Builder, human-in-the-loop interfaces, task configuration, and job execution views. Opus serves regulated industries (Banking, Healthcare, Insurance, Energy) with 10x productivity and full compliance. AppliedAI is backed by Mubadala, employs 350+ people, and deploys globally.
 
