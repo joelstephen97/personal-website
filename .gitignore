@@ -30,3 +30,8 @@ docs/superpowers/
 
 # Local tool settings
 .claude/settings.local.json
+
+# local AI-tool instructions, not published
+CLAUDE.md
+AGENTS.md
+.claude/
