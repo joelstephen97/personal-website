@@ -4,7 +4,7 @@
       id="contact-heading"
       title="Contact"
       eyebrow="Get in touch"
-      subtitle="Open to Senior / Staff Frontend, Full-Stack, Forward Deployed, or Applied AI roles across the GCC (Gulf), Southeast Asia, and the EEA (Europe). I read every message and usually reply within a day."
+      subtitle="Open to Senior / Staff Frontend, Full-Stack, Forward Deployed, or Applied AI roles — full-time, consulting, or contract, remote included — across the GCC (Gulf), Southeast Asia, and the EEA (Europe). I read every message and usually reply within a day."
     >
       <a
         href="/joel-stephen-resume.pdf"
@@ -205,24 +205,30 @@
         <Icon name="HelpCircle" :size="20" class="text-accent" />
         Hiring manager FAQ
       </h2>
-      <div class="grid md:grid-cols-2 gap-3">
-        <details
-          v-for="(item, i) in faqItems"
-          :key="i"
-          class="glass-solid rounded-2xl p-5 group"
+      <div class="grid md:grid-cols-2 gap-3 items-start">
+        <div
+          v-for="(column, c) in faqColumns"
+          :key="c"
+          class="flex flex-col gap-3"
         >
-          <summary
-            class="font-medium text-foreground cursor-pointer flex items-center justify-between gap-3"
+          <details
+            v-for="item in column"
+            :key="item.q"
+            class="glass-solid rounded-2xl p-5 group"
           >
-            <span>{{ item.q }}</span>
-            <Icon
-              name="ChevronDown"
-              :size="16"
-              class="text-accent group-open:rotate-180 transition-transform shrink-0"
-            />
-          </summary>
-          <p class="text-sm text-muted mt-3 leading-relaxed">{{ item.a }}</p>
-        </details>
+            <summary
+              class="font-medium text-foreground cursor-pointer flex items-center justify-between gap-3"
+            >
+              <span>{{ item.q }}</span>
+              <Icon
+                name="ChevronDown"
+                :size="16"
+                class="text-accent group-open:rotate-180 transition-transform shrink-0"
+              />
+            </summary>
+            <p class="text-sm text-muted mt-3 leading-relaxed">{{ item.a }}</p>
+          </details>
+        </div>
       </div>
     </section>
   </div>
@@ -234,10 +240,9 @@ import Icon from "~/components/ui/Icon.vue";
 import emailjs from "@emailjs/browser";
 
 useSeo({
-  title:
-    "Contact | Joel Stephen — Open to Senior / Staff roles (GCC · SEA · EEA)",
+  title: "Contact | Joel Stephen — Senior roles & consulting (GCC · SEA · EEA)",
   description:
-    "Get in touch with Joel Stephen. Email, LinkedIn, Calendly. Based in Abu Dhabi, UAE. Open to Senior / Staff Frontend, Full-Stack, Forward Deployed, or Applied AI roles across the GCC, Southeast Asia, and the European Economic Area.",
+    "Get in touch with Joel Stephen. Email, LinkedIn, Calendly. Based in Abu Dhabi, UAE. Open to Senior / Staff Frontend, Full-Stack, Forward Deployed, or Applied AI roles — full-time, consulting, or contract, remote included — across the GCC, Southeast Asia, and the European Economic Area.",
 });
 
 // FAQPage schema — pre-answers the most common recruiter questions so they
@@ -257,6 +262,14 @@ const faqSchema = {
       acceptedAnswer: {
         "@type": "Answer",
         text: "Senior, Staff, Lead, or Principal-level Frontend, Full-Stack, Forward Deployed, or Applied AI Engineer roles. Strongest fit on AI workflow surfaces, real-time collaborative UI, node-graph editors, applied ML, and customer-embedded product engineering.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Are you open to consulting or contract work?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Alongside full-time roles, I take remote consulting and contract engagements — frontend architecture, AI workflow and LLM integration, and hands-on product engineering. Typical rate is USD 100–150 per hour depending on scope, with day-rate and fixed-project pricing available.",
       },
     },
     {
@@ -312,6 +325,13 @@ const faqItems = faqSchema.mainEntity.map((m) => ({
   q: m.name,
   a: m.acceptedAnswer.text,
 }));
+
+// Two independent stacks so an expanded card only grows its own column
+// instead of stretching the whole grid row.
+const faqColumns = [
+  faqItems.filter((_, i) => i % 2 === 0),
+  faqItems.filter((_, i) => i % 2 === 1),
+];
 
 const contactInfo = [
   {

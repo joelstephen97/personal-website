@@ -6,7 +6,7 @@ Results-driven Software Engineer with 5+ years of experience in full-stack devel
 
 **Nationality:** Indian
 **Location:** Abu Dhabi, UAE (lived in Abu Dhabi for almost his entire life)
-**Availability:** Open to work globally (relocation or remote)
+**Availability:** Open to full-time roles AND consulting/contract engagements, globally (relocation or remote). Consulting covers frontend architecture, AI workflow and LLM integration, and hands-on product engineering; typical rate USD 100–150 per hour depending on scope, with day-rate and fixed-project pricing available.
 **Contact:** joel.stephen.work@gmail.com
 **LinkedIn:** linkedin.com/in/joelthomasstephen
 **GitHub:** github.com/joelstephen97

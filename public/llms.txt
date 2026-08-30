@@ -1,6 +1,6 @@
 # Joel Stephen
 
-> Frontend Engineer at AppliedAI shipping AI workflow surfaces — Process Discovery (Yjs/CRDT multiplayer canvas), Opus Technical Canvas (n8n fork), and Opus-CX. 5+ years across Vue, React, TypeScript, Python, and FastAPI, with production experience in real-time collaborative editing, large-graph rendering, applied ML (YOLO v5, OpenCV), and LLM integration (Anthropic, OpenAI). Based in Abu Dhabi, UAE. Open to Senior / Staff Frontend, Full-Stack, Forward Deployed, or Applied AI roles across the GCC (Gulf Cooperation Council), Southeast Asia (SEA), and the European Economic Area (EEA).
+> Frontend Engineer at AppliedAI shipping AI workflow surfaces — Process Discovery (Yjs/CRDT multiplayer canvas), Opus Technical Canvas (n8n fork), and Opus-CX. 5+ years across Vue, React, TypeScript, Python, and FastAPI, with production experience in real-time collaborative editing, large-graph rendering, applied ML (YOLO v5, OpenCV), and LLM integration (Anthropic, OpenAI). Based in Abu Dhabi, UAE. Open to Senior / Staff Frontend, Full-Stack, Forward Deployed, or Applied AI roles — full-time, consulting, or contract, remote included — across the GCC (Gulf Cooperation Council), Southeast Asia (SEA), and the European Economic Area (EEA).
 
 ## Contact
 
@@ -13,6 +13,7 @@
 ## Open to work
 
 - **Levels:** Senior, Staff, Lead, Principal, Forward Deployed Engineer, Applied AI Engineer
+- **Engagement types:** Full-time, consulting, or contract — remote included. Consulting covers frontend architecture, AI workflow / LLM integration, and hands-on product engineering; typical rate USD 100–150 per hour depending on scope (day-rate and fixed-project pricing available).
 - **Regions:** GCC (UAE, Saudi Arabia, Qatar, Kuwait, Bahrain, Oman), Southeast Asia (Singapore, Malaysia, Thailand, Vietnam, Indonesia, Philippines), and the EEA (EU plus Norway, Iceland, Liechtenstein). Open to fully remote roles with regional time-zone overlap.
 - **Sponsorship:** Required outside the GCC (where Joel is currently resident on a UAE work permit via AppliedAI).
 - **Notice period at AppliedAI:** 1 month
