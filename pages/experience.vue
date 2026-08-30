@@ -300,7 +300,7 @@ const jobs = [
     duration: "Jun 2025 - Present",
     tasks: [
       "Building production frontend on Opus, AppliedAI's AI workflow platform for enterprise customers in finance, telecom, healthcare, and AI/cloud infrastructure.",
-      "Brought Process Discovery to life — a real-time multiplayer canvas (React + Yjs/CRDT) where customers co-edit deep descriptions of their processes that feed Opus's workflow generation.",
+      "Leads engineering on Process Discovery — a real-time collaborative canvas (custom-built conflict-resolution engine, originally Yjs/CRDT) where enterprise teams map their processes with AI assist; clients in insurance, chemicals, and government worldwide.",
       "Spearheaded the Opus Technical Canvas, a fork of n8n rewritten as Opus's node-graph surface with a custom expressions engine (Vue + TypeScript).",
       "Shipped on Opus-CX (React + Zustand), the enterprise-facing surface wrapping Opus's capabilities into a clean, usable product.",
       "Mentored junior and mid-level engineers; partnered with CX, presales, and solutions teams; ran code review, sprint planning, and performance instrumentation.",

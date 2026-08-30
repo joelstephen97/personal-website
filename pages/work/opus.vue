@@ -48,11 +48,12 @@
           and operate workflows on top of LLMs and ML runtimes.
         </p>
         <p class="text-sm text-muted">
-          I work across three production surfaces: Process Discovery (a
-          real-time multiplayer canvas, React + Yjs/CRDT, FastAPI behind it,
-          Anthropic and OpenAI models inside), the Opus Technical Canvas (a fork
-          of n8n rewritten as Opus's node-graph editor in Vue + TypeScript), and
-          Opus-CX (the enterprise-facing surface in React + Zustand). On the
+          I lead engineering on Process Discovery (a real-time collaborative
+          canvas — Next.js + React with a custom-built conflict-resolution
+          engine, FastAPI behind it, Anthropic and OpenAI models inside) and
+          work across two more production surfaces: the Opus Technical Canvas (a
+          fork of n8n rewritten as Opus's node-graph editor in Vue + TypeScript)
+          and Opus-CX (the enterprise-facing surface in React + Zustand). On the
           team side, I coach junior and mid-level frontend engineers, and
           partner with internal CX, presales, and solutions teams to feed real
           customer pain points back into UI work.
@@ -84,7 +85,8 @@
                 Process Discovery
               </h3>
               <p class="text-sm text-muted">
-                Multiplayer canvas · AI-driven chat · feeds workflow generation
+                Leads engineering · Collaborative canvas · AI-driven chat ·
+                feeds workflow generation
               </p>
             </div>
             <div class="flex flex-wrap gap-1.5">
@@ -94,7 +96,7 @@
               >
               <span
                 class="px-2 py-0.5 rounded-md bg-accent/10 text-accent text-xs font-medium"
-                >Yjs / CRDT</span
+                >Custom conflict resolution</span
               >
               <span
                 class="px-2 py-0.5 rounded-md bg-blue-500/10 text-blue-500 dark:text-blue-400 text-xs font-medium"
@@ -131,7 +133,7 @@
               />
               <span
                 >Brought the product to life from early prototype to production
-                surface.</span
+                surface, and now lead its engineering.</span
               >
             </li>
             <li class="flex items-start gap-2">
@@ -142,7 +144,9 @@
               />
               <span
                 >Real-time multiplayer with versioning — multiple customer users
-                co-editing without conflicts.</span
+                co-editing without conflicts. Originally built on Yjs/CRDT, now
+                running on a custom-built conflict-resolution engine we designed
+                for this canvas.</span
               >
             </li>
             <li class="flex items-start gap-2">
@@ -166,6 +170,18 @@
                 >Custom situation-based AI pipelines on the backend so the model
                 behaves differently depending on what the user is doing on the
                 canvas.</span
+              >
+            </li>
+            <li class="flex items-start gap-2">
+              <Icon
+                name="Check"
+                :size="16"
+                class="text-accent mt-0.5 flex-shrink-0"
+              />
+              <span
+                >In production with clients in insurance, the chemical industry,
+                government, and other process-driven industries across the
+                world.</span
               >
             </li>
           </ul>
@@ -440,7 +456,7 @@ definePageMeta({ layout: "project-detail" });
 useSeo({
   title: "Opus at AppliedAI — Case Study | Joel Stephen",
   description:
-    "How I built Process Discovery (React + Yjs/CRDT multiplayer canvas), spearheaded the Opus Technical Canvas (n8n fork in Vue + TypeScript), and shipped on Opus-CX (React + Zustand) — three production surfaces on AppliedAI's AI workflow platform.",
+    "How I built and lead engineering on Process Discovery (collaborative canvas with a custom conflict-resolution engine), spearheaded the Opus Technical Canvas (n8n fork in Vue + TypeScript), and shipped on Opus-CX (React + Zustand) — three production surfaces on AppliedAI's AI workflow platform.",
   breadcrumbTitle: "Opus — AppliedAI",
 });
 

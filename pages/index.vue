@@ -146,8 +146,8 @@
               TypeScript · Python · FastAPI
             </p>
             <p>
-              <span class="text-muted-foreground">Real-time </span> Yjs / CRDT ·
-              WebSocket · SSE
+              <span class="text-muted-foreground">Real-time </span> Custom
+              conflict resolution · Yjs / CRDT · WebSocket · SSE
             </p>
             <p>
               <span class="text-muted-foreground">AI </span> Anthropic · OpenAI
@@ -173,7 +173,7 @@ useSeo({
   title:
     "Joel Stephen | Frontend Engineer · AI Workflows · Vue · React · Python",
   description:
-    "Frontend Engineer at AppliedAI shipping AI workflow surfaces — Process Discovery (Yjs/CRDT), Opus Technical Canvas (n8n fork), Opus-CX. 5+ yrs across Vue, React, TypeScript, Python, FastAPI. Open to Senior/Staff roles across the GCC (Gulf), Southeast Asia, and EEA (Europe). Based in Abu Dhabi, UAE.",
+    "Frontend Engineer at AppliedAI, leading engineering on Process Discovery (AI-assisted process mapping) and shipping Opus Technical Canvas (n8n fork) and Opus-CX. 5+ yrs across Vue, React, TypeScript, Python, FastAPI. Open to Senior/Staff roles across the GCC (Gulf), Southeast Asia, and EEA (Europe). Based in Abu Dhabi, UAE.",
 });
 
 const config = useRuntimeConfig();
@@ -187,7 +187,7 @@ const personSchema = {
   alternateName: "Joel Thomas Stephen",
   jobTitle: "Frontend Engineer",
   description:
-    "Frontend Engineer at AppliedAI building AI workflow surfaces. 5+ years across Vue, React, TypeScript, Python, FastAPI, with production experience on real-time collaborative canvases (Yjs/CRDT), node-graph editors (n8n fork), and applied ML (YOLO v5, OpenCV, Anthropic + OpenAI APIs).",
+    "Frontend Engineer at AppliedAI, leading engineering on Process Discovery, an AI-assisted process-mapping product. 5+ years across Vue, React, TypeScript, Python, FastAPI, with production experience on real-time collaborative canvases (custom conflict resolution, Yjs/CRDT), node-graph editors (n8n fork), and applied ML (YOLO v5, OpenCV, Anthropic + OpenAI APIs).",
   url: SITE_URL,
   email: "mailto:joel.stephen.work@gmail.com",
   image: `${SITE_URL}/headshot.png`,

@@ -106,12 +106,12 @@ const work = [
     icon: "Cpu",
     status: "current" as const,
     summary:
-      "Three production surfaces: Process Discovery (React + Yjs/CRDT multiplayer canvas), Opus Technical Canvas (n8n fork in Vue + TypeScript), and Opus-CX (React + Zustand). Anthropic and OpenAI models inside.",
+      "Leads engineering on Process Discovery (collaborative canvas, custom conflict resolution; clients in insurance, chemicals, and government worldwide). Plus Opus Technical Canvas (n8n fork in Vue + TypeScript) and Opus-CX (React + Zustand). Anthropic and OpenAI models inside.",
     tags: [
       "React",
       "Vue",
       "TypeScript",
-      "Yjs/CRDT",
+      "Conflict resolution",
       "FastAPI",
       "Anthropic",
       "OpenAI",

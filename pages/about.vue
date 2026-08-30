@@ -93,10 +93,12 @@
               class="text-accent mt-0.5 flex-shrink-0"
             />
             <span
-              ><strong class="text-foreground">Process Discovery</strong> — a
-              real-time multiplayer canvas in React + Yjs/CRDT where customers
-              co-edit deep descriptions of their processes, and the output feeds
-              Opus's workflow generation.</span
+              ><strong class="text-foreground">Process Discovery</strong> — I
+              lead engineering on this product: a real-time collaborative canvas
+              (custom-built conflict resolution) where enterprise teams map
+              their processes with AI assist. Clients in insurance, chemicals,
+              and government worldwide; the output feeds Opus's workflow
+              generation.</span
             >
           </li>
           <li class="flex items-start gap-2">
@@ -344,7 +346,7 @@ import Icon from "~/components/ui/Icon.vue";
 useSeo({
   title: "About | Joel Stephen — Frontend Engineer at AppliedAI",
   description:
-    "Joel Stephen is a Frontend Engineer at AppliedAI building AI workflow surfaces (Process Discovery, Opus Technical Canvas, Opus-CX). 5+ yrs across Vue, React, TypeScript, Python. Hot take: a frontend engineer is only good if they can think like a user. Open to Senior/Staff roles across GCC, SEA, and the EEA.",
+    "Joel Stephen is a Frontend Engineer at AppliedAI who leads engineering on Process Discovery and ships across Opus (Technical Canvas, Opus-CX). 5+ yrs across Vue, React, TypeScript, Python. Hot take: a frontend engineer is only good if they can think like a user. Open to Senior/Staff roles across GCC, SEA, and the EEA.",
 });
 
 const stack = [

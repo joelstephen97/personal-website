@@ -574,6 +574,16 @@ onMounted(() => {
 
 const professional = [
   {
+    name: "Process Discovery",
+    company: "AppliedAI · Opus",
+    url: "https://app.opus.com/",
+    icon: "Network",
+    badge: "Leads Engineering · AI Process Mapping",
+    description:
+      "Real-time collaborative canvas where enterprise teams discover and map their processes with AI assist. Custom-built conflict-resolution engine; clients in insurance, chemicals, and government worldwide.",
+    tech: ["Next.js", "React", "FastAPI", "AI Pipelines"],
+  },
+  {
     name: "Opus",
     company: "APPLIED AI INNOVATION RESEARCH - SOLE PROPRIETORSHIP L.L.C.",
     url: "https://app.opus.com/",

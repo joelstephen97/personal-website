@@ -11,7 +11,7 @@ Results-driven Software Engineer with 5+ years of experience in full-stack devel
 **LinkedIn:** linkedin.com/in/joelthomasstephen
 **GitHub:** github.com/joelstephen97
 
-**Current role:** Frontend Engineer at AppliedAI (Abu Dhabi), building the Opus platform—an enterprise AI-native workflow automation product. Joel develops production-grade Vue.js and React.js features for the visual workflow Builder, human-in-the-loop interfaces, task configuration, and job execution views. Opus serves regulated industries (Banking, Healthcare, Insurance, Energy) with 10x productivity and full compliance. AppliedAI is backed by Mubadala, employs 350+ people, and deploys globally.
+**Current role:** Frontend Engineer at AppliedAI (Abu Dhabi), building the Opus platform—an enterprise AI-native workflow automation product. Joel **leads engineering on Process Discovery**, Opus's AI-assisted process-mapping product (his flagship contribution — see Professional Projects below), and develops production-grade features across the visual workflow Builder, human-in-the-loop interfaces, task configuration, and job execution views. Opus serves regulated industries (Banking, Healthcare, Insurance, Energy) with 10x productivity and full compliance. AppliedAI is backed by Mubadala, employs 350+ people, and deploys globally.
 
 ---
 
@@ -186,6 +186,9 @@ Results-driven Software Engineer with 5+ years of experience in full-stack devel
 ---
 
 ## Professional Projects
+
+### Process Discovery (AppliedAI · Opus) — Joel leads engineering on this product
+Joel's flagship contribution at AppliedAI: he brought Process Discovery to life and now leads its engineering. It is a real-time collaborative canvas plus AI-driven chat that helps enterprise teams discover and map their business processes quickly — multiple users co-edit a deep description of how their business runs while the AI surfaces gaps, asks clarifying questions, and stitches the discoveries into a structured map that feeds Opus's workflow generation. Multiplayer originally ran on Yjs/CRDT; the team replaced it with a custom-built conflict-resolution engine (with versioning). In production with clients in insurance, the chemical industry, government, and other process-driven industries across the world. **Tech:** Next.js, React, custom conflict-resolution engine, FastAPI, Anthropic + OpenAI models, custom situation-based AI pipelines, ElevenLabs TTS
 
 ### Opus (Applied AI Innovation Research)
 Enterprise AI-native workflow automation platform for regulated industries (Banking, Healthcare, Insurance, Energy, Telecom). Built by AppliedAI (Abu Dhabi, 350+ employees, Mubadala-backed). Agentic automation with human-in-the-loop: visual Builder, Prompt-to-Workflow, drag-and-drop task design, Agent/Human/Review/Data tasks, Workspaces, Jobs, full audit trails. Joel architects and delivers production-grade frontend features—Vue.js and React.js—for the Builder, workflow UIs, task configuration, and job execution views. 10x productivity, 90% pilot-to-deployment conversion. **Tech:** Vue.js, React, TypeScript, Node.js, AI Workflows

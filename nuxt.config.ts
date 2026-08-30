@@ -144,7 +144,7 @@ export default defineNuxtConfig({
         {
           name: "description",
           content:
-            "Frontend Engineer at AppliedAI building AI workflow surfaces — Process Discovery (Yjs/CRDT), Opus Technical Canvas (n8n fork), Opus-CX. 5+ yrs Vue, React, TypeScript, Python, FastAPI. Open to Senior / Staff roles across GCC, SEA, and EEA.",
+            "Frontend Engineer at AppliedAI, leading engineering on Process Discovery — AI-assisted process mapping. Plus Opus Technical Canvas (n8n fork) and Opus-CX. 5+ yrs Vue, React, TypeScript, Python, FastAPI. Open to Senior / Staff roles across GCC, SEA, and EEA.",
         },
         { name: "author", content: "Joel Stephen" },
         {

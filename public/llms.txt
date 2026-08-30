@@ -33,7 +33,7 @@
 
 Shipping production frontend on **Opus**, AppliedAI's AI workflow platform for enterprise customers in finance, telecom, healthcare, and AI / cloud infrastructure.
 
-- **Process Discovery** — Brought this product to life. Real-time multiplayer canvas (React + Yjs/CRDT) where customers co-edit deep descriptions of their processes. Output feeds Opus's workflow generation. Stack: React, Yjs, FastAPI, Anthropic and OpenAI models, custom situation-based AI pipelines.
+- **Process Discovery** — Joel's flagship contribution: brought the product to life and **leads its engineering**. A real-time collaborative canvas where enterprise teams discover and map their business processes quickly, with AI assist. Multiplayer runs on a custom-built conflict-resolution engine (which replaced the original Yjs/CRDT implementation) with versioning. In production with clients in insurance, the chemical industry, government, and other process-driven industries across the world. Output feeds Opus's workflow generation. Stack: Next.js/React, FastAPI, Anthropic and OpenAI models, custom situation-based AI pipelines, ElevenLabs TTS.
 - **Opus Technical Canvas** — Spearheaded a fork of n8n rewritten as Opus's node-graph surface. Vue + TypeScript, custom expressions engine, large-graph rendering, undo/redo correctness, virtualised lists.
 - **Opus-CX** — Enterprise-facing surface wrapping Opus's capabilities into a clean, usable product. React + Zustand.
 - **Mentoring** — Coaches junior and mid-level engineers; partners with internal CX, presales, and solutions teams.
@@ -64,7 +64,7 @@ Shipping production frontend on **Opus**, AppliedAI's AI workflow platform for e
 
 **Frontend (primary).** Vue 3, React, TypeScript, JavaScript (ES6+), NuxtJS, RadixVue, shadcn, Zustand, HTML5, CSS3, responsive design; Vite, Webpack.
 
-**Real-time and collaborative systems.** Yjs (CRDT), WebSocket, Server-Sent Events (SSE); shipped multiplayer canvas surfaces with versioning.
+**Real-time and collaborative systems.** Custom conflict-resolution engine for collaborative editing (designed and shipped on Process Discovery, replacing Yjs), Yjs (CRDT), WebSocket, Server-Sent Events (SSE); shipped multiplayer canvas surfaces with versioning.
 
 **Advanced UI and performance.** Large-graph rendering, canvas performance, virtualised lists, undo/redo correctness, node-graph editors, expression engines.
 
