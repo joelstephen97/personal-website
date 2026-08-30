@@ -50,9 +50,12 @@ Shipping production frontend on **Opus**, AppliedAI's AI workflow platform for e
 - Coursework: OOP, Data Structures, Artificial Intelligence, Database Design.
 - Capstone: TensorFlow / Python stock-price prediction.
 
+## Products
+
+- **ScamShield** — Free, open-source browser extension that flags scam and phishing sites entirely on-device (425k+ domain threat filter, zero data collection). Shipped for Chrome and Firefox. Live on the [Chrome Web Store](https://chromewebstore.google.com/detail/fojjjofjimbfoddafoampojopijnlihl); source at [github.com/joelstephen97/scamshield](https://github.com/joelstephen97/scamshield); site: https://joelstephen97.github.io/scamshield/
+
 ## Side projects
 
-- **ScamShield** — Free, open-source browser extension that flags scam and phishing sites entirely on-device (425k+ domain threat filter, zero data collection). Live on the [Chrome Web Store](https://chromewebstore.google.com/detail/fojjjofjimbfoddafoampojopijnlihl); source at [github.com/joelstephen97/scamshield](https://github.com/joelstephen97/scamshield); site: https://joelstephen97.github.io/scamshield/
 - **Cursor for Product Managers** — Built and pitched to YC X26; reached top 10% of applications.
 - **Food-discovery app** — Recommends food spots by taste profile rather than location relevance. Originated during travel in Malaysia. MVP done, heading to Google Play Store. Built with Claude Code.
 

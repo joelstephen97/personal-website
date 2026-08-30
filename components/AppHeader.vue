@@ -37,37 +37,13 @@
           {{ link.label }}
         </NuxtLink>
         <div class="w-px h-5 bg-border mx-2" />
-        <button
-          type="button"
-          :class="[
-            'flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all btn-primary whitespace-nowrap',
-            isChatOpen &&
-              'ring-2 ring-accent ring-offset-2 ring-offset-background',
-          ]"
-          aria-label="Ask about Joel via AI chat"
-          @click="toggleChat"
-        >
-          <Icon name="MessageCircle" :size="16" />
-          AI Chat
-        </button>
+        <!-- AI Chat buttons hidden while the chat backend is down; restore
+          from git history alongside LazyJoelAgentChat in layouts/default.vue -->
         <DarkModeToggle />
       </div>
 
       <!-- Mobile -->
       <div class="md:hidden flex items-center gap-2">
-        <button
-          type="button"
-          :class="[
-            'p-2.5 rounded-xl transition-colors',
-            isChatOpen
-              ? 'bg-accent/15 text-accent'
-              : 'text-muted hover:text-foreground hover:bg-glass',
-          ]"
-          aria-label="AI Chat — Ask about Joel"
-          @click="toggleChat"
-        >
-          <Icon name="MessageCircle" :size="22" />
-        </button>
         <DarkModeToggle />
         <button
           aria-label="Toggle menu"
@@ -87,17 +63,6 @@
       leave-to-class="opacity-0 -translate-y-2"
     >
       <div v-if="open" class="md:hidden px-6 pb-4 space-y-1">
-        <button
-          type="button"
-          class="flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-semibold w-full btn-primary"
-          @click="
-            toggleOpen(false);
-            toggleChat();
-          "
-        >
-          <Icon name="MessageCircle" :size="20" />
-          AI Chat — Ask about Joel
-        </button>
         <NuxtLink
           v-for="link in links"
           :key="link.to"
@@ -125,7 +90,6 @@ import Icon from "~/components/ui/Icon.vue";
 
 const route = useRoute();
 const [open, toggleOpen] = useToggle(false);
-const { isOpen: isChatOpen, toggleOpen: toggleChat } = useJoelAgent();
 
 const links = [
   { to: "/", label: "Home", icon: "Home" },

@@ -82,10 +82,8 @@
       <CursorGlow />
       <template #fallback />
     </ClientOnly>
-    <ClientOnly>
-      <LazyJoelAgentChat v-if="deferMounted" />
-      <template #fallback />
-    </ClientOnly>
+    <!-- AI chat hidden while the backend is down; restore by re-adding
+      <LazyJoelAgentChat v-if="deferMounted" /> inside a ClientOnly block -->
     <ClientOnly>
       <LazyPwaInstallPrompt v-if="deferMounted" />
       <template #fallback />

@@ -192,18 +192,6 @@ const { vibrate, isSupported: vibrateSupported } = useVibrate();
 
 const hobbiesData = [
   {
-    id: 19,
-    slug: "scamshield",
-    title: "ScamShield",
-    description:
-      "Open-source browser extension that flags scam and phishing sites on-device — 425k+ domain threat filter, zero data collection.",
-    link: "https://joelstephen97.github.io/scamshield/",
-    cta: "Get the extension",
-    icon: "ShieldCheck",
-    tech: ["Security", "Extension"],
-    featured: true,
-  },
-  {
     id: 1,
     slug: "rainbow-6-randomizer",
     title: "R6 Siege Randomizer",
@@ -594,6 +582,16 @@ const professional = [
     description:
       "Low-code/no-code AI workflow builder. Built core features for creating and deploying AI-driven automation processes.",
     tech: ["Vue.js", "React", "TypeScript", "Node.js"],
+  },
+  {
+    name: "ScamShield",
+    company: "Independent",
+    url: "https://joelstephen97.github.io/scamshield/",
+    icon: "ShieldCheck",
+    badge: "Open Source · Chrome Web Store",
+    description:
+      "Browser extension that flags scam and phishing sites on-device — 425k+ domain threat filter, zero data collection. Shipped for Chrome and Firefox.",
+    tech: ["JavaScript", "Manifest V3", "Chrome", "Firefox"],
   },
   {
     name: "Flower Meister International",

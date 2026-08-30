@@ -199,13 +199,15 @@ Large-scale B2B web application with vendor, merchant, and admin portals. Joel d
 ### Project Valit (Otani Trading FZCO)
 PWA web application focused on vendors. Full-stack data synchronization with GraphQL and DynamoDB. **Tech:** Vue.js, GraphQL, Strawberry, DynamoDB
 
+### ScamShield (Independent)
+Free, open-source browser extension that flags scam and phishing sites entirely on-device — 425k+ domain threat filter, zero data collection. Live on the Chrome Web Store, shipped for Chrome and Firefox; source at github.com/joelstephen97/scamshield. **Tech:** JavaScript, Manifest V3, Chrome APIs
+
 ### RIOT (Preowned Collective Portal)
 Luxury consignment e-commerce platform. Payment gateway integrations, REST APIs, live platform operations. Migrated from legacy to Node.js/ReactJS. **Tech:** PHP, React, Next.js, REST APIs
 
 ---
 
-## Side Projects (19)
-- **ScamShield** — Free, open-source browser extension that flags scam and phishing sites entirely on-device (425k+ domain threat filter, zero data collection). Live on the Chrome Web Store; source at github.com/joelstephen97/scamshield
+## Side Projects (18)
 - **R6 Siege Randomizer** — Random operator selection for Rainbow Six Siege
 - **Background Remover** — AI-powered image background removal
 - **Aim Trainer** — FPS reaction time and aim training

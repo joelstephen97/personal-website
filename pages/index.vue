@@ -111,14 +111,8 @@
             <Icon name="Mail" :size="16" />
             Contact
           </UiButton>
-          <button
-            type="button"
-            class="btn-secondary flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold"
-            @click="toggleChat"
-          >
-            <Icon name="MessageCircle" :size="16" />
-            AI Chat
-          </button>
+          <!-- AI Chat button hidden while the chat backend is down; restore
+            alongside LazyJoelAgentChat in layouts/default.vue -->
           <a
             href="https://github.com/joelstephen97"
             target="_blank"
@@ -293,8 +287,6 @@ useHead({
     { type: "application/ld+json", innerHTML: JSON.stringify(websiteSchema) },
   ],
 });
-
-const { toggleOpen: toggleChat } = useJoelAgent();
 
 // Parallax on scroll (motion-v scroll-linked values).
 // useTransform bypasses MotionConfig, so gate parallax on reduced-motion manually.
