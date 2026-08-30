@@ -261,7 +261,7 @@ const faqSchema = {
       name: "What kind of roles are you looking for?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Senior, Staff, Lead, or Principal-level Frontend, Full-Stack, Forward Deployed, or Applied AI Engineer roles. Strongest fit on AI workflow surfaces, real-time collaborative UI, node-graph editors, applied ML, and customer-embedded product engineering.",
+        text: "Senior, Staff, Lead, or Principal-level Frontend, Full-Stack, Forward Deployed, or Applied AI Engineer roles — full-time or consulting, and remote works as well as on-site or hybrid. Strongest fit on AI workflow surfaces, real-time collaborative UI, node-graph editors, applied ML, and customer-embedded product engineering.",
       },
     },
     {
