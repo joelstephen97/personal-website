@@ -301,7 +301,7 @@ const faqSchema = {
       name: "What salary band are you targeting?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Approximately USD 9,000 – 15,000 per month for fully remote arrangements, with appropriate local-currency conversion for on-site or hybrid roles. Pay flexes with mode (remote vs. on-site) and total compensation structure.",
+        text: "Approximately USD 14,000 – 17,000 per month, with appropriate local-currency conversion for on-site or hybrid roles. Pay flexes with mode (remote vs. on-site) and total compensation structure.",
       },
     },
     {
