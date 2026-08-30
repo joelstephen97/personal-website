@@ -196,7 +196,6 @@ const personSchema = {
     "Frontend Engineer at AppliedAI building AI workflow surfaces. 5+ years across Vue, React, TypeScript, Python, FastAPI, with production experience on real-time collaborative canvases (Yjs/CRDT), node-graph editors (n8n fork), and applied ML (YOLO v5, OpenCV, Anthropic + OpenAI APIs).",
   url: SITE_URL,
   email: "mailto:joel.stephen.work@gmail.com",
-  telephone: "+971-56-809-8085",
   image: `${SITE_URL}/headshot.png`,
   address: {
     "@type": "PostalAddress",

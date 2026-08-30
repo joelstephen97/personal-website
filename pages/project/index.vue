@@ -9,7 +9,11 @@
 
     <DragDropProvider @drag-end="onDragEnd">
       <!-- Work (priority, full width first) -->
-      <section v-reveal="{ delay: 150 }" class="mb-8" aria-labelledby="professional-heading">
+      <section
+        v-reveal="{ delay: 150 }"
+        class="mb-8"
+        aria-labelledby="professional-heading"
+      >
         <div class="flex items-center gap-2 mb-4">
           <div
             class="w-6 h-6 rounded-md bg-accent flex items-center justify-center"
@@ -33,7 +37,11 @@
       </section>
 
       <!-- Bookmarked + Side Projects -->
-      <div :class="stashedProjects.length ? 'grid lg:grid-cols-2 gap-6 mb-8' : 'mb-8'">
+      <div
+        :class="
+          stashedProjects.length ? 'grid lg:grid-cols-2 gap-6 mb-8' : 'mb-8'
+        "
+      >
         <!-- Bookmarked Side Projects (only when bookmarks exist) -->
         <ProjectsDragDropContent
           v-if="stashedProjects.length"
@@ -170,7 +178,7 @@ import ProjectsGridZone from "~/components/ProjectsGridZone.vue";
 useSeo({
   title: "Projects | Joel Stephen - Portfolio",
   description:
-    "Professional work and side projects: Opus, Flower Meister, RIOT, R6 Randomizer, Background Remover, Aim Trainer, and 15+ more tools.",
+    "Professional work and side projects: ScamShield, Opus, Flower Meister, RIOT, R6 Randomizer, Background Remover, Aim Trainer, and 15+ more tools.",
 });
 
 const ORDER_KEY = "project-card-order";
@@ -183,6 +191,18 @@ const stashedIds = useStorage<number[]>(STASH_KEY, []);
 const { vibrate, isSupported: vibrateSupported } = useVibrate();
 
 const hobbiesData = [
+  {
+    id: 19,
+    slug: "scamshield",
+    title: "ScamShield",
+    description:
+      "Open-source browser extension that flags scam and phishing sites on-device — 425k+ domain threat filter, zero data collection.",
+    link: "https://joelstephen97.github.io/scamshield/",
+    cta: "Get the extension",
+    icon: "ShieldCheck",
+    tech: ["Security", "Extension"],
+    featured: true,
+  },
   {
     id: 1,
     slug: "rainbow-6-randomizer",

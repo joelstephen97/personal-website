@@ -237,7 +237,7 @@ useSeo({
   title:
     "Contact | Joel Stephen — Open to Senior / Staff roles (GCC · SEA · EEA)",
   description:
-    "Get in touch with Joel Stephen. Email, LinkedIn, WhatsApp, Calendly. Based in Abu Dhabi, UAE. Open to Senior / Staff Frontend, Full-Stack, Forward Deployed, or Applied AI roles across the GCC, Southeast Asia, and the European Economic Area.",
+    "Get in touch with Joel Stephen. Email, LinkedIn, Calendly. Based in Abu Dhabi, UAE. Open to Senior / Staff Frontend, Full-Stack, Forward Deployed, or Applied AI roles across the GCC, Southeast Asia, and the European Economic Area.",
 });
 
 // FAQPage schema — pre-answers the most common recruiter questions so they
@@ -325,13 +325,6 @@ const contactInfo = [
     value: "LinkedIn",
     icon: "Linkedin",
     href: "https://linkedin.com/in/joelthomasstephen",
-    external: true,
-  },
-  {
-    label: "WhatsApp",
-    value: "WhatsApp",
-    icon: "MessageCircle",
-    href: "https://wa.me/+971568098085",
     external: true,
   },
   {

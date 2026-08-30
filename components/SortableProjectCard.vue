@@ -167,6 +167,8 @@ const props = withDefaults(
 );
 
 const categoryColorMap: Record<string, string> = {
+  Security: "border-l-red-500",
+  Extension: "border-l-red-500",
   Game: "border-l-amber-500",
   AI: "border-l-rose-500",
   Image: "border-l-rose-500",
@@ -188,11 +190,21 @@ const categoryBorderColor = computed(() => {
 
 const { setActiveTransitionSlug } = useProjectTransition();
 
+const isExternal = computed(() => /^https?:\/\//.test(props.project.link));
+
 function preloadRoute() {
-  if (import.meta.client) preloadRouteComponents(props.project.link);
+  if (import.meta.client && !isExternal.value)
+    preloadRouteComponents(props.project.link);
 }
 
 async function handleProjectClick() {
+  if (isExternal.value) {
+    await navigateTo(props.project.link, {
+      external: true,
+      open: { target: "_blank" },
+    });
+    return;
+  }
   if (typeof window !== "undefined") {
     sessionStorage.setItem("project-list-scroll", String(window.scrollY));
   }

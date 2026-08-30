@@ -204,7 +204,8 @@ Luxury consignment e-commerce platform. Payment gateway integrations, REST APIs,
 
 ---
 
-## Side Projects (18)
+## Side Projects (19)
+- **ScamShield** — Free, open-source browser extension that flags scam and phishing sites entirely on-device (425k+ domain threat filter, zero data collection). Live on the Chrome Web Store; source at github.com/joelstephen97/scamshield
 - **R6 Siege Randomizer** — Random operator selection for Rainbow Six Siege
 - **Background Remover** — AI-powered image background removal
 - **Aim Trainer** — FPS reaction time and aim training
