@@ -13,7 +13,10 @@ describe("contrast", () => {
       "surface.sunken",
       "surface.pressed",
     ] as const;
-    const bodyText = ["text.primary", "text.secondary", "text.link"] as const;
+    // surface.pressed is a transient state surface (active button, pressed row, screws, table
+    // bands), never a reading surface for links or champagne labels — ruling 2026-09-08.
+    const readingSurfaces = ["surface.ground", "surface.raised", "surface.sunken"] as const;
+    const bodyText = ["text.primary", "text.secondary"] as const;
     it(`${theme}: body text tokens are AA on every surface`, () => {
       for (const s of surfaces)
         for (const t of bodyText) {
@@ -23,8 +26,16 @@ describe("contrast", () => {
           ).toBeGreaterThanOrEqual(4.5);
         }
     });
-    it(`${theme}: muted text and champagne are AA-large on every surface`, () => {
-      for (const s of surfaces) {
+    it(`${theme}: link text is AA on reading surfaces`, () => {
+      for (const s of readingSurfaces) {
+        expect(
+          contrastRatio(resolve("text.link", theme), resolve(s, theme)),
+          `text.link on ${s}`,
+        ).toBeGreaterThanOrEqual(4.5);
+      }
+    });
+    it(`${theme}: muted text and champagne are AA-large on reading surfaces`, () => {
+      for (const s of readingSurfaces) {
         expect(
           contrastRatio(resolve("text.muted", theme), resolve(s, theme)),
         ).toBeGreaterThanOrEqual(3);
