@@ -77,7 +77,7 @@ function isInViewport(rect: DOMRect) {
  * effect, the swap is committed before the browser paints — no frame with
  * `opacity: 0` is ever visible for an in-view element.
  */
-export function Reveal({ as = "div", className, children, delay = 0 }: RevealProps) {
+export function Reveal({ as = "div", className, children, delay }: RevealProps) {
   const mounted = useMounted();
   const reduced = useReducedMotion();
   const ref = useRef<HTMLElement>(null);
@@ -99,17 +99,20 @@ export function Reveal({ as = "div", className, children, delay = 0 }: RevealPro
   }
 
   const Comp = m[as];
-  const transition = delay ? { delayChildren: delay } : undefined;
+  // `delay` must flow into the `show` variant's own transition, not a
+  // component-level `transition` prop — Motion resolves a variant's
+  // `transition` first, which shadows (and silently discards) any
+  // `transition` prop passed alongside `variants`/`animate`/`whileInView`.
+  const variants = stagger(0.06, delay ?? 0.08);
 
   if (inView) {
     return (
       <Comp
         ref={ref as RevealRef}
         className={className}
-        variants={stagger()}
+        variants={variants}
         initial={false}
         animate="show"
-        transition={transition}
       >
         {children}
       </Comp>
@@ -120,11 +123,10 @@ export function Reveal({ as = "div", className, children, delay = 0 }: RevealPro
     <Comp
       ref={ref as RevealRef}
       className={className}
-      variants={stagger()}
+      variants={variants}
       initial={reduced ? false : "hidden"}
       whileInView="show"
       viewport={{ once: true, margin: "-10% 0px" }}
-      transition={transition}
     >
       {children}
     </Comp>
