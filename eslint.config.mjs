@@ -1,19 +1,15 @@
-// @ts-check
-import withNuxt from "./.nuxt/eslint.config.mjs";
-
-export default withNuxt({
-  rules: {
-    "no-restricted-imports": [
-      "error",
-      {
-        patterns: [
-          {
-            group: ["@huggingface/transformers"],
-            message:
-              "Use getTransformers() from ~/composables/useTransformersClient instead.",
-          },
-        ],
-      },
+import next from "eslint-config-next";
+import prettier from "eslint-config-prettier";
+export default [
+  ...next,
+  prettier,
+  {
+    ignores: [
+      ".next/**",
+      ".content-collections/**",
+      "node_modules/**",
+      "docs/**",
+      "playwright-report/**",
     ],
   },
-});
+];

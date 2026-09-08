@@ -35,3 +35,12 @@ docs/superpowers/
 CLAUDE.md
 AGENTS.md
 .claude/
+
+# Next.js / redesign toolchain
+.next
+.content-collections
+playwright-report
+test-results
+.lighthouseci
+next-env.d.ts
+*.tsbuildinfo
