@@ -102,6 +102,17 @@
     0 1px 0 var(--glass-highlight),
     0 -1px 0 rgba(0, 0, 0, 0.5);
 }
+@utility link-draw {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: left calc(100% - 1px);
+  transition: background-size 220ms var(--ease-out-expo);
+}
+.link-draw:hover,
+.link-draw:focus-visible {
+  background-size: 100% 1px;
+}
 
 ::view-transition-old(root),
 ::view-transition-new(root) {

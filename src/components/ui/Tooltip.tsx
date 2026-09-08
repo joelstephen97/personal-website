@@ -1,0 +1,111 @@
+"use client";
+
+import { cloneElement, useId, useState } from "react";
+import type {
+  FocusEvent as ReactFocusEvent,
+  KeyboardEvent as ReactKeyboardEvent,
+  PointerEvent as ReactPointerEvent,
+  ReactElement,
+  ReactNode,
+} from "react";
+import { cn } from "@/lib/cn";
+
+export interface TooltipProps {
+  label: ReactNode;
+  children: ReactElement<Record<string, unknown>>;
+  className?: string;
+}
+
+const SHOW_DELAY_MS = 60;
+
+/**
+ * Dependency-free tooltip. Shows on `pointerenter` after a 60ms delay, and
+ * on `focus` immediately; hides on `pointerleave`, `blur`, or Escape. The
+ * tooltip content is always rendered in the DOM (visually hidden via
+ * opacity when closed) so `aria-describedby` always resolves.
+ *
+ * The pending-show delay is tracked with a plain state "token" rather than
+ * a ref + `setTimeout` id, so nothing here ever reads a ref inside a
+ * handler passed to `cloneElement` (refs may only be read in render-safe
+ * positions — effects and real JSX event-handler props).
+ */
+export function Tooltip({ label, children, className }: TooltipProps) {
+  const id = useId();
+  const [open, setOpen] = useState(false);
+  const [showToken, setShowToken] = useState(0);
+
+  function scheduleShow() {
+    setShowToken((token) => {
+      const next = token + 1;
+      setTimeout(() => {
+        setShowToken((current) => {
+          if (current === next) setOpen(true);
+          return current;
+        });
+      }, SHOW_DELAY_MS);
+      return next;
+    });
+  }
+
+  function cancelPendingShow() {
+    setShowToken((token) => token + 1);
+  }
+
+  function showNow() {
+    cancelPendingShow();
+    setOpen(true);
+  }
+
+  function hide() {
+    cancelPendingShow();
+    setOpen(false);
+  }
+
+  const childProps = children.props;
+  const pointerEnter = childProps.onPointerEnter as ((e: ReactPointerEvent) => void) | undefined;
+  const pointerLeave = childProps.onPointerLeave as ((e: ReactPointerEvent) => void) | undefined;
+  const focus = childProps.onFocus as ((e: ReactFocusEvent) => void) | undefined;
+  const blur = childProps.onBlur as ((e: ReactFocusEvent) => void) | undefined;
+  const keyDown = childProps.onKeyDown as ((e: ReactKeyboardEvent) => void) | undefined;
+
+  const trigger = cloneElement(children, {
+    "aria-describedby": id,
+    onPointerEnter: (event: ReactPointerEvent) => {
+      pointerEnter?.(event);
+      scheduleShow();
+    },
+    onPointerLeave: (event: ReactPointerEvent) => {
+      pointerLeave?.(event);
+      hide();
+    },
+    onFocus: (event: ReactFocusEvent) => {
+      focus?.(event);
+      showNow();
+    },
+    onBlur: (event: ReactFocusEvent) => {
+      blur?.(event);
+      hide();
+    },
+    onKeyDown: (event: ReactKeyboardEvent) => {
+      keyDown?.(event);
+      if (event.key === "Escape") hide();
+    },
+  });
+
+  return (
+    <span className="relative inline-flex">
+      {trigger}
+      <span
+        role="tooltip"
+        id={id}
+        className={cn(
+          "glass pointer-events-none absolute left-1/2 top-full z-[var(--z-tray)] mt-2 -translate-x-1/2 whitespace-nowrap rounded-2 px-2 py-1 text-[12px] text-fg transition-opacity duration-[var(--dur-fast)]",
+          open ? "opacity-100" : "opacity-0",
+          className,
+        )}
+      >
+        {label}
+      </span>
+    </span>
+  );
+}
