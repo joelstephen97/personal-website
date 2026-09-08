@@ -114,6 +114,79 @@
   background-size: 100% 1px;
 }
 
+@layer components {
+  /* ReadingDial: watch-style scroll-progress indicator. */
+  .dial {
+    position: relative;
+    border-radius: var(--radius-full);
+    background: var(--surface-raised);
+    box-shadow: var(--shadow-inset);
+  }
+  .dial .hand {
+    position: absolute;
+    left: 50%;
+    bottom: 50%;
+    width: 2px;
+    height: 38%;
+    margin-left: -1px;
+    border-radius: 1px;
+    background: var(--metal-champagne);
+    transform-origin: 50% 100%;
+  }
+  .dial .hand.sec {
+    width: 1px;
+    height: 42%;
+    margin-left: -0.5px;
+    background: var(--text-muted);
+    animation: tick 60s steps(480) infinite;
+  }
+  .dial .pin {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    margin: -2px 0 0 -2px;
+    border-radius: 999px;
+    background: var(--metal-champagne);
+  }
+  @keyframes tick {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dial .hand.sec {
+      animation: none;
+    }
+  }
+
+  /* Guilloche: rotating conic sweep highlight layered over the canvas pattern. */
+  .sweep {
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      var(--metal-champagne-soft) 28deg,
+      transparent 64deg
+    );
+    animation: sweep 48s linear infinite;
+  }
+  @keyframes sweep {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sweep {
+      display: none;
+      animation: none;
+    }
+  }
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: 200ms;
