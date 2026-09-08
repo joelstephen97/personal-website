@@ -1,0 +1,86 @@
+{
+  "space": {
+    "1": { "$type": "dimension", "$value": "4px" },
+    "2": { "$type": "dimension", "$value": "8px" },
+    "3": { "$type": "dimension", "$value": "12px" },
+    "4": { "$type": "dimension", "$value": "16px" },
+    "5": { "$type": "dimension", "$value": "20px" },
+    "6": { "$type": "dimension", "$value": "24px" },
+    "8": { "$type": "dimension", "$value": "32px" },
+    "10": { "$type": "dimension", "$value": "40px" },
+    "12": { "$type": "dimension", "$value": "48px" },
+    "16": { "$type": "dimension", "$value": "64px" },
+    "20": { "$type": "dimension", "$value": "80px" },
+    "24": { "$type": "dimension", "$value": "96px" },
+    "32": { "$type": "dimension", "$value": "128px" }
+  },
+  "radius": {
+    "1": { "$type": "dimension", "$value": "4px" },
+    "2": { "$type": "dimension", "$value": "6px" },
+    "3": { "$type": "dimension", "$value": "8px" },
+    "4": { "$type": "dimension", "$value": "12px" },
+    "5": { "$type": "dimension", "$value": "18px" },
+    "full": { "$type": "dimension", "$value": "999px" }
+  },
+  "border": {
+    "hairline": { "$type": "dimension", "$value": "1px" },
+    "strong": { "$type": "dimension", "$value": "1.5px" },
+    "focus": { "$type": "dimension", "$value": "2px" }
+  },
+  "z": {
+    "base": { "$type": "number", "$value": 0 },
+    "raised": { "$type": "number", "$value": 1 },
+    "sticky": { "$type": "number", "$value": 10 },
+    "header": { "$type": "number", "$value": 20 },
+    "tray": { "$type": "number", "$value": 30 },
+    "overlay": { "$type": "number", "$value": 100 },
+    "palette": { "$type": "number", "$value": 110 },
+    "toast": { "$type": "number", "$value": 120 }
+  },
+  "dur": {
+    "fast": { "$type": "duration", "$value": "120ms" },
+    "base": { "$type": "duration", "$value": "200ms" },
+    "slow": { "$type": "duration", "$value": "320ms" },
+    "reveal": { "$type": "duration", "$value": "560ms" },
+    "draw": { "$type": "duration", "$value": "900ms" },
+    "pushIn": { "$type": "duration", "$value": "8000ms" }
+  },
+  "ease": {
+    "outExpo": { "$type": "cubicBezier", "$value": "cubic-bezier(0.16,1,0.3,1)" },
+    "inOut": { "$type": "cubicBezier", "$value": "cubic-bezier(0.65,0,0.35,1)" },
+    "mechanical": { "$type": "cubicBezier", "$value": "cubic-bezier(0.2,0.8,0.2,1)" }
+  },
+  "blur": {
+    "overlay": { "$type": "dimension", "$value": "20px" },
+    "hud": { "$type": "dimension", "$value": "28px" }
+  },
+  "opacity": {
+    "cold": { "$type": "number", "$value": 0.35 },
+    "ghost": { "$type": "number", "$value": 0.45 },
+    "muted": { "$type": "number", "$value": 0.6 },
+    "glow": { "$type": "number", "$value": 0.6 }
+  },
+  "shadow": {
+    "e2": {
+      "$type": "shadow",
+      "$value": {
+        "dark": "inset 0 1px 0 rgba(255,255,255,.03), 0 1px 2px rgba(0,0,0,.4)",
+        "light": "0 1px 2px rgba(20,22,26,.06)"
+      }
+    },
+    "e3": {
+      "$type": "shadow",
+      "$value": {
+        "dark": "inset 0 1px 0 rgba(255,255,255,.03), 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6)",
+        "light": "0 1px 2px rgba(20,22,26,.06), 0 8px 24px -12px rgba(20,22,26,.18)"
+      }
+    },
+    "inset": {
+      "$type": "shadow",
+      "$value": {
+        "dark": "inset 0 2px 6px rgba(0,0,0,.5)",
+        "light": "inset 0 2px 6px rgba(0,0,0,.5)"
+      }
+    }
+  }
+}
