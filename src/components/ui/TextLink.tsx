@@ -21,7 +21,7 @@ export function TextLink({ href, external, className, children, ...rest }: TextL
 
   if (external) {
     return (
-      <a href={href} className={classes} rel="noopener" {...rest}>
+      <a href={href} className={classes} rel="noopener" target="_blank" {...rest}>
         {children}
         <span aria-hidden="true">{" ↗"}</span>
       </a>
