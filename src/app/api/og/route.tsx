@@ -1,4 +1,6 @@
 import { ImageResponse } from "next/og";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import type { NextRequest } from "next/server";
 import { site } from "@/lib/site";
 
@@ -9,25 +11,43 @@ const CHAMPAGNE = "#C9A961";
 const CHAMPAGNE_LINE = "rgba(201,169,97,0.42)";
 const STONE_2 = "#A9A69E";
 
-// `public/fonts/BodoniModa-Medium.ttf` and `Cinzel-Medium.ttf` were
-// downloaded (the `ofl/bodonimoda` and `ofl/cinzel` variable TTFs, the
-// only format Google Fonts ships for either family — no static
-// per-weight build exists for a `weight: 500` request to point at
-// instead) and wired into `ImageResponse`'s `fonts` option per the
-// brief. Verified against a real request: with either font (alone or
-// together) in the `fonts` array, the route crashed the server with
-// `TypeError: Cannot read properties of undefined (reading '25{8,9}')`
-// inside Satori's font-parsing internals — reproducible on every
-// request, isolated by testing each font file independently. Satori
-// (the renderer `next/og`'s `ImageResponse` is built on) does not
-// reliably handle variable-axis TTFs; it expects a static instance.
-// Since neither family publishes one, this falls back to Georgia for
-// both faces, per the brief's explicit fallback clause, rather than
-// shipping a route that 500s on every request.
+// `public/fonts/BodoniModa-500.ttf` and `Cinzel-500.ttf` are static
+// weight-500 instances, generated once locally with fontTools —
+// `python -m fontTools.varLib.instancer BodoniModa[opsz,wght].ttf
+// opsz=72 wght=500 -o BodoniModa-500.ttf` (and the wght-only equivalent
+// for Cinzel) — from the variable TTFs Google Fonts publishes for both
+// families (neither ships a static per-weight build). Fix round 1:
+// Satori (the renderer `next/og`'s `ImageResponse` is built on) doesn't
+// reliably parse a variable-axis TTF directly — passing either
+// family's variable file crashed the server on every request
+// (`TypeError: Cannot read properties of undefined`, reproduced with
+// each font isolated). A static instance has no `fvar` table, and
+// Satori renders it correctly. `readFont` still degrades to `null` (and
+// the JSX below falls back to Georgia) if a font file is ever missing
+// or fails to load at runtime, rather than 500ing the route.
+function readFont(fileName: string): Buffer | null {
+  try {
+    return readFileSync(join(process.cwd(), "public", "fonts", fileName));
+  } catch {
+    return null;
+  }
+}
+
+const bodoniFont = readFont("BodoniModa-500.ttf");
+const cinzelFont = readFont("Cinzel-500.ttf");
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const title = searchParams.get("title") ?? site.name;
   const label = searchParams.get("label") ?? site.title;
+
+  const fonts: NonNullable<ConstructorParameters<typeof ImageResponse>[1]>["fonts"] = [];
+  if (bodoniFont) {
+    fonts.push({ name: "Bodoni Moda", data: bodoniFont, weight: 500, style: "normal" });
+  }
+  if (cinzelFont) {
+    fonts.push({ name: "Cinzel", data: cinzelFont, weight: 500, style: "normal" });
+  }
 
   return new ImageResponse(
     <div
@@ -41,7 +61,7 @@ export async function GET(request: NextRequest) {
         position: "relative",
         background: OBSIDIAN,
         padding: "80px 96px",
-        fontFamily: "Georgia",
+        fontFamily: bodoniFont ? "Bodoni Moda" : "Georgia",
       }}
     >
       {/* Decorative static sunburst: a radial gradient plus a ring of
@@ -74,7 +94,7 @@ export async function GET(request: NextRequest) {
       <span
         style={{
           display: "flex",
-          fontFamily: "Georgia",
+          fontFamily: cinzelFont ? "Cinzel" : "Georgia",
           textTransform: "uppercase",
           letterSpacing: "0.22em",
           fontSize: 22,
@@ -98,6 +118,7 @@ export async function GET(request: NextRequest) {
       <span
         style={{
           display: "flex",
+          fontFamily: bodoniFont ? "Bodoni Moda" : "Georgia",
           fontSize: 64,
           lineHeight: 1.08,
           color: "#ECE9E2",
@@ -119,6 +140,6 @@ export async function GET(request: NextRequest) {
         {site.url.replace("https://", "")}
       </span>
     </div>,
-    { width: WIDTH, height: HEIGHT },
+    { width: WIDTH, height: HEIGHT, fonts: fonts.length > 0 ? fonts : undefined },
   );
 }

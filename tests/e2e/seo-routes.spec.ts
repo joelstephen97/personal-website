@@ -62,9 +62,38 @@ test.describe("seo-routes", () => {
     const response = await page.goto("/");
     const csp = response?.headers()["content-security-policy"];
     expect(csp).toBeDefined();
-    expect(csp).toContain("script-src 'self' 'unsafe-inline' 'unsafe-eval'");
+    expect(csp).toContain("script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com");
+    expect(csp).not.toContain("unsafe-eval");
     expect(csp).toContain("object-src 'none'");
     expect(csp).toContain("frame-ancestors 'none'");
+  });
+
+  test("MDX case studies render without unsafe-eval: /work/process-discovery hydrates with numbered h2s and no console/page errors", async ({
+    page,
+  }) => {
+    const pageErrors: string[] = [];
+    const consoleErrors: string[] = [];
+    page.on("pageerror", (err) => pageErrors.push(err.message));
+    page.on("console", (msg) => {
+      if (msg.type() === "error") consoleErrors.push(msg.text());
+    });
+
+    const response = await page.goto("/work/process-discovery");
+    const csp = response?.headers()["content-security-policy"];
+    expect(csp).not.toContain("unsafe-eval");
+
+    await page.waitForLoadState("networkidle");
+    expect(pageErrors).toEqual([]);
+    expect(consoleErrors.filter((m) => /Content Security Policy/i.test(m))).toEqual([]);
+
+    // The MDX body's H2s render numbered via a DateWindow ("01", "02", ...).
+    // Scoped to each heading's own id — the page header's own DateWindow
+    // (showing the case study's `order`) can coincidentally read "01" too.
+    await expect(page.locator("#problem").getByText("01", { exact: true })).toBeVisible();
+    await expect(
+      page.locator("#context-and-constraints").getByText("02", { exact: true }),
+    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Problem", level: 2 })).toBeVisible();
   });
 
   test("the CSP response carries no console script violations on the home page", async ({

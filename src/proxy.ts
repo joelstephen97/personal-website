@@ -12,7 +12,7 @@ import type { NextRequest } from "next/server";
  *    `Content-Security-Policy` header.
  *
  * `script-src` deliberately ships as
- * `'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com`
+ * `'self' 'unsafe-inline' https://va.vercel-scripts.com`
  * rather than the brief's literal `'nonce-<n>' 'strict-dynamic'` spec. Verified
  * with a real Chromium session (`page.on("console")` against every inline
  * `<script>` and `/_next/static/chunks/*.js` tag on `/`): with the nonce
@@ -30,29 +30,30 @@ import type { NextRequest } from "next/server";
  * constraints — pages Task 11 doesn't get to make dynamic. A nonce
  * embedded in a build-time-cached page can never match the fresh nonce
  * generated on each later request, so the exact spec'd policy is not
- * just "stricter", it is non-functional here.
+ * just "stricter", it is non-functional here. Coordinator ruling
+ * (fix round 1): `'unsafe-inline'` is accepted for this static site,
+ * hash-based CSP is a later follow-up.
  *
- * `'unsafe-eval'` was added for a second, separately-verified reason:
- * `@content-collections/mdx/react`'s `useMDXComponent` (used by
- * `MdxContent`, which every `/work/[slug]` case study renders) compiles
- * each MDX document to a function body and evaluates it at runtime.
- * Without `'unsafe-eval'`, every `/work/[slug]` page threw
- * `Evaluating a string as JavaScript violates ... 'unsafe-eval' is not
- * an allowed source` as a page error on load, which aborted hydration
- * (confirmed with Playwright's `page.on("pageerror")` — the JSON-LD
- * `<script>` and canonical `<link>` were present in the server HTML but
- * absent from the live DOM once the page error fired).
+ * `'unsafe-eval'` is NOT in this policy (fix round 1 removed it).
+ * `@content-collections/mdx/react`'s `MDXContent` compiles each MDX
+ * document to a function body and evaluates it via `new Function(...)`
+ * — the package's `package.json` exports a `"react-server"` condition
+ * that points this at `dist/react/server.js` when imported from a
+ * Server Component (see `src/components/mdx/MdxContent.tsx`, which has
+ * no `"use client"`), so that evaluation runs once in Node during the
+ * server render, never in the browser. Verified: `/work/[slug]` still
+ * hydrates cleanly and renders numbered h2s with this directive
+ * dropped, and the page throws no `pageerror`.
  *
  * This is the strictest policy that actually works: same-origin scripts
  * via `'self'`, inline hydration/bootstrap scripts via `'unsafe-inline'`
- * (unavoidable without per-route dynamic rendering), MDX's runtime
- * `Function()` compilation via `'unsafe-eval'`, and the Vercel Analytics
- * loader by host. See task-11-report.md for the full verification
- * transcript.
+ * (unavoidable without per-route dynamic rendering), and the Vercel
+ * Analytics loader by host. See task-11-report.md for the full
+ * verification transcript.
  */
 function buildCsp(): string {
   return [
-    `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com`,
+    `script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com`,
     `style-src 'self' 'unsafe-inline'`,
     `img-src 'self' data: blob: https://avatars.githubusercontent.com`,
     `font-src 'self'`,
