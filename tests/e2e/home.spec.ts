@@ -200,6 +200,41 @@ test.describe("home — domain filter uses the native View Transitions API", () 
 
     expect(await readCallCount(page)).toBe(0);
   });
+
+  // Counting the call isn't proof the transition actually animated anything
+  // — the UA can start and immediately finish a transition with an empty
+  // pseudo-element tree if the DOM mutation it captures "before" and
+  // "after" is identical (e.g. because the real mutation lands on a later
+  // tick, outside the `startViewTransition` callback). Poll for a live
+  // `::view-transition*` animation right after triggering the filter to
+  // confirm the browser is actually animating a captured snapshot pair.
+  test("clicking a map node plays a real ::view-transition pseudo-element animation", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const cvNode = page.locator(`${NODE_SELECTOR}[data-id="cv"]`);
+    await cvNode.focus();
+    await page.keyboard.press("Enter");
+
+    const deadline = Date.now() + 400;
+    let sawViewTransitionAnimation = false;
+    while (!sawViewTransitionAnimation && Date.now() < deadline) {
+      sawViewTransitionAnimation = await page.evaluate(() =>
+        document
+          .getAnimations()
+          .some(
+            (a) =>
+              (a.effect as KeyframeEffect | null)?.pseudoElement?.startsWith("::view-transition") ??
+              false,
+          ),
+      );
+    }
+    expect(sawViewTransitionAnimation).toBe(true);
+
+    await expect(page).toHaveURL(/\?domain=cv/);
+    await expect(page.locator('article[aria-label^="Case study"]')).toHaveCount(1);
+  });
 });
 
 test.describe("home — accessibility", () => {

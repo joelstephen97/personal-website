@@ -29,6 +29,17 @@ describe("ui primitives", () => {
     expect(screen.getByRole("heading", { level: 2, name: "Five things" })).toBeInTheDocument();
     expect(screen.getByText("Selected work")).toHaveClass("label");
   });
+
+  it('SectionHeader tone="muted" spends no champagne classes', () => {
+    const { container } = render(
+      <SectionHeader eyebrow="Now" title="September 2026" tone="muted" />,
+    );
+    const eyebrow = screen.getByText("Now");
+    expect(eyebrow).toHaveClass("text-fg-3");
+    expect(eyebrow).not.toHaveClass("text-champagne");
+    expect(container.querySelector(".bg-champagne-line")).not.toBeInTheDocument();
+    expect(container.querySelector(".text-champagne")).not.toBeInTheDocument();
+  });
   it("Tag and KeyCap render text", () => {
     render(
       <>

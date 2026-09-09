@@ -9,6 +9,12 @@ export interface SectionHeaderProps {
   className?: string;
   /** Page-level headers (one per route) pass `as="h1"` — see /work. Default h2. */
   as?: "h1" | "h2";
+  /**
+   * "muted" drops the eyebrow/hairline out of the champagne palette (`text-fg-3`
+   * eyebrow, `bg-line-2` hairline) for sections that share a viewport with
+   * another champagne-budget spender — see `NowBlock`. Default "champagne".
+   */
+  tone?: "champagne" | "muted";
 }
 
 // h1/h2 fluid sizes from the type scale (Task 2 has not yet promoted these
@@ -25,13 +31,19 @@ export function SectionHeader({
   number,
   className,
   as = "h2",
+  tone = "champagne",
 }: SectionHeaderProps) {
   const Heading = as;
   return (
     <div className={cn("space-y-3", className)}>
       <div className="flex items-center gap-3">
-        <span className="label text-champagne">{eyebrow}</span>
-        <span aria-hidden="true" className="h-px w-10 bg-champagne-line" />
+        <span className={cn("label", tone === "champagne" ? "text-champagne" : "text-fg-3")}>
+          {eyebrow}
+        </span>
+        <span
+          aria-hidden="true"
+          className={cn("h-px w-10", tone === "champagne" ? "bg-champagne-line" : "bg-line-2")}
+        />
         {number && <span className="font-mono text-[11px] text-fg-3">{number}</span>}
       </div>
       <Heading id={id} className={cn("font-display", as === "h1" ? H1_SIZE : H2_SIZE)}>

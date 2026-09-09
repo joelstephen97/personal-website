@@ -24,17 +24,18 @@ function formatUpdated(ym: string): string {
 }
 
 /**
- * `getNow()` as a `<dl>`. Terms use `label text-fg-3` rather than
- * champagne — this section sits beside `ExperienceCompressed` in the same
- * viewport, and that section's `SectionHeader` eyebrow already spends the
- * champagne budget there.
+ * `getNow()` as a `<dl>`. Its `SectionHeader` uses `tone="muted"` and the
+ * `<dt>` terms use `label text-fg-3` rather than champagne — this section
+ * sits beside `ExperienceCompressed` in the same viewport, and that
+ * section's `SectionHeader` eyebrow already spends the champagne budget
+ * there.
  */
 export function NowBlock() {
   const now = getNow();
 
   return (
     <div className="border-l border-champagne-line pl-6 lg:pl-9">
-      <SectionHeader eyebrow="Now" title={formatUpdated(now.updated)} />
+      <SectionHeader eyebrow="Now" title={formatUpdated(now.updated)} tone="muted" />
       <dl className="mt-6 space-y-4">
         <div>
           <dt className="label text-fg-3">Building</dt>

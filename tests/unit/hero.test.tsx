@@ -3,6 +3,8 @@ import { describe, it, expect, afterEach, vi } from "vitest";
 import { HeroHeadline } from "@/components/home/HeroHeadline";
 import { CredibilityStrip } from "@/components/home/CredibilityStrip";
 import { ConsultingBlock } from "@/components/home/ConsultingBlock";
+import { ExperienceCompressed } from "@/components/home/ExperienceCompressed";
+import { NowBlock } from "@/components/home/NowBlock";
 
 vi.mock("@vercel/analytics", () => ({
   track: vi.fn(),
@@ -67,6 +69,19 @@ describe("CredibilityStrip", () => {
     const dots = container.querySelectorAll('[aria-hidden="true"].bg-line-2');
     expect(dots.length).toBeGreaterThan(0);
     expect(container.querySelector(".bg-champagne")).not.toBeInTheDocument();
+  });
+});
+
+describe("home — champagne budget", () => {
+  it("ExperienceCompressed + NowBlock co-rendered spend at most 3 champagne-classed elements", () => {
+    const { container } = render(
+      <>
+        <ExperienceCompressed />
+        <NowBlock />
+      </>,
+    );
+    const champagneEls = container.querySelectorAll('[class*="champagne"]');
+    expect(champagneEls.length).toBeLessThanOrEqual(3);
   });
 });
 
