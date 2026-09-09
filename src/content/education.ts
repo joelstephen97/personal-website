@@ -8,7 +8,7 @@ export const education = Education.parse({
   capstone:
     "TensorFlow and Python stock-price prediction, from data to model to operational signal.",
   certifications: {
-    summary: "Sixteen listed on LinkedIn.",
-    inProgress: "AWS Cloud Practitioner in progress.",
+    summary: "sixteen further certifications listed on LinkedIn",
+    inProgress: "AWS Cloud Practitioner (in progress)",
   },
 });

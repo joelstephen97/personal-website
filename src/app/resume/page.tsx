@@ -15,12 +15,18 @@ export const metadata: Metadata = pageMetadata({
 // Résumé impact-line budget per role, independent of the Experience page's
 // own "depth" progressive-disclosure UI: full lines for the top two roles,
 // then decaying counts so five roles fit a two-page print budget.
+//
+// `ALUCOR_IMPACT_LIMIT` is set separately (not inlined into `IMPACT_LIMIT`)
+// so the two-page fallback (drop Alucor's one impact line, keep its
+// `summary`, if adding the per-role summaries pushes page 1 over budget)
+// is a one-constant edit.
+const ALUCOR_IMPACT_LIMIT = 1;
 const IMPACT_LIMIT: Record<string, number> = {
   appliedai: Infinity,
   "otani-senior": Infinity,
   "otani-swe": 4,
   riot: 2,
-  alucor: 1,
+  alucor: ALUCOR_IMPACT_LIMIT,
 };
 
 function displayUrl(url: string): string {
@@ -46,6 +52,9 @@ export default function ResumePage() {
           <p className="mt-1 text-sm text-fg-3 print:text-[9pt]">
             {site.email} · {site.location} · {displayUrl(site.url)} · {displayUrl(site.github)} ·{" "}
             {displayUrl(site.linkedin)}
+          </p>
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-fg-2 print:mt-2 print:text-[9.5pt]">
+            {profile.proof}
           </p>
         </div>
         <TrackedButton
@@ -79,6 +88,9 @@ export default function ResumePage() {
                     {role.dates.start} – {role.dates.end ?? "present"}
                   </span>
                 </div>
+                <p className="mt-1.5 text-sm leading-relaxed text-fg-2 print:mt-1 print:text-[9.5pt]">
+                  {role.summary}
+                </p>
                 <ul className="mt-2 list-disc space-y-1 pl-5 print:mt-1 print:space-y-0.5">
                   {lines.map((line) => (
                     <li key={line} className="text-sm leading-relaxed text-fg-2 print:text-[9.5pt]">
@@ -118,11 +130,16 @@ export default function ResumePage() {
                 {scamshield.tagline}
               </p>
               <ul className="mt-1 list-disc space-y-0.5 pl-5">
-                {scamshield.results.slice(0, 2).map((line) => (
-                  <li key={line} className="text-sm leading-relaxed text-fg-2 print:text-[9.5pt]">
-                    {line}
-                  </li>
-                ))}
+                {/* Tests line plus the benchmark result — skips the "638 KB
+                    zipped" line, a weaker result than either. */}
+                {scamshield.results
+                  .filter((line) => !line.includes("KB zipped"))
+                  .slice(0, 2)
+                  .map((line) => (
+                    <li key={line} className="text-sm leading-relaxed text-fg-2 print:text-[9.5pt]">
+                      {line}
+                    </li>
+                  ))}
               </ul>
             </div>
           )}
@@ -142,9 +159,10 @@ export default function ResumePage() {
             {education.institution} · {education.location} · {education.dates.start}–
             {education.dates.end}
           </p>
-          <p className="mt-1 text-sm text-fg-3 print:text-[9pt]">
-            {education.capstone} {education.certifications.summary}{" "}
-            {education.certifications.inProgress}
+          <p className="mt-1 text-sm text-fg-3 print:text-[9pt]">Capstone: {education.capstone}</p>
+          <p className="text-sm text-fg-3 print:text-[9pt]">
+            Certifications: {education.certifications.inProgress};{" "}
+            {education.certifications.summary}.
           </p>
         </div>
       </section>

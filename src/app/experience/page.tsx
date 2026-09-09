@@ -84,7 +84,7 @@ export default function ExperiencePage() {
           <div>
             <p className="label text-fg-3">Certifications</p>
             <p className="mt-3 text-sm leading-relaxed text-fg-2">
-              {education.certifications.summary} {education.certifications.inProgress}
+              {education.certifications.inProgress}; {education.certifications.summary}.
             </p>
           </div>
         </div>
