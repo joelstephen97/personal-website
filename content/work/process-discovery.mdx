@@ -1,0 +1,42 @@
+---
+slug: "process-discovery"
+title: "Process Discovery"
+summary: "A real-time collaborative canvas for building AI-agent workflows."
+order: 1
+---
+
+## Problem
+
+Enterprise teams can't hand an AI a description of their process, because no single person in the building holds the whole thing in their head. A claims process touches underwriting, a call-center script, several approval tiers, and an exceptions handler nobody remembers writing down. Ask any one person to describe it and they get a partial map: correct where it touches their desk, vague everywhere else. I lead engineering on a canvas that starts from that fact instead of fighting it. It lets several people build the picture together, in the same room or across time zones, so the model gets a full description assembled from partial ones. The output has to be structured enough that we can hand it to a workflow-generation model and get something runnable back, not a diagram someone prints and files away.
+
+## Context and constraints
+
+The canvas has to hold up under conditions a whiteboard never faces. Multiple people edit at once, so conflicting changes need to resolve without a lock or a merge dialog. Every version has to stay recoverable, because a process map that loses a week of edits loses trust along with it. The interaction model has to feel like a design tool, not a form: teams reject anything that makes them fill in fields before they understand the shape of what they're describing. On top of that, the underlying model's behavior needs to shift with what the person is doing on the canvas at that moment, since a blank canvas calls for different questions than a half-built approval chain. And it all has to run inside enterprise deployments with their own network and data-residency rules, which rules out shortcuts that assume a single shared cloud backend.
+
+## My role
+
+I've led this from prototype to production, the only engineer who has owned it end to end. I wrote the first version of the canvas and chose its collaboration approach, then made the call to move off that approach once it stopped scaling. I built the pipelines that translate canvas state into prompts for the model, and the FastAPI services behind them. Since it shipped, I've stayed on the calls where customers actually use it, watching insurance underwriters map a claims process and government teams walk through an approvals chain for the first time. I bring product and engineering decisions back from those calls instead of waiting for a spec, because the fastest way to learn what a canvas like this needs is to watch someone who isn't a developer try to use it.
+
+## Approach
+
+I treated the canvas as the interface and the model as a participant in it, not a chat window bolted to the side. Every action on the canvas, adding a step or connecting two nodes, is a signal about what the person is trying to build next, and the model reads that signal before it asks a question or proposes a step. I built situation-based pipelines that pick behavior from what's on the canvas and who's editing it, rather than one long prompt trying to cover every case. Multiplayer came first, because a process map that only one person can touch doesn't match how these processes actually get built. Generation and validation of the underlying map happen close to the canvas state, so a change to one part of the map never leaves the model working from something stale.
+
+## Architecture
+
+The canvas keeps a live document of nodes, edges, and comments that every connected client renders from the same state. Presence and edits move over a WebSocket connection; the service layer is FastAPI, with the pipelines that build model context living next to it in Python. Built on Yjs, now a custom conflict-resolution engine to handle scale. Versioning sits alongside the live document as a series of snapshots a team can name and roll back to, so multiplayer editing never comes at the cost of a safe undo. Text-to-speech, through ElevenLabs, lets the model narrate a suggestion out loud on a call, which matters more than it sounds like it should when a customer is watching a canvas fill in while they talk. The structured map that comes out the other end feeds directly into Opus's workflow generation.
+
+## What was actually hard
+
+Yjs is a generic conflict-resolution library: it resolves character-level edits in shared text and knows nothing about what a process step means. Two people renaming the same node at once looked fine to Yjs and wrong on the canvas, because the library had no concept of "node," only of characters in a string. We hit that wall at a scale where working around it kept costing more than replacing it, so we built a conflict-resolution engine purpose-built for the canvas's own data model of nodes and edges, and the operations people actually perform on them. The harder problem underneath it was giving the model the same context the user has. A person editing a canvas sees where the cursor is, what's selected, what was just typed; the model saw none of that until we started deriving pipeline behavior from canvas state directly.
+
+## Trade-offs
+
+Replacing a CRDT library with a custom engine meant giving up years of library hardening for something we had to prove correct ourselves, test case by test case, against real multiplayer sessions. I judged that worth it, because the library's generic guarantees weren't the guarantees this canvas needed. I also chose a canvas-first interaction model over a chat-first one, even though a chat interface would have shipped faster: a conversation is a poor tool for describing a process with a dozen branches, and I'd rather teams spend their first session drawing than typing a paragraph the model has to parse. Where generation runs was its own decision. Running it close to the canvas kept context fresh but added load I had to manage carefully so a large map didn't slow the editing experience for everyone else on it.
+
+## Result
+
+The canvas is in production with customers in insurance, chemicals, and government. It does the job it was built for: turning a process that lived in several people's heads into a map several of them built together. That map feeds Opus's workflow generation directly, so the collaborative session serves as the model's input as much as it serves as a record of what the team decided. Version history means a team can look back at how a process map evolved across a series of working sessions rather than only seeing its current state. Presales and customer success bring me onto calls with prospective and existing customers because the canvas holds up under real use rather than only demo conditions, and that's the test I actually care about.
+
+## What I learned
+
+A generic library solves a generic problem. Yjs is excellent at what it was built for, resolving conflicts in shared text, and that's exactly why it stopped being the right tool once our problem stopped being about text. The model needs the same context the user has: every time I gave the pipeline less than the person editing the canvas could see, its suggestions felt like they came from somewhere else. And sit in the customer call. Reading a support ticket about a confusing step is nothing like watching an underwriter hesitate over the same step in real time, and the fixes I'd have shipped from the ticket alone weren't the fixes the call actually called for.

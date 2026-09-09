@@ -1,0 +1,42 @@
+---
+slug: "workflow-canvas"
+title: "Opus workflow-builder canvas"
+summary: "Forked an open-source workflow engine and rewrote it into Opus's node-graph editor"
+order: 2
+---
+
+## Problem
+
+Opus needed a way for a business user to build and run an automated workflow without writing code, starting from the process map produced by Process Discovery. Building a node-graph editor from a blank page, with reliable execution, undo and redo, and an expression language, is a multi-year project on its own, and I didn't have a multi-year runway. The faster path was to start from an existing open-source workflow engine that already had execution semantics worked out, and turn it into something that looked and behaved like the rest of Opus rather than a tool bolted on beside it.
+
+## Context and constraints
+
+I forked an open-source workflow engine because it already solved the parts of the problem that don't differentiate a product: queuing and retries. What it didn't solve was everything that makes a workflow builder feel native to Opus: the visual language, the way nodes connect and validate, the way an expression references data from an earlier step, the way a large graph stays fast to pan and zoom. The constraint I worked under was that none of this could feel like a fork with a new coat of paint. Customers moving from Process Discovery's canvas into the workflow builder needed continuity, not a jarring shift to someone else's product decisions halfway through their session.
+
+## My role
+
+I led the rewrite from the fork to what ships today, the same role I hold on Process Discovery. I made the calls on which parts of the original engine to keep and which to replace outright, and I wrote most of the node-graph editor and the expressions engine myself. I work in TypeScript and Vue here, a different stack from the Next.js and React work I do on the customer-facing surface, because the fork's original codebase was built on Vue and rewriting the framework choice on top of everything else wasn't worth the cost. I still partner with presales and customer success on the calls where this canvas gets tested against a real workflow a customer wants to automate.
+
+## Approach
+
+I started by mapping every screen in the fork to a decision: keep the underlying execution model, since it worked and rewriting it was pure risk with no upside, and replace the editing surface almost entirely. The node-graph editor became a custom canvas renderer built for Opus's visual language rather than the fork's default. I wrote the expressions engine so a node's input could reference output from any earlier node in plain, readable syntax, without forcing a user to understand the underlying execution model to write one. Reusable nodes came next: common actions, wrapped once and dropped into any workflow, so a team building their tenth workflow isn't rebuilding logic they already built in their first one.
+
+## Architecture
+
+The workflow-builder canvas renders a graph of nodes and edges backed by the forked engine's execution runtime underneath. TypeScript drives the editor logic; Vue renders the canvas and the expression editor. Large graphs stay responsive because rendering and hit-testing happen on a canvas layer, not a DOM node per graph element, which matters once a workflow has more than a few dozen steps. The expressions engine parses references to other nodes' outputs at edit time, so a broken reference shows up as an error on the canvas before a run ever fails. Reusable nodes are stored as their own definitions, versioned separately from any single workflow, so updating one propagates to every workflow that uses it without a manual pass through each one.
+
+## What was actually hard
+
+Untangling the fork's assumptions from Opus's own was harder than writing new code from nothing. The original engine assumed a single implicit canvas and a UI built around its own opinions about layout and terminology; every one of those opinions had to be found and either matched to Opus's design language or removed. Performance was its own fight: a canvas that felt instant with ten nodes in a demo dragged badly at the graph sizes real customers actually built, so I rebuilt the rendering path around a custom canvas layer instead of the DOM-based approach the fork shipped with. Getting the expressions engine to fail loudly and early, before a workflow ever ran, took more iteration than getting it to work at all, since a silent bad reference is worse than one flagged the moment it's typed.
+
+## Trade-offs
+
+Forking an existing engine instead of building one from scratch traded long-term ownership of every implementation detail for a faster path to a working product, and I'd make that trade again: it let me spend my time on the node-graph editor and the expressions engine, the parts that actually differentiate the product, instead of reinventing execution semantics that were already solved well elsewhere. The cost showed up later, in how much of the original code I ended up replacing anyway once its assumptions stopped fitting. I also chose a custom canvas renderer over the DOM-based approach the fork used, accepting more rendering code to maintain in exchange for a canvas that stays responsive at the graph sizes customers actually build.
+
+## Result
+
+The workflow-builder canvas is in production as part of Opus, running the workflows customers build from the process maps they create in Process Discovery. Reusable nodes mean teams don't rebuild the same integration for every workflow they design, and the expressions engine catches broken references before a run fails rather than during it. The rewrite replaced the fork's UI and runtime with a purpose-built node-graph editor and expressions engine, while keeping the parts of the original execution model that were already solid. It sits alongside the customer-facing surface as one of the two production surfaces I own inside Opus.
+
+## What I learned
+
+Forking gives you a running start, not a finished product; nearly every visible part of what shipped is code I wrote to replace what came with the fork. A canvas that looks fast with ten nodes tells you almost nothing about how it performs with two hundred, so I learned to load-test the editor against graph sizes closer to what customers actually build, early, rather than trusting a demo. And an expression language is only as good as its error messages: the difference between a workflow builder people trust and one they fight is mostly in how clearly it tells you what's wrong before you hit run.

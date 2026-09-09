@@ -1,0 +1,42 @@
+---
+slug: "fmi-platform"
+title: "FMI"
+summary: "A large B2B platform for vendor, merchant, and admin workflows."
+order: 5
+---
+
+## Problem
+
+FMI needed to serve three different audiences, vendors listing product, merchants placing orders, and Otani's own admins managing the whole system, from one platform without any of the three feeling like an afterthought bolted onto the others. Each group needed its own workflows and its own view of the same underlying data, and building three separate surfaces without a shared, consistent data layer underneath them would have meant triple the bugs the moment something in the business logic changed. I joined the team embedded across all three surfaces, shipping features wherever the platform needed them.
+
+## Context and constraints
+
+The platform was already live and carrying real vendor and merchant traffic by the time I joined, so every change had to ship without breaking workflows people were actively using. Data lived in DynamoDB, a store that doesn't give you the relational queries a GraphQL API usually assumes are cheap, which meant the GraphQL layer I helped build had to be deliberate about what it fetched and how. Seven major features shipped across the three surfaces in the time I was on the project, each one needing its own backend work and its own frontend, tested before it could go out.
+
+## My role
+
+I worked as a software engineer across FMI's three surfaces, picking up whichever feature the platform needed next rather than owning a single surface end to end. I built backend services in FastAPI and modeled data with Pydantic and Peewee. I also wrote the frontend in Vue, using RadixVue and shadcn components. On Project Valit specifically, I built a GraphQL layer with Strawberry over DynamoDB, which gave the frontend a typed, queryable interface over a store that doesn't naturally offer one. I tested backend code with Pytest and frontend flows with Cypress before anything shipped.
+
+## Approach
+
+I treated each of the seven features as its own small project: understand what the vendor, merchant, or admin surface actually needed, design the data model in Pydantic, wire it through Peewee or the Strawberry GraphQL layer depending on which store it touched, then build the Vue frontend against that API. Working across all three surfaces instead of specializing in one meant I carried context between them: a pattern that worked well on the vendor side often applied directly to the merchant side once I adjusted it for that audience's workflow, which saved real time over building each surface's features from scratch.
+
+## Architecture
+
+The backend runs on FastAPI, with Pydantic models validating everything that crosses an API boundary and Peewee handling the relational parts of the data layer. Project Valit's GraphQL layer sits on Strawberry, and it translates typed GraphQL queries into DynamoDB access patterns designed around how the frontend actually needed to read that data, since DynamoDB punishes a schema built around convenience instead of access patterns. The Vue frontend uses RadixVue for accessible, unstyled primitives and shadcn for the styled layer on top. All three surfaces share that same design system even though each one serves a different audience with different workflows.
+
+## What was actually hard
+
+Designing a GraphQL schema over DynamoDB meant fighting the instinct every relational-database habit gives you: you don't get to query by whatever field is convenient later, you design your access patterns first and your schema follows them. Getting that right on Project Valit took real back-and-forth with how the frontend actually consumed the data, rather than how the backend wanted to expose it. Shipping seven features across three surfaces without one team's work colliding with another's meant staying disciplined about which parts of the data model were shared and which were surface-specific, since a shared field changed carelessly for the vendor surface could break something on the admin side nobody was looking at that week.
+
+## Trade-offs
+
+Building a shared GraphQL layer over DynamoDB instead of giving each surface its own bespoke API meant more upfront design work on the schema and the access patterns, in exchange for one consistent data layer instead of three surfaces slowly drifting apart from each other. I judged that worth it given the platform already had three real audiences it needed to keep in sync. Working across all three surfaces instead of owning one deeply meant I traded surface-specific expertise for the ability to move a pattern from one part of the platform to another, which mattered more on a small team than becoming the single expert on any one surface.
+
+## Result
+
+I shipped seven major features across the vendor, merchant, and admin surfaces of FMI, and built the GraphQL layer with Strawberry over DynamoDB that Project Valit's frontend still runs on. Tests written with Pytest and Cypress caught regressions before they reached the live platform, which mattered given real vendor and merchant traffic was flowing through it the whole time I worked on it. The consistent design system across all three surfaces, RadixVue underneath, shadcn on top, meant a vendor and an admin looking at the same underlying feature saw two different, purpose-built views instead of the same form with a different label.
+
+## What I learned
+
+Designing for DynamoDB's access patterns before writing a line of the schema saved more rework than any amount of careful naming would have; the lesson generalizes past DynamoDB itself, know how the data will actually get read before you decide how it's stored. Working across three surfaces instead of one taught me to look for the pattern underneath a feature request rather than the surface-level ask, because the same underlying need kept showing up dressed differently for every surface that asked for it. And a shared data layer only pays for itself if the team actually treats it as shared, which means flagging a schema change to whoever else depends on it before shipping it, not after.

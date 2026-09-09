@@ -1,0 +1,42 @@
+---
+slug: "flower-meister"
+title: "Flower Meister"
+summary: "A progressive web app for florist workflows, from Figma to production."
+order: 4
+---
+
+## Problem
+
+Florists ran their day on paper tickets and phone calls: which stems arrived, which arrangements were promised for which pickup time, which inventory was already spoken for. Otani wanted a single app that could replace that paper trail for the florists it worked with, one that tracked stock as it moved through a shop and gave a florist a live picture of what they actually had on hand instead of what a spreadsheet said they should have. I led the project from a description of that problem to a working product, without a finished spec to build from.
+
+## Context and constraints
+
+Nobody on the team had built exactly this before, so a lot of the early work was deciding what "done" even looked like before writing code toward it. The app had to work as a progressive web app, since florists needed something they could use from a shop-floor tablet or a phone without an app-store install getting in the way. Inventory tracking meant the product had to recognize physical stems and arrangements from a camera rather than accept typed-in counts, which pulled computer vision into a product that started out looking like ordinary business software. And it had to ship on a real timeline for a real client, which meant every UI decision had to be validated in Figma before it became a week of frontend work nobody had budgeted for.
+
+## My role
+
+I owned project direction and the frontend, plus the DevOps work behind both of them, reporting to nobody else on any of it. I planned the sequence of what got built first and designed each screen in Figma before writing code. I wrote most of the Vue frontend myself, too. On the infrastructure side, I set up hosting, CI/CD, monitoring, and the Docker setup that kept environments consistent from my laptop to production. I mentored the junior engineers who joined the project as it grew, and I walked them through the same Figma-first habit I'd built the product around.
+
+## Approach
+
+I started every feature in Figma, not because design tooling is a requirement but because it was the fastest way to find out whether an idea worked before committing frontend hours to it. Once a screen held up in Figma, I built it in Vue 3 with shadcn components, talking to the backend over a URQL GraphQL client against a Strawberry and FastAPI service. Computer vision came in as its own track: I trained YOLO v5 models to recognize stems and arrangements from shop-floor photos, then used OpenCV to track them through the workflow a florist actually follows, from delivery to pickup. The frontend and backend moved on one rhythm; the computer-vision track ran on its own, and I kept both converging toward the same weekly milestones.
+
+## Architecture
+
+The frontend is a Vue 3 progressive web app, styled with shadcn, talking to the backend through a URQL GraphQL client. The backend runs on FastAPI with a Strawberry GraphQL layer in front of it, serving both ordinary business data, orders and inventory records, and the computer-vision results from the detection pipeline. YOLO v5 models, trained on shop-floor photos, identify stems and arrangements in an image; OpenCV tracks them across frames so the system knows where a stem moved from one frame to the next, not only where it sat in a single photo. Docker containerized every piece, so the same image that ran in CI ran in production, with monitoring watching the deployed containers for the failures that don't show up until real traffic hits them.
+
+## What was actually hard
+
+Getting the computer-vision pipeline accurate enough to trust in a live shop was the hardest part of the whole build. A model trained on clean, well-lit photos performed differently under a shop's actual lighting and camera angles, so I spent real time gathering and labeling shop-floor images that looked like what the camera would actually see, not what a demo dataset assumed it would see. Keeping the frontend and backend moving in step with the computer-vision track, without one blocking the others, took discipline in how I sequenced work. Shipping a mocked vision result behind a feature flag let the frontend keep moving while the model was still being trained, instead of the whole product waiting on the slowest track to finish first.
+
+## Trade-offs
+
+Designing every screen in Figma before writing frontend code added time up front that a faster, code-first approach wouldn't have spent, and I'd make that trade again: the screens that skipped this step were the ones we ended up rebuilding once real usage showed the design didn't hold up. I chose YOLO v5 and OpenCV, an older but well-understood combination, over a newer vision model that might have scored better on a benchmark, because I needed something I could debug and retrain quickly on my own labeled data rather than a model I'd be guessing at when it misfired on a real photo.
+
+## Result
+
+I delivered the product across every layer I owned: UI validated in Figma before it shipped, the Vue 3 frontend, the Strawberry and FastAPI backend, and the hosting, CI/CD, monitoring, and Docker setup that kept it running. The computer-vision pipeline, trained YOLO v5 models paired with OpenCV tracking, gave florists a working stock picture built from what a camera actually saw on the shop floor, not a manually updated count. The product shipped and ran in production for the length of the engagement, built by a small team I helped bring up to speed on the same Figma-first process I used to build it.
+
+## What I learned
+
+A demo dataset lies about how a model will perform in the wild; the gap between clean training photos and a real shop's lighting taught me to weight real, messy data over more of the clean kind every time. Designing in Figma before writing code sounds like overhead until you compare it to the cost of rebuilding a screen that shipped without it, at which point it's obviously the cheaper path. And a product with a vision component only earns trust one way: by being right often enough, on real inputs, that a florist stops double-checking what the app tells them and starts working from it directly.

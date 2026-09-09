@@ -1,0 +1,42 @@
+---
+slug: "scamshield"
+title: "ScamShield"
+summary: "On-device scam and phishing detection for Chrome, Edge, and Brave."
+order: 3
+---
+
+## Problem
+
+Phishing and scam pages get taken down or blocked slowly enough that a fresh one has hours to work before anyone catches up to it. I wanted to see whether a browser extension running entirely on-device, with no server making the call, could catch a meaningful share of those pages in that early window, using models cheap enough to ship inside a few hundred kilobytes and run on every page load without anyone noticing the extension was there. I built ScamShield to answer that, and to give myself an honest, measured answer rather than a marketing claim: how many fresh phishing pages actually get blocked before they load, and how many get stopped before someone can act on them.
+
+## Context and constraints
+
+Running on-device meant every detector had to work with what a page reveals on load, with no server round trip to enrich a verdict. The package had to stay small enough to ship without asking for extra permissions or bundling a heavyweight runtime, so I ruled out anything that needed ONNX or WebAssembly at inference time. I set myself a benchmark discipline early: run a real corpus of fresh phishing pages against a real set of benign sites, and publish the numbers even when a release misses its own target, which the 0.13.0 release did on one of its two headline goals. Zero server calls also meant zero user data leaving the browser, which shaped nearly every design decision that followed.
+
+## My role
+
+I built and maintain ScamShield alone: the detection engine, the machine-learning pipeline, the browser extension itself, and the benchmark tooling that keeps me honest about how well it actually works. That includes training the two models it runs and writing the JavaScript detectors that catch everything from fake browser-update popups to clipboard-hijacking attacks. It also means building the crawler and screenshot tools that generate realistic test fixtures for the benchmark. Ninety-four days from the first commit to the current release, working solo, at a sustained pace of roughly two and a half commits a day.
+
+## Approach
+
+I trained two small models, a gradient-boosted tree over URL features and a logistic-regression model over a hashed bag of page text, then exported both straight to JSON and wrote the evaluators as plain JavaScript instead of pulling in a runtime like ONNX to execute them. A parity test compares the hand-written JavaScript evaluator against the original Python-trained model on sampled inputs, so I know the JavaScript reimplementation matches what scikit-learn actually predicted. Detection layers on top of that. A difference-hash comparison checks a page's icon against known brand fingerprints, and pattern rules catch known attack shapes like fake CAPTCHA clipboard hijacks. A client-side Bloom filter flags newly registered domains without a network lookup, and no single signal gets to convict a page on its own.
+
+## Architecture
+
+A service worker owns the block rules, the alarms that refresh them, the message bus between the parts of the extension, and the stats it keeps for the popup to show. A content script runs the detection pipeline against the page's DOM and text on every load, while separate scripts injected into the page's own JavaScript context watch for things the isolated content script structurally can't see, such as a wallet-approval request or a form submitted programmatically instead of through the normal event path. Those two worlds communicate through custom events, and the isolated script decides what to act on, so a page can never grant its own injected script the power to override a verdict. An hourly refresh keeps the block list current against sites that appeared in the last sixty minutes; guard rules reject anything shaped like a whole hosting platform rather than one bad site before it becomes a block.
+
+## What was actually hard
+
+Getting the false-positive rate low enough to trust took more work than getting the detection rate up. Early versions of the Bloom-filter signal for newly registered domains flagged real, legitimate sites often enough that I had to stop letting that signal alone push a verdict to "suspicious." An earlier model version scored a Wikipedia article on phishing as more than 99 percent likely to be phishing, purely from its URL's path length, which forced a rework of how the URL model's evidence gets weighed against everything else. Getting a tech-support scare page's fake dialog loop to actually stop, without also breaking Gmail's own legitimate use of the same browser API, took a specific fix once I traced the false trigger back to Gmail's own permissions policy rather than an attack.
+
+## Trade-offs
+
+Running everything on-device instead of calling a server for a verdict meant giving up the easy path of updating detection logic centrally and pushing it to every user instantly; every model and rule update has to ship as a new extension version instead. I judged the privacy guarantee, that no page a user visits is ever sent anywhere, worth that cost. I also chose small, interpretable models trained on a corpus I built and can inspect over a larger black-box model that might score higher on paper but that I couldn't explain or debug when it got something wrong on a real page.
+
+## Result
+
+The 0.13.0 release blocked 56 percent of fresh phishing pages before they loaded and stopped 69 percent in total, measured against a live corpus built the morning of the benchmark run, with zero hard false positives across the benign control set. 903 unit tests and 138 end-to-end tests pass on every build. The shipped package stays under 640 kilobytes zipped. The release's own targets for the fresh-phishing bucket were 60 percent blocked and 80 percent stopped, and it missed both, a number I published alongside the ones it hit, because a benchmark only means something if the misses are in it too.
+
+## What I learned
+
+A model is only as trustworthy as the tests proving it matches what you actually trained. The parity test between the Python model and its JavaScript reimplementation caught bugs a manual review never would have. Publishing a benchmark that includes the targets you missed, alongside the ones you hit, forced a kind of honesty I didn't have to have if I'd only ever quoted the numbers that looked good. And a false positive on a real site teaches you more about your detection logic than ten true positives do, because it's the case where you have to go find out exactly which signal lied and why.

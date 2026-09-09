@@ -1,4 +1,6 @@
 import { describe, it, expect } from "vitest";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { projects } from "@/content/projects";
 import { experience } from "@/content/experience";
 import { services } from "@/content/services";
@@ -81,5 +83,61 @@ describe("content", () => {
     const slugs = new Set(projects.map((p) => p.slug));
     for (const d of domains)
       for (const w of d.work) expect(slugs.has(w), `${d.id} → ${w}`).toBe(true);
+  });
+});
+
+const WORK_DIR = join(process.cwd(), "content", "work");
+const CASE_STUDY_SLUGS = [
+  "process-discovery",
+  "workflow-canvas",
+  "scamshield",
+  "flower-meister",
+  "fmi-platform",
+];
+const OPUS_SLUGS = ["process-discovery", "workflow-canvas"];
+const EXPECTED_HEADINGS = [
+  "Problem",
+  "Context and constraints",
+  "My role",
+  "Approach",
+  "Architecture",
+  "What was actually hard",
+  "Trade-offs",
+  "Result",
+  "What I learned",
+];
+const OPUS_ONLY_BANNED = ["Technical Canvas", "Opus-CX", "n8n", "Anthropic", "OpenAI"];
+
+describe("case study MDX documents", () => {
+  const bodies = Object.fromEntries(
+    CASE_STUDY_SLUGS.map((slug) => [slug, readFileSync(join(WORK_DIR, `${slug}.mdx`), "utf8")]),
+  );
+
+  it("has the nine H2 sections in order", () => {
+    for (const slug of CASE_STUDY_SLUGS) {
+      const headings = Array.from(bodies[slug]!.matchAll(/^##\s+(.+)$/gm)).map((m) => m[1]!.trim());
+      expect(headings, slug).toEqual(EXPECTED_HEADINGS);
+    }
+  });
+
+  it("contains no banned words", () => {
+    for (const slug of CASE_STUDY_SLUGS) {
+      const lower = bodies[slug]!.toLowerCase();
+      for (const w of BANNED) expect(lower, `${slug}: "${w}"`).not.toContain(w.toLowerCase());
+    }
+  });
+
+  it("never names confidential internals or LLM vendors in the Opus case studies", () => {
+    for (const slug of OPUS_SLUGS) {
+      for (const w of OPUS_ONLY_BANNED) {
+        expect(bodies[slug], `${slug}: "${w}"`).not.toContain(w);
+      }
+    }
+  });
+
+  it("uses the Yjs sentence verbatim in process-discovery", () => {
+    expect(bodies["process-discovery"]).toContain(
+      "Built on Yjs, now a custom conflict-resolution engine to handle scale.",
+    );
   });
 });
