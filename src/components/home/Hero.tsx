@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { Guilloche } from "@/components/movement/Guilloche";
 import { SystemMap } from "@/components/system-map/SystemMap";
-import { StaticMap } from "@/components/system-map/StaticMap";
+import { StaticMap, StaticMapChips } from "@/components/system-map/StaticMap";
 import { MapChips } from "@/components/system-map/MapChips";
 import { TrackedButton } from "@/components/shell/TrackedLink";
 import { profile } from "@/content/profile";
@@ -30,19 +30,15 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-line">
       <Guilloche className="pointer-events-none absolute inset-0" />
-      <div className="relative mx-auto max-w-[1120px] px-5 py-16 sm:px-8 lg:grid lg:grid-cols-[1.2fr_.9fr] lg:items-center lg:gap-[28px] lg:px-14 lg:py-20">
+      <div className="relative mx-auto max-w-[1120px] px-5 py-16 sm:px-8 lg:grid lg:grid-cols-[1.35fr_.85fr] lg:items-center lg:gap-[28px] lg:px-14 lg:py-20">
         <HeroChoreography>
           <div>
             <p className="label text-champagne">{profile.status}</p>
-            {/* Clamp max reduced from the spec's 5.25rem: at the hero's fixed
-                ~560px left column (the 1120px container caps out at
-                lg and the grid never widens past 1024+), 5.25rem wrapped
-                the headline to 5 lines at 1280 — well past the "fit 3
-                lines at >=1280" ruling. 3.25rem is the largest max that
-                still holds 3 lines at 1280 and 1728; documented in
-                task-4-report.md as a deviation from the ruling's suggested
-                4.75rem, which wasn't small enough on its own. */}
-            <h1 className="mt-5 text-balance font-display text-[clamp(2.75rem,1.6rem+4.4vw,3.25rem)] leading-[1.05]">
+            {/* Clamp max per the controller's fix-round-1 ruling: grid
+                widened to 1.35fr/.85fr and the max raised to 3.75rem —
+                verified (not just calculated) to hold exactly 3 lines at
+                1280/1440/1728/1920; see task-4-report.md for the check. */}
+            <h1 className="mt-5 text-balance font-display text-[clamp(2.75rem,1.6rem+4.4vw,3.75rem)] leading-[1.05]">
               <HeroHeadline
                 words={["Building", "AI", "systems", "and", "the", "interfaces"]}
                 emphasis={["people", "run", "them", "from."]}
@@ -99,7 +95,7 @@ export function Hero() {
               </Suspense>
             </div>
             <div className="min-[480px]:hidden">
-              <Suspense fallback={null}>
+              <Suspense fallback={<StaticMapChips domains={domains} />}>
                 <MapChips domains={domains} />
               </Suspense>
             </div>

@@ -99,7 +99,15 @@ export function Tooltip({ label, children, className }: TooltipProps) {
         role="tooltip"
         id={id}
         className={cn(
-          "glass pointer-events-none absolute left-1/2 top-full z-[var(--z-tray)] mt-2 -translate-x-1/2 whitespace-nowrap rounded-2 px-2 py-1 text-[12px] text-fg transition-opacity duration-[var(--dur-fast)]",
+          // No `whitespace-nowrap`: a long `label` (e.g. a multi-sentence
+          // tip) would otherwise force this absolutely-positioned span to
+          // its full unwrapped content width, which can extend past the
+          // viewport at narrow widths even while invisible (`opacity-0`,
+          // `pointer-events-none` don't remove it from layout) — that
+          // still inflates `document.documentElement.scrollWidth` and can
+          // produce a real horizontal scrollbar. `max-w-[240px]` plus the
+          // default `white-space: normal` lets longer tips wrap instead.
+          "glass pointer-events-none absolute left-1/2 top-full z-[var(--z-tray)] mt-2 max-w-[min(240px,calc(100vw-2rem))] -translate-x-1/2 rounded-2 px-2 py-1 text-[12px] text-fg transition-opacity duration-[var(--dur-fast)]",
           open ? "opacity-100" : "opacity-0",
           className,
         )}

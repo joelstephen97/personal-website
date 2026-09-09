@@ -1,16 +1,14 @@
 import { TrackedLink } from "@/components/shell/TrackedLink";
 import { CopyEmail } from "@/components/shell/CopyEmail";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 import { site } from "@/lib/site";
 
-/** Eyebrow, email (font-display, click-to-copy), reply-time note, and tracked links. */
+/** Eyebrow + h2 (via `SectionHeader`), email (font-display, click-to-copy), reply-time note, and tracked links. */
 export function ContactBlock() {
   return (
     <div className="lg:grid lg:grid-cols-[1.3fr_1fr] lg:items-end lg:gap-9">
       <div>
-        <div className="flex items-center gap-3">
-          <span className="label text-champagne">Contact</span>
-          <span aria-hidden="true" className="h-px w-10 bg-champagne-line" />
-        </div>
+        <SectionHeader eyebrow="Contact" title="Contact" />
         <CopyEmail className="mt-4 block font-display text-[clamp(1.5rem,1.2rem+1.2vw,2.25rem)]" />
         <p className="mt-3 text-sm text-fg-3">
           Based in {site.location.split(",")[0]}, {site.timezone}. I reply within two working days.

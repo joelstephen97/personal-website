@@ -1,5 +1,6 @@
 import type { Domain, DomainId } from "@/content/schema";
 import { cn } from "@/lib/cn";
+import { chipBase, chipOff, chipOn } from "./chip-styles";
 import { MAP, arcPath, bezelTicks, corePath, nodePosition } from "./geometry";
 import { SHORT_DESCRIPTOR } from "./shortLabel";
 
@@ -108,5 +109,34 @@ export function StaticMap({ domains, edges, className }: StaticMapProps) {
         </text>
       </g>
     </svg>
+  );
+}
+
+export interface StaticMapChipsProps {
+  domains: Domain[];
+  className?: string;
+}
+
+/**
+ * Server-safe, non-interactive stand-in for `MapChips` — the Suspense
+ * fallback shown below 480px while the client chunk (`MapChips` needs
+ * `useSearchParams`, hence the Suspense boundary) hasn't hydrated yet.
+ * Same labels and chip styling as the real thing (with "All" shown
+ * selected, the default state), but plain `<span>`s under
+ * `aria-hidden="true"` rather than `<button aria-pressed>`s — nothing
+ * here is announced or focusable before the real, interactive chip row
+ * takes over. No "use client": zero extra JS, same tradeoff as `StaticMap`
+ * above.
+ */
+export function StaticMapChips({ domains, className }: StaticMapChipsProps) {
+  return (
+    <div aria-hidden="true" className={cn("flex flex-wrap gap-2", className)}>
+      <span className={cn(chipBase, chipOn)}>All</span>
+      {domains.map((domain) => (
+        <span key={domain.id} className={cn(chipBase, chipOff)}>
+          {domain.label}
+        </span>
+      ))}
+    </div>
   );
 }

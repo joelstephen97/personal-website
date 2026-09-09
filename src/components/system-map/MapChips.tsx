@@ -2,19 +2,13 @@
 
 import type { Domain } from "@/content/schema";
 import { cn } from "@/lib/cn";
+import { chipBase, chipOff, chipOn } from "./chip-styles";
 import { useDomainFilter } from "./useDomainFilter";
 
 export interface MapChipsProps {
   domains: Domain[];
   className?: string;
 }
-
-// Deliberately not the `label` utility: its uppercase text-transform can
-// alter the computed accessible name, and domain labels ("Real-Time",
-// "Computer Vision") read better in sentence case at chip size anyway.
-const chipBase = "rounded-full border px-3 py-1.5 font-sans text-[12.5px]";
-const chipOn = "border-champagne bg-champagne-soft text-fg";
-const chipOff = "border-line text-fg-2";
 
 /**
  * <480px fallback for the System Map: a horizontal row of filter chips

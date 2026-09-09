@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/Button";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 import { TrackedLink } from "@/components/shell/TrackedLink";
 import { getServices } from "@/lib/content";
 import { site } from "@/lib/site";
@@ -15,10 +16,7 @@ export function ConsultingBlock() {
   return (
     <div className="rounded-[var(--radius-4)] border border-champagne-line bg-raised px-6 py-10 sm:px-9 lg:grid lg:grid-cols-[1.1fr_1fr] lg:gap-10 lg:px-11">
       <div>
-        <div className="flex items-center gap-3">
-          <span className="label text-champagne">Consulting</span>
-          <span aria-hidden="true" className="h-px w-10 bg-champagne-line" />
-        </div>
+        <SectionHeader eyebrow="Consulting" title="Consulting" />
         <h3 className="mt-3 font-display text-[clamp(1.75rem,1.4rem+1.2vw,2.5rem)] leading-[1.1]">
           You shipped an AI feature. Now it has to work in production.
         </h3>
