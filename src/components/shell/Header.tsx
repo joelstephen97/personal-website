@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { m, useMotionValueEvent, useScroll } from "motion/react";
 import { Button } from "@/components/ui/Button";
 import { ReadingDial } from "@/components/movement/ReadingDial";
@@ -11,16 +10,8 @@ import { track } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 import { Nav } from "./Nav";
 import { MobileSheet } from "./MobileSheet";
+import { CommandPalette } from "./CommandPalette";
 import { ThemeToggle } from "./ThemeToggle";
-
-// cmdk + its Radix dialog dependency are the single heaviest addition this
-// task makes to the client bundle; the palette renders nothing until
-// opened, so it's code-split out of `/`'s initial JS rather than eagerly
-// bundled into every route's first load (see the client-JS-budget concern
-// in task-10-report.md).
-const CommandPalette = dynamic(() => import("./CommandPalette").then((m) => m.CommandPalette), {
-  ssr: false,
-});
 
 const SCROLL_THRESHOLD = 24;
 
