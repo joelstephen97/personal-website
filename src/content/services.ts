@@ -22,7 +22,7 @@ export const services = Service.array().parse([
     title: "AI Integration Sprint",
     step: 2,
     answer:
-      "I design and build one AI-assisted workflow end to end. That means the pipeline, the retrieval or prompting it actually needs, the guardrails, and the interface people run it from. It's for a team with a defined workflow that needs a model in the loop. Their engineers haven't taken an LLM feature from prototype to production before.",
+      "I design and build one AI-assisted workflow end to end. That means the pipeline, the retrieval or prompting it actually needs, the guardrails, and the interface people run it from. It's for a team with a defined workflow that needs a model in the loop. Its engineers haven't taken an LLM feature to production before.",
     problem:
       "A defined workflow needs a model in the loop, and the team building it has not taken an LLM feature from prototype to production before.",
     what: "Design and build one AI-assisted workflow end to end: the pipeline, the prompting or retrieval it actually needs, the guardrails, and the interface people run it from.",
@@ -54,7 +54,7 @@ export const services = Service.array().parse([
     title: "Real-Time Collaboration Build",
     step: 2,
     answer:
-      "I design the collaborative data layer behind a document, board, or canvas: conflict resolution, presence, and versioning. I also build the interface that makes concurrent editing feel safe. It's for a product team whose single-user data model won't hold. More than one person needs to work on the same thing at once.",
+      "I design the collaborative data layer behind a document, board, or canvas: conflict resolution, presence, and versioning. I also build the interface that makes concurrent editing feel safe. It's for a product team whose single-user data model won't hold now that several people edit the same thing at once.",
     problem:
       "More than one person needs to work on the same document, board, or canvas at once, and a single-user data model will not hold.",
     what: "Design the collaborative data layer, conflict resolution, presence, and versioning, and the interface that makes concurrent editing feel safe.",
@@ -70,7 +70,7 @@ export const services = Service.array().parse([
     title: "Prototype in Weeks",
     step: 2,
     answer:
-      "I build a working prototype of the interface first, wired to real or realistic data. That lets the product get tested before the backend gets built. It's for a founder or product team with an idea that needs to reach users or investors soon. The full backend budget doesn't exist yet.",
+      "I build a working prototype of the interface first, wired to real or realistic data. That lets the product get tested before the backend gets built. It's for a founder or product team that needs to put an idea in front of users or investors before the backend budget exists.",
     problem:
       "An idea needs to be in front of users or investors before the backend budget exists to build it properly.",
     what: "Build a working prototype of the interface first, wired to real or realistic data, so the product gets tested before the backend gets built.",
@@ -86,7 +86,7 @@ export const services = Service.array().parse([
     title: "AI Reliability Audit",
     step: 3,
     answer:
-      "I test an AI feature already in production against real and adversarial inputs. Then I measure its failure modes and hand over a prioritized list of fixes. It's for a team that has shipped an AI feature. They can no longer say with confidence how often it's wrong or why.",
+      "I test an AI feature already in production against real and adversarial inputs. Then I measure its failure modes and hand over a prioritized list of fixes. It's for a team that has shipped an AI feature and can no longer say how often it's wrong, or why.",
     problem:
       "An AI feature is live, and nobody can say with confidence how often it is wrong or why.",
     what: "Test the pipeline against real and adversarial inputs, measure the failure modes, and hand over a prioritized list of fixes.",
@@ -134,7 +134,7 @@ export const services = Service.array().parse([
     title: "Implementation Support",
     step: 4,
     answer:
-      "I embed as an engineer on your team for an agreed cadence. I ship alongside them and keep the original plan honest as scope shifts. It's for a team with a build already in progress that needs an extra senior engineer for a stretch. That's not a handoff document.",
+      "I embed as an engineer on your team for an agreed cadence. I ship alongside them and keep the original plan honest as scope shifts. It's for a team with a build in progress that needs an extra senior engineer for a stretch, not a handoff document.",
     problem:
       "A build is in progress and the team needs an extra senior engineer embedded for a stretch, not a handoff document.",
     what: "Embed as an engineer on the team for an agreed cadence, shipping alongside them and keeping the original plan honest as scope shifts.",
