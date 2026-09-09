@@ -25,7 +25,11 @@ function majorMinor(version: string): string {
 export function Caseback({ build, className }: CasebackProps) {
   const sha = (build?.sha ?? "").slice(0, 7);
   const date = build?.date;
-  const year = new Date().getFullYear();
+  // No `new Date()` here: this is a server component, and under
+  // `cacheComponents` a runtime `Date` read during prerender would fail
+  // the build. The year comes from the build date instead (itself
+  // computed once, in `next.config.ts`, not per-render).
+  const year = date?.slice(0, 4);
   const nextVersion = majorMinor(pkg.dependencies.next);
   const reactVersion = majorMinor(pkg.dependencies.react);
 
@@ -54,7 +58,7 @@ export function Caseback({ build, className }: CasebackProps) {
           {date && <> · {date}</>}
         </p>
       )}
-      <p className="label engraved text-fg-3">© {year}</p>
+      {year && <p className="label engraved text-fg-3">© {year}</p>}
     </div>
   );
 }

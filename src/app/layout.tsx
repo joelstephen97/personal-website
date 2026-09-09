@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { bodoni, cinzel, geist, geistMono } from "@/lib/fonts";
 import { ThemeProvider } from "@/components/shell/ThemeProvider";
 import { MotionProvider } from "@/components/motion/MotionProvider";
+import { Header } from "@/components/shell/Header";
+import { Footer } from "@/components/shell/Footer";
 import { site } from "@/lib/site";
 import "@/styles/globals.css";
 
@@ -24,9 +28,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="theme-color" content="#0B0C0F" />
       </head>
       <body className="bg-ground text-fg font-sans">
+        <a
+          href="#content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[var(--z-toast)] focus:rounded-2 focus:bg-accent focus:px-4 focus:py-2 focus:text-on-accent"
+        >
+          Skip to content
+        </a>
         <ThemeProvider>
-          <MotionProvider>{children}</MotionProvider>
+          <MotionProvider>
+            <Header />
+            <main id="content">{children}</main>
+            <Footer />
+          </MotionProvider>
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

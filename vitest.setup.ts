@@ -22,7 +22,20 @@ if (!("IntersectionObserver" in window)) {
     disconnect() {}
   };
 }
+if (!("ResizeObserver" in window)) {
+  (window as unknown as { ResizeObserver: unknown }).ResizeObserver = class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  };
+}
 if (!HTMLCanvasElement.prototype.getContext) {
   HTMLCanvasElement.prototype.getContext = (() =>
     null) as unknown as HTMLCanvasElement["getContext"];
+}
+if (!Element.prototype.scrollIntoView) {
+  Element.prototype.scrollIntoView = function scrollIntoView() {};
+}
+if (!("PointerEvent" in window)) {
+  (window as unknown as { PointerEvent: unknown }).PointerEvent = MouseEvent;
 }

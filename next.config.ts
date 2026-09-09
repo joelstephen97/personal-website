@@ -20,6 +20,13 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
   trailingSlash: false,
   images: { formats: ["image/avif", "image/webp"] },
+  // Computed once here (Node build/dev-server context), not inside a React
+  // server component render — see the Caseback/Footer ruling on why no
+  // `new Date()` may run during a cacheComponents prerender.
+  env: {
+    NEXT_PUBLIC_BUILD_DATE: new Date().toISOString().slice(0, 10),
+    NEXT_PUBLIC_BUILD_SHA: (process.env.VERCEL_GIT_COMMIT_SHA ?? "").slice(0, 7),
+  },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
   },

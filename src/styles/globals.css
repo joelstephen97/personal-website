@@ -185,6 +185,16 @@
       animation: none;
     }
   }
+
+  /* CommandPalette: specular highlight following a fine pointer, driven by
+     --mx/--my set on pointermove in CommandPalette.tsx. */
+  .palette-specular {
+    background: radial-gradient(
+      220px circle at var(--mx, 50%) var(--my, 0%),
+      var(--glass-highlight),
+      transparent 70%
+    );
+  }
 }
 
 ::view-transition-old(root),
@@ -192,6 +202,30 @@
   animation-duration: 200ms;
   animation-timing-function: var(--ease-in-out);
 }
+
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+::view-transition-old(.page) {
+  animation: 200ms cubic-bezier(0.65, 0, 0.35, 1) both vt-fade-out;
+}
+::view-transition-new(.page) {
+  animation: 200ms cubic-bezier(0.65, 0, 0.35, 1) both vt-fade-in;
+}
+::view-transition-old(.cut) {
+  animation: 80ms linear both vt-fade-out;
+}
+::view-transition-new(.cut) {
+  animation: 160ms 80ms cubic-bezier(0.65, 0, 0.35, 1) both vt-fade-in;
+}
+
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*),
   ::view-transition-old(*),
