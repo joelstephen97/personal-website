@@ -233,3 +233,19 @@
     animation: none !important;
   }
 }
+
+/* /resume prints as a plain document: no chrome, no glass, no color. */
+@media print {
+  header,
+  footer {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+    color: #000;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
