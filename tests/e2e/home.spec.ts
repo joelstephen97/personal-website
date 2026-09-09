@@ -56,9 +56,10 @@ test.describe("home — desktop map keyboard filter", () => {
     await page.keyboard.press("Enter");
     await expect(page).toHaveURL(/\?domain=/);
 
-    // The filtered-out cards exit via `AnimatePresence`/`spring.gentle`
-    // rather than disappearing on the same tick, so wait for the count to
-    // settle instead of reading it synchronously.
+    // Filtering is wrapped in a native View Transition
+    // (`useDomainFilter.ts`'s `select`) rather than disappearing on the
+    // same tick, so wait for the count to settle instead of reading it
+    // synchronously.
     await expect(page.locator('article[aria-label^="Case study"]')).not.toHaveCount(5);
     const filteredCount = await getCardCount(page);
     expect(filteredCount).toBeLessThan(5);
@@ -137,6 +138,67 @@ test.describe("home — direct link to a domain", () => {
 
     const cvNode = page.locator(`${NODE_SELECTOR}[data-id="cv"]`);
     await expect(cvNode).toHaveAttribute("aria-pressed", "true");
+  });
+});
+
+test.describe("home — domain filter uses the native View Transitions API", () => {
+  test.skip(({ isMobile }) => isMobile, "desktop-only: map node interaction");
+
+  // Wraps `document.startViewTransition` with a call counter, still
+  // delegating to the real (native) implementation — `useDomainFilter.ts`'s
+  // `select` calls it directly (see `TransitionLink.tsx` for the same
+  // pattern used for page navigation), not through Motion's `domMax`
+  // (removed from `FeaturedWork` — see task-6-report.md).
+  async function stubViewTransitionCounter(page: Page) {
+    await page.addInitScript(() => {
+      const w = window as unknown as { __vtCallCount: number };
+      w.__vtCallCount = 0;
+      const native = document.startViewTransition?.bind(document);
+      if (!native) return;
+      Object.defineProperty(document, "startViewTransition", {
+        configurable: true,
+        value: (callback: () => void) => {
+          w.__vtCallCount += 1;
+          return native(callback);
+        },
+      });
+    });
+  }
+
+  async function readCallCount(page: Page) {
+    return page.evaluate(() => (window as unknown as { __vtCallCount: number }).__vtCallCount);
+  }
+
+  test("filtering via the map invokes startViewTransition and still yields the right cards", async ({
+    page,
+  }) => {
+    await stubViewTransitionCounter(page);
+    await page.goto("/");
+
+    const cvNode = page.locator(`${NODE_SELECTOR}[data-id="cv"]`);
+    await cvNode.focus();
+    await page.keyboard.press("Enter");
+
+    await expect(page).toHaveURL(/\?domain=cv/);
+    await expect(page.locator('article[aria-label^="Case study"]')).toHaveCount(1);
+    await expect(page.getByRole("heading", { name: "Flower Meister" })).toBeVisible();
+
+    expect(await readCallCount(page)).toBeGreaterThan(0);
+  });
+
+  test("reduced motion skips startViewTransition (filtering still works)", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await stubViewTransitionCounter(page);
+    await page.goto("/");
+
+    const nodes = page.locator(NODE_SELECTOR);
+    await nodes.first().focus();
+    await page.keyboard.press("Enter");
+
+    await expect(page).toHaveURL(/\?domain=/);
+    await expect(page.locator('article[aria-label^="Case study"]')).not.toHaveCount(5);
+
+    expect(await readCallCount(page)).toBe(0);
   });
 });
 

@@ -1,15 +1,6 @@
 "use client";
 
-import {
-  AnimatePresence,
-  LayoutGroup,
-  LazyMotion,
-  domMax,
-  m,
-  useReducedMotion,
-} from "motion/react";
 import type { Domain, Project } from "@/content/schema";
-import { spring } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { useDomainFilter } from "@/components/system-map/useDomainFilter";
@@ -31,16 +22,14 @@ export interface FeaturedWorkProps {
 /**
  * The home page's editorial work list. Filters `projects` by the System
  * Map's URL-backed `?domain=` selection (`useDomainFilter`) and animates
- * the resulting list with a shared `LayoutGroup` so remaining cards glide
- * into their new positions rather than jumping.
- *
- * `domMax` (layout animations) is loaded in its own `LazyMotion` boundary
- * here rather than widening the app-wide `domAnimation` bundle in
- * `MotionProvider` — see `Nav.tsx` for the same tradeoff made the other way.
+ * the resulting reorder/enter/exit with the native View Transitions API
+ * (see `useDomainFilter.ts`'s `select`) rather than Motion's `domMax`
+ * layout-animation feature bundle — that bundle (~45 kB gzipped) existed
+ * in the client bundle only for this one transition, on every load of
+ * `/` and `/work`, whether or not the filter was ever touched.
  */
 export function FeaturedWork({ projects, domains, hideHeader = false }: FeaturedWorkProps) {
   const { selected, select } = useDomainFilter();
-  const reduced = useReducedMotion();
 
   const flagshipSlug = projects[0]?.slug;
   const visible = selected ? projects.filter((p) => p.domains.includes(selected)) : projects;
@@ -58,6 +47,7 @@ export function FeaturedWork({ projects, domains, hideHeader = false }: Featured
           "flex flex-wrap items-end gap-4",
           hideHeader ? "justify-end" : "justify-between",
         )}
+        style={{ viewTransitionName: "work-header" }}
       >
         <SectionHeader
           eyebrow="Selected work"
@@ -84,30 +74,22 @@ export function FeaturedWork({ projects, domains, hideHeader = false }: Featured
         </p>
       </div>
 
-      <LazyMotion features={domMax}>
-        <LayoutGroup>
-          <div className="mt-10 grid gap-6">
-            <AnimatePresence mode="popLayout" initial={false}>
-              {visible.map((project) => (
-                <m.div
-                  key={project.slug}
-                  layout={!reduced}
-                  initial={reduced ? false : { opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={reduced ? undefined : { opacity: 0, scale: 0.98 }}
-                  transition={spring.gentle}
-                >
-                  <WorkCard
-                    project={project}
-                    flagship={project.slug === flagshipSlug}
-                    index={indexBySlug.get(project.slug) ?? 0}
-                  />
-                </m.div>
-              ))}
-            </AnimatePresence>
+      <div className="mt-10 grid gap-6">
+        {visible.map((project) => (
+          // `viewTransitionName` (per project slug) is what lets the
+          // browser's native View Transition — triggered by
+          // `useDomainFilter.ts`'s `select`, wrapping the `?domain=`
+          // URL update — animate each card's reorder/enter/exit; see
+          // globals.css's `.vt-filter ::view-transition-group(*)` rule.
+          <div key={project.slug} style={{ viewTransitionName: `work-${project.slug}` }}>
+            <WorkCard
+              project={project}
+              flagship={project.slug === flagshipSlug}
+              index={indexBySlug.get(project.slug) ?? 0}
+            />
           </div>
-        </LayoutGroup>
-      </LazyMotion>
+        ))}
+      </div>
 
       <p aria-live="polite" className="sr-only">
         {`Showing ${visible.length} of ${projects.length}`}

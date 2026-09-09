@@ -37,7 +37,13 @@ export function DateWindow({ value, label, size = "md", className }: DateWindowP
           className="pointer-events-none absolute inset-0"
           style={{ boxShadow: "inset 0 0 0 1px var(--metal-champagne-line)" }}
         />
-        <AnimatePresence mode="popLayout" initial={false}>
+        {/* `mode="popLayout"` (needs Motion's `domMax` layout-measurement
+            engine) was unnecessary here — exactly one child renders at a
+            time, both entering and exiting values are `inset-0`
+            absolutely positioned on top of each other, so there is no
+            sibling to reflow when one exits. Default (`"sync"`) mode is
+            visually identical for this case and only needs `domAnimation`. */}
+        <AnimatePresence initial={false}>
           <m.span
             key={value}
             initial={{ y: "100%" }}

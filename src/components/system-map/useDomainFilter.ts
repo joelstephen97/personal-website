@@ -29,7 +29,36 @@ export function useDomainFilter(): DomainFilter {
   const select = useCallback(
     (id: DomainId | null) => {
       const href = pathname + (id ? `?domain=${id}` : "");
-      router.replace(href as Parameters<typeof router.replace>[0], { scroll: false });
+      const apply = () =>
+        router.replace(href as Parameters<typeof router.replace>[0], { scroll: false });
+
+      // Same pattern as `TransitionLink.tsx` (a plain browser API, not
+      // React's — React 19.2.8 stable doesn't export `ViewTransition`;
+      // see that file's comment): wrapping the URL update in
+      // `document.startViewTransition` animates `FeaturedWork`'s card
+      // reorder/enter/exit via each card's `viewTransitionName`, without
+      // Motion's `domMax` (layout animations) — that feature bundle's
+      // ~45 kB gzipped existed in the client bundle only for this one
+      // transition. Reduced motion simply skips the wrapper; `apply()`
+      // still runs.
+      const doc = document as Document & {
+        startViewTransition?: (cb: () => void) => { finished: Promise<void> };
+      };
+      const prefersReducedMotion =
+        typeof window !== "undefined" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (prefersReducedMotion || typeof doc.startViewTransition !== "function") {
+        apply();
+        return;
+      }
+
+      // `vt-filter` scopes globals.css's group-animation override to this
+      // transition only, leaving page-navigation view transitions
+      // (`TransitionLink.tsx`'s root/.page/.cut durations) untouched.
+      document.documentElement.classList.add("vt-filter");
+      const removeScope = () => document.documentElement.classList.remove("vt-filter");
+      doc.startViewTransition(apply).finished.then(removeScope, removeScope);
     },
     [router, pathname],
   );
