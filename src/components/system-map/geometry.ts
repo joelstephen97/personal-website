@@ -63,6 +63,18 @@ export function shortestRotation(from: number, to: number): number {
   return from + delta;
 }
 
+/** Node ring angle the bezel marker rests at when nothing is hot/selected: 12 o'clock. */
+export const MARKER_REST_ANGLE = -90;
+
+/**
+ * Converts a node's ring angle into "marker degrees" (`nodeAngle + 90`, so
+ * -90° / 12 o'clock maps to 0). Passing `null` (nothing hot or selected)
+ * resolves to the rest position at 12 o'clock.
+ */
+export function markerTargetDeg(nodeAngleDeg: number | null): number {
+  return (nodeAngleDeg ?? MARKER_REST_ANGLE) + 90;
+}
+
 export function bezelTicks(): { x1: number; y1: number; x2: number; y2: number; major: boolean }[] {
   const ticks: { x1: number; y1: number; x2: number; y2: number; major: boolean }[] = [];
   for (let i = 0; i < TICK_COUNT; i++) {

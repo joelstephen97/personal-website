@@ -1,6 +1,6 @@
 import type { Domain, DomainId } from "@/content/schema";
 import { cn } from "@/lib/cn";
-import { MAP, arcPath, bezelTicks, nodePosition } from "./geometry";
+import { MAP, arcPath, bezelTicks, corePath, nodePosition } from "./geometry";
 import { SHORT_DESCRIPTOR } from "./shortLabel";
 
 export interface StaticMapEdge {
@@ -41,6 +41,12 @@ export function StaticMap({ domains, edges, className }: StaticMapProps) {
             y2={t.y2}
             className={cn("map-tick", t.major && "is-major")}
           />
+        ))}
+      </g>
+
+      <g className="spokes">
+        {domains.map((domain) => (
+          <path key={`spoke-${domain.id}`} d={corePath(domain.angle)} className="map-spoke" />
         ))}
       </g>
 
@@ -96,7 +102,7 @@ export function StaticMap({ domains, edges, className }: StaticMapProps) {
           textAnchor="middle"
           dominantBaseline="central"
           className="font-display text-[17px]"
-          style={{ fill: "var(--metal-champagne)" }}
+          style={{ fill: "var(--text-secondary)" }}
         >
           JS
         </text>

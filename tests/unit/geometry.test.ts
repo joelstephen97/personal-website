@@ -6,6 +6,7 @@ import {
   bezelTicks,
   arcPath,
   corePath,
+  markerTargetDeg,
 } from "@/components/system-map/geometry";
 describe("geometry", () => {
   it("places a −90° node at 12 o'clock", () => {
@@ -26,5 +27,10 @@ describe("geometry", () => {
   it("builds paths", () => {
     expect(corePath(-90)).toMatch(/^M210 160 L/);
     expect(arcPath(-90, -30)).toMatch(/^M.* Q.* .*$/);
+  });
+  it("resolves the marker's target degrees, defaulting to 12 o'clock when nothing is hot/selected", () => {
+    expect(markerTargetDeg(-90)).toBe(0);
+    expect(markerTargetDeg(-30)).toBe(60); // realtime: angle -30 -> marker 60
+    expect(markerTargetDeg(null)).toBe(0);
   });
 });
