@@ -23,22 +23,27 @@ function numeral(position: number): string {
  * against the document's own H2 order (matching the `headings` list the
  * `work`/`writing` collections extract at build time) with a `DateWindow`
  * numeral, then renders the heading text in the display face.
+ *
+ * The numeral is a pure lookup, `id` (stamped onto the compiled MDX by
+ * `rehypeHeadingIds` in content-collections.ts) indexed against `headings`,
+ * not a mutable render-time counter: a counter mutated during render drifts
+ * under `reactStrictMode`, which double-invokes render bodies in
+ * development.
  */
 export function createMdxComponents(headings: Heading[]) {
-  let position = 0;
   const level2 = headings.filter((h) => h.level === 2);
 
   return {
-    h2: ({ children, ...rest }: ComponentProps<"h2">) => {
-      const heading = level2[position];
-      position += 1;
+    h2: ({ id, children, ...rest }: ComponentProps<"h2">) => {
+      const index = level2.findIndex((h) => h.id === id);
+      const value = index >= 0 ? numeral(index + 1) : undefined;
       return (
         <h2
-          id={heading?.id}
+          id={id}
           className="mt-12 mb-4 flex items-baseline gap-4 scroll-mt-24 first:mt-0"
           {...rest}
         >
-          <DateWindow value={numeral(position)} size="sm" />
+          {value && <DateWindow value={value} size="sm" />}
           <span className={cn("font-display text-fg", H2_SIZE)}>{children}</span>
         </h2>
       );

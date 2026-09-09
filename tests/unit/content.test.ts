@@ -106,7 +106,15 @@ const EXPECTED_HEADINGS = [
   "Result",
   "What I learned",
 ];
-const OPUS_ONLY_BANNED = ["Technical Canvas", "Opus-CX", "n8n", "Anthropic", "OpenAI"];
+const OPUS_ONLY_BANNED = [
+  "technical canvas",
+  "opus-cx",
+  "n8n",
+  "anthropic",
+  "openai",
+  "claude",
+  "gpt",
+];
 
 describe("case study MDX documents", () => {
   const bodies = Object.fromEntries(
@@ -129,8 +137,9 @@ describe("case study MDX documents", () => {
 
   it("never names confidential internals or LLM vendors in the Opus case studies", () => {
     for (const slug of OPUS_SLUGS) {
+      const lower = bodies[slug]!.toLowerCase();
       for (const w of OPUS_ONLY_BANNED) {
-        expect(bodies[slug], `${slug}: "${w}"`).not.toContain(w);
+        expect(lower, `${slug}: "${w}"`).not.toContain(w);
       }
     }
   });
