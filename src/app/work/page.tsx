@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { Card } from "@/components/ui/Card";
-import { Tag } from "@/components/ui/Tag";
 import { TextLink } from "@/components/ui/TextLink";
-import { TransitionLink } from "@/components/shell/TransitionLink";
+import { FeaturedWork } from "@/components/home/FeaturedWork";
+import { WorkCard } from "@/components/home/WorkCard";
+import { SystemMap } from "@/components/system-map/SystemMap";
+import { StaticMap, StaticMapChips } from "@/components/system-map/StaticMap";
+import { MapChips } from "@/components/system-map/MapChips";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { pageMetadata, jsonLdGraph } from "@/lib/seo";
-import { getArchive, getDomains, getFeaturedProjects } from "@/lib/content";
+import { deriveEdges, getArchive, getDomains, getFeaturedProjects } from "@/lib/content";
 
 export const metadata: Metadata = pageMetadata({
   title: "Work",
@@ -15,48 +18,71 @@ export const metadata: Metadata = pageMetadata({
   path: "/work",
 });
 
+/**
+ * The map doubles as the filter here (same `?domain=` URL state, same
+ * `useDomainFilter` hook, as the home hero) — a compact, non-choreographed
+ * `SystemMap` sits beside the page header and `FeaturedWork` below reacts
+ * to it, exactly like the home page's Hero + FeaturedWork pairing.
+ */
 export default function WorkPage() {
   const featured = getFeaturedProjects();
   const archive = getArchive();
   const domains = getDomains();
+  const edges = deriveEdges();
+  const domainSummaries = domains.map(({ id, label }) => ({ id, label }));
+  const projectsBySlug = Object.fromEntries(
+    featured.map((p) => [p.slug, { slug: p.slug, title: p.title }]),
+  );
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
       <JsonLd data={jsonLdGraph({ path: "/work", kind: "work" })} />
 
-      <h1 className="font-display text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02]">
-        Work
-      </h1>
-      <p className="mt-4 max-w-2xl text-lg leading-relaxed text-fg-2">
-        Case studies from production systems, plus shipped products built solo.
-      </p>
+      <div className="lg:grid lg:grid-cols-[1fr_auto] lg:items-end lg:gap-10">
+        <SectionHeader
+          as="h1"
+          eyebrow="Work"
+          title="Five things I am proud of, in the order I would explain them."
+        />
 
-      <div className="mt-8 flex flex-wrap gap-2">
-        {domains.map((domain) => (
-          <Tag key={domain.id}>{domain.label}</Tag>
-        ))}
+        <div className="mt-10 lg:mt-0 lg:shrink-0">
+          <div className="hidden min-[480px]:block">
+            <Suspense
+              fallback={
+                <StaticMap domains={domains} edges={edges} className="mx-auto max-w-[320px]" />
+              }
+            >
+              <SystemMap
+                domains={domains}
+                edges={edges}
+                projectsBySlug={projectsBySlug}
+                variant="compact"
+                className="mx-auto max-w-[320px]"
+              />
+            </Suspense>
+          </div>
+          <div className="min-[480px]:hidden">
+            <Suspense fallback={<StaticMapChips domains={domains} />}>
+              <MapChips domains={domains} />
+            </Suspense>
+          </div>
+        </div>
       </div>
 
-      <section className="mt-14" aria-labelledby="featured-heading">
-        <SectionHeader eyebrow="Featured" title="Case studies" id="featured-heading" />
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          {featured.map((project) => (
-            <TransitionLink key={project.slug} href={`/work/${project.slug}`} className="group">
-              <Card interactive className="flex h-full flex-col justify-between p-5">
-                <div>
-                  <span className="label text-fg-3">{project.company ?? "Independent"}</span>
-                  <h3 className="mt-2 font-display text-xl text-fg">{project.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-fg-2">{project.tagline}</p>
-                </div>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {project.technologies.slice(0, 4).map((tech) => (
-                    <Tag key={tech}>{tech}</Tag>
-                  ))}
-                </div>
-              </Card>
-            </TransitionLink>
-          ))}
-        </div>
+      <section className="mt-14">
+        <Suspense
+          fallback={
+            <ul className="mt-10 grid gap-6">
+              {featured.map((project, index) => (
+                <li key={project.slug}>
+                  <WorkCard project={project} flagship={index === 0} index={index} />
+                </li>
+              ))}
+            </ul>
+          }
+        >
+          <FeaturedWork projects={featured} domains={domainSummaries} />
+        </Suspense>
       </section>
 
       <section className="mt-16" aria-labelledby="archive-heading">

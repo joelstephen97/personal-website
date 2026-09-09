@@ -63,7 +63,12 @@ test.describe("shell", () => {
     const html = page.locator("html");
     await expect(html).toHaveAttribute("data-theme", "dark");
 
-    await page.getByRole("button", { name: /Switch to (light|dark) mode/ }).click();
+    // Case-insensitive: `ThemeToggle`'s aria-label is
+    // "Dark theme, switch to light mode" (lowercase "switch" mid-sentence,
+    // per the WCAG 2.5.3 Label-in-Name fix in task-12 of the foundation
+    // plan) — this regex previously required a capital "Switch" and never
+    // matched, timing out on every run regardless of viewport.
+    await page.getByRole("button", { name: /Switch to (light|dark) mode/i }).click();
     await expect(html).toHaveAttribute("data-theme", "light");
   });
 

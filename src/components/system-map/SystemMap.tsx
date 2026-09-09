@@ -59,7 +59,10 @@ export function SystemMap({
 
   const angleById = new Map(domains.map((d) => [d.id, d.angle] as const));
   const ticks = bezelTicks();
-  const animateOnMount = choreograph && !reduced;
+  // The compact variant (/work) never runs the mount choreography, even if
+  // a caller passed `choreograph` — that timeline is hero-only per the
+  // spec's "once per page load" rule and Task 5's resolution.
+  const animateOnMount = choreograph && !reduced && variant !== "compact";
 
   // The marker follows whichever domain is hot (hover/focus), falling back
   // to the current selection, and returns to 12 o'clock when neither is
@@ -147,7 +150,7 @@ export function SystemMap({
     : "Showing all work.";
 
   return (
-    <div className={cn("relative", variant === "compact" && "h-[280px]", className)}>
+    <div className={cn("relative", variant === "compact" && "h-[240px]", className)}>
       <svg
         viewBox={`0 0 ${MAP.w} ${MAP.h}`}
         role="group"

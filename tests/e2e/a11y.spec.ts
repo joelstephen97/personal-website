@@ -26,6 +26,18 @@ test.describe("a11y", () => {
         await page.goto(route);
         await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
 
+        if (route === "/") {
+          // The hero headline's once-per-load choreography (word stagger,
+          // ~0.7s to the last word) transiently renders words at
+          // `opacity: 0` mid-animation — real, but not permanent (nothing
+          // is hidden after mount, and none of it is present at all with
+          // JS disabled or reduced motion; see tests/e2e/home.spec.ts).
+          // Wait for it to settle before scanning contrast so this test
+          // measures the page's actual resting state, not a mid-tween
+          // frame.
+          await expect(page.locator("h1 .inline-block").last()).toHaveCSS("opacity", "1");
+        }
+
         const results = await new AxeBuilder({ page }).analyze();
         expect(results.violations, JSON.stringify(results.violations, null, 2)).toEqual([]);
       });
