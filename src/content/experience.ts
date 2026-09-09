@@ -42,7 +42,7 @@ export const experience = Experience.array().parse([
     dates: { start: "2024-07", end: "2025-02" },
     depth: "60",
     summary:
-      "I led project direction and frontend delivery on Flower Meister, a progressive web app for florists, and owned requirements, planning, and DevOps.",
+      "I led project direction and frontend delivery on Flower Meister, a progressive web app for florists.",
     impact: [
       "I owned requirements, planning, hosting, CI/CD, monitoring, and Docker for Flower Meister.",
       "I designed the UI and UX in Figma with shadcn before writing frontend code.",
@@ -73,7 +73,7 @@ export const experience = Experience.array().parse([
     dates: { start: "2023-09", end: "2024-07" },
     depth: "40",
     summary:
-      "I embedded with vendor, merchant, and admin user groups on FMI, a large B2B platform, and shipped seven major features.",
+      "I worked inside the vendor, merchant, and admin user groups on FMI, a large B2B trading platform.",
     impact: [
       "I shipped seven major features across the vendor, merchant, and admin surfaces of FMI.",
       "I built backend services with FastAPI, Pydantic, and Peewee.",
@@ -103,7 +103,7 @@ export const experience = Experience.array().parse([
     location: "Dubai, UAE",
     dates: { start: "2019-09", end: "2023-02" },
     depth: "25",
-    summary: "I led cross-functional features on a customer-facing platform.",
+    summary: "I worked across the stack of a customer-facing e-commerce platform, from payments to data migration.",
     impact: [
       "I integrated three payment gateways and several third-party services into the platform.",
       "I migrated data from a legacy platform to Node.js and React.",
@@ -120,7 +120,7 @@ export const experience = Experience.array().parse([
     location: "Dubai, UAE",
     dates: { start: "2019-01", end: "2019-07" },
     depth: "15",
-    summary: "I designed and shipped a Django app that replaced an Excel-based workflow.",
+    summary: "My first production software, built during a six-month internship.",
     impact: [
       "I designed and shipped a Django app that replaced an Excel-based workflow, with REST APIs and LDAP authentication.",
     ],
