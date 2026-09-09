@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/Card";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { TrackedLink } from "@/components/shell/TrackedLink";
+import { consultingCopy } from "@/content/consulting-copy";
 import { site } from "@/lib/site";
 import type { Service } from "@/content/schema";
 
@@ -32,7 +33,7 @@ export function Roadmapping({ service }: RoadmappingProps) {
             eventProps={{ location: "consulting-start-here" }}
             className="inline-flex h-10 items-center rounded-3 bg-accent px-4 text-sm font-medium text-on-accent transition-colors hover:bg-accent-hover"
           >
-            Book a roadmapping session
+            {consultingCopy.ctaLabel}
           </TrackedLink>
         </div>
       </Card>

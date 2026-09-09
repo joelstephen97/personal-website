@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { getFeaturedProjects, getServices } from "@/lib/content";
+import { getFeaturedProjects, getProject, getServices } from "@/lib/content";
 import { aboutCopy } from "@/content/about-copy";
 import { consultingCopy } from "@/content/consulting-copy";
 import { site } from "@/lib/site";
@@ -48,6 +48,9 @@ function buildConsulting(): string {
   const serviceLines = services.map(
     (s) => `### ${s.title}\n\n${s.problem}\n\n${s.what}\n\nScope: ${s.scope}`,
   );
+  const proofLine = consultingCopy.proofItems
+    .map((item) => `${getProject(item.slug)?.title ?? item.slug}: ${item.result}`)
+    .join(" ");
   return [
     "# Consulting",
     "",
@@ -60,7 +63,7 @@ function buildConsulting(): string {
     "Who this is not for:",
     ...consultingCopy.whoNotFor.map((line) => `- ${line}`),
     "",
-    consultingCopy.proof,
+    proofLine,
     "",
     ...serviceLines,
   ].join("\n");

@@ -101,7 +101,7 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
         </section>
       )}
 
-      <Faq ids={SERVICE_FAQ_IDS} />
+      <Faq ids={SERVICE_FAQ_IDS} title="Three questions people ask." />
 
       <Cta location={`consulting-${slug}`} />
     </div>

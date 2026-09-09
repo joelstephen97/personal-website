@@ -25,7 +25,9 @@ export default function ConsultingPage() {
   const services = getServices();
   const roadmapping = services.find((s) => s.id === "roadmapping-session")!;
   const ladderServices = services.filter((s) => s.slug !== null);
-  const alsoAvailable = services.filter((s) => s.slug === null);
+  // Excludes the roadmapping session, which already has its own "Start
+  // here" section above — see Ladder.tsx's doc comment.
+  const alsoAvailable = services.filter((s) => s.slug === null && s.id !== "roadmapping-session");
 
   return (
     <div>
@@ -38,12 +40,10 @@ export default function ConsultingPage() {
         <div className="relative mx-auto max-w-4xl px-4 py-16 sm:px-6">
           <p className="label text-champagne">A small number of engagements · remote · GMT+4</p>
           <h1 className="mt-5 text-balance font-display text-[clamp(2.75rem,1.6rem+4.4vw,3.75rem)] leading-[1.02]">
-            You shipped an AI feature. Now it has to work in production.
+            {consultingCopy.hero}
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-fg-2">
-            AI integration, workflow systems, and real-time collaboration for product teams. A small
-            number of engagements alongside my role at AppliedAI. Remote, GMT+4. Fixed fees, never
-            hourly.
+            {consultingCopy.subLine}
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <TrackedLink
@@ -52,10 +52,10 @@ export default function ConsultingPage() {
               eventProps={{ location: "consulting-hero" }}
               className="inline-flex h-12 items-center rounded-3 bg-accent px-5 text-base font-medium text-on-accent transition-colors hover:bg-accent-hover"
             >
-              Book a roadmapping session
+              {consultingCopy.ctaLabel}
             </TrackedLink>
             <Button href={`mailto:${site.email}`} external variant="ghost" size="lg">
-              Or write to me →
+              {consultingCopy.ctaSecondaryLabel}
             </Button>
           </div>
         </div>

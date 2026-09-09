@@ -8,13 +8,13 @@ export interface LadderProps {
   /** The six services that have a `slug` — each card links to its page. */
   services: Service[];
   /**
-   * The services with no `slug` (the roadmapping session, implementation
-   * support, the workshop) — no page exists for these, so they render as
-   * plain rows instead of cards. The roadmapping session also gets its own
-   * full "Start here" section elsewhere on the page; it is listed again
-   * here for the same reason the home page's ladder list includes it —
-   * this is the complete offer list, one section higher than the six
-   * priced sprints and audits.
+   * The two services with no `slug` and no other section on this page
+   * (implementation support, the workshop) — no page exists for these, so
+   * they render as plain rows instead of cards. The roadmapping session is
+   * deliberately excluded from this list by the caller: it already has its
+   * own full "Start here" section above, with a description, scope, and
+   * its own CTA, so repeating it here would read as an alternate path to
+   * the same offer.
    */
   alsoAvailable: Service[];
 }
@@ -23,7 +23,7 @@ export interface LadderProps {
  * "Sprints and audits" — the six services with a `slug` as cards (title
  * links to `/consulting/<slug>`, so "proven in" project links stay
  * sibling anchors rather than nesting inside the title's `<a>`), plus a
- * compact "Also available" list for the three services with no page.
+ * compact "Also available" list for the two remaining slug-less services.
  */
 export function Ladder({ services, alsoAvailable }: LadderProps) {
   return (

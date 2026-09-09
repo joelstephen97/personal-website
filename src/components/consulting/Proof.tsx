@@ -1,24 +1,14 @@
 import { Card } from "@/components/ui/Card";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { TextLink } from "@/components/ui/TextLink";
+import { consultingCopy } from "@/content/consulting-copy";
 import { getProject } from "@/lib/content";
 
-// One-line results, sourced from each project's `results` in
-// `src/content/projects.ts` (traceable to the résumé / ScamShield's
-// published benchmark, per the copy-voice rule).
-const PROOF_ITEMS = [
-  {
-    slug: "process-discovery",
-    result: "In production with insurance, chemical, and government customers.",
-  },
-  {
-    slug: "scamshield",
-    result:
-      "903 unit and 138 end-to-end tests, benchmarked in the open with zero hard false positives on the control set.",
-  },
-] as const;
-
-/** "Proof" — two case-study cards, muted `SectionHeader`. */
+/**
+ * "Proof" — two case-study cards, muted `SectionHeader`. Results come from
+ * `consultingCopy.proofItems` (not a local constant) so `/llms-full.txt`'s
+ * plain-text rendering stays word-for-word identical to what renders here.
+ */
 export function Proof() {
   return (
     <section className="mt-16 border-t border-line pt-10" aria-labelledby="proof-heading">
@@ -30,7 +20,7 @@ export function Proof() {
         id="proof-heading"
       />
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
-        {PROOF_ITEMS.map(({ slug, result }) => {
+        {consultingCopy.proofItems.map(({ slug, result }) => {
           const project = getProject(slug);
           if (!project) return null;
           return (
