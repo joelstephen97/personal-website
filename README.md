@@ -60,6 +60,13 @@ Vercel, connected to this GitHub repo. Production builds `main` with the Nuxt fr
 
 Security headers and CSP live in `next.config.ts` and `src/proxy.ts` (Next 16's `middleware.ts` replacement); see the comments in `src/proxy.ts` for why the CSP ships `'unsafe-inline'` on `script-src` rather than a nonce (nonce-based CSP is incompatible with the mostly-static rendering this site needs to hit its performance budget).
 
+## Deferred
+
+Two things called out in the redesign but not shipped in this pass:
+
+- **Case-study chrome** — skeleton architecture diagrams drawn on scroll, a push-in hero with grain, a scroll-linked reading dial, and a redesigned prev/next control on `/work/<slug>` pages. Case studies keep the existing template for launch; ScamShield's page got content-only improvements instead (see `src/components/work/ScamShieldExtras.tsx`).
+- **Lab port** — `/lab` and `/lab/[slug]` are live (so the old `/project/*` redirects still land on a 200) but render a short noindex "the demos are being ported" placeholder rather than the real tier grid. `src/content/lab.ts` keeps every planned entry for the future port; Lab is hidden from the nav, the command palette, the home page, the sitemap, and `llms.txt`/`llms-full.txt` until it ships.
+
 ## No chat agent
 
 Earlier versions of this site (Nuxt) had a Groq-backed "ask about Joel" chat widget. This rewrite drops it, along with the PWA install prompt and the in-browser ML demos — the site is now case studies, a consulting page, and a résumé, kept fast and simple on purpose.

@@ -6,6 +6,7 @@ import ServicePage from "@/app/consulting/[service]/page";
 import AboutPage from "@/app/about/page";
 import ContactPage from "@/app/contact/page";
 import ResumePage from "@/app/resume/page";
+import WorkDetailPage from "@/app/work/[slug]/page";
 import { getServices, getExperience } from "@/lib/content";
 import { aboutCopy } from "@/content/about-copy";
 import { site } from "@/lib/site";
@@ -218,5 +219,35 @@ describe("Resume page", () => {
     for (const w of BANNED) expect(text, w).not.toContain(w.toLowerCase());
     const rawText = container.textContent ?? "";
     for (const marker of PRICE_MARKERS) expect(rawText, marker).not.toContain(marker);
+  });
+});
+
+describe("Work detail page — ScamShield content elevation", () => {
+  it("/work/scamshield contains the scale line ('903') and the benchmark caption", async () => {
+    const element = await WorkDetailPage({ params: Promise.resolve({ slug: "scamshield" }) });
+    const { container } = render(element);
+    expect(container.textContent).toContain("903");
+    expect(container.textContent).toContain(
+      "Published benchmark, run 2026-09-07; methodology in the repository",
+    );
+  });
+
+  it("/work/scamshield renders the 'Did you know' aside as a numbered list", async () => {
+    const element = await WorkDetailPage({ params: Promise.resolve({ slug: "scamshield" }) });
+    const { container } = render(element);
+    expect(screen.getByText("Ten things inside the extension.")).toBeInTheDocument();
+    const list = container.querySelector("ol");
+    expect(list).not.toBeNull();
+    expect(list?.querySelectorAll("li").length).toBe(10);
+  });
+
+  it("another case study (flower-meister) does not render the ScamShield extras", async () => {
+    const element = await WorkDetailPage({ params: Promise.resolve({ slug: "flower-meister" }) });
+    const { container } = render(element);
+    expect(container.textContent).not.toContain("Did you know");
+    expect(container.textContent).not.toContain("Ten things inside the extension.");
+    expect(container.textContent).not.toContain(
+      "Published benchmark, run 2026-09-07; methodology in the repository",
+    );
   });
 });

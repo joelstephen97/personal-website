@@ -1,5 +1,9 @@
 import { test, expect } from "@playwright/test";
 
+// "/lab" is deliberately excluded here — it's hidden for launch (noindex,
+// out of the sitemap) and gets its own dedicated assertions below instead
+// of the generic "canonical + indexable JSON-LD page" checks every other
+// static route gets.
 const STATIC_ROUTES = [
   "/",
   "/work",
@@ -7,7 +11,6 @@ const STATIC_ROUTES = [
   "/consulting",
   "/about",
   "/now",
-  "/lab",
   "/writing",
   "/resume",
   "/contact",
@@ -149,6 +152,40 @@ test.describe("seo-routes", () => {
     const response = await page.goto("/project/aim-trainer");
     expect(response?.request().redirectedFrom()).not.toBeNull();
     await expect(page).toHaveURL(/\/lab\/aim-trainer$/);
+  });
+
+  test("/lab returns 200 with a noindex, nofollow robots meta tag", async ({ page }) => {
+    const response = await page.goto("/lab");
+    expect(response?.status()).toBe(200);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+      "content",
+      "noindex, nofollow",
+    );
+    await expect(page.locator("h1")).toHaveText("The demos are being ported.");
+  });
+
+  test("/lab/aim-trainer (a known slug, reached via the /project redirect) returns 200 with a noindex, nofollow robots meta tag", async ({
+    page,
+  }) => {
+    const response = await page.goto("/lab/aim-trainer");
+    expect(response?.status()).toBe(200);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+      "content",
+      "noindex, nofollow",
+    );
+    await expect(page.getByText("Aim Trainer")).toBeVisible();
+  });
+
+  test("/lab/definitely-not-a-real-demo 404s", async ({ page }) => {
+    const response = await page.goto("/lab/definitely-not-a-real-demo");
+    expect(response?.status()).toBe(404);
+  });
+
+  test("/sitemap.xml does not contain /lab", async ({ page }) => {
+    const response = await page.goto("/sitemap.xml");
+    expect(response?.status()).toBe(200);
+    const body = await response!.text();
+    expect(body).not.toContain("<loc>https://joelstephen.vercel.app/lab</loc>");
   });
 
   test("/dev/tokens is reachable outside production", async ({ page }) => {

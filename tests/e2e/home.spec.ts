@@ -254,7 +254,7 @@ test.describe("home — accessibility", () => {
 
     // The visible tooltip panel is a sibling of the map's <svg>, inside the
     // same wrapper — scoped this way so it doesn't collide with the other
-    // `.glass` surfaces elsewhere on the page (e.g. LabTeaser's tiles).
+    // `.glass` surfaces elsewhere on the page (e.g. the header after scroll).
     const tooltip = page
       .locator('svg[role="group"]')
       .locator(

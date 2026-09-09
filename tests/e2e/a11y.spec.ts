@@ -1,7 +1,14 @@
 import { test, expect, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
-const ROUTES = ["/", "/work", "/work/process-discovery", "/consulting", "/about"];
+const ROUTES = [
+  "/",
+  "/work",
+  "/work/process-discovery",
+  "/work/scamshield",
+  "/consulting",
+  "/about",
+];
 const THEMES = ["dark", "light"] as const;
 
 /**

@@ -45,7 +45,6 @@ export const commandGroups: CommandGroup[] = [
         action: { kind: "navigate", href: "/consulting" },
       },
       { id: "nav-about", label: "About", action: { kind: "navigate", href: "/about" } },
-      { id: "nav-lab", label: "Lab", action: { kind: "navigate", href: "/lab" } },
       { id: "nav-resume", label: "Résumé", action: { kind: "external", href: RESUME_HREF } },
       {
         id: "nav-contact",

@@ -8,6 +8,7 @@ import { Tag } from "@/components/ui/Tag";
 import { TextLink } from "@/components/ui/TextLink";
 import { TrackedLink } from "@/components/shell/TrackedLink";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ScamShieldExtras } from "@/components/work/ScamShieldExtras";
 import { pageMetadata, jsonLdGraph } from "@/lib/seo";
 import { getDomain, getFeaturedProjects, getProject } from "@/lib/content";
 
@@ -134,6 +135,8 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
           <MdxContent code={doc.code} headings={doc.headings} />
         </div>
       )}
+
+      {project.slug === "scamshield" && <ScamShieldExtras />}
 
       {(prev || next) && (
         <nav

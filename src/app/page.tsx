@@ -9,7 +9,6 @@ import { Domains } from "@/components/home/Domains";
 import { ExperienceCompressed } from "@/components/home/ExperienceCompressed";
 import { NowBlock } from "@/components/home/NowBlock";
 import { ConsultingBlock } from "@/components/home/ConsultingBlock";
-import { LabTeaser } from "@/components/home/LabTeaser";
 import { ContactBlock } from "@/components/home/ContactBlock";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { pageMetadata, jsonLdGraph } from "@/lib/seo";
@@ -67,10 +66,6 @@ export default function Home() {
 
       <Reveal as="section" className={SECTION}>
         <ConsultingBlock />
-      </Reveal>
-
-      <Reveal as="section" className={SECTION}>
-        <LabTeaser />
       </Reveal>
 
       <Reveal as="section" className={SECTION}>
