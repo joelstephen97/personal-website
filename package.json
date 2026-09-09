@@ -21,7 +21,8 @@
     "test:watch": "vitest",
     "e2e": "playwright test",
     "lhci": "lhci autorun",
-    "measure": "tsx scripts/measure-client-js.ts"
+    "measure": "tsx scripts/measure-client-js.ts",
+    "resume:pdf": "tsx scripts/build-resume-pdf.ts"
   },
   "dependencies": {
     "@content-collections/core": "^0.15.2",

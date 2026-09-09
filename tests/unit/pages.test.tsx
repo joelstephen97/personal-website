@@ -3,7 +3,12 @@ import { describe, it, expect, afterEach, vi } from "vitest";
 import ExperiencePage from "@/app/experience/page";
 import ConsultingPage from "@/app/consulting/page";
 import ServicePage from "@/app/consulting/[service]/page";
-import { getServices } from "@/lib/content";
+import AboutPage from "@/app/about/page";
+import ContactPage from "@/app/contact/page";
+import ResumePage from "@/app/resume/page";
+import { getServices, getExperience } from "@/lib/content";
+import { aboutCopy } from "@/content/about-copy";
+import { site } from "@/lib/site";
 
 vi.mock("@vercel/analytics", () => ({
   track: vi.fn(),
@@ -162,5 +167,56 @@ describe("Service page", () => {
     const rawText = container.textContent ?? "";
     for (const marker of PRICE_MARKERS) expect(rawText, marker).not.toContain(marker);
     expect(rawText).not.toContain("Unpriced");
+  });
+});
+
+describe("About page", () => {
+  it("renders the h1 verbatim from about-copy.ts", () => {
+    render(<AboutPage />);
+    const heading = screen.getByRole("heading", { level: 1 });
+    expect(heading).toHaveTextContent(aboutCopy.heading);
+  });
+
+  it("contains no banned words or prices", () => {
+    const { container } = render(<AboutPage />);
+    const text = (container.textContent ?? "").toLowerCase();
+    for (const w of BANNED) expect(text, w).not.toContain(w.toLowerCase());
+    const rawText = container.textContent ?? "";
+    for (const marker of PRICE_MARKERS) expect(rawText, marker).not.toContain(marker);
+  });
+});
+
+describe("Contact page", () => {
+  it("renders no <form>", () => {
+    const { container } = render(<ContactPage />);
+    expect(container.querySelector("form")).toBeNull();
+  });
+
+  it("contains no banned words or prices", () => {
+    const { container } = render(<ContactPage />);
+    const text = (container.textContent ?? "").toLowerCase();
+    for (const w of BANNED) expect(text, w).not.toContain(w.toLowerCase());
+    const rawText = container.textContent ?? "";
+    for (const marker of PRICE_MARKERS) expect(rawText, marker).not.toContain(marker);
+  });
+});
+
+describe("Resume page", () => {
+  it("contains the title and all five role headings", () => {
+    const { container } = render(<ResumePage />);
+    expect(container.textContent).toContain(site.title);
+    const roleNames = getExperience().map((role) => role.role);
+    const headings = Array.from(container.querySelectorAll("h3")).map((h) => h.textContent);
+    for (const name of roleNames) {
+      expect(headings, name).toContain(name);
+    }
+  });
+
+  it("contains no banned words or prices", () => {
+    const { container } = render(<ResumePage />);
+    const text = (container.textContent ?? "").toLowerCase();
+    for (const w of BANNED) expect(text, w).not.toContain(w.toLowerCase());
+    const rawText = container.textContent ?? "";
+    for (const marker of PRICE_MARKERS) expect(rawText, marker).not.toContain(marker);
   });
 });

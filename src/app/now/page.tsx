@@ -10,6 +10,28 @@ export const metadata: Metadata = pageMetadata({
   path: "/now",
 });
 
+const MONTH_NAMES = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+/** "2026-09" -> "September 2026". Pure string formatting of static content — no `Date` at request time. */
+function formatMonthYear(updated: string): string {
+  const [year, month] = updated.split("-");
+  const monthName = MONTH_NAMES[Number(month) - 1] ?? month;
+  return `${monthName} ${year}`;
+}
+
 export default function NowPage() {
   const now = getNow();
 
@@ -17,46 +39,45 @@ export default function NowPage() {
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
       <JsonLd data={jsonLdGraph({ path: "/now", kind: "about" })} />
 
-      <p className="label text-fg-3">Updated {now.updated}</p>
-      <h1 className="mt-3 font-display text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02]">
-        Now
-      </h1>
+      <SectionHeader as="h1" eyebrow="Now" title={formatMonthYear(now.updated)} />
 
-      <section className="mt-12" aria-labelledby="building-heading">
-        <SectionHeader eyebrow="Building" title="Building" id="building-heading" />
-        <ul className="mt-6 list-disc space-y-2 pl-5">
-          {now.building.map((item) => (
-            <li key={item} className="text-base leading-relaxed text-fg-2">
-              {item}
-            </li>
-          ))}
-        </ul>
-      </section>
+      <dl className="mt-12 space-y-10">
+        <div>
+          <dt className="label text-fg-3">Building</dt>
+          <dd className="mt-4">
+            <ul className="list-disc space-y-2 pl-5">
+              {now.building.map((item) => (
+                <li key={item} className="text-base leading-relaxed text-fg-2">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </dd>
+        </div>
 
-      <section className="mt-12" aria-labelledby="exploring-heading">
-        <SectionHeader eyebrow="Exploring" title="Exploring" id="exploring-heading" />
-        <ul className="mt-6 list-disc space-y-2 pl-5">
-          {now.exploring.map((item) => (
-            <li key={item} className="text-base leading-relaxed text-fg-2">
-              {item}
-            </li>
-          ))}
-        </ul>
-      </section>
+        <div>
+          <dt className="label text-fg-3">Exploring</dt>
+          <dd className="mt-4">
+            <ul className="list-disc space-y-2 pl-5">
+              {now.exploring.map((item) => (
+                <li key={item} className="text-base leading-relaxed text-fg-2">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </dd>
+        </div>
 
-      <section className="mt-12" aria-labelledby="reading-heading">
-        <SectionHeader eyebrow="Reading" title="Reading" id="reading-heading" />
-        <p className="mt-6 text-base leading-relaxed text-fg-2">{now.reading}</p>
-      </section>
+        <div>
+          <dt className="label text-fg-3">Reading</dt>
+          <dd className="mt-4 text-base leading-relaxed text-fg-2">{now.reading}</dd>
+        </div>
 
-      <section className="mt-12" aria-labelledby="away-heading">
-        <SectionHeader
-          eyebrow="Away from the keyboard"
-          title="Away from the keyboard"
-          id="away-heading"
-        />
-        <p className="mt-6 text-base leading-relaxed text-fg-2">{now.away}</p>
-      </section>
+        <div>
+          <dt className="label text-fg-3">Away from the keyboard</dt>
+          <dd className="mt-4 text-base leading-relaxed text-fg-2">{now.away}</dd>
+        </div>
+      </dl>
     </div>
   );
 }

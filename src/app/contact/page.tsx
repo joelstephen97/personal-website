@@ -22,10 +22,30 @@ export default function ContactPage() {
       </h1>
 
       <div className="mt-10">
-        <CopyEmail className="font-display text-[clamp(1.75rem,1.4rem+1.6vw,2.5rem)] leading-tight text-fg" />
+        {/* h1-size display type. `CopyEmail`'s default `w-fit` sizes a
+            `<button>` to its max-content width regardless of the
+            containing block (a `fit-content` quirk on form controls), so
+            the unbroken "name.name@gmail.com" string — no spaces for the
+            browser's default line-breaking to use — overflowed the
+            viewport on narrow screens even with `break-words` alone.
+            `block max-w-full` forces the button back inside its
+            container's width so `break-words` actually gets to wrap it. */}
+        <CopyEmail className="block max-w-full break-words font-display text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02] text-fg" />
       </div>
 
+      <p className="mt-4 text-sm text-fg-3">
+        {site.location.split(",")[0]} · {site.timezone}
+      </p>
+
       <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
+        <TrackedLink
+          href={`mailto:${site.email}?subject=Project`}
+          event="consulting_cta_click"
+          eventProps={{ location: "contact-page" }}
+          className="link-draw text-base text-link"
+        >
+          Discuss a project
+        </TrackedLink>
         <TrackedLink
           href={site.github}
           external
@@ -43,18 +63,17 @@ export default function ContactPage() {
           LinkedIn
         </TrackedLink>
         <TrackedLink
-          href={`mailto:${site.email}?subject=Project:%20`}
-          event="consulting_cta_click"
+          href="/joel-stephen-resume.pdf"
+          external
+          event="resume_click"
           eventProps={{ location: "contact-page" }}
           className="link-draw text-base text-link"
         >
-          Discuss a project
+          Résumé PDF
         </TrackedLink>
       </div>
 
-      <p className="mt-10 text-sm text-fg-3">
-        Based in {site.location.split(",")[0]}, {site.timezone}. I reply within two working days.
-      </p>
+      <p className="mt-10 text-sm text-fg-3">I reply within two working days.</p>
     </div>
   );
 }

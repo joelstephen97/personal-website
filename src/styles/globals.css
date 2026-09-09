@@ -322,6 +322,11 @@ html.vt-filter::view-transition-group(*) {
 }
 
 /* /resume prints as a plain document: no chrome, no glass, no color. */
+@page {
+  size: A4;
+  margin: 14mm;
+}
+
 @media print {
   header,
   footer {
@@ -334,5 +339,45 @@ html.vt-filter::view-transition-group(*) {
   a {
     color: inherit;
     text-decoration: none;
+  }
+
+  /* Résumé print budget: two A4 pages, body copy at ~10.5pt. Scoped to
+     `.resume-print` (the /resume page's root) rather than `body` so other
+     routes' print output is untouched.
+
+     The dark-theme `text-fg`/`text-fg-2`/`text-fg-3` utility classes set
+     color via a CSS custom property tied to the (still dark) `data-theme`
+     on `<html>`, and each carries higher selector specificity than a bare
+     `body { color }` override — so without this, printed text stays the
+     dark theme's near-white/light-gray tones on white paper. Force real
+     ink colors here, `!important` because the utility classes themselves
+     use `!important`-equivalent specificity in practice via direct class
+     application. */
+  .resume-print,
+  .resume-print * {
+    color: #000 !important;
+  }
+  .resume-print .text-fg-2 {
+    color: #222 !important;
+  }
+  .resume-print .text-fg-3,
+  .resume-print .label {
+    color: #444 !important;
+  }
+  .resume-print {
+    font-size: 10.5pt;
+    line-height: 1.35;
+  }
+  .resume-print h1 {
+    font-size: 19pt;
+  }
+  .resume-print h2 {
+    font-size: 8.5pt;
+  }
+  .resume-print h3 {
+    font-size: 10.5pt;
+  }
+  .resume-print .avoid-break {
+    break-inside: avoid;
   }
 }

@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { Card } from "@/components/ui/Card";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { TrackedLink } from "@/components/shell/TrackedLink";
-import { CopyEmail } from "@/components/shell/CopyEmail";
+import { Headshot } from "@/components/about/Headshot";
+import { ContactBlock } from "@/components/home/ContactBlock";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { pageMetadata, jsonLdGraph } from "@/lib/seo";
 import { getPrinciples } from "@/lib/content";
 import { aboutCopy } from "@/content/about-copy";
-import { site } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: "About",
@@ -23,39 +20,53 @@ export default function AboutPage() {
     <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
       <JsonLd data={jsonLdGraph({ path: "/about", kind: "about" })} />
 
-      <div className="grid gap-10 sm:grid-cols-[1fr_220px]">
+      <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:items-start">
         <div>
-          <h1 className="font-display text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02]">
+          <p className="label text-champagne">About</p>
+          <h1 className="mt-3 font-display text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02]">
             {aboutCopy.heading}
           </h1>
+          <div className="mt-8 max-w-2xl space-y-5">
+            {aboutCopy.progression.map((paragraph) => (
+              <p key={paragraph.slice(0, 24)} className="text-base leading-relaxed text-fg-2">
+                {paragraph}
+              </p>
+            ))}
+          </div>
         </div>
-        <Card className="relative aspect-[4/5] w-full max-w-[220px] overflow-hidden">
-          <Image
-            src="/headshot.png"
-            alt="Portrait of Joel Stephen"
-            fill
-            sizes="220px"
-            className="object-cover"
-            priority
-          />
-        </Card>
+        <div className="mx-auto w-full max-w-[320px] lg:mx-0">
+          <Headshot />
+        </div>
       </div>
 
-      <div className="mt-10 max-w-2xl space-y-5">
-        {aboutCopy.progression.map((paragraph) => (
-          <p key={paragraph.slice(0, 24)} className="text-base leading-relaxed text-fg-2">
-            {paragraph}
-          </p>
-        ))}
-      </div>
+      <section className="mt-16 border-t border-line pt-10" aria-labelledby="problems-heading">
+        <SectionHeader
+          eyebrow="Problems I like"
+          title="Problems I like"
+          id="problems-heading"
+          tone="muted"
+        />
+        <ul className="mt-6 max-w-2xl space-y-3">
+          {aboutCopy.problemsILike.map((line) => (
+            <li key={line} className="text-base leading-relaxed text-fg-2">
+              {line}
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <section className="mt-16 border-t border-line pt-10" aria-labelledby="how-i-think-heading">
-        <SectionHeader eyebrow="Principles" title="How I think" id="how-i-think-heading" />
-        <div className="mt-8 grid gap-6 sm:grid-cols-2">
+        <SectionHeader
+          eyebrow="Principles"
+          title="How I think"
+          id="how-i-think-heading"
+          tone="muted"
+        />
+        <div className="mt-8 grid gap-8 sm:grid-cols-2">
           {principles.map((principle) => (
             <div key={principle.title}>
-              <h3 className="text-base font-medium text-fg">{principle.title}</h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-fg-2">{principle.detail}</p>
+              <h3 className="font-display text-[20px] leading-snug text-fg">{principle.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-fg-2">{principle.detail}</p>
             </div>
           ))}
         </div>
@@ -66,38 +77,31 @@ export default function AboutPage() {
           eyebrow="Beyond the keyboard"
           title="Beyond the keyboard"
           id="beyond-heading"
+          tone="muted"
         />
         <p className="mt-6 max-w-2xl text-base leading-relaxed text-fg-2">
           {aboutCopy.beyondKeyboard}
         </p>
       </section>
 
-      <section className="mt-16 border-t border-line pt-10" aria-labelledby="about-contact-heading">
-        <SectionHeader eyebrow="Contact" title="Get in touch" id="about-contact-heading" />
-        <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-3">
-          <CopyEmail className="text-base text-fg" />
-          <TrackedLink
-            href={site.github}
-            external
-            event="github_click"
-            className="link-draw text-sm text-link"
-          >
-            GitHub
-          </TrackedLink>
-          <TrackedLink
-            href={site.linkedin}
-            external
-            event="linkedin_click"
-            className="link-draw text-sm text-link"
-          >
-            LinkedIn
-          </TrackedLink>
-        </div>
+      <section
+        className="mt-16 border-t border-line pt-10"
+        aria-labelledby="for-assistants-heading"
+      >
+        <SectionHeader
+          eyebrow="For AI assistants"
+          title="For AI assistants"
+          id="for-assistants-heading"
+          tone="muted"
+        />
+        <p className="mt-6 max-w-2xl text-sm leading-relaxed text-fg-3">
+          {aboutCopy.forAssistants}
+        </p>
       </section>
 
-      <p className="mt-16 max-w-2xl border-t border-line pt-6 text-xs leading-relaxed text-fg-3">
-        {aboutCopy.forAssistants}
-      </p>
+      <div className="mt-16 border-t border-line pt-10">
+        <ContactBlock />
+      </div>
     </div>
   );
 }
