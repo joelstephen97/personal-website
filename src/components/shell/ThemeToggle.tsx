@@ -44,20 +44,26 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
     }
   }
 
+  const visibleLabel = active === "dark" ? "Dark" : "Light";
+
   return (
     <m.button
       type="button"
       onClick={toggle}
       whileTap={{ scale: 0.94 }}
       transition={spring.snappy}
-      aria-label={`Switch to ${next} mode`}
+      // The visible label text ("Dark"/"Light") must appear in the
+      // accessible name (WCAG 2.5.3 Label in Name / axe
+      // label-content-name-mismatch) so voice-control users referring to
+      // what they see on screen can target this control.
+      aria-label={`${visibleLabel} theme, switch to ${next} mode`}
       className={cn(
         "inline-flex size-9 items-center justify-center rounded-full border border-line-2 text-fg-2 transition-colors hover:text-fg",
         className,
       )}
     >
       <span aria-hidden="true" className="label text-[10px] leading-none">
-        {active === "dark" ? "Dark" : "Light"}
+        {visibleLabel}
       </span>
     </m.button>
   );

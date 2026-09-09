@@ -1,0 +1,46 @@
+{
+  "ci": {
+    "collect": {
+      "url": [
+        "http://localhost:3000/",
+        "http://localhost:3000/work/process-discovery",
+        "http://localhost:3000/consulting"
+      ],
+      "startServerCommand": "pnpm start",
+      "startServerReadyPattern": "Ready",
+      "numberOfRuns": 3,
+      "settings": {
+        "formFactor": "mobile",
+        "screenEmulation": {
+          "mobile": true,
+          "width": 412,
+          "height": 823,
+          "deviceScaleFactor": 2.625,
+          "disabled": false
+        }
+      }
+    },
+    "assert": {
+      "preset": "lighthouse:recommended",
+      "assertions": {
+        "categories:performance": ["error", { "minScore": 0.95 }],
+        "categories:accessibility": ["error", { "minScore": 0.98 }],
+        "categories:best-practices": ["error", { "minScore": 0.95 }],
+        "categories:seo": ["error", { "minScore": 0.98 }],
+        "total-byte-weight": ["warn", { "maxNumericValue": 600000 }],
+
+        "errors-in-console": "warn",
+        "legacy-javascript-insight": "warn",
+        "legacy-javascript": "warn",
+        "network-dependency-tree-insight": "warn",
+        "unused-javascript": "warn",
+        "render-blocking-insight": "warn",
+        "render-blocking-resources": "warn"
+      }
+    },
+    "upload": {
+      "target": "filesystem",
+      "outputDir": ".lighthouseci"
+    }
+  }
+}
