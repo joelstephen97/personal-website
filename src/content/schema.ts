@@ -1,6 +1,7 @@
 import { z } from "zod";
+import { DOMAIN_IDS } from "./domain-ids";
 
-export const DomainId = z.enum(["ai", "realtime", "interfaces", "product", "python", "cv"]);
+export const DomainId = z.enum(DOMAIN_IDS);
 export type DomainId = z.infer<typeof DomainId>;
 
 export const Domain = z.object({

@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
-import { DomainId } from "@/content/schema";
+import { isDomainId, type DomainId } from "@/content/domain-ids";
 
 export interface DomainFilter {
   selected: DomainId | null;
@@ -23,8 +23,7 @@ export function useDomainFilter(): DomainFilter {
 
   const selected = useMemo<DomainId | null>(() => {
     const raw = searchParams.get("domain");
-    const parsed = DomainId.safeParse(raw);
-    return parsed.success ? parsed.data : null;
+    return isDomainId(raw) ? raw : null;
   }, [searchParams]);
 
   const select = useCallback(

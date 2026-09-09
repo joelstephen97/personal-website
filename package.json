@@ -20,7 +20,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "playwright test",
-    "lhci": "lhci autorun"
+    "lhci": "lhci autorun",
+    "measure": "tsx scripts/measure-client-js.ts"
   },
   "dependencies": {
     "@content-collections/core": "^0.15.2",

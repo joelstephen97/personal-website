@@ -57,8 +57,20 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
       // label-content-name-mismatch) so voice-control users referring to
       // what they see on screen can target this control.
       aria-label={`${visibleLabel} theme, switch to ${next} mode`}
+      // No unconditional `display` utility here (e.g. `inline-flex`) —
+      // `cn` is a plain string joiner with no Tailwind-conflict
+      // resolution, and Tailwind's generated stylesheet orders plain
+      // `.inline-flex` after `.hidden` regardless of class order in the
+      // `class=""` attribute, so an unconditional `inline-flex` here
+      // would beat the caller's `hidden md:inline-flex` at every
+      // viewport, permanently defeating the "desktop-only" intent (this
+      // is exactly what happened: the button rendered at every width,
+      // including mobile, where it isn't supposed to appear at all — see
+      // the header comment in `Header.tsx`). Callers must supply their
+      // own display utility (Header passes `hidden md:inline-flex`);
+      // `items-center justify-center` are inert until they do.
       className={cn(
-        "inline-flex size-9 items-center justify-center rounded-full border border-line-2 text-fg-2 transition-colors hover:text-fg",
+        "size-9 items-center justify-center rounded-full border border-line-2 text-fg-2 transition-colors hover:text-fg",
         className,
       )}
     >

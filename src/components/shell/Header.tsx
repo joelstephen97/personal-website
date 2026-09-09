@@ -10,7 +10,7 @@ import { track } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 import { Nav } from "./Nav";
 import { MobileSheet } from "./MobileSheet";
-import { CommandPalette } from "./CommandPalette";
+import { PaletteLauncher } from "./PaletteLauncher";
 import { ThemeToggle } from "./ThemeToggle";
 
 const SCROLL_THRESHOLD = 24;
@@ -85,7 +85,7 @@ export function Header({ showWriting = false }: HeaderProps) {
         onClose={() => setMobileOpen(false)}
         showWriting={showWriting}
       />
-      <CommandPalette showWriting={showWriting} />
+      <PaletteLauncher showWriting={showWriting} />
     </>
   );
 }

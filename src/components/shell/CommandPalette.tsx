@@ -85,12 +85,23 @@ function PaletteRow({ item, onSelect }: PaletteRowProps) {
  */
 export interface CommandPaletteProps {
   showWriting?: boolean;
+  /**
+   * Opens the palette immediately on mount, running the same side effects
+   * as a normal `openPalette()` call. Set by `PaletteLauncher` when it
+   * lazily mounts this component in response to the first ⌘K/Ctrl+K/"/"
+   * keypress or Crown press — that keypress already expressed intent to
+   * open, so the palette opens itself instead of requiring a second one.
+   */
+  initialOpen?: boolean;
 }
 
-export function CommandPalette({ showWriting = false }: CommandPaletteProps) {
-  const [open, setOpen] = useState(false);
+export function CommandPalette({ showWriting = false, initialOpen = false }: CommandPaletteProps) {
+  const [open, setOpen] = useState(initialOpen);
   const [search, setSearch] = useState("");
-  const [recents, setRecents] = useState<string[]>([]);
+  // Lazy initializer (not an effect) — reads recents synchronously on
+  // mount only when this instance opens itself immediately (`initialOpen`),
+  // avoiding a setState-in-effect render cascade for the one-shot case.
+  const [recents, setRecents] = useState<string[]>(() => (initialOpen ? readRecents() : []));
   const router = useRouter();
   const { setTheme } = useTheme();
   const previousFocus = useRef<HTMLElement | null>(null);
@@ -105,6 +116,20 @@ export function CommandPalette({ showWriting = false }: CommandPaletteProps) {
     track("palette_open");
     setRecents(readRecents());
     setOpen(true);
+  }, []);
+
+  // `initialOpen`'s mount-time equivalent of `openPalette()`'s remaining
+  // (non-state) side effects — `recents` is already seeded by the lazy
+  // initializer above. Deliberately outside the keydown/`palette:open`
+  // handlers below (this instance was already mounted *because* one of
+  // those fired, in `PaletteLauncher`, before `cmdk` was even loaded).
+  useEffect(() => {
+    if (!initialOpen) return;
+    previousFocus.current = document.activeElement as HTMLElement | null;
+    track("palette_open");
+    // Mount-only: mirrors the one-shot nature of the keypress that caused
+    // this component to be lazily mounted in the first place.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const closePalette = useCallback(() => {
