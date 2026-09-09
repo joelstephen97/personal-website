@@ -1,98 +1,69 @@
 # personal-website
 
-My portfolio site: https://joelstephen.vercel.app. A Nuxt 3 single-page app with my experience and work pages, 19 interactive side projects that run entirely in the browser, and a chat agent that answers questions about me using Groq.
+Joel Stephen's portfolio: https://joelstephen.vercel.app. Full-Stack & AI Product Engineer, Abu Dhabi. Case studies, a consulting offer, and a résumé — no chat agent, no PWA, no client-side ML demos.
 
-![Vue](https://img.shields.io/badge/Nuxt-3-00DC82) ![License](https://img.shields.io/badge/license-MIT-green)
+![Next.js](https://img.shields.io/badge/Next.js-16-000000) ![License](https://img.shields.io/badge/license-MIT-green)
 
-## Why
+This is the Next.js 16 rewrite of the site on `redesign/next`. Production (`main`) still serves the previous Nuxt 3 build until this branch's acceptance checklist passes.
 
-I started this in mid-2024 as a plain portfolio and kept adding to it: the project pages became a place to try browser-side ML (Transformers.js, TensorFlow.js, Whisper), the Web APIs I wanted to learn (View Transitions, Web Share, EyeDropper, Screen Capture, File System Access), and in 2026 an LLM chat that recruiters can ask about my background instead of reading the whole site. It doubles as my playground for motion design (motion-v) and a glassmorphism design system on Tailwind.
+## Stack
 
-## What is on the site
-
-- Home, About, Experience, Work (case studies), Contact (EmailJS form), resume PDF.
-- Projects: aim trainer, pathfinding and sorting visualizers, Game of Life, regex tester, JSON diff, cron parser, hash generator, colour palette, markdown previewer, audio visualiser, eye dropper, screen capture and annotation, local file editor, R6 Siege operator randomiser, plus three ML demos that run in-browser with no server: background remover (BodyPix), image captioning (Transformers.js) and speech to text (Whisper).
-- "Ask about Joel" chat agent, see below.
-- PWA install, dark mode, sitemap, OG/Twitter meta, CSP headers, Vercel Analytics.
-
-## The chat agent
-
-`server/api/chat.post.ts` is a Nitro route that forwards the conversation to Groq's OpenAI-compatible endpoint (`llama-3.3-70b-versatile` by default; the list is in `server/utils/chat-models.ts`) with a system prompt built from:
-
-- `server/utils/joel-context.ts`: a long plain-text dossier about my experience, projects, skills and preferences. The model is told to answer only from this and to say so when something is not in it.
-- `server/utils/chat-personalities.ts`: three voices the visitor can pick (Yoda, Tony Stark, Dr. House) wrapped around the same grounding and refusal rules.
-- `server/utils/chat-guardrails.ts`: regex-based detection of prompt-injection attempts, input sanitising, XML-escaping of user text inside `<untrusted_user_input>` tags, and a check on the model's output before it is returned.
-
-The client side is `composables/useJoelAgent.ts` and `components/JoelAgentChat.vue`: message history in localStorage, personality selection, a typing animation. Responses are capped at 512 tokens, temperature 0.5. If `GROQ_API_KEY` is not set the endpoint returns 503 and the chat shows it is unavailable.
-
-## Quickstart
-
-Requires Node 20+ and pnpm.
-
-```bash
-git clone https://github.com/joelstephen97/personal-website.git
-cd personal-website
-pnpm install
-cp .env.example .env      # then put your Groq key in GROQ_API_KEY
-pnpm dev
-```
-
-Open http://localhost:3000. Everything except the chat works without any keys. A free Groq key from https://console.groq.com enables the chat.
-
-`pnpm dev` runs Node with a 12 GB heap because the ML dependencies are large; lower `--max-old-space-size` in `package.json` if your machine has less RAM.
+- Next.js 16.3.4, App Router, React 19.2.8, React Server Components for every page; client islands only where a component needs interactivity.
+- TypeScript 5.9 (strict), Tailwind CSS 4.3.3 via `@tailwindcss/postcss`.
+- Motion 13.2.0 (`motion/react`) — `LazyMotion` + `m.*` components, `MotionConfig reducedMotion="user"`.
+- Content: Zod-typed TypeScript for structured content, MDX via content-collections for long-form (core 0.15.2, `@content-collections/next` 0.2.11, `@content-collections/mdx` 0.2.2).
+- next-themes 0.4.6 (dark default, light available), cmdk 1.1.1 (command palette), lucide-react.
+- Vitest 5 + Testing Library + jsdom for unit tests, Playwright 1.63 + `@axe-core/playwright` for e2e/accessibility, ESLint 9 + Prettier 3.
+- pnpm 10, Node 22.
 
 ## Scripts
 
 ```bash
-pnpm dev        # dev server
-pnpm build      # production build (Vercel preset in production, prerenders the listed routes)
-pnpm generate   # full static generation
-pnpm preview    # serve the build locally
-pnpm lint       # eslint + prettier check
-pnpm lintfix    # fix both
-pnpm pwa:generate   # regenerate PWA icons from public/icon.svg
+pnpm dev              # dev server
+pnpm build            # tokens build + next build
+pnpm start            # serve the production build
+pnpm tokens           # compile tokens/*.json to CSS custom properties
+pnpm content-collections  # build the MDX/content-collections cache
+pnpm lint             # eslint + prettier --check
+pnpm format           # prettier --write
+pnpm typecheck        # tsc --noEmit
+pnpm test             # vitest run
+pnpm test:watch       # vitest watch mode
+pnpm e2e              # playwright test
+pnpm lhci             # Lighthouse CI against a production build
 ```
 
-## Deploy on Vercel
+## Content model
 
-Import the repo in Vercel, framework preset Nuxt, build command `pnpm build`. Add environment variables:
+No copy lives inside components. Two sources:
 
-| Variable                                                  | Purpose                                                                 |
-| --------------------------------------------------------- | ----------------------------------------------------------------------- |
-| `GROQ_API_KEY`                                            | required for the chat agent                                             |
-| `NUXT_PUBLIC_SITE_URL`                                    | canonical URL for sitemap and meta (defaults to joelstephen.vercel.app) |
-| `NUXT_PUBLIC_GOOGLE_SITE_VERIFICATION`                    | optional Search Console meta tag                                        |
-| `NUXT_PUBLIC_TWITTER_CREATOR`, `NUXT_PUBLIC_TWITTER_SITE` | optional card attribution                                               |
+- `src/content/*.ts` — structured content (profile, domains, experience, projects, services, testimonials, now, principles) as Zod-validated TypeScript objects, defined in `src/content/schema.ts`.
+- `content/work/*.mdx`, `content/writing/*.mdx` — long-form case studies and posts, compiled by content-collections (`content-collections.ts`) into typed objects with extracted headings and heading-id anchors for the in-page nav.
 
-## How it works
+Both are read through `src/lib/content.ts` so pages never import a content source directly.
 
-- `ssr: false`: the app is a client-rendered SPA, with the main routes prerendered to static HTML by Nitro so crawlers get real markup. The chat route is the only server code.
-- Design tokens are CSS variables in `assets/css/main.css`, registered as Tailwind colours in `tailwind.config.js`; components use semantic classes (`bg-glass`, `text-foreground`).
-- Browser ML goes through `composables/useTransformersClient.ts` (lazy import of `@huggingface/transformers`, models fetched from the Hugging Face CDN on first use).
-- Security: CSP and other headers in `nuxt.config.ts` `routeRules`, Trusted Types via a DOMPurify plugin, sanitised chat input on the server.
+## Design tokens
 
-## Project structure
+`tokens/*.tokens.json` (DTCG format: color ramps, semantic aliases, spacing/radius/motion/type scale) is the single source of truth. `pnpm tokens` (`scripts/build-tokens.ts`) compiles it to CSS custom properties consumed by Tailwind 4's `@theme inline`; `pnpm build` runs this automatically before `next build`. Never hand-edit generated CSS variables — edit the JSON and rebuild.
 
-```
-pages/            routes (about, experience, work/*, project/*, contact)
-components/       UI, aim-trainer/, JoelAgentChat, motion pieces
-composables/      useJoelAgent, useSeo, useTransformersClient, useWhisperTranscriber, ...
-server/api/       chat.post.ts (Groq proxy)
-server/utils/     joel-context, chat-personalities, chat-guardrails, chat-models
-layouts/          default, project-detail
-plugins/          trusted-types, vercel analytics, whisper preload
-assets/           main.css, work images
-public/           icons, resume PDF, llms.txt, robots.txt
-```
+`/dev/tokens` is a live reference (palette, scale, type, motion) for every token, gated to non-production: it 404s when `VERCEL_ENV === "production"`, so it's visible on preview deploys and local dev but not on the live site.
 
-## Status and limitations
+## Tests
 
-- Live and maintained; it is my current portfolio.
-- The chat is only as accurate as `joel-context.ts`, which I update by hand. Guardrails are regex heuristics plus prompt rules, not a guarantee.
-- The ML demos download model weights (tens to hundreds of MB) on first use and need a modern browser with WebGL or WASM.
-- The contact form uses an EmailJS public key that is mine; swap it in `pages/contact.vue` if you fork this.
-- Not set up for `npm`; the lockfile is pnpm's.
+- `tests/unit/*.test.{ts,tsx}` (Vitest + jsdom): tokens, content, motion primitives, movement components, SEO helpers, MDX components, contrast ratios.
+- `tests/e2e/*.spec.ts` (Playwright): shell/navigation, SEO routes (sitemap, robots, llms.txt, OG), and `@axe-core/playwright` accessibility checks (zero violations budget on every route).
+- `lighthouserc.json` (Lighthouse CI, mobile emulation, 3 runs against `/`, `/work/process-discovery`, `/consulting`): performance ≥ 0.95, accessibility ≥ 0.98, best-practices ≥ 0.95, seo ≥ 0.98 as hard errors; `total-byte-weight` warns above 600 kB.
+
+## Deploy
+
+Vercel, connected to this GitHub repo. Production builds `main` with the Nuxt framework preset (unchanged until this branch ships); this branch carries its own `vercel.json` (`{ "framework": "nextjs" }`) so its preview deployments build correctly under the Next.js preset without touching the project's production settings. No custom domain — the app stays on `joelstephen.vercel.app`.
+
+Security headers and CSP live in `next.config.ts` and `src/proxy.ts` (Next 16's `middleware.ts` replacement); see the comments in `src/proxy.ts` for why the CSP ships `'unsafe-inline'` on `script-src` rather than a nonce (nonce-based CSP is incompatible with the mostly-static rendering this site needs to hit its performance budget).
+
+## No chat agent
+
+Earlier versions of this site (Nuxt) had a Groq-backed "ask about Joel" chat widget. This rewrite drops it, along with the PWA install prompt and the in-browser ML demos — the site is now case studies, a consulting page, and a résumé, kept fast and simple on purpose.
 
 ## License
 
-MIT, see [LICENSE](LICENSE). The content about me (text, images, resume) is not covered by the license.
+MIT, see [LICENSE](LICENSE). The content about Joel (text, images, résumé) is not covered by the license.
