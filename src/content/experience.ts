@@ -103,7 +103,8 @@ export const experience = Experience.array().parse([
     location: "Dubai, UAE",
     dates: { start: "2019-09", end: "2023-02" },
     depth: "25",
-    summary: "I worked across the stack of a customer-facing e-commerce platform, from payments to data migration.",
+    summary:
+      "I worked across the stack of a customer-facing e-commerce platform, from payments to data migration.",
     impact: [
       "I integrated three payment gateways and several third-party services into the platform.",
       "I migrated data from a legacy platform to Node.js and React.",
