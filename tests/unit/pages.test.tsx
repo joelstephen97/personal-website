@@ -1,6 +1,9 @@
 import { render, screen, cleanup } from "@testing-library/react";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import ExperiencePage from "@/app/experience/page";
+import ConsultingPage from "@/app/consulting/page";
+import ServicePage from "@/app/consulting/[service]/page";
+import { getServices } from "@/lib/content";
 
 vi.mock("@vercel/analytics", () => ({
   track: vi.fn(),
@@ -96,5 +99,68 @@ describe("Experience page", () => {
     for (const w of BANNED) expect(text, w).not.toContain(w.toLowerCase());
     const rawText = container.textContent ?? "";
     for (const marker of PRICE_MARKERS) expect(rawText, marker).not.toContain(marker);
+  });
+});
+
+describe("Consulting page", () => {
+  it("has exactly one h1 with the hero sentence", () => {
+    render(<ConsultingPage />);
+    const headings = screen.getAllByRole("heading", { level: 1 });
+    expect(headings).toHaveLength(1);
+    expect(headings[0]).toHaveTextContent(
+      "You shipped an AI feature. Now it has to work in production.",
+    );
+  });
+
+  it("links all six ladder services to their /consulting/<slug> pages", () => {
+    const { container } = render(<ConsultingPage />);
+    const slugs = getServices()
+      .filter((s) => s.slug !== null)
+      .map((s) => s.slug as string);
+    expect(slugs).toHaveLength(6);
+    const hrefs = Array.from(container.querySelectorAll("a[href]")).map((a) =>
+      a.getAttribute("href"),
+    );
+    for (const slug of slugs) {
+      expect(hrefs, slug).toContain(`/consulting/${slug}`);
+    }
+  });
+
+  it("shows six FAQ questions as h3", () => {
+    const { container } = render(<ConsultingPage />);
+    const faqSection = container.querySelector("[aria-labelledby='consulting-faq-heading']");
+    expect(faqSection).not.toBeNull();
+    const questions = faqSection!.querySelectorAll("h3");
+    expect(questions).toHaveLength(6);
+  });
+
+  it("contains no banned words, no prices, and never renders 'Unpriced'", () => {
+    const { container } = render(<ConsultingPage />);
+    const text = (container.textContent ?? "").toLowerCase();
+    for (const w of BANNED) expect(text, w).not.toContain(w.toLowerCase());
+    const rawText = container.textContent ?? "";
+    for (const marker of PRICE_MARKERS) expect(rawText, marker).not.toContain(marker);
+    expect(rawText).not.toContain("Unpriced");
+  });
+});
+
+describe("Service page", () => {
+  it("renders the service's answer first", async () => {
+    const element = await ServicePage({ params: Promise.resolve({ service: "ai-integration" }) });
+    const { container } = render(element);
+    const service = getServices().find((s) => s.slug === "ai-integration")!;
+    const paragraphs = container.querySelectorAll("p");
+    expect(paragraphs.length).toBeGreaterThan(0);
+    expect(paragraphs[0]).toHaveTextContent(service.answer);
+  });
+
+  it("contains no banned words, no prices, and never renders 'Unpriced'", async () => {
+    const element = await ServicePage({ params: Promise.resolve({ service: "ai-integration" }) });
+    const { container } = render(element);
+    const text = (container.textContent ?? "").toLowerCase();
+    for (const w of BANNED) expect(text, w).not.toContain(w.toLowerCase());
+    const rawText = container.textContent ?? "";
+    for (const marker of PRICE_MARKERS) expect(rawText, marker).not.toContain(marker);
+    expect(rawText).not.toContain("Unpriced");
   });
 });

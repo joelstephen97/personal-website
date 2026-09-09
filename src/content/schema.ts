@@ -96,6 +96,7 @@ export const Service = z.object({
   id: z.string(),
   title: z.string(),
   step: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  answer: z.string(),
   problem: z.string(),
   what: z.string(),
   scope: z.string(),
