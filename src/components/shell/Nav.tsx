@@ -1,12 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { ComponentProps } from "react";
+import { TransitionLink } from "./TransitionLink";
 import { cn } from "@/lib/cn";
-
-// See Button.tsx for why this cast exists instead of a typed `href` prop.
-type LinkHref = ComponentProps<typeof Link>["href"];
 
 export interface NavItem {
   href: string;
@@ -54,9 +50,9 @@ export function Nav({ showWriting = false, className }: NavProps) {
       {items.map((item) => {
         const active = pathname === item.href || (pathname?.startsWith(`${item.href}/`) ?? false);
         return (
-          <Link
+          <TransitionLink
             key={item.href}
-            href={item.href as LinkHref}
+            href={item.href}
             aria-current={active ? "page" : undefined}
             className={cn(
               "relative py-2 text-sm text-fg-2 transition-colors hover:text-fg",
@@ -71,7 +67,7 @@ export function Nav({ showWriting = false, className }: NavProps) {
                 active && "scale-x-100",
               )}
             />
-          </Link>
+          </TransitionLink>
         );
       })}
     </nav>

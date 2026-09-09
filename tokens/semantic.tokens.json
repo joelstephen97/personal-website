@@ -32,7 +32,7 @@
     },
     "muted": {
       "$type": "color",
-      "$value": { "dark": "{color.stone.400}", "light": "{color.stone.400}" }
+      "$value": { "dark": "{color.stone.380}", "light": "{color.stone.460}" }
     },
     "inverse": {
       "$type": "color",
@@ -86,7 +86,7 @@
   "metal": {
     "champagne": {
       "$type": "color",
-      "$value": { "dark": "{color.champagne.400}", "light": "{color.champagne.600}" }
+      "$value": { "dark": "{color.champagne.400}", "light": "{color.champagne.700}" }
     },
     "champagne.line": {
       "$type": "color",

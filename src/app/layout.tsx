@@ -40,7 +40,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider>
           <MotionProvider>
             <Header showWriting={showWriting} />
-            <main id="content">{children}</main>
+            {/* tabIndex={-1}: `<main>` isn't natively focusable, so
+                activating the skip link's `href="#content"` scrolls to it
+                without moving keyboard focus unless it's made
+                programmatically focusable here. */}
+            <main id="content" tabIndex={-1} className="outline-none">
+              {children}
+            </main>
             <Footer />
           </MotionProvider>
         </ThemeProvider>

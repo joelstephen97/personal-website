@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { ramps, resolve } from "@/lib/tokens";
 import { ease, spring } from "@/lib/motion";
 import { Card } from "@/components/ui/Card";
@@ -163,6 +164,8 @@ function Header({ eyebrow, title }: { eyebrow: string; title: string }) {
 }
 
 export default function TokensPage() {
+  if (process.env.VERCEL_ENV === "production") notFound();
+
   return (
     <main className="mx-auto max-w-5xl space-y-16 px-6 py-16">
       <div className="space-y-3">

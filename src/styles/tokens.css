@@ -37,7 +37,9 @@
   --color-stone-150: #dcd7cb;
   --color-stone-200: #c4beaf;
   --color-stone-300: #a9a69e;
+  --color-stone-380: #87857d;
   --color-stone-400: #75736c;
+  --color-stone-460: #66645c;
   --color-stone-500: #4e4f55;
   --color-stone-600: #35373e;
   --color-stone-700: #2a2c33;
@@ -136,7 +138,7 @@
   --surface-sunken: var(--color-stone-850);
   --text-inverse: var(--color-stone-900);
   --text-link: var(--color-steel-400);
-  --text-muted: var(--color-stone-400);
+  --text-muted: var(--color-stone-380);
   --text-on-accent: var(--color-stone-950);
   --text-primary: var(--color-stone-75);
   --text-secondary: var(--color-stone-300);
@@ -161,7 +163,7 @@
   --glass-highlight: rgba(255, 255, 255, 0.7);
   --glass-hud: rgba(251, 249, 244, 0.74);
   --glass-line: rgba(21, 22, 26, 0.08);
-  --metal-champagne: var(--color-champagne-600);
+  --metal-champagne: var(--color-champagne-700);
   --metal-champagne-line: rgba(154, 123, 44, 0.45);
   --metal-champagne-soft: rgba(154, 123, 44, 0.12);
   --shadow-e2: 0 1px 2px rgba(20, 22, 26, 0.06);
@@ -177,7 +179,7 @@
   --surface-sunken: var(--color-stone-100);
   --text-inverse: var(--color-stone-50);
   --text-link: var(--color-steel-600);
-  --text-muted: var(--color-stone-400);
+  --text-muted: var(--color-stone-460);
   --text-on-accent: var(--color-stone-0);
   --text-primary: var(--color-stone-900);
   --text-secondary: var(--color-stone-500);
