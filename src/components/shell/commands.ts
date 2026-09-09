@@ -134,7 +134,26 @@ export const commandGroups: CommandGroup[] = [
   },
 ];
 
-export const allCommands: CommandItem[] = commandGroups.flatMap((group) => group.items);
+// Gated the same way as the Header/Nav "Writing" link (see
+// `hasWriting()` in `src/lib/content.ts`) — kept out of `commandGroups`
+// itself so a stale `palette:recent` id from before the gate flipped off
+// still resolves via `commandsById`.
+export const WRITING_COMMAND: CommandItem = {
+  id: "nav-writing",
+  label: "Writing",
+  action: { kind: "navigate", href: "/writing" },
+};
+
+/** The Navigate group's items, with "Writing" appended when it's gated on. */
+export function navigateItemsWithWriting(showWriting: boolean): CommandItem[] {
+  const navigate = commandGroups.find((group) => group.name === "Navigate")?.items ?? [];
+  return showWriting ? [...navigate, WRITING_COMMAND] : navigate;
+}
+
+export const allCommands: CommandItem[] = [
+  ...commandGroups.flatMap((group) => group.items),
+  WRITING_COMMAND,
+];
 export const commandsById: Map<string, CommandItem> = new Map(
   allCommands.map((item) => [item.id, item]),
 );

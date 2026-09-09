@@ -1,6 +1,7 @@
 import { render, screen, cleanup, fireEvent, within } from "@testing-library/react";
 import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
 import { Header } from "@/components/shell/Header";
+import { Nav } from "@/components/shell/Nav";
 import { CommandPalette } from "@/components/shell/CommandPalette";
 import { MobileSheet } from "@/components/shell/MobileSheet";
 import { ThemeToggle } from "@/components/shell/ThemeToggle";
@@ -32,6 +33,18 @@ describe("Header", () => {
     for (const label of ["Work", "Experience", "Consulting", "About"]) {
       expect(within(nav).getByRole("link", { name: label })).toBeInTheDocument();
     }
+  });
+});
+
+describe("Nav", () => {
+  it("renders 4 items with showWriting={false} and 5 with true", () => {
+    const { rerender } = render(<Nav showWriting={false} />);
+    expect(within(screen.getByRole("navigation")).getAllByRole("link")).toHaveLength(4);
+    expect(screen.queryByRole("link", { name: "Writing" })).not.toBeInTheDocument();
+
+    rerender(<Nav showWriting />);
+    expect(within(screen.getByRole("navigation")).getAllByRole("link")).toHaveLength(5);
+    expect(screen.getByRole("link", { name: "Writing" })).toHaveAttribute("href", "/writing");
   });
 });
 

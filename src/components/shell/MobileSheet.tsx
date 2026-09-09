@@ -4,8 +4,9 @@ import { useEffect, useRef, type ComponentProps } from "react";
 import Link from "next/link";
 import { AnimatePresence, m } from "motion/react";
 import { dur, ease } from "@/lib/motion";
+import { track } from "@/lib/analytics";
 import { site } from "@/lib/site";
-import { NAV_ITEMS } from "./Nav";
+import { getNavItems } from "./Nav";
 
 // See Button.tsx for why this cast exists instead of a typed `href` prop.
 type LinkHref = ComponentProps<typeof Link>["href"];
@@ -13,6 +14,7 @@ type LinkHref = ComponentProps<typeof Link>["href"];
 export interface MobileSheetProps {
   open: boolean;
   onClose: () => void;
+  showWriting?: boolean;
 }
 
 const FOCUSABLE_SELECTOR =
@@ -23,8 +25,9 @@ const FOCUSABLE_SELECTOR =
  * cycle within the panel), closes on Escape, and locks body scroll while
  * open.
  */
-export function MobileSheet({ open, onClose }: MobileSheetProps) {
+export function MobileSheet({ open, onClose, showWriting = false }: MobileSheetProps) {
   const panelRef = useRef<HTMLDivElement>(null);
+  const items = getNavItems(showWriting);
 
   useEffect(() => {
     if (!open) return;
@@ -92,7 +95,7 @@ export function MobileSheet({ open, onClose }: MobileSheetProps) {
           </div>
 
           <nav aria-label="Mobile" className="flex flex-col gap-3">
-            {NAV_ITEMS.map((item) => (
+            {items.map((item) => (
               <Link
                 key={item.href}
                 href={item.href as LinkHref}
@@ -112,6 +115,7 @@ export function MobileSheet({ open, onClose }: MobileSheetProps) {
               href={site.github}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => track("github_click")}
               className="link-draw text-link"
             >
               GitHub
@@ -120,6 +124,7 @@ export function MobileSheet({ open, onClose }: MobileSheetProps) {
               href={site.linkedin}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => track("linkedin_click")}
               className="link-draw text-link"
             >
               LinkedIn

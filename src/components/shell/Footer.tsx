@@ -1,22 +1,8 @@
 import { Caseback } from "@/components/movement/Caseback";
-import {
-  ComplicationDrawer,
-  type ComplicationDrawerItem,
-} from "@/components/movement/ComplicationDrawer";
-import { Button } from "@/components/ui/Button";
 import { site } from "@/lib/site";
+import { BuildDrawer } from "./BuildDrawer";
 import { CopyEmail } from "./CopyEmail";
-
-// Static: no runtime `Date()` here (the controller ruling forbids it in a
-// server component under `cacheComponents`) — the build sha/date come
-// from `next.config.ts`'s `env` block, computed once by Next tooling.
-const DRAWER_ITEMS: ComplicationDrawerItem[] = [
-  { label: "route", value: "static" },
-  { label: "rendering", value: "server components" },
-  { label: "fonts", value: "Bodoni Moda · Cinzel · Geist · Geist Mono" },
-  { label: "client js", value: "see /dev/tokens" },
-  { label: "build", value: process.env.NEXT_PUBLIC_BUILD_SHA || "dev" },
-];
+import { TrackedButton, TrackedLink } from "./TrackedLink";
 
 export function Footer() {
   return (
@@ -31,39 +17,51 @@ export function Footer() {
 
           <div className="flex flex-col gap-2">
             <span className="label text-fg-3">Elsewhere</span>
-            <a
+            <TrackedLink
               href={site.github}
-              target="_blank"
-              rel="noopener noreferrer"
+              external
+              event="github_click"
               className="link-draw w-fit text-sm text-link"
             >
               GitHub
-            </a>
-            <a
+            </TrackedLink>
+            <TrackedLink
               href={site.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
+              external
+              event="linkedin_click"
               className="link-draw w-fit text-sm text-link"
             >
               LinkedIn
-            </a>
+            </TrackedLink>
             <CopyEmail />
-            <a href="/joel-stephen-resume.pdf" className="link-draw w-fit text-sm text-link">
+            <TrackedLink
+              href="/joel-stephen-resume.pdf"
+              external
+              event="resume_click"
+              eventProps={{ location: "footer" }}
+              className="link-draw w-fit text-sm text-link"
+            >
               Résumé (PDF)
-            </a>
+            </TrackedLink>
           </div>
 
           <div className="flex flex-col gap-3">
             <span className="label text-fg-3">Consulting</span>
             <p className="text-sm text-fg-2">Have a hard technical problem?</p>
-            <Button href="/consulting" size="sm" variant="secondary">
+            <TrackedButton
+              href="/consulting"
+              size="sm"
+              variant="secondary"
+              event="consulting_cta_click"
+              eventProps={{ location: "footer" }}
+            >
               Discuss a project
-            </Button>
+            </TrackedButton>
           </div>
         </div>
 
         <div className="mt-12">
-          <ComplicationDrawer items={DRAWER_ITEMS} />
+          <BuildDrawer sha={process.env.NEXT_PUBLIC_BUILD_SHA} />
           <Caseback
             build={{
               sha: process.env.NEXT_PUBLIC_BUILD_SHA,

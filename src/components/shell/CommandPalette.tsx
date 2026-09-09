@@ -5,14 +5,29 @@ import { Command } from "cmdk";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { KeyCap } from "@/components/ui/KeyCap";
-import { track } from "@/lib/analytics";
+import { track, type AnalyticsEvent } from "@/lib/analytics";
 import { site } from "@/lib/site";
-import { commandGroups, commandsById, type CommandItem } from "./commands";
+import {
+  commandGroups,
+  commandsById,
+  navigateItemsWithWriting,
+  type CommandItem,
+} from "./commands";
 import { cn } from "@/lib/cn";
 
 const RECENTS_KEY = "palette:recent";
 const RECENTS_LIMIT = 4;
 const EMPTY_TEXT = "Nothing by that name. Try 'canvas' or 'consulting'.";
+
+// A handful of commands fire a more specific analytics event in addition
+// to the generic `palette_command` tracked for every selection below.
+const EXTRA_TRACK: Record<string, [AnalyticsEvent, Record<string, string>?]> = {
+  "action-github": ["github_click"],
+  "action-linkedin": ["linkedin_click"],
+  "nav-resume": ["resume_click", { location: "palette" }],
+  "action-resume-download": ["resume_click", { location: "palette" }],
+  "action-install-scamshield": ["extension_install_click", { location: "palette" }],
+};
 
 function readRecents(): string[] {
   try {
@@ -68,7 +83,11 @@ function PaletteRow({ item, onSelect }: PaletteRowProps) {
  * prop — keeps the palette a single, self-contained instance mounted once
  * in `Header` with no state lifted for it.
  */
-export function CommandPalette() {
+export interface CommandPaletteProps {
+  showWriting?: boolean;
+}
+
+export function CommandPalette({ showWriting = false }: CommandPaletteProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [recents, setRecents] = useState<string[]>([]);
@@ -130,8 +149,20 @@ export function CommandPalette() {
     [recents],
   );
 
+  const groups = useMemo(
+    () =>
+      commandGroups.map((group) =>
+        group.name === "Navigate"
+          ? { ...group, items: navigateItemsWithWriting(showWriting) }
+          : group,
+      ),
+    [showWriting],
+  );
+
   function runCommand(item: CommandItem) {
     track("palette_command", { id: item.id });
+    const extra = EXTRA_TRACK[item.id];
+    if (extra) track(extra[0], extra[1]);
 
     const nextRecents = [item.id, ...recents.filter((id) => id !== item.id)].slice(
       0,
@@ -209,7 +240,7 @@ export function CommandPalette() {
             </Command.Group>
           )}
 
-          {commandGroups.map((group) => (
+          {groups.map((group) => (
             <Command.Group
               key={group.name}
               heading={group.name}

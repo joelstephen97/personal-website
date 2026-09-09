@@ -20,7 +20,21 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/about", label: "About" },
 ];
 
+const WRITING_ITEM: NavItem = { href: "/writing", label: "Writing" };
+
+/**
+ * The base four nav items, plus "Writing" when `showWriting` (from
+ * `hasWriting()`, computed server-side in `layout.tsx` and prop-drilled
+ * down — the writing collection itself is never imported into client
+ * code). Shared by `Nav` and `MobileSheet` so desktop and mobile nav stay
+ * in sync.
+ */
+export function getNavItems(showWriting: boolean): NavItem[] {
+  return showWriting ? [...NAV_ITEMS, WRITING_ITEM] : NAV_ITEMS;
+}
+
 export interface NavProps {
+  showWriting?: boolean;
   className?: string;
 }
 
@@ -31,12 +45,13 @@ export interface NavProps {
  * app only loads `domAnimation` (see `MotionProvider`); CSS avoids the
  * extra ~15kB for a single hairline.
  */
-export function Nav({ className }: NavProps) {
+export function Nav({ showWriting = false, className }: NavProps) {
   const pathname = usePathname();
+  const items = getNavItems(showWriting);
 
   return (
     <nav aria-label="Primary" className={cn("hidden items-center gap-6 md:flex", className)}>
-      {NAV_ITEMS.map((item) => {
+      {items.map((item) => {
         const active = pathname === item.href || (pathname?.startsWith(`${item.href}/`) ?? false);
         return (
           <Link

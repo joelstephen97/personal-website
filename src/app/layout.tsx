@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/shell/ThemeProvider";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { Header } from "@/components/shell/Header";
 import { Footer } from "@/components/shell/Footer";
+import { hasWriting } from "@/lib/content";
 import { site } from "@/lib/site";
 import "@/styles/globals.css";
 
@@ -17,6 +18,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const showWriting = hasWriting();
+
   return (
     <html
       lang="en"
@@ -36,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         <ThemeProvider>
           <MotionProvider>
-            <Header />
+            <Header showWriting={showWriting} />
             <main id="content">{children}</main>
             <Footer />
           </MotionProvider>

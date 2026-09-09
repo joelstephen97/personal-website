@@ -1,3 +1,4 @@
+import { allWritings } from "content-collections";
 import { domains } from "@/content/domains";
 import { experience } from "@/content/experience";
 import { lab } from "@/content/lab";
@@ -45,6 +46,16 @@ export function getPrinciples() {
 
 export function getLab() {
   return lab;
+}
+
+/** Published (non-draft) writing, in the generated content-collections order. */
+export function getWriting() {
+  return allWritings.filter((w) => !w.draft);
+}
+
+/** The Header/CommandPalette "Writing" nav item only appears once there's enough of it. */
+export function hasWriting(): boolean {
+  return getWriting().length >= 2;
 }
 
 export function deriveEdges(): { a: DomainId; b: DomainId; weight: number }[] {

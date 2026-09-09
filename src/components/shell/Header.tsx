@@ -20,7 +20,13 @@ function openPalette(): void {
   window.dispatchEvent(new Event("palette:open"));
 }
 
-export function Header() {
+export interface HeaderProps {
+  /** From `hasWriting()`, computed server-side in `layout.tsx` — the
+   * writing content-collection is never imported into this client code. */
+  showWriting?: boolean;
+}
+
+export function Header({ showWriting = false }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { scrollY } = useScroll();
@@ -43,7 +49,7 @@ export function Header() {
             Joel Stephen
           </Link>
 
-          <Nav />
+          <Nav showWriting={showWriting} />
 
           <div className="flex items-center gap-3">
             <ReadingDial size={22} className="hidden md:flex" />
@@ -54,7 +60,7 @@ export function Header() {
               href="/joel-stephen-resume.pdf"
               external
               className="hidden md:inline-flex"
-              onClick={() => track("resume_click")}
+              onClick={() => track("resume_click", { location: "header" })}
             >
               Résumé
             </Button>
@@ -74,8 +80,12 @@ export function Header() {
         </div>
       </m.header>
 
-      <MobileSheet open={mobileOpen} onClose={() => setMobileOpen(false)} />
-      <CommandPalette />
+      <MobileSheet
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        showWriting={showWriting}
+      />
+      <CommandPalette showWriting={showWriting} />
     </>
   );
 }
