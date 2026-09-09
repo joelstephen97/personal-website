@@ -10,6 +10,7 @@ import {
 } from "motion/react";
 import type { Domain, Project } from "@/content/schema";
 import { spring } from "@/lib/motion";
+import { cn } from "@/lib/cn";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { useDomainFilter } from "@/components/system-map/useDomainFilter";
 import { WorkCard } from "./WorkCard";
@@ -17,6 +18,14 @@ import { WorkCard } from "./WorkCard";
 export interface FeaturedWorkProps {
   projects: Project[];
   domains: Pick<Domain, "id" | "label">[];
+  /**
+   * Skips the internal "Selected work / Five things I would explain to
+   * another engineer" heading. For a caller (`/work`) that already
+   * renders its own page-level h1 with the same "five things" framing
+   * immediately above this component, so the two don't appear stacked as
+   * two adjacent "five things" headings.
+   */
+  hideHeader?: boolean;
 }
 
 /**
@@ -29,7 +38,7 @@ export interface FeaturedWorkProps {
  * here rather than widening the app-wide `domAnimation` bundle in
  * `MotionProvider` — see `Nav.tsx` for the same tradeoff made the other way.
  */
-export function FeaturedWork({ projects, domains }: FeaturedWorkProps) {
+export function FeaturedWork({ projects, domains, hideHeader = false }: FeaturedWorkProps) {
   const { selected, select } = useDomainFilter();
   const reduced = useReducedMotion();
 
@@ -44,10 +53,22 @@ export function FeaturedWork({ projects, domains }: FeaturedWorkProps) {
 
   return (
     <div>
-      <div className="flex flex-wrap items-end justify-between gap-4">
+      <div
+        className={cn(
+          "flex flex-wrap items-end gap-4",
+          hideHeader ? "justify-end" : "justify-between",
+        )}
+      >
         <SectionHeader
           eyebrow="Selected work"
           title="Five things I would explain to another engineer."
+          // `hideHeader`'s caller (`/work`) already has its own visible h1
+          // with the same "five things" framing immediately above this
+          // component — this stays in the DOM (visually hidden, not
+          // removed) so the heading order between that page's h1 and each
+          // `WorkCard`'s h3 stays valid (h1 → h2 → h3, no skipped level)
+          // for assistive-technology heading navigation.
+          className={hideHeader ? "sr-only" : undefined}
         />
         <p className="label text-fg-3">
           {selectedDomain ? (

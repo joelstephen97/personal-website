@@ -81,7 +81,7 @@ export default function WorkPage() {
             </ul>
           }
         >
-          <FeaturedWork projects={featured} domains={domainSummaries} />
+          <FeaturedWork projects={featured} domains={domainSummaries} hideHeader />
         </Suspense>
       </section>
 
