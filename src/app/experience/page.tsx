@@ -3,7 +3,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { TrackedButton } from "@/components/shell/TrackedLink";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { pageMetadata, jsonLdGraph } from "@/lib/seo";
-import { getExperience, getProject } from "@/lib/content";
+import { getEducation, getExperience, getProject } from "@/lib/content";
 import { appliedAiPublic } from "@/content/experience";
 import { testimonials } from "@/content/testimonials";
 import { ExperienceRail } from "@/components/experience/ExperienceRail";
@@ -18,6 +18,7 @@ export const metadata: Metadata = pageMetadata({
 
 export default function ExperiencePage() {
   const experience = getExperience();
+  const education = getEducation();
   const current = experience[0];
 
   // Only AppliedAI's `work` slugs that resolve to a real, routable case
@@ -74,19 +75,16 @@ export default function ExperiencePage() {
         <div className="mt-8 grid gap-8 sm:grid-cols-2">
           <div>
             <p className="label text-fg-3">Education</p>
-            <p className="mt-3 text-fg">
-              Bachelor of Engineering in Computer Science Engineering, Hons.
+            <p className="mt-3 text-fg">{education.degree}</p>
+            <p className="mt-1 text-sm text-fg-2">
+              {education.institution} · {education.dates.start} – {education.dates.end}
             </p>
-            <p className="mt-1 text-sm text-fg-2">BITS Pilani, Dubai Campus · 2015 – 2019</p>
-            <p className="mt-2 text-sm leading-relaxed text-fg-2">
-              Capstone: TensorFlow and Python stock-price prediction, from data to model to
-              operational signal.
-            </p>
+            <p className="mt-2 text-sm leading-relaxed text-fg-2">Capstone: {education.capstone}</p>
           </div>
           <div>
             <p className="label text-fg-3">Certifications</p>
             <p className="mt-3 text-sm leading-relaxed text-fg-2">
-              Sixteen listed on LinkedIn. AWS Cloud Practitioner in progress.
+              {education.certifications.summary} {education.certifications.inProgress}
             </p>
           </div>
         </div>

@@ -79,6 +79,19 @@ export const Experience = z.object({
 });
 export type Experience = z.infer<typeof Experience>;
 
+export const Education = z.object({
+  degree: z.string(),
+  institution: z.string(),
+  location: z.string(),
+  dates: z.object({ start: z.string(), end: z.string() }),
+  capstone: z.string(),
+  certifications: z.object({
+    summary: z.string(),
+    inProgress: z.string(),
+  }),
+});
+export type Education = z.infer<typeof Education>;
+
 export const Service = z.object({
   id: z.string(),
   title: z.string(),

@@ -1,5 +1,6 @@
 import { allWritings } from "content-collections";
 import { domains } from "@/content/domains";
+import { education } from "@/content/education";
 import { experience } from "@/content/experience";
 import { lab } from "@/content/lab";
 import { now } from "@/content/now";
@@ -22,6 +23,10 @@ export function getArchive() {
 
 export function getExperience() {
   return experience;
+}
+
+export function getEducation() {
+  return education;
 }
 
 export function getServices() {

@@ -53,6 +53,46 @@ describe("content", () => {
     );
   });
 
+  // Practical guard for the copy-voice rule ("first person; past tense for
+  // finished work, present for AppliedAI"): every role's summary/impact
+  // strings should read as first person ("I led…", "I build…"), not the
+  // elided-subject third-person CV voice ("Led…", "Builds…"). Rather than
+  // requiring every string to start with "I " (the Yjs sentence, a second
+  // sentence within `summary`, legitimately doesn't), this checks that no
+  // summary/impact string *starts* with a bare third-person verb from the
+  // set this content actually used before the task-1 voice fix.
+  const THIRD_PERSON_VERBS = [
+    "Leads",
+    "Ships",
+    "Builds",
+    "Partners",
+    "Coaches",
+    "Led",
+    "Trained",
+    "Embedded",
+    "Migrated",
+    "Designed",
+    "Owned",
+    "Built",
+    "Shipped",
+    "Mentored",
+    "Tested",
+    "Forked",
+    "Integrated",
+  ];
+
+  it("summary/impact strings read as first person, not elided-subject third person", () => {
+    for (const role of experience) {
+      for (const line of [role.summary, ...role.impact]) {
+        const firstWord = line.split(" ")[0];
+        expect(
+          THIRD_PERSON_VERBS.includes(firstWord ?? ""),
+          `${role.id}: "${line}" starts with a bare third-person verb`,
+        ).toBe(false);
+      }
+    }
+  });
+
   it("every project has a domain and a source", () => {
     for (const p of projects) {
       expect(p.domains.length).toBeGreaterThan(0);
