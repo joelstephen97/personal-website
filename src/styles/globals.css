@@ -195,6 +195,76 @@
       transparent 70%
     );
   }
+
+  /* SystemMap: bezel ticks + marker, edges, and domain nodes. */
+  .map-tick {
+    stroke: var(--border-default);
+    stroke-width: 1;
+    opacity: 0.6;
+  }
+  .map-tick.is-major {
+    stroke: var(--text-muted);
+    opacity: 0.9;
+  }
+  .map-marker line {
+    stroke: var(--metal-champagne);
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .map-edge {
+    fill: none;
+    stroke: var(--border-default);
+    stroke-width: 1.5;
+    transition:
+      stroke var(--dur-base) var(--ease-out-expo),
+      opacity var(--dur-base) var(--ease-out-expo);
+  }
+  .map-edge.is-hot {
+    stroke: var(--accent-default);
+  }
+  /* !important: Motion writes the choreographed reveal's opacity as an
+     inline style, which otherwise outranks this class regardless of
+     selector specificity. */
+  .map-edge.is-cold {
+    opacity: 0.35 !important;
+  }
+  .map-node {
+    cursor: pointer;
+    outline: none;
+  }
+  .map-node circle {
+    fill: var(--surface-raised);
+    stroke: var(--border-default);
+    stroke-width: 1;
+    transition:
+      fill var(--dur-base) var(--ease-out-expo),
+      stroke var(--dur-base) var(--ease-out-expo);
+  }
+  .map-node .ring,
+  .map-node .pulse {
+    fill: none;
+    stroke: var(--metal-champagne);
+    stroke-width: 2;
+  }
+  .map-node text {
+    pointer-events: none;
+    user-select: none;
+  }
+  .map-node.is-hot circle {
+    stroke: var(--accent-default);
+    fill: var(--surface-sunken);
+  }
+  .map-node.is-selected circle.ring {
+    stroke: var(--metal-champagne);
+  }
+  /* !important: see .map-edge.is-cold above — same inline-style conflict. */
+  .map-node.is-cold {
+    opacity: 0.35 !important;
+  }
+  .map-node:focus-visible circle:first-of-type {
+    stroke: var(--border-focus);
+    stroke-width: 2;
+  }
 }
 
 ::view-transition-old(root),
