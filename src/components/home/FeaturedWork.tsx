@@ -36,6 +36,11 @@ export function FeaturedWork({ projects, domains }: FeaturedWorkProps) {
   const flagshipSlug = projects[0]?.slug;
   const visible = selected ? projects.filter((p) => p.domains.includes(selected)) : projects;
   const selectedDomain = selected ? (domains.find((d) => d.id === selected) ?? null) : null;
+  // Case-study numbering ("Case study N: …") stays tied to each project's
+  // position in the unfiltered list, not its position in the filtered
+  // one — filtering shouldn't renumber a card that was already "3" when
+  // "All domains" was showing.
+  const indexBySlug = new Map(projects.map((p, i) => [p.slug, i]));
 
   return (
     <div>
@@ -62,7 +67,7 @@ export function FeaturedWork({ projects, domains }: FeaturedWorkProps) {
         <LayoutGroup>
           <div className="mt-10 grid gap-6">
             <AnimatePresence mode="popLayout" initial={false}>
-              {visible.map((project, index) => (
+              {visible.map((project) => (
                 <m.div
                   key={project.slug}
                   layout={!reduced}
@@ -74,7 +79,7 @@ export function FeaturedWork({ projects, domains }: FeaturedWorkProps) {
                   <WorkCard
                     project={project}
                     flagship={project.slug === flagshipSlug}
-                    index={index}
+                    index={indexBySlug.get(project.slug) ?? 0}
                   />
                 </m.div>
               ))}
