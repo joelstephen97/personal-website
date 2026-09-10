@@ -4,7 +4,9 @@
       "url": [
         "http://localhost:3000/",
         "http://localhost:3000/work/process-discovery",
-        "http://localhost:3000/consulting"
+        "http://localhost:3000/consulting",
+        "http://localhost:3000/experience",
+        "http://localhost:3000/about"
       ],
       "startServerCommand": "pnpm start",
       "startServerReadyPattern": "Ready",

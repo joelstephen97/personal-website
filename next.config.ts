@@ -19,7 +19,20 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   typedRoutes: true,
   trailingSlash: false,
-  images: { formats: ["image/avif", "image/webp"] },
+  images: {
+    formats: ["image/avif", "image/webp"],
+    // Next's default `deviceSizes` jumps 640 -> 750, a 110px gap that's
+    // bigger than it looks once a high-DPR mobile emulation is in the
+    // mix: the About page's `Headshot` (`sizes="(min-width:1024px) 320px,
+    // 60vw"`) computes a ~649px physical target at Lighthouse's mobile
+    // profile (412px viewport x 2.625 DPR), which is just over 640 and
+    // so rounds all the way up to 750 — served ~13 KB heavier than the
+    // image-delivery-insight audit's "reasonable" (2x-capped) size.
+    // Adding 664 (just above that 649px target) gives the responsive
+    // `<Image>` a closer-fitting candidate without changing anything
+    // else about how images are requested.
+    deviceSizes: [640, 664, 750, 828, 1080, 1200, 1920, 2048, 3840],
+  },
   // Computed once here (Node build/dev-server context), not inside a React
   // server component render — see the Caseback/Footer ruling on why no
   // `new Date()` may run during a cacheComponents prerender.
