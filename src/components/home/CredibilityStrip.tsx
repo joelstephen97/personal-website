@@ -16,7 +16,7 @@ export function CredibilityStrip() {
         {profile.credibility.map((item, i) => {
           const content = (
             <span className="label text-fg-2">
-              <b className="text-fg">{item.label}</b> · {item.detail}
+              <b className="font-medium text-fg">{item.label}</b> · {item.detail}
             </span>
           );
 

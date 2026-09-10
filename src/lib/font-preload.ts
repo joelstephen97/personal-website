@@ -39,6 +39,8 @@ const FONT_FACE_RE =
 
 /** Only these families render above the fold on every route; Cinzel (eyebrow labels) and Geist Mono (meta text) are lower-priority and left to normal discovery. */
 const PRELOAD_FAMILIES = new Set(["Bodoni Moda", "Geist"]);
+/** The italic Bodoni face is used for a single emphasised word in the hero; it is not worth a preload slot ahead of the scripts. */
+const PRELOAD_STYLES = new Set(["normal"]);
 
 export interface FontPreloadLink {
   href: string;
@@ -86,7 +88,7 @@ export function getFontPreloadLinks(): FontPreloadLink[] {
     while ((match = re.exec(css))) {
       const [, family, style, url, range] = match;
       if (!family || !style || !url || !range) continue;
-      if (!PRELOAD_FAMILIES.has(family)) continue;
+      if (!PRELOAD_FAMILIES.has(family) || !PRELOAD_STYLES.has(style.trim())) continue;
       if (!range.trim().endsWith(BASE_LATIN_UNICODE_RANGE_TAIL)) continue;
 
       const fileName = url.split("/").pop();
