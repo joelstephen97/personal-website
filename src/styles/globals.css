@@ -27,8 +27,7 @@
   --color-success: var(--status-success);
   --color-warning: var(--status-warning);
   --color-error: var(--status-error);
-  --font-display: var(--font-bodoni), "Didot", "Bodoni 72", Georgia, serif;
-  --font-display-lg: var(--font-bodoni-display), "Didot", "Bodoni 72", Georgia, serif;
+  --font-display: var(--font-newsreader), "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   --font-label: var(--font-cinzel), "Trajan Pro", Georgia, serif;
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, Menlo, monospace;

@@ -39,7 +39,7 @@ export default function ConsultingPage() {
         <Guilloche className="pointer-events-none absolute inset-0" focus={[1400, 160]} />
         <div className="relative mx-auto max-w-4xl px-4 py-16 sm:px-6">
           <p className="label text-champagne">A small number of engagements · remote · GMT+4</p>
-          <h1 className="mt-5 text-balance font-display lg:font-display-lg text-[clamp(2.75rem,1.6rem+4.4vw,3.75rem)] leading-[1.02]">
+          <h1 className="mt-5 text-balance font-display text-[clamp(2.75rem,1.6rem+4.4vw,3.75rem)] leading-[1.02]">
             {consultingCopy.hero}
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-fg-2">

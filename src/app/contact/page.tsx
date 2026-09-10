@@ -17,7 +17,7 @@ export default function ContactPage() {
       <JsonLd data={jsonLdGraph({ path: "/contact", kind: "about" })} />
 
       <p className="label text-champagne">Contact</p>
-      <h1 className="mt-3 font-display lg:font-display-lg text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02]">
+      <h1 className="mt-3 font-display text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02]">
         Get in touch
       </h1>
 
@@ -30,7 +30,7 @@ export default function ContactPage() {
             viewport on narrow screens even with `break-words` alone.
             `block max-w-full` forces the button back inside its
             container's width so `break-words` actually gets to wrap it. */}
-        <CopyEmail className="block max-w-full break-words font-display lg:font-display-lg text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02] text-fg" />
+        <CopyEmail className="block max-w-full break-words font-display text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02] text-fg" />
       </div>
 
       <p className="mt-4 text-sm text-fg-3">

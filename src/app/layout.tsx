@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { bodoni, bodoniDisplay, cinzel, geist, geistMono } from "@/lib/fonts";
+import { cinzel, geist, geistMono, newsreader } from "@/lib/fonts";
 import { getFontPreloadLinks } from "@/lib/font-preload";
 import { ThemeProvider } from "@/components/shell/ThemeProvider";
 import { MotionProvider } from "@/components/motion/MotionProvider";
@@ -26,12 +26,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       data-theme="dark"
       suppressHydrationWarning
-      className={`${bodoni.variable} ${bodoniDisplay.variable} ${cinzel.variable} ${geist.variable} ${geistMono.variable}`}
+      className={`${newsreader.variable} ${cinzel.variable} ${geist.variable} ${geistMono.variable}`}
     >
       <head>
         <meta name="theme-color" content="#0B0C0F" />
         {/* Manual preload for the two above-the-fold font families
-            (Bodoni display h1, Geist body text) — see
+            (Newsreader display h1, Geist body text) — see
             `src/lib/font-preload.ts` for why: Next's own automatic font
             preloading doesn't make it into the static shell under
             `cacheComponents`. */}

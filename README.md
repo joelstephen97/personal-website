@@ -11,7 +11,7 @@ This is the Next.js 16 rewrite of the site on `redesign/next`. Production (`main
 - Next.js 16.3.4, App Router, React 19.2.8, React Server Components for every page; client islands only where a component needs interactivity.
 - TypeScript 5.9 (strict), Tailwind CSS 4.3.3 via `@tailwindcss/postcss`.
 - Motion 13.2.0 (`motion/react`) — `LazyMotion` + `m.*` components, `MotionConfig reducedMotion="user"`; native View Transitions for the work filter and route changes.
-- Fonts via `next/font`: Bodoni Moda (display, static 500 instances in `src/fonts/`), Cinzel (labels), Geist and Geist Mono.
+- Fonts via `next/font`: Newsreader (display, static weight-500 instances in `src/fonts/` cut by `scripts/instance-newsreader.py`), Cinzel (labels), Geist and Geist Mono.
 - Content: Zod-typed TypeScript for structured content, MDX via content-collections for long-form (core 0.15.2, `@content-collections/next` 0.2.11, `@content-collections/mdx` 0.2.2).
 - next-themes 0.4.6 (dark default, light available), cmdk 1.1.1 (command palette), lucide-react.
 - Vitest 5 + Testing Library + jsdom for unit tests, Playwright 1.63 + `@axe-core/playwright` for e2e/accessibility, ESLint 9 + Prettier 3.
@@ -37,7 +37,6 @@ pnpm resume:pdf       # print /resume to public/joel-stephen-resume.pdf (needs p
 pnpm indexnow         # tell IndexNow (Bing, Yandex, Naver, Seznam) the sitemap URLs changed
 ```
 
-`scripts/instance-bodoni.py` (Python, fontTools + brotli) cuts the static Bodoni Moda instances in `src/fonts/` from Google's variable files; see the docstring.
 
 ## Content model
 

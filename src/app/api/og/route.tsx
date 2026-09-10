@@ -21,10 +21,10 @@ const CHAMPAGNE = "#C9A961";
 const CHAMPAGNE_LINE = "rgba(201,169,97,0.42)";
 const STONE_2 = "#A9A69E";
 
-// `public/fonts/BodoniModa-500.ttf` and `Cinzel-500.ttf` are static
+// `public/fonts/Newsreader-500.ttf` and `Cinzel-500.ttf` are static
 // weight-500 instances, generated once locally with fontTools —
-// `python -m fontTools.varLib.instancer BodoniModa[opsz,wght].ttf
-// opsz=72 wght=500 -o BodoniModa-500.ttf` (and the wght-only equivalent
+// `python -m fontTools.varLib.instancer Newsreader[opsz,wght].ttf
+// opsz=60 wght=500 -o Newsreader-500.ttf` (and the wght-only equivalent
 // for Cinzel) — from the variable TTFs Google Fonts publishes for both
 // families (neither ships a static per-weight build). Fix round 1:
 // Satori (the renderer `next/og`'s `ImageResponse` is built on) doesn't
@@ -43,7 +43,7 @@ function readFont(fileName: string): Buffer | null {
   }
 }
 
-const bodoniFont = readFont("BodoniModa-500.ttf");
+const newsreaderFont = readFont("Newsreader-500.ttf");
 const cinzelFont = readFont("Cinzel-500.ttf");
 
 export async function GET(request: NextRequest) {
@@ -52,8 +52,8 @@ export async function GET(request: NextRequest) {
   const label = searchParams.get("label") ?? site.title;
 
   const fonts: NonNullable<ConstructorParameters<typeof ImageResponse>[1]>["fonts"] = [];
-  if (bodoniFont) {
-    fonts.push({ name: "Bodoni Moda", data: bodoniFont, weight: 500, style: "normal" });
+  if (newsreaderFont) {
+    fonts.push({ name: "Newsreader", data: newsreaderFont, weight: 500, style: "normal" });
   }
   if (cinzelFont) {
     fonts.push({ name: "Cinzel", data: cinzelFont, weight: 500, style: "normal" });
@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
         position: "relative",
         background: OBSIDIAN,
         padding: "80px 96px",
-        fontFamily: bodoniFont ? "Bodoni Moda" : "Georgia",
+        fontFamily: newsreaderFont ? "Newsreader" : "Georgia",
       }}
     >
       {/* Decorative static sunburst: a radial gradient plus a ring of
@@ -128,7 +128,7 @@ export async function GET(request: NextRequest) {
       <span
         style={{
           display: "flex",
-          fontFamily: bodoniFont ? "Bodoni Moda" : "Georgia",
+          fontFamily: newsreaderFont ? "Newsreader" : "Georgia",
           fontSize: 64,
           lineHeight: 1.08,
           color: "#ECE9E2",

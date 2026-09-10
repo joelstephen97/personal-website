@@ -27,7 +27,7 @@ export function BuildDrawer({ sha }: BuildDrawerProps) {
     { label: "rendering", value: "server components" },
     { label: "cache", value: "static" },
     { label: "client js", value: clientJs },
-    { label: "fonts", value: "Bodoni Moda · Cinzel · Geist · Geist Mono" },
+    { label: "fonts", value: "Newsreader · Cinzel · Geist · Geist Mono" },
     { label: "build", value: sha || "local" },
   ];
 

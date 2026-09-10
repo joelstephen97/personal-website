@@ -58,7 +58,7 @@ export default async function WritingPostPage({ params }: { params: Promise<{ sl
         })}
       />
       <p className="font-mono text-[12px] text-fg-3">{post.date}</p>
-      <h1 className="mt-3 font-display lg:font-display-lg text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02]">
+      <h1 className="mt-3 font-display text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02]">
         {post.title}
       </h1>
       <p className="mt-4 text-lg leading-relaxed text-fg-2">{post.summary}</p>

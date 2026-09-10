@@ -2,9 +2,9 @@ import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
 /**
- * Resolves the woff2 file paths for the "base Latin" subset of Bodoni
+ * Resolves the woff2 file paths for the "base Latin" subset of Newsreader
  * Moda and Geist — the two font families visible above the fold on every
- * route (the display h1 in Bodoni, body text in Geist) — so `layout.tsx`
+ * route (the display h1 in Newsreader, body text in Geist) — so `layout.tsx`
  * can emit `<link rel="preload">` for them by hand.
  *
  * Why this exists: under `cacheComponents` (Partial Prerendering), Next's
@@ -38,8 +38,8 @@ const FONT_FACE_RE =
   /@font-face\{font-family:([^;]+);font-style:([^;]+);font-weight:[^;]+;font-display:swap;src:url\(([^)]+)\)format\("woff2"\);unicode-range:([^}]+)\}/g;
 
 /** Only these families render above the fold on every route; Cinzel (eyebrow labels) and Geist Mono (meta text) are lower-priority and left to normal discovery. */
-const PRELOAD_FAMILIES = new Set(["Bodoni Moda", "Geist"]);
-/** The italic Bodoni face is used for a single emphasised word in the hero; it is not worth a preload slot ahead of the scripts. */
+const PRELOAD_FAMILIES = new Set(["Newsreader", "Geist"]);
+/** The italic Newsreader face is used for the emphasised hero words; it is not worth a preload slot ahead of the scripts. */
 const PRELOAD_STYLES = new Set(["normal"]);
 
 export interface FontPreloadLink {

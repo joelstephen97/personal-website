@@ -45,7 +45,7 @@ export default function ResumePage() {
 
       <div className="flex flex-wrap items-start justify-between gap-4 border-b border-line pb-8 print:border-none print:pb-2">
         <div>
-          <h1 className="font-display lg:font-display-lg text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02] print:text-2xl">
+          <h1 className="font-display text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02] print:text-2xl">
             {site.name}
           </h1>
           <p className="mt-2 text-lg text-fg-2 print:mt-1 print:text-sm">{site.title}</p>

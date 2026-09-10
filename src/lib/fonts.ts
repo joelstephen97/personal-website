@@ -2,30 +2,19 @@ import localFont from "next/font/local";
 import { Cinzel, Geist, Geist_Mono } from "next/font/google";
 
 /**
- * Bodoni Moda ships as static instances (weight 500, Latin subset) cut
- * from Google's variable font with `scripts/instance-bodoni.py`. Google's
- * variable files were 54 kB + 47 kB and sat in the critical path of every
- * first paint; each instance is about 15 kB.
- *
- * Two optical sizes, because Bodoni's hairlines are tuned by the `opsz`
- * axis and a single display cut collapses at phone sizes: `bodoni`
- * (opsz 28) is the default for every `font-display` heading, `bodoniDisplay`
- * (opsz 84, with the italic used in the hero) is for the page-level h1s set
- * at 36 px and above (`font-display-lg`).
+ * Newsreader is the display face: a serif commissioned for on-screen
+ * reading, with even stroke contrast, so headings stay legible at phone
+ * sizes. It replaced Bodoni Moda, whose hairlines were unreadable on
+ * phones. Static instances (weight 500, optical size 32, Latin-1 subset)
+ * are cut from Google's variable files by `scripts/instance-newsreader.py`;
+ * the italic is used for the emphasised hero words.
  */
-export const bodoni = localFont({
-  src: [{ path: "../fonts/BodoniModa-500-text.woff2", weight: "500", style: "normal" }],
-  variable: "--font-bodoni",
-  display: "swap",
-  adjustFontFallback: "Times New Roman",
-});
-
-export const bodoniDisplay = localFont({
+export const newsreader = localFont({
   src: [
-    { path: "../fonts/BodoniModa-500-display.woff2", weight: "500", style: "normal" },
-    { path: "../fonts/BodoniModa-500-display-italic.woff2", weight: "500", style: "italic" },
+    { path: "../fonts/Newsreader-500.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/Newsreader-500-italic.woff2", weight: "500", style: "italic" },
   ],
-  variable: "--font-bodoni-display",
+  variable: "--font-newsreader",
   display: "swap",
   adjustFontFallback: "Times New Roman",
 });

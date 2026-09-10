@@ -23,7 +23,7 @@ export default function AboutPage() {
       <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:items-start">
         <div>
           <p className="label text-champagne">About</p>
-          <h1 className="mt-3 font-display lg:font-display-lg text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02]">
+          <h1 className="mt-3 font-display text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02]">
             {aboutCopy.heading}
           </h1>
           <div className="mt-8 max-w-2xl space-y-5">

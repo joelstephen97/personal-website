@@ -38,7 +38,7 @@ export function Hero() {
                 widened to 1.35fr/.85fr and the max raised to 3.75rem —
                 verified (not just calculated) to hold exactly 3 lines at
                 1280/1440/1728/1920; see task-4-report.md for the check. */}
-            <h1 className="mt-5 text-balance font-display lg:font-display-lg text-[clamp(2.75rem,1.6rem+4.4vw,3.75rem)] leading-[1.05]">
+            <h1 className="mt-5 text-balance font-display text-[clamp(2.75rem,1.6rem+4.4vw,3.75rem)] leading-[1.05]">
               <HeroHeadline
                 words={["Building", "AI", "systems", "and", "the", "interfaces"]}
                 emphasis={["people", "run", "them", "from."]}

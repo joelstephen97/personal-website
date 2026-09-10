@@ -55,7 +55,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
             {project.dates.end ?? "present"}
           </p>
         </div>
-        <h1 className="mt-5 font-display lg:font-display-lg text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02]">
+        <h1 className="mt-5 font-display text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02]">
           {project.title}
         </h1>
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-fg-2">{project.tagline}</p>

@@ -170,7 +170,7 @@ export default function TokensPage() {
     <main className="mx-auto max-w-5xl space-y-16 px-6 py-16">
       <div className="space-y-3">
         <span className="label text-fg-3">Dev only · noindex</span>
-        <h1 className="font-display lg:font-display-lg text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02]">
+        <h1 className="font-display text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02]">
           Tokens
         </h1>
         <p className="max-w-2xl text-base leading-relaxed text-fg-2">
