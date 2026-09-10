@@ -17,7 +17,7 @@ export default function WritingPage() {
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
       <JsonLd data={jsonLdGraph({ path: "/writing", kind: "work" })} />
 
-      <h1 className="font-display text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02]">
+      <h1 className="font-display lg:font-display-lg text-[clamp(2.25rem,1.5rem+2.8vw,3.5rem)] leading-[1.02]">
         Writing
       </h1>
 

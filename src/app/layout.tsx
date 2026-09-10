@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { bodoni, cinzel, geist, geistMono } from "@/lib/fonts";
+import { bodoni, bodoniDisplay, cinzel, geist, geistMono } from "@/lib/fonts";
 import { getFontPreloadLinks } from "@/lib/font-preload";
 import { ThemeProvider } from "@/components/shell/ThemeProvider";
 import { MotionProvider } from "@/components/motion/MotionProvider";
@@ -26,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       data-theme="dark"
       suppressHydrationWarning
-      className={`${bodoni.variable} ${cinzel.variable} ${geist.variable} ${geistMono.variable}`}
+      className={`${bodoni.variable} ${bodoniDisplay.variable} ${cinzel.variable} ${geist.variable} ${geistMono.variable}`}
     >
       <head>
         <meta name="theme-color" content="#0B0C0F" />

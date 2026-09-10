@@ -11,9 +11,13 @@ from fontTools.ttLib import TTFont
 from fontTools.varLib import instancer
 
 normal, italic = sys.argv[1], sys.argv[2]
-for src, out in [(normal, "src/fonts/BodoniModa-500.woff2"), (italic, "src/fonts/BodoniModa-500-italic.woff2")]:
-    font = TTFont(src)
-    inst = instancer.instantiateVariableFont(font, {"wght": 500, "opsz": 60}, inplace=False, updateFontNames=False)
+jobs = [
+    (normal, {"wght": 500, "opsz": 28}, "src/fonts/BodoniModa-500-text.woff2"),
+    (normal, {"wght": 500, "opsz": 84}, "src/fonts/BodoniModa-500-display.woff2"),
+    (italic, {"wght": 500, "opsz": 84}, "src/fonts/BodoniModa-500-display-italic.woff2"),
+]
+for src, location, out in jobs:
+    inst = instancer.instantiateVariableFont(TTFont(src), location, inplace=False, updateFontNames=False)
     inst.flavor = "woff2"
     inst.save(out)
     print(out)
