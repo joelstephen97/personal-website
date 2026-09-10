@@ -1,6 +1,6 @@
 "use client";
 
-import { cloneElement, useId, useState } from "react";
+import { cloneElement, useEffect, useId, useState } from "react";
 import type {
   FocusEvent as ReactFocusEvent,
   KeyboardEvent as ReactKeyboardEvent,
@@ -24,40 +24,41 @@ const SHOW_DELAY_MS = 60;
  * tooltip content is always rendered in the DOM (visually hidden via
  * opacity when closed) so `aria-describedby` always resolves.
  *
- * The pending-show delay is tracked with a plain state "token" rather than
- * a ref + `setTimeout` id, so nothing here ever reads a ref inside a
- * handler passed to `cloneElement` (refs may only be read in render-safe
- * positions — effects and real JSX event-handler props).
+ * The pending-show delay is owned by a `useEffect` keyed on a `pendingShow`
+ * boolean, not a ref + manually-managed `setTimeout` id: nothing here ever
+ * reads (or writes) a ref inside a handler passed to `cloneElement` (refs
+ * may only be accessed in render-safe positions — effects and real JSX
+ * event-handler props — and the React Compiler's `react-hooks/refs` lint
+ * rule flags any ref access it can reach from a `cloneElement` props
+ * object, even inside a callback, as unsafe). Letting the effect own the
+ * timer instead gets unmount cleanup for free: React always runs an
+ * effect's cleanup — including a pending `clearTimeout` — before
+ * unmounting, so hovering, tabbing away, or navigating mid-delay never
+ * leaves a stale timer that later calls `setOpen` on an unmounted
+ * component.
  */
 export function Tooltip({ label, children, className }: TooltipProps) {
   const id = useId();
   const [open, setOpen] = useState(false);
-  const [showToken, setShowToken] = useState(0);
+  const [pendingShow, setPendingShow] = useState(false);
+
+  useEffect(() => {
+    if (!pendingShow) return;
+    const timeout = setTimeout(() => setOpen(true), SHOW_DELAY_MS);
+    return () => clearTimeout(timeout);
+  }, [pendingShow]);
 
   function scheduleShow() {
-    setShowToken((token) => {
-      const next = token + 1;
-      setTimeout(() => {
-        setShowToken((current) => {
-          if (current === next) setOpen(true);
-          return current;
-        });
-      }, SHOW_DELAY_MS);
-      return next;
-    });
-  }
-
-  function cancelPendingShow() {
-    setShowToken((token) => token + 1);
+    setPendingShow(true);
   }
 
   function showNow() {
-    cancelPendingShow();
+    setPendingShow(false);
     setOpen(true);
   }
 
   function hide() {
-    cancelPendingShow();
+    setPendingShow(false);
     setOpen(false);
   }
 

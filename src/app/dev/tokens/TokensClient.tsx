@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/Button";
 import { Crown } from "@/components/movement/Crown";
 import { Caseback } from "@/components/movement/Caseback";
-import { ramps, resolve, type Theme } from "@/lib/tokens";
+import { ramps, resolve, type Theme } from "@/lib/tokens.data";
 import { contrastRatio } from "@/lib/contrast";
 import { cn } from "@/lib/cn";
 

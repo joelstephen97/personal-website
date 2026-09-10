@@ -1,95 +1,53 @@
+import { z } from "zod";
 import colorTokensJson from "../../tokens/color.tokens.json";
 import semanticTokensJson from "../../tokens/semantic.tokens.json";
 
-export type Theme = "dark" | "light";
+/**
+ * Server/test-only: validates `tokens/color.tokens.json` and
+ * `tokens/semantic.tokens.json` against a Zod schema once, at module load,
+ * then re-exports the same `ramps` / `semantic` / `resolve` / `Theme` API
+ * as `./tokens.data` (which holds the actual, non-validating
+ * implementation — see that file's comment for why the split exists).
+ *
+ * Throws synchronously on import if either token file doesn't match the
+ * expected shape, so a malformed hand-edit to either JSON file fails the
+ * build (`next build`, via `dev/tokens/page.tsx`) or the test run
+ * (`tests/unit/contrast.test.ts`) immediately, at the point of the bad
+ * edit, instead of surfacing later as a silent `undefined`/`NaN` in a
+ * resolved color somewhere on the site.
+ *
+ * Do not import this from a "use client" component — that would pull
+ * `zod` into the client bundle for validation that only ever needs to run
+ * server-side or in tests. Import `./tokens.data` instead (verified via
+ * `grep -rn "from \"@/lib/tokens\"" src` that only server components and
+ * test files import this one; `src/app/dev/tokens/TokensClient.tsx`, the
+ * one client component that needs `ramps`/`resolve`, imports
+ * `./tokens.data` directly).
+ */
 
-type ColorToken = { $type: "color"; $value: string };
-type ColorRamp = Record<string, ColorToken>;
-type ColorTokensJson = { color: Record<string, ColorRamp> };
+const colorTokenSchema = z.object({
+  $type: z.literal("color"),
+  $value: z.string().min(1),
+});
 
-type SemanticLeaf = { $type: "color"; $value: { dark: string; light: string } };
-type SemanticGroup = { [key: string]: SemanticLeaf | SemanticGroup };
+const colorTokensJsonSchema = z.object({
+  color: z.record(z.string(), z.record(z.string(), colorTokenSchema)),
+});
 
-const colorTokens = colorTokensJson as ColorTokensJson;
+const semanticLeafSchema = z.object({
+  $type: z.literal("color"),
+  $value: z.object({ dark: z.string().min(1), light: z.string().min(1) }),
+});
 
-/** Ramp name -> step -> resolved hex color. Named ramp keys are guaranteed present. */
-type RampSteps = Record<string, string>;
-type Ramps = {
-  stone: RampSteps;
-  steel: RampSteps;
-  champagne: RampSteps;
-  success: RampSteps;
-  warning: RampSteps;
-  error: RampSteps;
-  violet: RampSteps;
+type SemanticGroupShape = {
+  [key: string]: z.infer<typeof semanticLeafSchema> | SemanticGroupShape;
 };
 
-/** Ramp name -> step -> resolved hex color, e.g. `ramps.stone["925"] === "#0B0C0F"`. */
-export const ramps = Object.fromEntries(
-  Object.entries(colorTokens.color).map(([ramp, steps]) => [
-    ramp,
-    Object.fromEntries(Object.entries(steps).map(([step, token]) => [step, token.$value])),
-  ]),
-) as Ramps;
+const semanticGroupSchema: z.ZodType<SemanticGroupShape> = z.lazy(() =>
+  z.record(z.string(), z.union([semanticLeafSchema, semanticGroupSchema])),
+);
 
-/** Semantic token tree, mirroring `tokens/semantic.tokens.json` (unresolved `{a.b.c}` references intact). */
-export const semantic = semanticTokensJson as SemanticGroup;
+colorTokensJsonSchema.parse(colorTokensJson);
+semanticGroupSchema.parse(semanticTokensJson);
 
-function isLeaf(node: SemanticLeaf | SemanticGroup): node is SemanticLeaf {
-  const value = (node as Partial<SemanticLeaf>).$value;
-  return typeof value === "object" && value !== null && "dark" in value && "light" in value;
-}
-
-/** Flatten the semantic token tree into `"surface.ground" -> { dark, light }`, joining keys with `.`. */
-function flattenSemantic(
-  node: SemanticGroup,
-  prefix = "",
-  out: Record<string, { dark: string; light: string }> = {},
-): Record<string, { dark: string; light: string }> {
-  for (const [key, value] of Object.entries(node)) {
-    const path = prefix ? `${prefix}.${key}` : key;
-    if (isLeaf(value)) {
-      out[path] = value.$value;
-    } else {
-      flattenSemantic(value, path, out);
-    }
-  }
-  return out;
-}
-
-const flatSemantic = flattenSemantic(semantic);
-
-const REF_PATTERN = /^\{(.+)\}$/;
-
-const rampsByName: Record<string, RampSteps> = ramps;
-
-function resolveRef(ref: string): string {
-  // ref shape: "color.<ramp>.<step>"
-  const parts = ref.split(".");
-  const ramp = parts[1];
-  const step = parts[2];
-  const steps = ramp ? rampsByName[ramp] : undefined;
-  const hex = steps && step ? steps[step] : undefined;
-  if (!hex) {
-    throw new Error(`Unresolvable token reference: {${ref}}`);
-  }
-  return hex;
-}
-
-/**
- * Resolve a dotted semantic token name (e.g. `"surface.ground"`, `"text.on-accent"`,
- * `"metal.champagne.line"`) for a theme into its final hex color or rgba string.
- * rgba literals are returned unchanged.
- */
-export function resolve(name: string, theme: Theme): string {
-  const entry = flatSemantic[name];
-  if (!entry) {
-    throw new Error(`Unknown semantic token: ${name}`);
-  }
-  const raw = entry[theme];
-  const match = raw.match(REF_PATTERN);
-  if (match && match[1]) {
-    return resolveRef(match[1]);
-  }
-  return raw;
-}
+export { ramps, semantic, resolve, type Theme } from "./tokens.data";

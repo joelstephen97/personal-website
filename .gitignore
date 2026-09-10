@@ -1,11 +1,5 @@
-# Nuxt dev/build outputs
-.output
-.data
+# Vercel CLI local project link/config
 .vercel
-.nuxt
-.nitro
-.cache
-dist
 
 # Node dependencies
 node_modules

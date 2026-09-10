@@ -148,7 +148,15 @@
     height: 4px;
     margin: -2px 0 0 -2px;
     border-radius: 999px;
-    background: var(--metal-champagne);
+    /* Not champagne: this header dial renders on every route, and the
+       champagne budget (<=3 per viewport, enforced by
+       tests/e2e/pages.spec.ts) is tight enough on content-heavy pages
+       (e.g. /experience's current-role dot) that spending two solid
+       champagne accents on one small, page-independent watch-face
+       ornament left no headroom for real page content. The moving
+       `.hand` above already carries the champagne "reading progress"
+       accent; the fixed center pin reads fine in a neutral tone. */
+    background: var(--border-strong);
   }
   @keyframes tick {
     from {

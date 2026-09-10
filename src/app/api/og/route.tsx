@@ -6,6 +6,16 @@ import { site } from "@/lib/site";
 
 const WIDTH = 1200;
 const HEIGHT = 630;
+// Raw hex/rgba, not `var(--...)`, is the deliberate exception to the "no
+// raw hex" rule here: Satori (the renderer `next/og`'s `ImageResponse` is
+// built on) renders this JSX in an isolated context with no access to the
+// page's CSS custom properties — `background: "var(--metal-champagne)"`
+// would just fail to resolve to a color at all. These four literals are
+// the resolved dark-theme values of `surface.ground` (obsidian),
+// `metal.champagne` / `metal.champagne.line` (champagne / its line
+// variant), and `stone.300` (the URL caption) from `tokens/*.json` —
+// copied by value, not derived, so if those tokens ever change this file
+// needs a manual re-sync.
 const OBSIDIAN = "#0B0C0F";
 const CHAMPAGNE = "#C9A961";
 const CHAMPAGNE_LINE = "rgba(201,169,97,0.42)";

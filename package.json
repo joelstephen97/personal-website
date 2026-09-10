@@ -22,7 +22,9 @@
     "e2e": "playwright test",
     "lhci": "lhci autorun",
     "measure": "tsx scripts/measure-client-js.ts",
-    "resume:pdf": "tsx scripts/build-resume-pdf.ts"
+    "resume:pdf": "tsx scripts/build-resume-pdf.ts",
+    "preindexnow": "pnpm content-collections",
+    "indexnow": "tsx scripts/indexnow.ts"
   },
   "dependencies": {
     "@content-collections/core": "^0.15.2",

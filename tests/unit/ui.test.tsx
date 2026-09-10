@@ -130,14 +130,14 @@ describe("ui primitives", () => {
     expect(content).toHaveClass("opacity-0");
   });
 
-  it("TextLink external renders rel=noopener, target=_blank, and the ↗ glyph", () => {
+  it("TextLink external renders rel=noopener noreferrer, target=_blank, and the ↗ glyph", () => {
     render(
       <TextLink href="https://example.com" external>
         External
       </TextLink>,
     );
     const link = screen.getByRole("link", { name: "External" });
-    expect(link).toHaveAttribute("rel", "noopener");
+    expect(link).toHaveAttribute("rel", "noopener noreferrer");
     expect(link).toHaveAttribute("target", "_blank");
     expect(link).toHaveTextContent("↗");
   });
